@@ -1,0 +1,38 @@
+digraph pipeline1 {
+  graph [fontsize = 14, rankdir = "LR"]
+
+  node [shape = oval]
+  A [label = "Analog\nvoltage", fontname = Helvetica]
+  C [label = "Raw input"]
+  I [label = "Counts"]
+
+  node [shape = box, fontname = Helvetica]
+  B [label = "A / D"]
+  D [label = "Resampling*"]
+  E [label = "Bandpass\nfiltering"]
+  F [label = "Rectification"]
+  G [label = "Aggregation"]
+  H [label = "VM"]
+  I [label = "Activity\nCount"]
+
+  subgraph step1 {
+    rank = same
+    C->D
+  }
+
+  subgraph {
+    rank = same
+    H->I
+  }
+  A->B [style = "dashed"]
+  B->C [style = "dashed"]
+
+  subgraph step3 {
+    label = "Compute activity counts"
+    color = gray
+    D->E
+    E->F
+    F->G
+    G->H
+  }
+}

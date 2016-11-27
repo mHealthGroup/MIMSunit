@@ -1,0 +1,699 @@
+# Prepare SPADES lab data for counts analysis
+#
+# 1. Clean up and merge raw data files
+# 2. Clean up and merge annotation files
+# 3. Map locations to different data
+
+require(mhealthformatsupportr)
+require(mHealthR)
+require(foreach)
+require(ggplot2)
+require(reshape2)
+require(plyr)
+require(stringr)
+require(doSNOW)
+cl = makeCluster(4)
+registerDoSNOW(cl)
+from = "../../CleanLabDataset"
+to = "offline_data/spades_lab"
+to_merge = "offline_data/spades_lab_merged"
+ready_folder = "ready"
+maxedout_folder = 'maxedout'
+counts_folder = "counts"
+actigraph_folder = "actigraph"
+actigraph_maxedout_folder = "actigraph_maxedout"
+sensorLocationFile = "Sensor_location_Lab.csv";
+subjectFile = "Subject.csv";
+sessionsFile = "Sessions.csv";
+sessionDateFormat = "%m/%d/%Y %H:%M";
+epoch = 5;
+
+summarizeParticipantInfo = function(subjects){
+  subjData = ldply(subjects, function(subj){
+    # Read in subject file
+    subjInfo = read.csv(file = file.path(from, subj, subjectFile), header = TRUE, as.is = TRUE, stringsAsFactors = FALSE)
+    print(paste("Process", subj))
+    if(is.na(subjInfo[1,3])){
+      subjInfo[1,3] = "NA"
+    }
+    if(subjInfo[1,3] == FALSE){
+      subjInfo[1,3] = "F"
+    }
+    return(data.frame(ID = subj, AGE = subjInfo[1, 2], GENDER = subjInfo[1, 3], WEIGHT = subjInfo[1, 5], HEIGHT = subjInfo[1,6], DOMINANT_HAND = toupper(str_sub(subjInfo[7], 1,1)), PHONE_MODEL = str_trim(subjInfo$MOBILE_PHONE_MODEL[1]), PHONE_LOCATION = subjInfo$PHONE_LOCATION[1], SHOE_TYPE = toupper(str_trim(subjInfo$SHOE_TYPE[1]))))
+  }, .progress = progress_text(), .inform = TRUE)
+  return(subjData)
+}
+
+mergeSpadesLabSensorFiles = function(subjects){
+  for(subj in subjects){
+
+    # Read in location and sensor ID mapping file
+
+    sensorLocationMapping = read.csv(file = file.path(from, subj, sensorLocationFile), header = TRUE, as.is = TRUE)
+    print(paste("Prepare for", subj))
+
+    for(i in seq(1, nrow(sensorLocationMapping))){
+
+      id = sensorLocationMapping[i, 1]
+      location = sensorLocationMapping[i, 2]
+      if(str_detect(location, stringr::regex("^*wear*", ignore_case = TRUE))){
+        next
+      }
+      # if(!str_detect(location, stringr::regex("^dominant waist*", ignore_case = TRUE))){
+      #   next
+      # }
+      print(paste("Prepare", id, "at", location))
+      dataFiles = normalizePath(
+        list.files(
+          path = file.path(from, subj, "MasterSynced"),
+          full.names = TRUE,
+          recursive = TRUE,
+          include.dirs = FALSE,
+          no.. = TRUE,
+          pattern = paste0(id, ".*sensor.csv.*")))
+
+
+      # Read in and clean up data file for each hour
+      listOfData = foreach(dataFile = dataFiles, .combine = c) %dopar% {
+        hourlyData = SensorData.importCsv(dataFile)
+        hourlyData = SensorData.cleanup(hourlyData)
+        return(list(hourlyData))
+      }
+
+      # merge data files
+      if(!is.null(listOfData)){
+        mergedData = SensorData.merge(listOfData)
+
+        # save merged data to actigraph format csv
+        dir.create(file.path(to, subj, actigraph_folder), recursive = TRUE)
+        headStr = SensorData.createActigraphCsvHeader(startTime = mergedData[1,1],
+                                                      downloadTime = mergedData[nrow(mergedData),1],
+                                                      samplingRate = round(SensorData.getSamplingRate(mergedData)/10)*10,
+                                                      sensorId = id,
+                                                      firmVersion = "1.5.0",
+                                                      softVersion = "6.13.2")
+        SensorData.io.writeAsActigraphRaw(file.path(to, subj, actigraph_folder),sensorData = mergedData, headerStr = headStr, custom_name = paste(id, location, "merged.actigraph.csv", sep = "_"))
+
+        # save merged data to ready folder
+        dir.create(file.path(to, subj, ready_folder), recursive = TRUE)
+        SensorData.io.write(file.path(to, subj, ready_folder),
+                            sensorData = mergedData,
+                            append = FALSE,
+                            header = TRUE,
+                            custom_name = paste(id, location, "merged.sensor.csv", sep = "_"),
+                            gzip = TRUE,
+                            flatDir = TRUE,
+                            splitHour = FALSE)
+      }else{
+        print(paste('No available data for', location))
+      }
+
+      }
+
+  }
+}
+
+mergeSpadesLabWatchFiles = function(subjects){
+  for(subj in subjects){
+    print(paste("process watch files for", subj))
+    dataFiles = normalizePath(
+      list.files(
+        path = file.path(from, subj, "MasterSynced"),
+        full.names = TRUE,
+        recursive = TRUE,
+        include.dirs = FALSE,
+        no.. = TRUE,
+        pattern = paste0("AndroidWear.*sensor.csv.*")))
+
+
+    # Read in and clean up data file for each hour
+    listOfData = foreach(dataFile = dataFiles, .combine = c) %dopar% {
+      hourlyData = SensorData.importCsv(dataFile)
+      hourlyData = SensorData.cleanup(hourlyData)
+      return(list(hourlyData))
+    }
+
+    # merge data files
+    if(!is.null(listOfData)){
+      mergedData = SensorData.merge(listOfData)
+
+      # save merged data to actigraph format csv
+      dir.create(file.path(to_merge, "actigraph"), recursive = TRUE)
+      headStr = SensorData.createActigraphCsvHeader(startTime = mergedData[1,1],
+                                                    downloadTime = mergedData[nrow(mergedData),1],
+                                                    samplingRate = round(SensorData.getSamplingRate(mergedData)/10)*10,
+                                                    sensorId = "AndroidWear",
+                                                    firmVersion = "1.5.0",
+                                                    softVersion = "6.13.2")
+      SensorData.io.writeAsActigraphRaw(file.path(to_merge, "actigraph"),sensorData = mergedData, headerStr = headStr, custom_name = paste(subj,"AndroidWear.merged.actigraph.csv", sep = "_"))
+
+      # save merged data to ready folder
+      dir.create(file.path(to_merge, "own"), recursive = TRUE)
+      SensorData.io.write(file.path(to_merge, "own"),
+                          sensorData = mergedData,
+                          append = FALSE,
+                          header = TRUE,
+                          custom_name = paste(subj, "AndroidWear.merged.sensor.csv", sep = "_"),
+                          gzip = TRUE,
+                          flatDir = TRUE,
+                          splitHour = FALSE)
+    }else{
+      print(paste('No available data for', subj))
+    }
+  }
+}
+
+mergeSpadesLabAnnotationFiles = function(subjects){
+
+  for(subj in subjects){
+
+    # Annotation file
+    annotationFiles = normalizePath(list.files(
+      path = file.path(from, subj, "MasterSynced"),
+      full.names = TRUE,
+      recursive = TRUE,
+      include.dirs = FALSE,
+      no.. = TRUE,
+      pattern = "SPADESInLab.*annotation.csv.*"
+    ))
+
+
+    # Read in and categorize annotation file for each hour
+    ontologyId = AnnotationData.io.getOntologyId(basename(annotationFiles[1]))
+    annotatorId = AnnotationData.io.getAnnotatorId(basename(annotationFiles[1]))
+    print(paste("Prepare", ontologyId, "by", annotatorId, "subject:", subj))
+    listOfAnnotations = foreach(annFile = annotationFiles, .combine = c) %dopar% {
+      hourlyAnnotation = AnnotationData.importCsv(annFile)
+      hourlyAnnotation = hourlyAnnotation[,1:4]
+      return(list(hourlyAnnotation))
+    }
+
+    # merge annotation files
+    mergedAnnotation = AnnotationData.merge(listOfAnnotations)
+
+    # save merged annotation to ready folder
+    AnnotationData.io.write(file.path(to, subj, ready_folder),
+                            annotationData = mergedAnnotation,
+                            append = FALSE,
+                            header = TRUE,
+                            custom_name = paste(ontologyId, annotatorId, "merged.annotation.csv", sep = "_"),
+                            flatDir = TRUE,
+                            splitHour = FALSE,
+                            gzip = FALSE)
+  }
+}
+
+putFilesTogether = function(subjects){
+  # for(subj in subjects){
+  #   agdFiles = list.files(path = file.path("offline_data/spades_lab/", subj, "actigraph", 'agd'), pattern = ".*agd", full.names = TRUE, recursive = FALSE)
+  #   file.copy(from = agdFiles, to = file.path("offline_data/spades_lab_merged/agd/", paste(subj, basename(agdFiles), sep = "_")), overwrite = TRUE, recursive = FALSE)
+  # }
+  #
+  # for(subj in subjects){
+  #   agdFiles = list.files(path = file.path("offline_data/spades_lab/", subj, "actigraph_maxedout", 'agd'), pattern = ".*agd", full.names = TRUE, recursive = FALSE)
+  #   file.copy(from = agdFiles, to = file.path("offline_data/spades_lab_merged/agd_maxedout/", paste(subj, basename(agdFiles), sep = "_")), overwrite = TRUE, recursive = FALSE)
+  # }
+
+  # for(subj in subjects){
+  #   files = list.files(path = file.path("offline_data/spades_lab/", subj, "ready"), pattern = ".*csv\\.gz", full.names = TRUE, recursive = FALSE)
+  #   file.copy(from = files, to = file.path("offline_data/spades_lab_merged/own/", paste(subj, basename(files), sep = "_")), overwrite = TRUE, recursive = FALSE)
+  # }
+
+  for(subj in subjects){
+    files = list.files(path = file.path("offline_data/spades_lab/", subj, "maxedout"), pattern = ".*csv\\.gz", full.names = TRUE, recursive = FALSE)
+    file.copy(from = files, to = file.path("offline_data/spades_lab_merged/own_maxedout/", paste(subj, basename(files), sep = "_")), overwrite = TRUE, recursive = FALSE)
+  }
+}
+
+makeMaxedoutVersion = function(subjects){
+    for(subj in subjects){
+
+      print(paste("Make maxed out version for ", subj))
+
+      sensorFiles = normalizePath(list.files(path = file.path(to, subj, ready_folder), pattern = "TAS.*sensor.csv.*", full.names = TRUE))
+
+      # summarize sensors
+      for(sensorFile in sensorFiles){
+        sensorId = str_split(basename(sensorFile), "_")[[1]][1]
+        sensorLocation = str_split(basename(sensorFile), "_")[[1]][2]
+
+        print(paste("Read in", sensorId, "at", sensorLocation))
+
+        if(subj == "SPADES_7" && str_detect(sensorLocation, "^non dominant wrist*")){
+          print("This sensor is malfunctioning, skip")
+          next
+        }
+
+        sensorData = SensorData.importCsv(sensorFile)
+
+        maxedout = SensorData.transform.maxedout(sensorData, grange = c(-2,2), noise_std = 0.05)
+
+        dir.create(file.path(to, subj, actigraph_maxedout_folder), recursive = TRUE)
+        headStr = SensorData.createActigraphCsvHeader(startTime = maxedout[1,1],
+                                                      downloadTime = maxedout[nrow(maxedout),1],
+                                                      samplingRate = round(SensorData.getSamplingRate(maxedout)/10)*10,
+                                                      sensorId = sensorId,
+                                                      firmVersion = "1.5.0",
+                                                      softVersion = "6.13.2")
+        SensorData.io.writeAsActigraphRaw(file.path(to, subj, actigraph_maxedout_folder),sensorData = maxedout, headerStr = headStr, custom_name = paste(sensorId, sensorLocation, "merged.maxedout.actigraph.csv", sep = "_"))
+
+        dir.create(file.path(to, subj, maxedout_folder), recursive = TRUE)
+        SensorData.io.write(file.path(to, subj, maxedout_folder),
+                            sensorData = maxedout,
+                            append = FALSE,
+                            header = TRUE,
+                            custom_name = paste(sensorId, sensorLocation, "merged.maxedout.sensor.csv", sep = "_"),
+                            gzip = TRUE,
+                            flatDir = TRUE,
+                            splitHour = FALSE)
+      }
+    }
+}
+
+computeCounts = function(subjects, input_folder, output_folder, range){
+  for(subj in subjects){
+
+    print(paste("Compute activity counts for ", subj))
+
+    sensorFiles = normalizePath(list.files(path = file.path(to_merge, input_folder), pattern = paste0(subj, "_TAS.*sensor.csv.*"), full.names = TRUE))
+    # summarize sensors
+    l_ply(sensorFiles, function(sensorFile){
+      require(mhealthformatsupportr)
+      require(stringr)
+      sensorId = str_split(basename(sensorFile), "_")[[1]][3]
+      sensorLocation = str_split(basename(sensorFile), "_")[[1]][4]
+
+      print(paste("Read in", sensorId, "at", sensorLocation))
+
+      if(subj == "SPADES_7" && str_detect(sensorLocation, "^non dominant wrist*")){
+        print("This sensor is malfunctioning, skip")
+      }else{
+
+      sensorData = SensorData.importCsv(sensorFile)
+
+      count = SensorData.summary.counts.compute(sensorData, breaks = paste(epoch, "secs"),
+                                                range = range,
+                                                noise_std = 0.05,
+                                                k = 0.65,
+                                                spar = 0.4,
+                                                resample = 50,
+                                                filterType = "butter",
+                                                cutoffs = c(0.2, 5),
+                                                integrationType = "trapz")
+      dir.create(file.path(to_merge, output_folder), recursive = TRUE)
+      SensorData.io.write(file.path(to_merge, output_folder), count,
+                          custom_name = paste(paste(subj, sensorId, sensorLocation, sep = "_"),"count", "csv", sep = "."), append = FALSE,
+                          header = TRUE,
+                          gzip = FALSE,
+                          flatDir = TRUE,
+                          splitHour = FALSE)
+      }
+    }, .parallel = FALSE, .progress = progress_text())
+  }
+}
+
+computeStats = function(subjects, input_folder, output_folder){
+  for(subj in subjects){
+
+    print(paste("Compute stats and characteristics for ", subj))
+
+    sensorFiles = normalizePath(list.files(path = file.path(to_merge, input_folder), pattern = paste0(subj, "_TAS.*sensor.csv.*"), full.names = TRUE))
+    # summarize sensors
+    l_ply(sensorFiles, function(sensorFile){
+      require(mHealthR)
+      require(stringr)
+      sensorId = str_split(basename(sensorFile), "_")[[1]][3]
+      sensorLocation = str_split(basename(sensorFile), "_")[[1]][4]
+
+      print(paste("Read in", sensorId, "at", sensorLocation))
+
+      if(subj == "SPADES_7" && str_detect(sensorLocation, "^non dominant wrist*")){
+        print("This sensor is malfunctioning, skip")
+      }else{
+
+        sensorData = SensorData.importCsv(sensorFile)
+        segmentedData = mHealthR::mhealth.segment(sensorData, breaks = "5 sec", file_type = "sensor")
+        statsData = mHealthR::mhealth.extract_characteristics(segmentedData, file_type = "sensor", select_cols = c(2,3,4), group_cols = c("SEGMENT"), preset = "primary")
+        statsData[7:ncol(statsData)] = round(statsData[7:ncol(statsData)], digits = 4)
+        dir.create(file.path(to_merge, output_folder), recursive = TRUE)
+        write.csv(x = statsData, file = file.path(to_merge, output_folder, paste(paste(subj, sensorId, sensorLocation, sep = "_"),"stat", "csv", sep = ".")), append = FALSE, row.names = FALSE, quote = FALSE)
+      }
+    }, .parallel = FALSE, .progress = progress_text())
+  }
+}
+
+extractActivities = function(subjects){
+  for (subj in subjects) {
+    print(paste('extra activities of', subj))
+    folder = file.path(to, subj, ready_folder)
+    annFile = list.files(path = folder, pattern = "SPADESInLab.*annotation.csv.*", full.names = TRUE, recursive = TRUE)
+    if(is.vector(annFile)){
+      annFile = annFile[1]
+    }
+    annotations = AnnotationData.importCsv(annFile)
+    annotations = AnnotationData.simplify(annotations)
+    # select activities
+    markedActivities = list("lying" = c("Lying"),
+                            "sitting" = c("Sitting", "not writing", "not web browsing"),
+                            "sitting web browsing" = c("sitting", "web browsing"),
+                            "sitting writing" = c("sitting", "writing"),
+                            "standing" = c("Standing", "not laundry", "not shelf unload", "not shelf reload", "not sweeping", "not writing", "not web browsing"),
+                            "standing web browsing" = c("standing", "web browsing"),
+                            "standing writing" = c("standing", "writing"),
+                            "walking at 1mph arms on desk" = c("Walking", "Treadmill", "1 mph"),
+                            "walking at 2mph arms on desk" = c("Walking", "Treadmill", "2 mph"),
+                            "walking at 3mph" = c("Walking", "Treadmill", "3 mph", "not Phone Talking", "not carrying drink", "not bag"),
+                            "walking at 3mph carrying drink" = c("Walking or 3 mph", "Treadmill", "Carrying Drink"),
+                            "walking at 3mph carrying bag" = c("Walking or 3 mph", "Treadmill", "bag"),
+                            "walking at 3mph phone talking" = c("Walking or 3 mph", "Treadmill", "Phone Talking or telling story"),
+                            "walking at 3.5mph" = c("Walking", "3.5 mph", "Treadmill"),
+                            "running at 5.5mph 5% grade" = c("Jog/Running or 5.5 mph"),
+                            "walking outdoor" = c("Walking", "Outdoors or City"),
+                            "walking upstairs" = c("Walking", "Stairs", "Up"),
+                            "walking donwstairs" = c("Walking", "Stairs", "Down"),
+                            "biking at 300 KPM/Min" = c("Biking", "Stationary or 300 KPM/Min"),
+                            "biking outdoor" = c("Biking", "Outdoors or City"),
+                            "sweeping" = c("Sweeping"),
+                            "laundry" = c("Laundry"),
+                            "shelf unload" = c("shelf unload", "not shelf reload"),
+                            "shelf reload" = c("shelf reload", "not shelf unload"),
+                            "frisbee" = c("Frisbee")
+    )
+    activities = ldply(markedActivities, function(labels){
+      or_labels = str_detect(labels, " or ")
+      not_labels = str_detect(labels, "not ")
+      if (sum(or_labels) > 0) {
+        or = str_split(labels[or_labels], " or ")
+      }else{
+        or = c()
+      }
+      if(sum(not_labels) > 0) {
+        not = str_split(labels[not_labels], "not ")
+      }else{
+        not = c()
+      }
+      and = labels[!or_labels & !not_labels]
+
+      sub_ann = AnnotationData.simplify.filter(annotations, labels = and, include.labels = TRUE, and.logic = TRUE)
+      if (length(or) != 0) {
+        for(oo in or){
+          sub_ann = AnnotationData.simplify.filter(sub_ann, labels = oo, include.labels = TRUE, and.logic = FALSE)
+        }
+      }
+      if (length(not) != 0){
+        for(nn in not){
+          sub_ann = AnnotationData.simplify.filter(sub_ann, labels = nn[2], include.labels = FALSE, and.logic = TRUE)
+        }
+      }
+      # connect adjacent annotations
+      i = 1
+      sub_ann_connected = data.frame()
+      while(i <= nrow(sub_ann)){
+        if(i == nrow(sub_ann)){ sub_ann_connected = data.frame(HEADER_TIME_STAMP = sub_ann[i, 1],
+                                                               START_TIME = sub_ann[i, 2],
+                                                               STOP_TIME = sub_ann[i, 3],
+                                                               LABEL_NAME = paste0('"',sub_ann[i, 4], '"'), stringsAsFactors = FALSE); break;}
+        j = i
+        while(sub_ann[i, 3] == sub_ann[i+1,2]){
+          i = i + 1
+          if(i == nrow(sub_ann)) break;
+        }
+        label_name = paste0('"', paste(unique(unlist(str_split(sub_ann[j:i, 4], ","))), collapse = ","), '"')
+        sub_ann_connected = rbind(sub_ann_connected, data.frame(HEADER_TIME_STAMP = sub_ann[j, 1],
+                                            START_TIME = sub_ann[j, 2],
+                                            STOP_TIME = sub_ann[i, 3],
+                                            LABEL_NAME = label_name, stringsAsFactors = FALSE))
+        if(i == nrow(sub_ann)){ break; }
+        else{
+          i = i + 1
+          }
+      }
+
+      # exclude annotations that are less than 5 seconds
+      sub_ann_connected = adply(sub_ann_connected, 1, function(row){
+        if(as.numeric(row[[3]] - row[[2]], units = "secs") < 5){
+          return(NULL)
+        }else{
+          return(row)
+        }
+      })
+      return(sub_ann_connected)
+    })
+    names(activities)[1] = "ACTIVITY_NAME"
+    activities = activities[c(1,3,4,5)]
+    dir.create(file.path(to_merge, "activities"))
+    AnnotationData.io.write(file.path(to_merge, "activities"), activities, custom_name = paste(subj, str_replace(basename(annFile), "annotation.*", "activity.csv"),sep = "_"), gzip = FALSE, flatDir = TRUE, splitHour = FALSE, append = FALSE, header = TRUE)
+  }
+}
+
+.extractCountsGivenDuration = function(counts, startTime, endTime){
+  selected_counts = SensorData.clip(counts, startTime = startTime, endTime = endTime)
+  if(nrow(selected_counts) > 6){
+    selected_counts = selected_counts[3:(nrow(selected_counts)-2),]
+  }else if(nrow(selected_counts) > 3){
+    selected_counts = selected_counts[2:(nrow(selected_counts)-1),]
+  }else{
+    selected_counts = selected_counts[0, ]
+  }
+  return(selected_counts)
+}
+
+getCountsPerActivities = function(subjects, locations = c("dominant wrist", "dominant waist")){
+  final_result = data.frame()
+  for(subj in subjects){
+    print(paste("process", subj))
+    actFile = list.files(path = file.path(to_merge, "activities"), pattern = paste0(subj,"_SPADESInLab.*activity.*"), full.names = TRUE, recursive = FALSE)
+    if(length(actFile) == 0){
+      print(paste("Not found activity file:", subj))
+      next;
+    }else{
+      actFile = actFile[[1]]
+      activities = read.csv(actFile, quote = '"', stringsAsFactors = FALSE)
+      activities[,2] = as.POSIXct(activities[,2], format = "%Y-%m-%d %H:%M:%OS")
+      activities[,3] = as.POSIXct(activities[,3], format = "%Y-%m-%d %H:%M:%OS")
+    }
+
+    ownCounts = list()
+    actiCounts = list()
+    maxedoutCounts = list()
+    actiMaxedoutCounts = list()
+    for(loc in locations){
+      # our own counts
+      ownCountsFile = list.files(path = file.path(to_merge, "own_count"), pattern = paste0(subj, "_TAS.*_", loc, "\\.count\\.csv"), full.names = TRUE, recursive = FALSE)
+
+      if(length(ownCountsFile) == 0){
+        print(paste("Not found own counts:", subj, ",", loc))
+      }else{
+        ownCountsFile = ownCountsFile[[1]]
+        ownCounts[[loc]] = read.csv(ownCountsFile, stringsAsFactors = FALSE)
+        ownCounts[[loc]][,1] = as.POSIXct(ownCounts[[loc]][,1], format = "%Y-%m-%d %H:%M:%OS")
+      }
+
+      # actigraph counts
+      actiCountsFile = list.files(path = file.path(to_merge, "agd_count"), pattern = paste0(subj, "_TAS.*_", loc, "_merged\\.actigraph5sec.*"), full.names = TRUE, recursive = FALSE)
+      if(length(actiCountsFile) == 0){
+        print(paste("Not found actigraph counts:", subj, ",", loc))
+      }else{
+        actiCountsFile = actiCountsFile[[1]]
+        actiCounts[[loc]] = SensorData.importActigraphCountCsv(actiCountsFile, count_col_name = "ACTIGRAPH")
+      }
+
+      # maxedout counts
+      maxedoutCountsFile = list.files(path = file.path(to_merge, "own_maxedout_count"), pattern = paste0(subj, "_TAS.*_", loc, "\\.count.*"), full.names = TRUE, recursive = FALSE)
+
+      if(length(maxedoutCountsFile) == 0){
+        print(paste("Not found maxedout counts:", subj, ",", loc))
+      }else{
+        maxedoutCountsFile = maxedoutCountsFile[[1]]
+        maxedoutCounts[[loc]] = read.csv(maxedoutCountsFile, stringsAsFactors = FALSE)
+        maxedoutCounts[[loc]][,1] = as.POSIXct(maxedoutCounts[[loc]][,1], format = "%Y-%m-%d %H:%M:%OS")
+      }
+
+      # maxedout actigraph counts
+      actiMaxedoutCountsFile = list.files(path = file.path(to_merge, "agd_maxedout_count"), pattern = paste0(subj, "_TAS.*_", loc, ".*maxedout\\.actigraph5sec.*"), full.names = TRUE, recursive = FALSE)
+
+      if(length(actiMaxedoutCountsFile) == 0){
+        print(paste("Not found actigraph maxedout counts:", subj, ",", loc))
+      }else{
+        actiMaxedoutCountsFile = actiMaxedoutCountsFile[[1]]
+        actiMaxedoutCounts[[loc]] = SensorData.importActigraphCountCsv(actiMaxedoutCountsFile, count_col_name = "ACTIGRAPH_MAXEDOUT")
+      }
+    }
+
+    countsPerActivity = adply(activities, 1, function(row){
+      st = row[[2]]
+      et = row[[3]]
+      result = data.frame()
+      for(loc in locations){
+        if(subj == "SPADES_7" & loc == 'non dominant wrist'){
+          print(subj)
+        }
+        if(length(ownCounts[[loc]]) > 0){
+          selected_counts_own = .extractCountsGivenDuration(ownCounts[[loc]], st, et)
+        }else{
+          selected_counts_own = data.frame()
+        }
+        if(length(actiCounts[[loc]] > 0)){
+          selected_counts_actigraph = .extractCountsGivenDuration(actiCounts[[loc]], st, et)
+        }else{
+          selected_counts_actigraph = data.frame()
+        }
+        if(length(maxedoutCounts[[loc]] > 0)){
+          selected_counts_maxedout_own = .extractCountsGivenDuration(maxedoutCounts[[loc]], st, et)
+        }else{
+          selected_counts_maxedout_own = data.frame()
+        }
+        if(length(actiMaxedoutCounts[[loc]] > 0)){
+          selected_counts_maxedout_acti = .extractCountsGivenDuration(actiMaxedoutCounts[[loc]], st, et)
+        }else{
+          selected_counts_maxedout_acti = data.frame()
+        }
+
+        if(nrow(selected_counts_actigraph) > 0){
+          if(!all(selected_counts_actigraph[,1] == selected_counts_actigraph[,1])){
+            print(paste("rerun actilife on this subject:", subj, ",", loc))
+          }
+        }
+
+        if(nrow(selected_counts_own) > 0){
+          result_own = data.frame(row, value = selected_counts_own[,2], TYPE = "COUNTS", LOCATION = toupper(loc),stringsAsFactors = FALSE)
+          result = rbind(result, result_own)
+        }
+        if(nrow(selected_counts_actigraph) > 0){
+          result_actigraph = data.frame(row, value = selected_counts_actigraph[,2], TYPE = "ACTIGRAPH", LOCATION = toupper(loc), stringsAsFactors = FALSE)
+          result = rbind(result, result_actigraph)
+        }
+        if(nrow(selected_counts_maxedout_own) > 0){
+          result_maxedout_own = data.frame(row, value = selected_counts_maxedout_own[,2], TYPE = "COUNTS_MAXEDOUT", LOCATION = toupper(loc),stringsAsFactors = FALSE)
+          result = rbind(result, result_maxedout_own)
+        }
+
+        if(nrow(selected_counts_maxedout_acti) > 0){
+          result_maxedout_acti = data.frame(row, value = selected_counts_maxedout_acti[,2], TYPE = "ACTIGRAPH_MAXEDOUT", LOCATION = toupper(loc),stringsAsFactors = FALSE)
+          result = rbind(result, result_maxedout_acti)
+        }
+      }
+      return(result)
+    })
+    countsPerActivity = data.frame(countsPerActivity, SUBJECT = subj, stringsAsFactors = FALSE)
+    final_result = rbind(final_result, countsPerActivity)
+  }
+  return(final_result)
+}
+
+
+getStatsPerActivities = function(subjects, locations = c("dominant wrist", "dominant waist")){
+  final_result = data.frame()
+  for(subj in subjects){
+    print(paste("process", subj))
+    actFile = list.files(path = file.path(to_merge, "activities"), pattern = paste0(subj,"_SPADESInLab.*activity.*"), full.names = TRUE, recursive = FALSE)
+    if(length(actFile) == 0){
+      print(paste("Not found activity file:", subj))
+      next;
+    }else{
+      actFile = actFile[[1]]
+      activities = read.csv(actFile, quote = '"', stringsAsFactors = FALSE)
+      activities[,2] = as.POSIXct(activities[,2], format = "%Y-%m-%d %H:%M:%OS")
+      activities[,3] = as.POSIXct(activities[,3], format = "%Y-%m-%d %H:%M:%OS")
+    }
+
+    statsData = list()
+    for(loc in locations){
+      # our own stats
+      statsFile = list.files(path = file.path(to_merge, "own_stat"), pattern = paste0(subj, "_TAS.*_", loc, "\\.stat\\.csv"), full.names = TRUE, recursive = FALSE)
+
+      if(length(statsFile) == 0){
+        print(paste("Not found own stats:", subj, ",", loc))
+      }else{
+        statsFile = statsFile[[1]]
+        statsData[[loc]] = read.csv(statsFile, stringsAsFactors = FALSE)
+        statsData[[loc]] = mhealth.convert(statsData[[loc]], file_type = "feature", required_cols = 3:20, group_cols = 1:2, datetime_format = mhealth$format$csv$TIMESTAMP, timezone = Sys.timezone())
+        statsData[[loc]] = statsData[[loc]] %>%
+          ddply(c("SEGMENT"), summarize,
+                HEADER_TIME_STAMP = HEADER_TIME_STAMP[[1]],
+                START_TIME = START_TIME[[1]],
+                STOP_TIME = STOP_TIME[[1]],
+                AVERAGE_AMP = mean(AMP),
+                SD_AMP = sd(AMP),
+                AVERAGE_DOMINANT_FREQ = mean(DOMINANT_FREQ),
+                SD_DOMINANT_FREQ = sd(DOMINANT_FREQ),
+                AVERAGE_DOMINANT_FREQ_SECOND = mean(DOMINANT_FREQ_SECOND),
+                SD_DOMINANT_FREQ_SECOND = sd(DOMINANT_FREQ_SECOND),
+                AVERAGE_DOMINANT_FREQ_THIRD =mean(DOMINANT_FREQ_THIRD),
+                SD_DOMINANT_FREQ_THIRD = sd(DOMINANT_FREQ_THIRD)
+          , .progress = progress_text())
+      }
+    }
+
+    statsPerActivity = adply(activities, 1, function(row){
+      st = row[[2]]
+      et = row[[3]]
+      result = data.frame()
+      for(loc in locations){
+        if(subj == "SPADES_7" & loc == 'non dominant wrist'){
+          print(subj)
+        }
+        if(length(statsData[[loc]]) > 0){
+          selected_stats = mhealth.clip(statsData[[loc]], start_time = st, stop_time = et, file_type = "feature")
+        }else{
+          selected_stats = data.frame()
+        }
+        if(nrow(selected_stats) > 0){
+          selected_stats = data.frame(selected_stats, LOCATION = toupper(loc), stringsAsFactors = FALSE)
+          result = rbind(result, selected_stats)
+        }
+      }
+      return(result)
+    })
+    statsPerActivity = data.frame(statsPerActivity, SUBJECT = subj, stringsAsFactors = FALSE)
+    final_result = rbind(final_result, statsPerActivity)
+  }
+  return(final_result)
+}
+
+ids = seq(1, 51)
+
+# ids = c(7, 43, 45, 47, 48, 49, 50)
+# ids = c(4)
+
+exclude_ids = c(5, 33)
+# 5 doesn't exist
+# 33 has corrupted annotation files
+# 4, 6, 7, 8, 9 needs to check and fix the sensor mapping
+
+# annotations
+# actFile_ids = c(4,6,7,8,9)
+# actFile_ids = setdiff(actFile_ids, exclude_ids)
+# actFile_subjects = paste("SPADES", actFile_ids, sep = "_")
+# mergeSpadesLabAnnotationFiles(actFile_subjects)
+# extractActivities(actFile_subjects)
+
+# sensors
+# sensor_ids = c(7)
+# sensor_ids = setdiff(sensor_ids, exclude_ids)
+sensor_ids = setdiff(ids, exclude_ids)
+sensor_subjects = paste("SPADES", sensor_ids, sep = "_")
+# extractActivities(sensor_subjects)
+# mergeSpadesLabWatchFiles(sensor_subjects)
+# mergeSpadesLabSensorFiles(sensor_subjects)
+# makeMaxedoutVersion(sensor_subjects)
+# putFilesTogether(sensor_subjects)
+# computeCounts(sensor_subjects, "own", "own_count", c(-8,8))
+# computeStats(sensor_subjects, "own", "own_stat")
+# subjData = summarizeParticipantInfo(sensor_subjects)
+# stopCluster(cl)
+
+# overall
+# ids = setdiff(ids, exclude_ids)
+# subjects = paste("SPADES", ids, sep = "_")
+spades_lab_stats = getStatsPerActivities(subjects = sensor_subjects, locations = c("dominant wrist", "dominant waist", "non dominant wrist", "non dominant waist", "dominant ankle", "non dominant ankle"))
+# spades_lab_counts = getCountsPerActivities(sensor_subjects, locations = c("dominant wrist", "dominant waist", "non dominant wrist", "non dominant waist", "dominant ankle", "non dominant ankle"))
+# devtools::use_data(spades_lab_counts, compress = "bzip2", overwrite = TRUE)
+# saveRDS(spades_lab_counts, file = "inst/extdata/spades_lab_counts.rds", compress = TRUE)
+#
+# devtools::use_data(spades_lab_stats, compress = "bzip2", overwrite = TRUE)
+# saveRDS(spades_lab_stats, file = "inst/extdata/spades_lab_stats.rds", compress = TRUE)
+
+
+
+

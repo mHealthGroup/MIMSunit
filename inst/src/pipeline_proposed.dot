@@ -1,0 +1,37 @@
+digraph pipeline1 {
+  graph [fontsize = 14, rankdir = "LR"]
+
+  node [shape = oval, fontname = Helvetica]
+  RI [label = "Raw\ninput"]
+  AC [label = "Activity\nCounts"]
+
+  node [shape = box, fontname = Helvetica]
+  RS [label = "Resampling\n(50Hz)"]
+  BF [label = "Filtering\n(0.2 ~ 5Hz)"]
+  RF [label = "Rectification"]
+  AG [label = "Aggregation\n (AUC)"]
+  VM [label = "VM"]
+  IP [label = "Interpolation"]
+  EP [label = "Extrapolation"]
+
+  subgraph step1 {
+    rank = same
+    IP->RI [dir = back]
+  }
+
+  subgraph {
+    rank = same
+    AC-> VM [dir = back]
+  }
+
+  subgraph {
+    rank = same
+    BF-> RF
+  }
+
+  IP-> EP
+  EP-> RS
+  RS-> BF
+  RF-> AG
+  AG-> VM
+}

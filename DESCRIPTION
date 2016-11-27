@@ -1,0 +1,12 @@
+Package: Counts
+Type: Package
+Title: Code and results for counts paper
+Version: 0.1.0
+Author: Qu Tang <tang.q@husky.neu.edu>
+Maintainer: Qu Tang <tang.q@husky.neu.edu>
+Description: Code and results for counts paper
+License: MIT
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 5.0.1
+Imports: mHealthR
