@@ -61,8 +61,9 @@ optimize_extrapolation_parameters = function(test_set) {
 generate_test_set_on_virtual_device = function(sr,
                                                grange,
                                                duration = 60,
+                                               start_amp = 3,
                                                random = 1) {
-  amps = 3:8
+  amps = start_amp:8
   freqs = 1:8
 
   configs = expand.grid(freq = freqs, amp = amps)
@@ -93,11 +94,14 @@ generate_test_set_on_virtual_device = function(sr,
 
   return(test_set)
 }
-
-test_set = generate_test_set_on_virtual_device(sr = 40,
-                                               grange = 2,
+sr = 50
+grange = 4
+start_amp = 5
+test_set = generate_test_set_on_virtual_device(sr = sr,
+                                               grange = grange,
+                                               start_amp = start_amp,
                                                duration = 60)
 
 test_result = optimize_extrapolation_parameters(test_set)
 
-saveRDS(test_result, file = "inst/table/extrapolate/optimize_on_40Hz_2g.rds", compress = 'gzip')
+saveRDS(test_result, file = paste0("inst/table/extrapolate/optimize_on_", sr, "Hz_", grange, "g.rds"), compress = 'gzip')
