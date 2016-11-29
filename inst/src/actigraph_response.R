@@ -16,7 +16,7 @@ p = ggplot(data = response) +
   theme_bw() +
   xlab("Frequency (Hz)") +
   ylab("Normalized Intensity") +
-  # coord_cartesian(xlim = c(0, 10)) +
+  coord_cartesian(xlim = c(0, 10)) +
   theme(strip.background = element_blank())
 
 
