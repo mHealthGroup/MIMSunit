@@ -10,7 +10,6 @@ optimize_extrapolation_parameters = function(test_set) {
 
   k = seq(from = 0.05, to = 0.95, by = 0.1)
   spar = seq(from = 0, to = 1, by = 0.1)
-
   configs = expand.grid(k = k, spar = spar)
   result = adply(configs, 1, function(config){
     k = config$k
@@ -26,7 +25,7 @@ optimize_extrapolation_parameters = function(test_set) {
         t = test_case$ts,
         value = test_case$test_signal,
         range = c(-grange, grange),
-        noise_std = 0.05,
+        noise_std = 0.02,
         k = k,
         spar = spar
       )
@@ -72,7 +71,7 @@ generate_test_set_on_virtual_device = function(sr,
     amp = config$amp
     x = seq(0, duration, length = duration * sr)
     set.seed(random)
-    noise = rnorm(length(x), sd = 0.05)
+    noise = rnorm(length(x), sd = 0.03)
     phase = runif(1, min = 0, max = 2 * pi)
     true_signal = amp * sin(2 * pi * freq * x + phase) + noise
     test_signal = amp * sin(2 * pi * freq * x + phase) + noise
@@ -94,14 +93,17 @@ generate_test_set_on_virtual_device = function(sr,
 
   return(test_set)
 }
-sr = 50
-grange = 4
-start_amp = 5
-test_set = generate_test_set_on_virtual_device(sr = sr,
-                                               grange = grange,
-                                               start_amp = start_amp,
-                                               duration = 60)
 
-test_result = optimize_extrapolation_parameters(test_set)
+srs = seq(20, 100, by = 10)
+grange = 2
+start_amp = 3
+for(sr in srs){
+  test_set = generate_test_set_on_virtual_device(sr = sr,
+                                                 grange = grange,
+                                                 start_amp = start_amp,
+                                                 duration = 60)
 
-saveRDS(test_result, file = paste0("inst/table/extrapolate/optimize_on_", sr, "Hz_", grange, "g.rds"), compress = 'gzip')
+  test_result = optimize_extrapolation_parameters(test_set)
+
+  saveRDS(test_result, file = paste0("inst/extdata/extrapolate/optimize_on_", sr, "Hz_", grange, "g.rds"), compress = 'gzip')
+}
