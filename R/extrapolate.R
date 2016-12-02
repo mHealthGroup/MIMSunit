@@ -50,7 +50,7 @@ extrapolate = function(t, value, range, noise_std, k = 0.65, spar = 0.4){
   marker = rep(0, length(t))
 
   # model of 3sd and shape para with confident probability at 0.95
-  noise_sd = noise_sd + 10e-5
+  noise_sd = noise_sd + 10e-6
   shape = .optimize.gamma(3 * noise_sd)
 
   # mark using gamma distribution
