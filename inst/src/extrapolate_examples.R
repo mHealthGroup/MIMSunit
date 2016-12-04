@@ -8,7 +8,7 @@ require(ggplot2)
 k = 0.65
 spar = 0.4
 confidence = 0.5
-noise_std = 0.05
+noise_std = 0.02
 
 gg_color_hue <- function(n) {
   hues = seq(15, 375, length = n + 1)

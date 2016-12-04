@@ -7,6 +7,10 @@
 #' @param t input index or timestamp sequence
 #' @param k duration of neighborhood to be used in local spline regression for each side, in seconds
 #' @param spar between 0 and 1, to control how smooth we want to fit local spline regression, 0 is linear and 1 matches all local points. A good choice is 0.3 to penalize the maxed out points.
+extrapolate.data.frame = function(df, range, noise_level, k, spar){
+
+}
+
 extrapolate = function(t, value, range, noise_std, k = 0.65, spar = 0.4){
   # over sampling to 100Hz
   t_over = seq(t[1], t[length(t)], by = 1/100)
