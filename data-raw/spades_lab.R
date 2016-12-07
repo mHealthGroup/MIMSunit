@@ -56,7 +56,7 @@ mergeSpadesLabSensorFiles = function(subjects){
 
       id = sensorLocationMapping[i, 1]
       location = sensorLocationMapping[i, 2]
-      if(str_detect(location, stringr::regex("^*wear*", ignore_case = TRUE))){
+      if(stringr::str_detect(location, stringr::regex("^*wear*", ignore_case = TRUE))){
         next
       }
       # if(!str_detect(location, stringr::regex("^dominant waist*", ignore_case = TRUE))){
@@ -75,7 +75,7 @@ mergeSpadesLabSensorFiles = function(subjects){
 
       # Read in and clean up data file for each hour
       listOfData = foreach(dataFile = dataFiles, .combine = c) %dopar% {
-        hourlyData = SensorData.importCsv(dataFile)
+        hourlyData = mhealth.read(dataFile, filetype = "sensor")
         hourlyData = SensorData.cleanup(hourlyData)
         return(list(hourlyData))
       }
@@ -88,7 +88,7 @@ mergeSpadesLabSensorFiles = function(subjects){
         dir.create(file.path(to, subj, actigraph_folder), recursive = TRUE)
         headStr = SensorData.createActigraphCsvHeader(startTime = mergedData[1,1],
                                                       downloadTime = mergedData[nrow(mergedData),1],
-                                                      samplingRate = round(SensorData.getSamplingRate(mergedData)/10)*10,
+                                                      samplingRate = round(sampling_rate(mergedData)/10)*10,
                                                       sensorId = id,
                                                       firmVersion = "1.5.0",
                                                       softVersion = "6.13.2")
@@ -225,7 +225,7 @@ putFilesTogether = function(subjects){
   }
 }
 
-makeMaxedoutVersion = function(subjects){
+makeMaxedoutVersion = function(subjects, grange = c(-2,2), noise_std = 0.03){
     for(subj in subjects){
 
       print(paste("Make maxed out version for ", subj))
@@ -246,7 +246,7 @@ makeMaxedoutVersion = function(subjects){
 
         sensorData = SensorData.importCsv(sensorFile)
 
-        maxedout = SensorData.transform.maxedout(sensorData, grange = c(-2,2), noise_std = 0.05)
+        maxedout = SensorData.transform.maxedout(sensorData, grange = grange, noise_std = noise_std)
 
         dir.create(file.path(to, subj, actigraph_maxedout_folder), recursive = TRUE)
         headStr = SensorData.createActigraphCsvHeader(startTime = maxedout[1,1],
@@ -271,6 +271,9 @@ makeMaxedoutVersion = function(subjects){
 }
 
 computeCounts = function(subjects, input_folder, output_folder, range){
+
+
+
   for(subj in subjects){
 
     print(paste("Compute activity counts for ", subj))
@@ -278,7 +281,11 @@ computeCounts = function(subjects, input_folder, output_folder, range){
     sensorFiles = normalizePath(list.files(path = file.path(to_merge, input_folder), pattern = paste0(subj, "_TAS.*sensor.csv.*"), full.names = TRUE))
     # summarize sensors
     l_ply(sensorFiles, function(sensorFile){
-      require(mhealthformatsupportr)
+      k = 0.05
+      spar = 0.6
+      noise_level = 0.03
+      resample = 50
+      epoch = 5
       require(stringr)
       sensorId = str_split(basename(sensorFile), "_")[[1]][3]
       sensorLocation = str_split(basename(sensorFile), "_")[[1]][4]
@@ -289,17 +296,17 @@ computeCounts = function(subjects, input_folder, output_folder, range){
         print("This sensor is malfunctioning, skip")
       }else{
 
-      sensorData = SensorData.importCsv(sensorFile)
+      sensorData = mhealth.read(sensorFile, filetype = "sensor")
 
-      count = SensorData.summary.counts.compute(sensorData, breaks = paste(epoch, "secs"),
+      count = activity_count(sensorData, breaks = paste(epoch, "sec"),
                                                 range = range,
-                                                noise_std = 0.05,
-                                                k = 0.65,
-                                                spar = 0.4,
-                                                resample = 50,
-                                                filterType = "butter",
+                                                noise_level = noise_level,
+                                                k = k,
+                                                spar = spar,
+                                                resample = resample,
+                                                filter_type = "butter",
                                                 cutoffs = c(0.2, 5),
-                                                integrationType = "trapz")
+                                                integration = "trapz")
       dir.create(file.path(to_merge, output_folder), recursive = TRUE)
       SensorData.io.write(file.path(to_merge, output_folder), count,
                           custom_name = paste(paste(subj, sensorId, sensorLocation, sep = "_"),"count", "csv", sep = "."), append = FALSE,
@@ -447,6 +454,7 @@ extractActivities = function(subjects){
 }
 
 .extractCountsGivenDuration = function(counts, startTime, endTime){
+  counts[,1] = lubridate::floor_date(counts[,1])
   selected_counts = SensorData.clip(counts, startTime = startTime, endTime = endTime)
   if(nrow(selected_counts) > 6){
     selected_counts = selected_counts[3:(nrow(selected_counts)-2),]
@@ -478,6 +486,12 @@ getCountsPerActivities = function(subjects, locations = c("dominant wrist", "dom
     maxedoutCounts = list()
     actiMaxedoutCounts = list()
     for(loc in locations){
+      if(subj == "SPADES_7" && loc == "non dominant wrist"){
+        next
+      }
+      if(subj == "SPADES_32" && loc == "dominant ankle"){
+        next
+      }
       # our own counts
       ownCountsFile = list.files(path = file.path(to_merge, "own_count"), pattern = paste0(subj, "_TAS.*_", loc, "\\.count\\.csv"), full.names = TRUE, recursive = FALSE)
 
@@ -487,6 +501,7 @@ getCountsPerActivities = function(subjects, locations = c("dominant wrist", "dom
         ownCountsFile = ownCountsFile[[1]]
         ownCounts[[loc]] = read.csv(ownCountsFile, stringsAsFactors = FALSE)
         ownCounts[[loc]][,1] = as.POSIXct(ownCounts[[loc]][,1], format = "%Y-%m-%d %H:%M:%OS")
+        ownCounts[[loc]] = na.omit(ownCounts[[loc]])
       }
 
       # actigraph counts
@@ -498,6 +513,15 @@ getCountsPerActivities = function(subjects, locations = c("dominant wrist", "dom
         actiCounts[[loc]] = SensorData.importActigraphCountCsv(actiCountsFile, count_col_name = "ACTIGRAPH")
       }
 
+      n_common = min(nrow(ownCounts[[loc]]), nrow(actiCounts[[loc]]))
+      ownCounts[[loc]] = ownCounts[[loc]][1:n_common,]
+      actiCounts[[loc]] = actiCounts[[loc]][1:n_common,]
+
+      if(as.numeric(ownCounts[[loc]][1,1] - actiCounts[[loc]][1,1], unit = "secs") > 1){
+        ownCounts[[loc]][,1] = actiCounts[[loc]][,1]
+        write.csv(ownCounts[[loc]], ownCountsFile, quote = FALSE, row.names = FALSE)
+      }
+
       # maxedout counts
       maxedoutCountsFile = list.files(path = file.path(to_merge, "own_maxedout_count"), pattern = paste0(subj, "_TAS.*_", loc, "\\.count.*"), full.names = TRUE, recursive = FALSE)
 
@@ -507,6 +531,7 @@ getCountsPerActivities = function(subjects, locations = c("dominant wrist", "dom
         maxedoutCountsFile = maxedoutCountsFile[[1]]
         maxedoutCounts[[loc]] = read.csv(maxedoutCountsFile, stringsAsFactors = FALSE)
         maxedoutCounts[[loc]][,1] = as.POSIXct(maxedoutCounts[[loc]][,1], format = "%Y-%m-%d %H:%M:%OS")
+        maxedoutCounts[[loc]] = na.omit(maxedoutCounts[[loc]])
       }
 
       # maxedout actigraph counts
@@ -517,6 +542,15 @@ getCountsPerActivities = function(subjects, locations = c("dominant wrist", "dom
       }else{
         actiMaxedoutCountsFile = actiMaxedoutCountsFile[[1]]
         actiMaxedoutCounts[[loc]] = SensorData.importActigraphCountCsv(actiMaxedoutCountsFile, count_col_name = "ACTIGRAPH_MAXEDOUT")
+      }
+
+      n_common = min(nrow(maxedoutCounts[[loc]]), nrow(actiMaxedoutCounts[[loc]]))
+      maxedoutCounts[[loc]] = maxedoutCounts[[loc]][1:n_common,]
+      actiMaxedoutCounts[[loc]] = actiMaxedoutCounts[[loc]][1:n_common,]
+
+      if(as.numeric(maxedoutCounts[[loc]][1,1] - actiMaxedoutCounts[[loc]][1,1], unit = "secs") > 1){
+        maxedoutCounts[[loc]][,1] = actiMaxedoutCounts[[loc]][,1]
+        write.csv(maxedoutCounts[[loc]], maxedoutCountsFile, quote = FALSE, row.names = FALSE)
       }
     }
 
@@ -553,6 +587,11 @@ getCountsPerActivities = function(subjects, locations = c("dominant wrist", "dom
           if(!all(selected_counts_actigraph[,1] == selected_counts_actigraph[,1])){
             print(paste("rerun actilife on this subject:", subj, ",", loc))
           }
+        }
+
+        if(nrow(selected_counts_own) != nrow(selected_counts_actigraph)){
+          print(subj)
+          print(loc)
         }
 
         if(nrow(selected_counts_own) > 0){
@@ -652,7 +691,7 @@ getStatsPerActivities = function(subjects, locations = c("dominant wrist", "domi
 }
 
 ids = seq(1, 51)
-
+# ids = c(35)
 # ids = c(7, 43, 45, 47, 48, 49, 50)
 # ids = c(4)
 
@@ -679,6 +718,7 @@ sensor_subjects = paste("SPADES", sensor_ids, sep = "_")
 # makeMaxedoutVersion(sensor_subjects)
 # putFilesTogether(sensor_subjects)
 # computeCounts(sensor_subjects, "own", "own_count", c(-8,8))
+# computeCounts(sensor_subjects, "own_maxedout", "own_maxedout_count", c(-2, 2))
 # computeStats(sensor_subjects, "own", "own_stat")
 # subjData = summarizeParticipantInfo(sensor_subjects)
 # stopCluster(cl)
@@ -686,10 +726,10 @@ sensor_subjects = paste("SPADES", sensor_ids, sep = "_")
 # overall
 # ids = setdiff(ids, exclude_ids)
 # subjects = paste("SPADES", ids, sep = "_")
-spades_lab_stats = getStatsPerActivities(subjects = sensor_subjects, locations = c("dominant wrist", "dominant waist", "non dominant wrist", "non dominant waist", "dominant ankle", "non dominant ankle"))
-# spades_lab_counts = getCountsPerActivities(sensor_subjects, locations = c("dominant wrist", "dominant waist", "non dominant wrist", "non dominant waist", "dominant ankle", "non dominant ankle"))
+# spades_lab_stats = getStatsPerActivities(subjects = sensor_subjects, locations = c("dominant wrist", "dominant waist", "non dominant wrist", "non dominant waist", "dominant ankle", "non dominant ankle"))
+spades_lab_counts = getCountsPerActivities(sensor_subjects, locations = c("dominant wrist", "dominant waist", "non dominant wrist", "non dominant waist", "dominant ankle", "non dominant ankle"))
 # devtools::use_data(spades_lab_counts, compress = "bzip2", overwrite = TRUE)
-# saveRDS(spades_lab_counts, file = "inst/extdata/spades_lab_counts.rds", compress = TRUE)
+saveRDS(spades_lab_counts, file = "inst/extdata/spades_lab_counts.rds", compress = TRUE)
 #
 # devtools::use_data(spades_lab_stats, compress = "bzip2", overwrite = TRUE)
 # saveRDS(spades_lab_stats, file = "inst/extdata/spades_lab_stats.rds", compress = TRUE)

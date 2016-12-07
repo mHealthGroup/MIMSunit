@@ -1,3 +1,29 @@
+#' @name extrapolate.data.frame
+#' @title Apply extrapolate algorithm to a single stream of data.
+#' @note If wanting to obtain mediate results for plotting and debugging, please use this function.
+#' @author Qu Tang
+#' @export
+#' @import MASS akima plyr
+#' @param t input index or timestamp sequence
+#' @param k duration of neighborhood to be used in local spline regression for each side, in seconds
+#' @param spar between 0 and 1, to control how smooth we want to fit local spline regression, 0 is linear and 1 matches all local points. A good choice is 0.3 to penalize the maxed out points.
+extrapolate.data.frame = function(df, ...){
+  time_zone = lubridate::tz(df[1,1])
+  t = df[[1]]
+  values = df[2:ncol(df)]
+  result = plyr::adply(values, .margins = 2, function(colData){
+    output = extrapolate(t, colData[[1]], ...)
+    t_out <<- output[,1]
+    return(output[,2])
+  }, .progress = plyr::progress_text(), .id = NULL)
+  result = data.frame(t(result), row.names = NULL)
+  result = cbind(t_out, result)
+  names(result) = names(df)
+  names(result[2:ncol(result)]) = paste("EXTRAPOLATED", names(result[2:ncol(result)]), sep = "_")
+  result[,1] = as.POSIXct(result[,1], origin = "1970-01-01", tz = time_zone)
+  return(result)
+}
+
 #' @name extrapolate
 #' @title Apply extrapolate algorithm to a single stream of data.
 #' @note If wanting to obtain mediate results for plotting and debugging, please use this function.
@@ -7,11 +33,7 @@
 #' @param t input index or timestamp sequence
 #' @param k duration of neighborhood to be used in local spline regression for each side, in seconds
 #' @param spar between 0 and 1, to control how smooth we want to fit local spline regression, 0 is linear and 1 matches all local points. A good choice is 0.3 to penalize the maxed out points.
-extrapolate.data.frame = function(df, range, noise_level, k, spar){
-
-}
-
-extrapolate = function(t, value, range, noise_std, k = 0.65, spar = 0.4){
+extrapolate = function(t, value, range, noise_level, k = 0.65, spar = 0.4){
   # over sampling to 100Hz
   t_over = seq(t[1], t[length(t)], by = 1/100)
 
@@ -29,7 +51,7 @@ extrapolate = function(t, value, range, noise_std, k = 0.65, spar = 0.4){
 
   # mark maxed out region using gamma distribution or threshold
   marker.fun = .extrapolate.mark("gamma")
-  marker = marker.fun(t, value, range[1], range[2], noise_std)
+  marker = marker.fun(t, value, range[1], range[2], noise_level)
 
   # mark neighbors
   neighbors = .extrapolate.neighbor(marker, 100, k)
@@ -97,8 +119,7 @@ extrapolate = function(t, value, range, noise_std, k = 0.65, spar = 0.4){
   return(marker)
 }
 
-.extrapolate.neighbor = function(marker, sr, k, confident = 0.5){
-  n_neighbor = k * sr
+.extrapolate.edges = function(marker, confident){
   marker_diff_left = c(0, diff(marker))
   marker_diff_right = c(diff(marker), 0)
 
@@ -111,7 +132,7 @@ extrapolate = function(t, value, range, noise_std, k = 0.65, spar = 0.4){
   if(any(positive_right_start - positive_left_end < 0)) {
     positive_left_end = .shift(positive_left_end, 1)
     positive_right_start = .shift(positive_right_start, -1)
-    }
+  }
   positive_edges = data.frame(left_end = positive_left_end, right_start = positive_right_start, stringsAsFactors = FALSE)
 
   # valleys
@@ -128,7 +149,14 @@ extrapolate = function(t, value, range, noise_std, k = 0.65, spar = 0.4){
     print("pause")
   }
   negative_edges = data.frame(left_end = negative_left_end, right_start = negative_right_start, stringsAsFactors = FALSE)
-  neighbors = rbind(positive_edges, negative_edges) %>% tbl_df() %>% mutate(left_start = left_end - n_neighbor + 1, right_end = right_start + n_neighbor - 1) %>% as.data.frame
+  edges = rbind(positive_edges, negative_edges)
+  return(edges)
+}
+
+.extrapolate.neighbor = function(marker, sr, k, confident = 0.5){
+  n_neighbor = k * sr
+  edges = .extrapolate.edges(marker, confident)
+  neighbors = edges %>% tbl_df() %>% mutate(left_start = left_end - n_neighbor + 1, right_end = right_start + n_neighbor - 1) %>% as.data.frame
   neighbors$left_start = pmax(neighbors$left_start, 1)
   neighbors$right_end = pmin(neighbors$right_end, length(marker))
   return(neighbors)

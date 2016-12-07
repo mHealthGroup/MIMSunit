@@ -2,7 +2,6 @@ require(plyr)
 require(dplyr)
 require(ggplot2)
 require(reshape2)
-require(mhealthformatsupportr)
 require(mHealthR)
 require(doSNOW)
 cl = makeCluster(6, type = "SOCK")
@@ -10,11 +9,10 @@ registerDoSNOW(cl)
 filename = "inst/extdata/treadmill1.rds"
 walkrun1 = readRDS(filename)
 
-k = 0.65
-spar = 0.4
-
-
-
+k = 0.05
+spar = 0.6
+noise_level = 0.03
+scale_factor = 466.5
 
 settings = data.frame(
   resample = c(50, 50, 50),
@@ -44,21 +42,16 @@ device_settings = data.frame(
   ),
   stringsAsFactors = FALSE
 )
-selected_gt <- walkrun1 %>% filter(SR == "100" & GRANGE == "8")
+selected_gt <- walkrun1 %>% dplyr::filter(SR == "100" & GRANGE == "8")
 walkrun1_merged = adply(device_settings, 1, function(device) {
 
   new_data = ddply(selected_gt, .(MPH, SUBJECT, SESSION, WEIGHTS, LOCATION), function(segment) {
     require(plyr)
     require(dplyr)
-    require(mhealthformatsupportr)
-    makeNewSensor = function(oldData, new_range, new_sr){
-      newData = SensorData.interpolate(oldData, method = "spline_natural", sr = new_sr)
-      newData = SensorData.crop(newData, range = new_range)
-      return(newData)
-    }
+
     new_segment = segment %>%
       subset(select = 1:4) %>%
-      makeNewSensor(
+      Counts::make_sensor_data(
         new_range = c(-device$RANGE, device$RANGE),
         new_sr = device$SR
       )
@@ -86,20 +79,19 @@ walkrun1_merged = walkrun1_merged[c(
   "SESSION"
 )]
 
-walkrun2_merged <- rbind(walkrun1_merged, walkrun1 %>% filter(SR == "40"))
+walkrun2_merged <- rbind(walkrun1_merged, walkrun1 %>% dplyr::filter(SR == "40"))
 
 count_data = adply(settings, 1, function(setting) {
   require(mhealthformatsupportr)
   require(plyr)
-  counts = walkrun.count(
+  counts = experiment_treadmill_count(
     walkrun2_merged,
-    epoches = c('5 sec'),
-    resamples = c(setting$resample),
-    low_bandwidths = c(setting$low_bandwidth),
-    high_bandwidths = c(setting$high_bandwidth),
-    intTypes = c("trapz"),
-    k = c(k),
-    spar = c(spar),
+    epoch = '5 sec',
+    resample = setting$resample,
+    cutoffs = c(setting$low_bandwidth, setting$high_bandwidth),
+    integration = c("trapz"),
+    k = k,
+    spar = spar,
     use_extrapolate = setting$use_extrapolate,
     use_interpolate = setting$use_interpolate,
     use_resampling = TRUE,
@@ -114,7 +106,7 @@ filename = "inst/extdata/treadmill1_count_actigraph.rds"
 treadmill1_count_actigraph = readRDS(filename)
 
 treadmill1_count_actigraph$name = "Actigraph count algorithm"
-treadmill1_count_actigraph = treadmill1_count_actigraph %>% filter(!(ID == "GT9X" & SR == "40"))
+treadmill1_count_actigraph = treadmill1_count_actigraph %>% dplyr::filter(!(ID == "GT9X" & SR == "40"))
 stat_actigraph <- ddply(
   treadmill1_count_actigraph,
   c("ID", "GRANGE", "SR", "MPH", "name", "LOCATION"),
@@ -125,8 +117,8 @@ stat_actigraph <- ddply(
   se = sd / sqrt(N)
 )
 
-scale_factor = 466.5
-count_data = count_data %>% filter(!(ID == "GT9X" & SR == "40"))
+
+count_data = count_data %>% dplyr::filter(!(ID == "GT9X" & SR == "40"))
 stat_data <-
   ddply(
     count_data,
@@ -151,7 +143,7 @@ stat_data_merged$SERIES = factor(paste0(
 ))
 
 
-waist_stat = stat_data_merged %>% filter(LOCATION == "DominantWaist")
+waist_stat = stat_data_merged %>% dplyr::filter(LOCATION == "DominantWaist")
 
 
 p = ggplot(data = waist_stat, aes(
@@ -165,7 +157,8 @@ p = ggplot(data = waist_stat, aes(
     panel.background = element_rect('white'),
     panel.border = element_rect('white')
   ) +
-  stat_smooth(fill = NA, size = 0.3, color = "black", alpha = 0.5)
+  stat_smooth(fill = NA, size = 0.3, color = "black", alpha = 0.5) +
+  facet_wrap( ~ name, ncol = 2)
   # stat_smooth(data = waist_stat %>% filter(GRANGE == "8" & SR == "100"), aes(x = MPH * 1.609344,
 
 d = ggplot_build(p)
@@ -180,6 +173,8 @@ marker = ddply(d, c("group", "PANEL"), function(seg){
 
 marker$group = factor(marker$group, labels = c("ActivPal3: 20Hz, 2g", "GT3X: 30Hz, 3g", "GT3XBT: 40Hz, 6g", "GT3XBT: 80Hz, 6g",      "GT9X: 100Hz, 8g","GT9X: 60Hz, 8g","LG Urbane R: 100Hz, 2g", "Nexus 4: 50Hz, 4g"))
 marker$PANEL = marker$PANEL %>% as.numeric %>% factor(labels = c("Actigraph count algorithm", "Proposed", "Proposed with narrow passband (0.25-2.5Hz) \n and without extrapolation", "Proposed without extrapolation"))
+
+marker$name = marker$PANEL
 
 p2 = ggplot(marker, aes(x = x, y = y)) +
   geom_point(aes(shape = group)) + geom_line(aes(linetype = group)) +

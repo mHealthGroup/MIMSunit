@@ -2,7 +2,6 @@ require(plyr)
 require(dplyr)
 require(ggplot2)
 require(reshape2)
-require(mhealthformatsupportr)
 require(doSNOW)
 cl = makeCluster(6)
 registerDoSNOW(cl)
@@ -11,9 +10,10 @@ shaker2 = readRDS("inst/extdata/shaker2.rds")
 shaker3 = readRDS("inst/extdata/shaker3.rds")
 shaker4 = readRDS("inst/extdata/shaker4.rds")
 
-k = 0.65
-spar = 0.4
+k = 0.05
+spar = 0.6
 scale_factor = 466.5
+noise_level = 0.02
 
 settings = data.frame(
   resample = c(50, 50, 50, 50),
@@ -32,17 +32,16 @@ settings = data.frame(
 shaker_raw = rbind(shaker2, shaker3, shaker4)
 
 stat_data = adply(settings, 1, function(setting) {
-  require(mhealthformatsupportr)
   require(plyr)
-  counts = shaker.count(
+  counts = experiment_shaker_count(
     shaker_raw,
-    epoches = c('5 sec'),
-    resamples = c(setting$resample),
-    low_bandwidths = c(setting$low_bandwidth),
-    high_bandwidths = c(setting$high_bandwidth),
-    k = c(k),
-    spar = c(spar),
-    intTypes = c('trapz'),
+    epoch = '5 sec',
+    resample = setting$resample,
+    noise_level = noise_level,
+    cutoffs = c(setting$low_bandwidth, setting$high_bandwidth),
+    k = k,
+    spar = spar,
+    integration = 'trapz',
     use_extrapolate = setting$use_extrapolate,
     use_interpolate = setting$use_interpolate,
     use_resampling = TRUE,
@@ -92,7 +91,7 @@ stat_actigraph$use_interpolate = TRUE
 # stat_actigraph = stat_actigraph %>% filter(!(DEVICE == "TAS1E23150139" & SR == 60))
 #
 # Don't use ActivPal for actigraph count algorithm, meaningless
-stat_actigraph = stat_actigraph %>% filter(!(DEVICE == "ActivPal3"))
+stat_actigraph = stat_actigraph %>% dplyr::filter(!(DEVICE == "ActivPal3"))
 stat_data$name = as.character(stat_data$name)
 
 stat_data$SERIES = factor(paste0(

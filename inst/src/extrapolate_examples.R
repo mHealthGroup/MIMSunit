@@ -1,14 +1,14 @@
-require(mhealthformatsupportr)
 require(reshape2)
 require(plyr)
 require(dplyr)
 require(ggplot2)
+require(mHealthR)
 
 # extrapolation parameters ----
-k = 0.65
-spar = 0.4
+k = 0.05
+spar = 0.6
 confidence = 0.5
-noise_std = 0.02
+noise_level = 0.03
 
 gg_color_hue <- function(n) {
   hues = seq(15, 375, length = n + 1)
@@ -25,21 +25,21 @@ shaker2 = readRDS(filename)
 
 g3Shaker = shaker2 %>% dplyr::filter(GRANGE == 3 &
                                        RPM == 5) %>% select(c(1, 2))
-g3Shaker = g3Shaker %>% SensorData.clip(startTime = g3Shaker[1, 1] + 40, endTime = g3Shaker[1, 1] + 50)
+g3Shaker = g3Shaker %>% mHealthR::mhealth.clip(start_time = g3Shaker[1, 1] + 40, stop_time = g3Shaker[1, 1] + 50, file_type = "sensor")
 
 g6Shaker = shaker2 %>% dplyr::filter(GRANGE == 6 &
                                        RPM == 5) %>% select(c(1, 2))
-g6Shaker = g6Shaker %>% SensorData.clip(startTime = g6Shaker[1, 1] + 40, endTime = g6Shaker[1, 1] + 50)
+g6Shaker = g6Shaker %>% mHealthR::mhealth.clip(start_time = g6Shaker[1, 1] + 40, stop_time = g6Shaker[1, 1] + 50, file_type = "sensor")
 
-g6Shaker = g6Shaker %>% SensorData.offset(offsetValue = -0.11)
 
-g3Shaker_extrap = SensorData.extrapolate.v2(
+g6Shaker[[mhealth$column$TIMESTAMP]] = g6Shaker[[mhealth$column$TIMESTAMP]] - 0.11
+
+g3Shaker_extrap = Counts::extrapolate.data.frame(
   g3Shaker,
   range = c(-3, 3),
-  noise_std = noise_std,
+  noise_level = noise_level,
   k = k,
-  spar = spar,
-  confident = confidence
+  spar = spar
 )
 
 forPlot = rbind(
@@ -94,18 +94,17 @@ running_maxed_out = readRDS(filename)
 maxed_out_running = running_maxed_out %>% dplyr::filter(TYPE == "GT3X")
 gt_running = running_maxed_out %>% dplyr::filter(TYPE == "GT9X")
 grange = unique(maxed_out_running$GRANGE)
-extrapolatedData = SensorData.extrapolate.v2(
+extrapolatedData = Counts::extrapolate.data.frame(
   maxed_out_running[, 1:4],
   range = c(-grange, grange),
-  noise_std = noise_std,
+  noise_level = noise_level,
   k = k,
-  spar = spar,
-  confident = confidence
+  spar = spar
 )
 
-extrapolated_clip = extrapolatedData[, 1:2] %>% SensorData.clip(startTime = extrapolatedData[1, 1] + 20, endTime = extrapolatedData[1, 1] + 30)
-maxedout_clip = maxed_out_running[, 1:2] %>% SensorData.clip(startTime = extrapolatedData[1, 1] + 20, endTime = extrapolatedData[1, 1] + 30)
-gt_clip = gt_running[, 1:2] %>% SensorData.clip(startTime = extrapolatedData[1, 1] + 20, endTime = extrapolatedData[1, 1] +  30)
+extrapolated_clip = extrapolatedData[, 1:2] %>% mHealthR::mhealth.clip(start_time = extrapolatedData[1, 1] + 20, stop_time = extrapolatedData[1, 1] + 30, file_type = "sensor")
+maxedout_clip = maxed_out_running[, 1:2] %>% mHealthR::mhealth.clip(start_time = extrapolatedData[1, 1] + 20, stop_time = extrapolatedData[1, 1] + 30, file_type = "sensor")
+gt_clip = gt_running[, 1:2] %>% mHealthR::mhealth.clip(start_time = extrapolatedData[1, 1] + 20, stop_time = extrapolatedData[1, 1] +  30, file_type = "sensor")
 
 # plot
 #
@@ -156,13 +155,12 @@ jumping_jack_maxed_out = readRDS(filename)
 
 maxed_out_jj = jumping_jack_maxed_out %>% dplyr::filter(GRANGE == 3)
 gt_jj = jumping_jack_maxed_out %>% dplyr::filter(GRANGE == 8)
-extrap_jj = SensorData.extrapolate.v2(
+extrap_jj = extrapolate.data.frame(
   maxed_out_jj[, 1:2],
   range = c(-3, 3),
-  noise_std = noise_std,
+  noise_level = noise_level,
   k = k,
-  spar = spar,
-  confident = confidence
+  spar = spar
 )
 
 # plot
@@ -219,16 +217,15 @@ gt_fb = frisbee_maxed_out %>% dplyr::filter(GRANGE == 8)
 
 # clip
 st = maxed_out_fb[1, 1] + 22
-maxed_out_fb = maxed_out_fb %>% SensorData.clip(startTime = st, endTime = st + 10)
-gt_fb = gt_fb %>% SensorData.clip(startTime = st, endTime = st + 10)
+maxed_out_fb = maxed_out_fb %>% mHealthR::mhealth.clip(start_time = st, stop_time = st + 10, file_type = "sensor")
+gt_fb = gt_fb %>% mHealthR::mhealth.clip(start_time = st, stop_time = st + 10, file_type = "sensor")
 
-extrap_fb = SensorData.extrapolate.v2(
+extrap_fb = extrapolate.data.frame(
   maxed_out_fb[, 1:2],
   range = c(-3, 3),
-  noise_std = noise_std,
+  noise_level = noise_level,
   k = k,
-  spar = spar,
-  confident = confidence
+  spar = spar
 )
 
 # plot
@@ -285,16 +282,15 @@ gt_r2 = running2_maxed_out %>% dplyr::filter(GRANGE == 8)
 
 # clip
 st = maxed_out_r2[1, 1]
-maxed_out_r2 = maxed_out_r2 %>% SensorData.clip(startTime = st, endTime = st + 10)
-gt_r2 = gt_r2 %>% SensorData.clip(startTime = st, endTime = st + 10)
+maxed_out_r2 = maxed_out_r2 %>% mHealthR::mhealth.clip(start_time = st, stop_time = st + 10, file_type = "sensor")
+gt_r2 = gt_r2 %>% mHealthR::mhealth.clip(start_time = st, stop_time = st + 10, file_type = "sensor")
 
-extrap_r2 = SensorData.extrapolate.v2(
+extrap_r2 = extrapolate.data.frame(
   maxed_out_r2[, 1:4],
   range = c(-3, 3),
-  noise_std = noise_std,
+  noise_level = noise_level,
   k = k,
-  spar = spar,
-  confident = confidence
+  spar = spar
 )
 
 # plot
@@ -352,19 +348,18 @@ gt_running = walkrun1 %>% dplyr::filter(
     WEIGHTS == "0" &
     LOCATION == "NondominantWrist"
 )
-maxed_out_running = gt_running %>% SensorData.crop(range = c(-3, 3))
-extrap_running = SensorData.extrapolate.v2(
+maxed_out_running = gt_running %>% Counts::crop_grange(range = c(-3, 3), noise_std = noise_level * 1.5)
+extrap_running = extrapolate.data.frame(
   maxed_out_running[, 1:4],
   range = c(-3, 3),
-  noise_std = noise_std,
+  noise_level = noise_level,
   k = k,
-  spar = spar,
-  confident = confidence
+  spar = spar
 )
 startTime = extrap_running[1, 1]
-extrap_clip = extrap_running[, c(1, 3)] %>% SensorData.clip(startTime = startTime, endTime = startTime + 10)
-maxedout_clip = maxed_out_running[, c(1, 3)] %>% SensorData.clip(startTime = startTime, endTime = startTime + 10)
-gt_clip = gt_running[, c(1, 3)] %>% SensorData.clip(startTime = startTime, endTime = startTime + 10)
+extrap_clip = extrap_running[, c(1, 3)] %>% mHealthR::mhealth.clip(start_time = startTime, stop_time = startTime + 10, file_type = "sensor")
+maxedout_clip = maxed_out_running[, c(1, 3)] %>% mHealthR::mhealth.clip(start_time = startTime, stop_time = startTime + 10, file_type = "sensor")
+gt_clip = gt_running[, c(1, 3)] %>% mHealthR::mhealth.clip(start_time = startTime, stop_time = startTime + 10, file_type = "sensor")
 
 # plot
 #
@@ -379,13 +374,13 @@ p2 = ggplot(
   data = forPlot,
   aes(
     x = HEADER_TIME_STAMP,
-    y = Y_ACCELATION_METERS_PER_SECOND_SQUARED,
+    y = Y,
     colour = group,
     lty = group,
     alpha = group
   )
 ) +
-  geom_line(lwd = 1) + geom_point() +
+  geom_line(lwd = 1) +
   theme_minimal(base_size = 16) +
   scale_color_manual(values = c("gray", colors[2], colors[1]),
                      labels = labels) +
@@ -412,27 +407,27 @@ ggsave(
 }
 
 example_running4 = function(){
-  data("walkrun1")
+  filename = "inst/extdata/treadmill1.rds"
+  walkrun1 = readRDS(filename)
 
   gt_running = walkrun1 %>% dplyr::filter(
     SR == "100" &
       MPH == 8 &
-      WEIGHT == "0" &
+      WEIGHTS == "0" &
       SUBJECT == "P1" & SESSION == "1" & LOCATION == "NondominantWrist"
   )
-  maxed_out_running = gt_running %>% SensorData.crop(range = c(-3, 3))
-  extrap_running = SensorData.extrapolate.v2(
+  maxed_out_running = gt_running %>% Counts::crop_grange(range = c(-3, 3), noise_std = noise_level * 1.5)
+  extrap_running = Counts::extrapolate.data.frame(
     maxed_out_running[, 1:4],
     range = c(-3, 3),
-    noise_std = noise_std,
+    noise_level = noise_level,
     k = k,
-    spar = spar,
-    confident = confidence
+    spar = spar
   )
   startTime = extrap_running[1, 1]
-  extrap_clip = extrap_running[, c(1, 3)] %>% SensorData.clip(startTime = startTime, endTime = startTime + 10)
-  maxedout_clip = maxed_out_running[, c(1, 3)] %>% SensorData.clip(startTime = startTime, endTime = startTime + 10)
-  gt_clip = gt_running[, c(1, 3)] %>% SensorData.clip(startTime = startTime, endTime = startTime + 10)
+  extrap_clip = extrap_running[, c(1, 3)] %>% mHealthR::mhealth.clip(start_time = startTime, stop_time = startTime + 10, file_type = "sensor")
+  maxedout_clip = maxed_out_running[, c(1, 3)] %>% mHealthR::mhealth.clip(start_time = startTime, stop_time = startTime + 10, file_type = "sensor")
+  gt_clip = gt_running[, c(1, 3)] %>% mHealthR::mhealth.clip(start_time = startTime, stop_time = startTime + 10, file_type = "sensor")
 
   # plot
   #
@@ -447,13 +442,13 @@ example_running4 = function(){
     data = forPlot,
     aes(
       x = HEADER_TIME_STAMP,
-      y = Y_ACCELATION_METERS_PER_SECOND_SQUARED,
+      y = Y,
       colour = group,
       lty = group,
       alpha = group
     )
   ) +
-    geom_line(lwd = 1) + geom_point() +
+    geom_line(lwd = 1) +
     theme_minimal(base_size = 16) +
     scale_color_manual(values = c("gray", colors[2], colors[1]),
                        labels = labels) +
@@ -470,7 +465,7 @@ example_running4 = function(){
     theme(legend.position = "bottom")
 
   ggsave(
-    path = file.path("inst/publications/"),
+    path = file.path("inst/figure/"),
     filename = "extrapolate_example_running_4.png",
     plot = p2,
     scale = 2,
@@ -478,3 +473,11 @@ example_running4 = function(){
     height = 2
   )
 }
+
+example_shaker()
+example_jumpingjack()
+example_frisbee()
+example_running1()
+example_running2()
+example_running3()
+example_running4()

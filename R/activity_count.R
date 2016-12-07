@@ -1,0 +1,94 @@
+#' @name activity_count
+#' @title Compute activity counts using [citation] algorithm
+#' @return Will return NA if a segment break is too short to have enough samples to compute AUC
+#' @param df input sensor data frame that fits the mhealth specification
+#' @param breaks epoch to compute counts on
+#' @param range dynamic range of the device (two element vector)
+#' @param noise_level noise level should be between 0.01 and 0.1
+#' @param k neighborhood duration for extrapolation in seconds, default is 0.1 seconds
+#' @param spar smoothing parameter for extrapolation, default is 0.4
+#' @param resample set 0 to not use resampling, otherwise set to the desired sampling rate in numerical, e.g 40 for 40Hz. Default is 50.
+#' @param filter "butter", "ellip", "bessel"
+#' @param cutoffs cut off frequencies to be used in filtering, default is 0.3Hz and 5Hz. If choosing bessel, the low pass cut off would be multipled by 2 when being used.
+#' @param integration the integration method to be used: "trapz", "absoluteMeanByPoints".
+#' @export
+activity_count = function(df,
+                          breaks = "5 sec",
+                          range,
+                          noise_level,
+                          k = 0.65,
+                          spar = 0.4,
+                          resample = 50,
+                          filter_type = "butter",
+                          cutoffs = c(0.2, 5),
+                          integration = "trapz",
+                          axes = c(2, 3, 4),
+                          use_extrapolation = TRUE,
+                          use_interpolation = TRUE,
+                          use_resampling = TRUE,
+                          use_filtering = TRUE) {
+
+  # apply extrapolation algorithm
+  if (use_extrapolation) {
+    extrapolatedData = extrapolate.data.frame(df, range, noise_level, k, spar)
+  } else if (use_interpolation) {
+    extrapolatedData = interpolate(df, sr = 100, method = "spline_natural")
+  } else{
+    extrapolatedData = df
+  }
+
+  sr = sampling_rate(extrapolatedData)
+  # Resample to a consistent sampling rate
+  if (use_resampling) {
+    resampledData = Counts::resample(extrapolatedData, origSr = sr, newSr = resample)
+    # update to the new sampling rate
+    sr = resample
+  } else{
+    resampledData = extrapolatedData
+  }
+
+  # Apply filter cascade
+  if (use_filtering) {
+    if (filter_type == "butter") {
+      filteredData = iir(
+        resampledData,
+        Fs = sr,
+        Fc = cutoffs,
+        order = 4,
+        type = "pass",
+        filter_type = "butter"
+      )
+    } else if (filter_type == "bessel") {
+      filteredData = average_removal(resampledData, Fs = sr, order = 0.5)
+      filteredData = filteredData[[1]]
+      filteredData = bessel(filteredData,
+                            Fs = sr,
+                            Fc = cutoffs[2] * 2,
+                            order = 8)
+    } else if (filter_type == "ellip") {
+      filteredData = iir(
+        resampledData,
+        Fs = sr,
+        Fc = cutoffs,
+        order = 4,
+        type = "pass",
+        filter_type = "ellip"
+      )
+    }
+  } else{
+    filteredData = resampledData
+  }
+
+
+  # Compute the AUC
+  integratedData = Counts::aggregate(
+    filteredData,
+    breaks = breaks,
+    type = integration,
+    rectify = TRUE
+  )
+
+  # Compute vector magnitude
+  countsData = magnitude(integratedData, axes = axes)
+  return(countsData)
+}
