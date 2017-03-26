@@ -114,6 +114,8 @@ error_data_melted = error_data_merged %>% dplyr::filter(
   !name == "Proposed with narrower passband (0.25-2.5Hz)\n and without extrapolation, resample to 10Hz"
 ) %>% melt(c("RPM", "name"))
 
+write.csv(error_data_melted, file = "inst/table/shaker_consistency_cv.csv", quote = FALSE, row.names = FALSE)
+
 p = ggplot(error_data_melted,
            aes(
              x = RPM,

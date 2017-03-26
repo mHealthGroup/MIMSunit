@@ -13,6 +13,7 @@ shaker4 = readRDS("inst/extdata/shaker4.rds")
 k = 0.05
 spar = 0.6
 scale_factor = 466.5
+acc_factor = 60 / 5 #(accumulate to 60 sec counts, based on 5 sec counts)
 noise_level = 0.02
 
 settings = data.frame(
@@ -53,8 +54,10 @@ stat_data = adply(settings, 1, function(setting) {
     c("DEVICE", "GRANGE", "SR", "RPM"),
     summarise,
     N = length(COUNT),
-    mean = mean(COUNT) * scale_factor,
-    sd   = sd(COUNT) * scale_factor,
+    mean = mean(COUNT * acc_factor),
+    sd = sd(COUNT * acc_factor),
+    # mean = mean(COUNT) * scale_factor,
+    # sd   = sd(COUNT) * scale_factor,
     se   = sd / sqrt(N),
     cv = sd / mean
   )
@@ -74,8 +77,8 @@ stat_actigraph = shaker_actigraph %>% ddply(
   c("DEVICE", "GRANGE", "SR", "RPM"),
   summarise,
   N = length(ACTIGRAPH),
-  mean = mean(ACTIGRAPH),
-  sd   = sd(ACTIGRAPH),
+  mean = mean(ACTIGRAPH * acc_factor),
+  sd   = sd(ACTIGRAPH * acc_factor),
   se   = sd / sqrt(N),
   cv = sd / mean
 )
@@ -108,6 +111,7 @@ stat_actigraph$SERIES = factor(paste0(
 
 stat_data_merged = rbind(stat_data, stat_actigraph)
 
+
 stat_data_merged$name = factor(stat_data_merged$name, levels = c(c(
   "Actigraph count algorithm",
   "Proposed with narrow passband (0.25-2.5Hz)",
@@ -115,6 +119,13 @@ stat_data_merged$name = factor(stat_data_merged$name, levels = c(c(
   "Proposed",
   "Proposed without extrapolation"
 )))
+
+stat_data_save = stat_data_merged
+stat_data_save$name = as.character(stat_data_save$name)
+
+stat_data_save[stat_data_save$name == "Proposed with narrow passband (0.25-2.5Hz) \n and without extrapolation", "name"] = "Proposed with narrow passband (0.25-2.5Hz) and without extrapolation"
+
+write.csv(stat_data_save, file = "inst/table/shaker_consistency_detail.csv", quote = FALSE, row.names = FALSE)
 
 p = ggplot(data = stat_data_merged, aes(
   x = RPM,

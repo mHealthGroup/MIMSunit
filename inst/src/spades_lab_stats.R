@@ -1,7 +1,7 @@
 require(plyr)
 require(dplyr)
 require(stringr)
-filename = "C:/Users/Qu/Projects/R/Counts/inst/extdata/spades_lab_stats.rds"
+filename = "inst/extdata/spades_lab_stats.rds"
 spades_lab_stats = readRDS(filename)
 
 act_list = c("lying",
@@ -30,28 +30,28 @@ spades_lab_stats[str_detect(spades_lab_stats$ACTIVITY_NAME, "walking at 3mph"),"
 
 spades_lab_stats = spades_lab_stats %>%
   ddply(c("ACTIVITY_NAME", "LOCATION"), summarise,
-        SD_AMP = sd(AVERAGE_AMP),
-        MIN_AMP = min(AVERAGE_AMP),
-        MEAN_AMP = mean(AVERAGE_AMP),
-        MEDIAN_AMP = median(AVERAGE_AMP),
-        MAX_AMP = max(AVERAGE_AMP),
-        SD_DOMINANT_FREQ = sd(AVERAGE_DOMINANT_FREQ),
-        MIN_DOMINANT_FREQ = min(AVERAGE_DOMINANT_FREQ),
-        MEAN_DOMINANT_FREQ = mean(AVERAGE_DOMINANT_FREQ),
-        MEDIAN_DOMINANT_FREQ = median(AVERAGE_DOMINANT_FREQ),
-        MAX_DOMINANT_FREQ = max(AVERAGE_DOMINANT_FREQ),
-        SD_DOMINANT_FREQ_SECOND = sd(AVERAGE_DOMINANT_FREQ_SECOND),
-        MIN_DOMINANT_FREQ_SECOND = min(AVERAGE_DOMINANT_FREQ_SECOND),
-        MEAN_DOMINANT_FREQ_SECOND = mean(AVERAGE_DOMINANT_FREQ_SECOND),
-        MEDIAN_DOMINANT_FREQ_SECOND = median(AVERAGE_DOMINANT_FREQ_SECOND),
-        MAX_DOMINANT_FREQ_SECOND = max(AVERAGE_DOMINANT_FREQ_SECOND),
-        SD_DOMINANT_FREQ_THIRD = sd(AVERAGE_DOMINANT_FREQ_THIRD),
-        MIN_DOMINANT_FREQ_THIRD = min(AVERAGE_DOMINANT_FREQ_THIRD),
-        MEAN_DOMINANT_FREQ_THIRD = mean(AVERAGE_DOMINANT_FREQ_THIRD),
-        MEDIAN_DOMINANT_FREQ_THIRD = median(AVERAGE_DOMINANT_FREQ_THIRD),
-        MAX_DOMINANT_FREQ_THIRD = max(AVERAGE_DOMINANT_FREQ_THIRD)
+        SD_AMP = sd(, na.rm = TRUE),
+        MIN_AMP = min(AMP, na.rm = TRUE),
+        MEAN_AMP = mean(AMP, na.rm = TRUE),
+        MEDIAN_AMP = median(AMP, na.rm = TRUE),
+        MAX_AMP = max(AMP, na.rm = TRUE),
+        SD_DOMINANT_FREQ = sd(DOMINANT_FREQ, na.rm = TRUE),
+        MIN_DOMINANT_FREQ = min(DOMINANT_FREQ, na.rm = TRUE),
+        MEAN_DOMINANT_FREQ = mean(DOMINANT_FREQ, na.rm = TRUE),
+        MEDIAN_DOMINANT_FREQ = median(DOMINANT_FREQ, na.rm = TRUE),
+        MAX_DOMINANT_FREQ = max(DOMINANT_FREQ, na.rm = TRUE),
+        SD_DOMINANT_FREQ_SECOND = sd(DOMINANT_FREQ_SECOND, na.rm = TRUE),
+        MIN_DOMINANT_FREQ_SECOND = min(DOMINANT_FREQ_SECOND, na.rm = TRUE),
+        MEAN_DOMINANT_FREQ_SECOND = mean(DOMINANT_FREQ_SECOND, na.rm = TRUE),
+        MEDIAN_DOMINANT_FREQ_SECOND = median(DOMINANT_FREQ_SECOND, na.rm = TRUE),
+        MAX_DOMINANT_FREQ_SECOND = max(DOMINANT_FREQ_SECOND, na.rm = TRUE),
+        SD_DOMINANT_FREQ_THIRD = sd(DOMINANT_FREQ_THIRD, na.rm = TRUE),
+        MIN_DOMINANT_FREQ_THIRD = min(DOMINANT_FREQ_THIRD, na.rm = TRUE),
+        MEAN_DOMINANT_FREQ_THIRD = mean(DOMINANT_FREQ_THIRD, na.rm = TRUE),
+        MEDIAN_DOMINANT_FREQ_THIRD = median(DOMINANT_FREQ_THIRD, na.rm = TRUE),
+        MAX_DOMINANT_FREQ_THIRD = max(DOMINANT_FREQ_THIRD, na.rm = TRUE)
         )
 
-stats_in_paper = spades_lab_stats %>% filter(LOCATION == "DOMINANT WAIST" | LOCATION == "NON DOMINANT WRIST")
+stats_in_paper = spades_lab_stats %>% filter(LOCATION == "DOMINANT HIP" | LOCATION == "NON DOMINANT WRIST")
 stats_in_paper[3:ncol(stats_in_paper)] = round(stats_in_paper[3:ncol(stats_in_paper)], digits = 2)
-write.csv(x = stats_in_paper, file = "inst/table/spades_lab_count_stats.csv", quote = FALSE, row.names = FALSE)
+write.csv(x = stats_in_paper, file = "inst/table/spades_lab_count_stats.v2.csv", quote = FALSE, row.names = FALSE)

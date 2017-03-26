@@ -118,57 +118,17 @@ p1Data = p1Data %>% mutate(LOCATION_TYPE = str_sub(LOCATION, start = -5, end = -
 # scatter + box plot
 p1Data = p1Data %>% dplyr::filter(LOCATION == "NON DOMINANT WRIST" | LOCATION == "DOMINANT WAIST")
 p1Data$LOCATION = str_to_title(p1Data$LOCATION)
-p1 = ggplot(data = p1Data, aes(x = ACTIVITY_NAME, y = value)) +
 
-  geom_point(aes(colour = SUBJECT_ID, group = factor(TYPE)), alpha = 0.2, position = position_jitterdodge(dodge.width=0.75, jitter.width=0.3)) +
-  scale_colour_gradientn(colors = terrain.colors(50), guide = FALSE) +
-  geom_boxplot(aes(fill = TYPE), outlier.colour = NA, alpha = 0.5) +
+t_test_data = p1Data %>% ddply(.(ACTIVITY_NAME, LOCATION), function(rows){
+  counts = rows %>% filter(TYPE == "COUNTS")
+  counts_maxedout = rows %>% filter(TYPE == "COUNTS_MAXEDOUT")
+  actigraph = rows %>% filter(TYPE == "ACTIGRAPH")
+  actigraph_maxedout = rows %>% filter(TYPE == "ACTIGRAPH_MAXEDOUT")
+  counts_t = t.test(counts$value, counts_maxedout$value, paired = FALSE)
+  counts_p = counts_t$p.value
+  actigraph_t = t.test(actigraph$value, actigraph_maxedout$value, paired = FALSE)
+  actigraph_p = actigraph_t$p.value
+  return(data.frame(counts_p, actigraph_p))
+})
 
-  # stat_summary(fun.y = median, fun.ymin = function(x){return(quantile(x, probs = 0.25))}, fun.ymax = function(x){return(quantile(x, probs = 0.75))}, geom = "crossbar", width = 0.3) +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = -45, hjust = 0), legend.position = "bottom") +
-  xlab("") +
-  ylab("Activity counts") +
-  facet_grid(LOCATION ~ .)
-
-# box plot
-# p2Data = p1Data %>% filter(TYPE == "ACTIGRAPH" | TYPE == "COUNTS")
-p2Data = p1Data
-
-legend = guide_legend(title = NULL, ncol = 2)
-labels = c("Actigraph counts", "Actigraph counts (2g maxedout)", "Proposed counts", "Proposed counts (2g maxedout)")
-p2 = ggplot(data = p2Data, aes(x=ACTIVITY_NAME, y = value)) +
-  geom_boxplot(aes(fill = TYPE, linetype = TYPE), outlier.colour = NA) +
-  theme_bw() +
-  theme(axis.text.x = element_text(angle = -90, hjust = 0), legend.position = "bottom",
-        legend.margin = unit(10 ^ -3, 'inch'),
-        panel.margin = unit(0.1, 'inch'),
-        axis.text = element_text(margin = margin(0, 0, 0, 0)),
-        plot.margin = margin(0, 0, 0, 0, 'inch'),
-        strip.background = element_blank(),
-        legend.key = element_blank()) +
-  ylim(c(0, 3000)) +
-  xlab("") +
-  ylab("Counts") +
-  scale_fill_manual(labels = labels, values = c("gray60", "gray60", "white", "white"), guide = legend) +
-  scale_linetype_manual(labels = labels, values = c("solid", "dashed", "solid", "dashed"), guide = legend) +
-  facet_wrap(~LOCATION, ncol = 1)
-
-# compensation
-# runningData = p1Data %>%
-#   dplyr::filter(ACTIVITY_NAME == "running at 5.5mph 5% grade") %>%
-#   group_by(LOCATION, TYPE) %>%
-#   dplyr::summarise(mean_val = mean(value)) %>%
-#   recast(LOCATION ~ TYPE) %>%
-#   mutate(ACTIGRAPH_CHANGE = (ACTIGRAPH - ACTIGRAPH_MAXEDOUT)/ACTIGRAPH, COUNTS_CHANGE = (COUNTS - COUNTS_MAXEDOUT)/COUNTS)
-#
-# frisbeeData = p1Data %>%
-#   dplyr::filter(ACTIVITY_NAME == "frisbee") %>%
-#   group_by(LOCATION, TYPE) %>%
-#   dplyr::summarise(mean_val = mean(value)) %>%
-#   recast(LOCATION ~ TYPE) %>%
-#   mutate(ACTIGRAPH_CHANGE = (ACTIGRAPH - ACTIGRAPH_MAXEDOUT)/ACTIGRAPH, COUNTS_CHANGE = (COUNTS - COUNTS_MAXEDOUT)/COUNTS)
-#
-# ggsave(plot = p1, filename = file.path("inst/figure/", "activity_boxscatter_counts.png"), device = "png", scale = 3, width = 6, height = 3)
-ggsave(plot = p2, filename = file.path("inst/figure/", "spades_lab_counts.png"), device = "png", scale = 0.8, width = 10, height = 8)
-
+write.csv(x = t_test_data, file = "inst/table/spades_lab_count_t_test.csv", quote = FALSE, row.names = FALSE, col.names = TRUE)

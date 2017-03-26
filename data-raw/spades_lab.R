@@ -4,7 +4,7 @@
 # 2. Clean up and merge annotation files
 # 3. Map locations to different data
 
-require(mhealthformatsupportr)
+# require(mhealthformatsupportr)
 require(mHealthR)
 require(foreach)
 require(ggplot2)
@@ -14,9 +14,8 @@ require(stringr)
 require(doSNOW)
 cl = makeCluster(4)
 registerDoSNOW(cl)
-from = "../../CleanLabDataset"
-to = "offline_data/spades_lab"
-to_merge = "offline_data/spades_lab_merged"
+from = "../../data/CleanLabDataset"
+to_merge = "../../data/SPADES_LAB_MERGED/data/"
 ready_folder = "ready"
 maxedout_folder = 'maxedout'
 counts_folder = "counts"
@@ -278,7 +277,7 @@ computeCounts = function(subjects, input_folder, output_folder, range){
 
     print(paste("Compute activity counts for ", subj))
 
-    sensorFiles = normalizePath(list.files(path = file.path(to_merge, input_folder), pattern = paste0(subj, "_TAS.*sensor.csv.*"), full.names = TRUE))
+    sensorFiles = normalizePath(list.files(path = file.path(to_merge), pattern = paste0(subj, "_TAS.*sensor.csv.*"), full.names = TRUE, recursive = TRUE))
     # summarize sensors
     l_ply(sensorFiles, function(sensorFile){
       k = 0.05
@@ -307,7 +306,7 @@ computeCounts = function(subjects, input_folder, output_folder, range){
                                                 filter_type = "butter",
                                                 cutoffs = c(0.2, 5),
                                                 integration = "trapz")
-      dir.create(file.path(to_merge, output_folder), recursive = TRUE)
+      dir.create(file.path(to_merge, "stat"), recursive = TRUE)
       SensorData.io.write(file.path(to_merge, output_folder), count,
                           custom_name = paste(paste(subj, sensorId, sensorLocation, sep = "_"),"count", "csv", sep = "."), append = FALSE,
                           header = TRUE,
@@ -324,27 +323,19 @@ computeStats = function(subjects, input_folder, output_folder){
 
     print(paste("Compute stats and characteristics for ", subj))
 
-    sensorFiles = normalizePath(list.files(path = file.path(to_merge, input_folder), pattern = paste0(subj, "_TAS.*sensor.csv.*"), full.names = TRUE))
+    sensorFiles = normalizePath(list.files(path = file.path(input_folder), pattern = paste0(subj, "_TAS.*.RData"), full.names = TRUE, recursive = TRUE))
     # summarize sensors
     l_ply(sensorFiles, function(sensorFile){
       require(mHealthR)
       require(stringr)
       sensorId = str_split(basename(sensorFile), "_")[[1]][3]
-      sensorLocation = str_split(basename(sensorFile), "_")[[1]][4]
-
-      print(paste("Read in", sensorId, "at", sensorLocation))
-
-      if(subj == "SPADES_7" && str_detect(sensorLocation, "^non dominant wrist*")){
-        print("This sensor is malfunctioning, skip")
-      }else{
-
-        sensorData = SensorData.importCsv(sensorFile)
-        segmentedData = mHealthR::mhealth.segment(sensorData, breaks = "5 sec", file_type = "sensor")
-        statsData = mHealthR::mhealth.extract_characteristics(segmentedData, file_type = "sensor", select_cols = c(2,3,4), group_cols = c("SEGMENT"), preset = "primary")
-        statsData[7:ncol(statsData)] = round(statsData[7:ncol(statsData)], digits = 4)
-        dir.create(file.path(to_merge, output_folder), recursive = TRUE)
-        write.csv(x = statsData, file = file.path(to_merge, output_folder, paste(paste(subj, sensorId, sensorLocation, sep = "_"),"stat", "csv", sep = ".")), append = FALSE, row.names = FALSE, quote = FALSE)
-      }
+      print(paste("Read in ", sensorId))
+      load(sensorFile)
+      segmentedData = mHealthR::mhealth.segment(sensor_data, breaks = "5 sec", file_type = "sensor")
+      statsData = mHealthR::mhealth.extract_characteristics(segmentedData, file_type = "sensor", select_cols = c(2,3,4), group_cols = c("SEGMENT"), preset = "primary")
+      statsData[7:ncol(statsData)] = round(statsData[7:ncol(statsData)], digits = 4)
+      dir.create(output_folder, recursive = TRUE)
+      write.csv(x = statsData, file = file.path(output_folder, paste(paste(subj, sensorId, sep = "_"),"stat", "csv", sep = ".")), append = FALSE, row.names = FALSE, quote = FALSE)
     }, .parallel = FALSE, .progress = progress_text())
   }
 }
@@ -621,73 +612,55 @@ getCountsPerActivities = function(subjects, locations = c("dominant wrist", "dom
 }
 
 
-getStatsPerActivities = function(subjects, locations = c("dominant wrist", "dominant waist")){
-  final_result = data.frame()
+getStatsPerActivities = function(subjects, locations = c("non dominant wrist", "dominant hip"), input_folder){
+  require(spades)
+  statsData = data.frame()
   for(subj in subjects){
     print(paste("process", subj))
-    actFile = list.files(path = file.path(to_merge, "activities"), pattern = paste0(subj,"_SPADESInLab.*activity.*"), full.names = TRUE, recursive = FALSE)
-    if(length(actFile) == 0){
-      print(paste("Not found activity file:", subj))
-      next;
+    subj_id = as.numeric(str_split(subj, "_")[[1]][2])
+    # ---- load activity file for subject ----
+    activityFile = list.files(input_folder, pattern = paste0(subj, "_.*\\.activity\\.csv"), full.names = TRUE, recursive = TRUE)
+    if(length(activityFile) == 0){
+      print(paste("Not found activity file: ", subj))
+      activities = data.frame()
     }else{
-      actFile = actFile[[1]]
-      activities = read.csv(actFile, quote = '"', stringsAsFactors = FALSE)
-      activities[,2] = as.POSIXct(activities[,2], format = "%Y-%m-%d %H:%M:%OS")
-      activities[,3] = as.POSIXct(activities[,3], format = "%Y-%m-%d %H:%M:%OS")
+      activityFile = activityFile[[1]]
+      activities = read.csv(activityFile, stringsAsFactors = FALSE, header = TRUE)
     }
 
-    statsData = list()
+    # ---- load stat file for subject and locations ----
     for(loc in locations){
-      # our own stats
-      statsFile = list.files(path = file.path(to_merge, "own_stat"), pattern = paste0(subj, "_TAS.*_", loc, "\\.stat\\.csv"), full.names = TRUE, recursive = FALSE)
-
+      sensor_id = spades::map_location_to_sid(subj_id, locations = loc)
+      statsFile = list.files(input_folder, pattern = paste0(subj, "_", sensor_id, ".*\\.stat\\.csv"), full.names = TRUE, recursive = TRUE)
       if(length(statsFile) == 0){
-        print(paste("Not found own stats:", subj, ",", loc))
+        print(paste("Not found stats file:", subj, ",", loc))
       }else{
         statsFile = statsFile[[1]]
-        statsData[[loc]] = read.csv(statsFile, stringsAsFactors = FALSE)
-        statsData[[loc]] = mhealth.convert(statsData[[loc]], file_type = "feature", required_cols = 3:20, group_cols = 1:2, datetime_format = mhealth$format$csv$TIMESTAMP, timezone = Sys.timezone())
-        statsData[[loc]] = statsData[[loc]] %>%
-          ddply(c("SEGMENT"), summarize,
-                HEADER_TIME_STAMP = HEADER_TIME_STAMP[[1]],
-                START_TIME = START_TIME[[1]],
-                STOP_TIME = STOP_TIME[[1]],
-                AVERAGE_AMP = mean(AMP),
-                SD_AMP = sd(AMP),
-                AVERAGE_DOMINANT_FREQ = mean(DOMINANT_FREQ),
-                SD_DOMINANT_FREQ = sd(DOMINANT_FREQ),
-                AVERAGE_DOMINANT_FREQ_SECOND = mean(DOMINANT_FREQ_SECOND),
-                SD_DOMINANT_FREQ_SECOND = sd(DOMINANT_FREQ_SECOND),
-                AVERAGE_DOMINANT_FREQ_THIRD =mean(DOMINANT_FREQ_THIRD),
-                SD_DOMINANT_FREQ_THIRD = sd(DOMINANT_FREQ_THIRD)
-          , .progress = progress_text())
+        tmpData = read.csv(statsFile, stringsAsFactors = FALSE)
+        tmpData = mhealth.convert(tmpData, file_type = "feature", required_cols = 3:20, group_cols = 1:2, datetime_format = mhealth$format$csv$TIMESTAMP, timezone = Sys.timezone())
+        statsPerActivity = adply(activities, 1, function(row){
+          st = row[[2]]
+          et = row[[3]]
+          result = data.frame()
+          if(subj == "SPADES_7" & loc == 'non dominant wrist'){
+            print("skip malfunctional sensor")
+          }
+          if(length(tmpData) > 0){
+            selected_data = mhealth.clip(tmpData, start_time = st, stop_time = et, file_type = "feature")
+          }else{
+            selected_data = data.frame()
+          }
+          if(nrow(selected_data) > 0){
+            selected_data = data.frame(selected_data, LOCATION = toupper(loc), SUBJ = subj, stringsAsFactors = FALSE)
+            result = rbind(result, selected_data)
+          }
+          return(result)
+        })
+        statsData = rbind(statsData, statsPerActivity)
       }
     }
-
-    statsPerActivity = adply(activities, 1, function(row){
-      st = row[[2]]
-      et = row[[3]]
-      result = data.frame()
-      for(loc in locations){
-        if(subj == "SPADES_7" & loc == 'non dominant wrist'){
-          print(subj)
-        }
-        if(length(statsData[[loc]]) > 0){
-          selected_stats = mhealth.clip(statsData[[loc]], start_time = st, stop_time = et, file_type = "feature")
-        }else{
-          selected_stats = data.frame()
-        }
-        if(nrow(selected_stats) > 0){
-          selected_stats = data.frame(selected_stats, LOCATION = toupper(loc), stringsAsFactors = FALSE)
-          result = rbind(result, selected_stats)
-        }
-      }
-      return(result)
-    })
-    statsPerActivity = data.frame(statsPerActivity, SUBJECT = subj, stringsAsFactors = FALSE)
-    final_result = rbind(final_result, statsPerActivity)
   }
-  return(final_result)
+  return(statsData)
 }
 
 ids = seq(1, 51)
@@ -711,6 +684,7 @@ exclude_ids = c(5, 33)
 # sensor_ids = c(7)
 # sensor_ids = setdiff(sensor_ids, exclude_ids)
 sensor_ids = setdiff(ids, exclude_ids)
+# sensor_ids = c(31, 32)
 sensor_subjects = paste("SPADES", sensor_ids, sep = "_")
 # extractActivities(sensor_subjects)
 # mergeSpadesLabWatchFiles(sensor_subjects)
@@ -719,20 +693,20 @@ sensor_subjects = paste("SPADES", sensor_ids, sep = "_")
 # putFilesTogether(sensor_subjects)
 # computeCounts(sensor_subjects, "own", "own_count", c(-8,8))
 # computeCounts(sensor_subjects, "own_maxedout", "own_maxedout_count", c(-2, 2))
-# computeStats(sensor_subjects, "own", "own_stat")
+# computeStats(sensor_subjects, "../../data/SPADES_LAB_MERGED/data/", "../../data/SPADES_LAB_MERGED/stats/")
 # subjData = summarizeParticipantInfo(sensor_subjects)
 # stopCluster(cl)
 
 # overall
 # ids = setdiff(ids, exclude_ids)
 # subjects = paste("SPADES", ids, sep = "_")
-# spades_lab_stats = getStatsPerActivities(subjects = sensor_subjects, locations = c("dominant wrist", "dominant waist", "non dominant wrist", "non dominant waist", "dominant ankle", "non dominant ankle"))
-spades_lab_counts = getCountsPerActivities(sensor_subjects, locations = c("dominant wrist", "dominant waist", "non dominant wrist", "non dominant waist", "dominant ankle", "non dominant ankle"))
+spades_lab_stats = getStatsPerActivities(subjects = sensor_subjects, locations = c("non dominant wrist", "dominant hip"), input_folder = "../../data/SPADES_LAB_MERGED/")
+# spades_lab_counts = getCountsPerActivities(sensor_subjects, locations = c("dominant wrist", "dominant waist", "non dominant wrist", "non dominant waist", "dominant ankle", "non dominant ankle"))
 # devtools::use_data(spades_lab_counts, compress = "bzip2", overwrite = TRUE)
-saveRDS(spades_lab_counts, file = "inst/extdata/spades_lab_counts.rds", compress = TRUE)
+# saveRDS(spades_lab_counts, file = "inst/extdata/spades_lab_counts.rds", compress = TRUE)
 #
 # devtools::use_data(spades_lab_stats, compress = "bzip2", overwrite = TRUE)
-# saveRDS(spades_lab_stats, file = "inst/extdata/spades_lab_stats.rds", compress = TRUE)
+saveRDS(spades_lab_stats, file = "inst/extdata/spades_lab_stats.rds", compress = TRUE)
 
 
 
