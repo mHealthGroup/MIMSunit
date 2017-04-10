@@ -6,4 +6,3 @@
 \usage{
 sampling_rate(df)
 }
-

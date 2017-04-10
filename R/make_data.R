@@ -2,7 +2,6 @@
 #' @title Crop grange for sensor data
 #' @export
 #' @import plyr
-
 crop_grange = function(df, range = NULL, noise_std = 0.03){
   if(!is.null(range)){
     upper = range[2]

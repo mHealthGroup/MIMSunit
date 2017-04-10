@@ -1,5 +1,6 @@
 require(ggplot2)
-
+require(dplyr)
+require(caTools)
 filename = "inst/extdata/filter_examples.rds"
 filter_examples = readRDS(filename)
 
@@ -114,44 +115,54 @@ ggsave(
 )
 }
 
-example_butter_vs_elliptic()
+# example_butter_vs_elliptic()
 
 # justify higher end cut off
 
 example_higher_cutoff = function(){
 running_data = filter_examples %>% dplyr::filter(ACTIVITY == "Running at 5.5mph")
 running = running_data[, c(1, 2)]
-butter_running = SensorData.filter.iir(
+butter_running = Counts::iir(
   running,
   Fs = 80,
   Fc = c(0.2, 5),
   order = 4,
-  filter = "butter",
+  filter_type = "butter",
   type = "pass"
-)[[1]]
-butter_narrow_running = SensorData.filter.iir(
+)
+butter_narrow_running = Counts::iir(
   running,
   Fs = 80,
   Fc = c(0.25, 2.5),
   order = 4,
-  filter = "butter",
+  filter_type = "butter",
   type = "pass"
-)[[1]]
+)
 
 names(butter_running) = names(running)
 names(butter_narrow_running) = names(running)
 
 st = running[1, 1] + 20
-running = SensorData.clip(running, startTime = running[1, 1], endTime = running[1, 1] + 15)
-butter_running = SensorData.clip(butter_running,
-                                 startTime = running[1, 1],
-                                 endTime = running[1, 1] + 15)
-butter_narrow_running = SensorData.clip(butter_narrow_running,
-                                        startTime = running[1, 1],
-                                        endTime = running[1, 1] + 15)
+running = mHealthR::mhealth.clip(running, start_time = running[1, 1], stop_time = running[1, 1] + 15, file_type = "sensor")
+butter_running = mHealthR::mhealth.clip(butter_running,
+                                 start_time = running[1, 1],
+                                 stop_time = running[1, 1] + 15,
+                                 file_type = "sensor")
+butter_narrow_running = mHealthR::mhealth.clip(butter_narrow_running,
+                                        start_time = running[1, 1],
+                                        stop_time = running[1, 1] + 15,
+                                        file_type = "sensor")
 running = data.frame(running, group = "original")
 butter_running = data.frame(butter_running, group = "butterworth")
 butter_narrow_running = data.frame(butter_narrow_running, group = "butter_narrowtic")
+
+auc_running = trapz(butter_running[[1]], abs(butter_running[[2]]))
+auc_narrow_running = trapz(butter_narrow_running[[1]], abs(butter_narrow_running[[2]]))
+
+print(auc_running)
+print(auc_narrow_running)
+
+print(abs(auc_narrow_running - auc_running)/auc_running)
 
 running_forplot = rbind(running, butter_running, butter_narrow_running)
 
@@ -224,43 +235,53 @@ ggsave(
   height = 2
 )
 }
-example_higher_cutoff()
+# example_higher_cutoff()
 
 # walking at 1mph
 example_lower_cutoff = function(){
 walking_data = filter_examples %>% dplyr::filter(ACTIVITY == "Walking at 1mph")
 walking = walking_data[, c(1, 4)]
-butter_walking = SensorData.filter.iir(
+butter_walking = Counts::iir(
   walking,
   Fs = 80,
   Fc = c(0.2, 5),
   order = 4,
   filter = "butter",
   type = "pass"
-)[[1]]
-butter_high_walking = SensorData.filter.iir(
+)
+butter_high_walking = Counts::iir(
   walking,
   Fs = 80,
   Fc = c(0.6, 5),
   order = 4,
   filter = "butter",
   type = "pass"
-)[[1]]
+)
 
 names(butter_walking) = names(walking)
 names(butter_high_walking) = names(walking)
 
 st = walking[1, 1] + 20
-walking = SensorData.clip(walking, startTime = walking[1, 1], endTime = walking[1, 1] + 15)
-butter_walking = SensorData.clip(butter_walking,
-                                 startTime = walking[1, 1],
-                                 endTime = walking[1, 1] + 15)
-butter_high_walking = SensorData.clip(butter_high_walking,
-                                      startTime = walking[1, 1],
-                                      endTime = walking[1, 1] + 15)
+walking = mHealthR::mhealth.clip(walking, start_time = walking[1, 1], stop_time = walking[1, 1] + 15, file_type = "sensor")
+butter_walking = mHealthR::mhealth.clip(butter_walking,
+                                 start_time = walking[1, 1],
+                                 stop_time = walking[1, 1] + 15,
+                                 file_type = "sensor")
+butter_high_walking = mHealthR::mhealth.clip(butter_high_walking,
+                                      start_time = walking[1, 1],
+                                      stop_time = walking[1, 1] + 15,
+                                      file_type = "sensor")
 walking = data.frame(walking, group = "original")
 butter_walking = data.frame(butter_walking, group = "butterworth")
 butter_high_walking = data.frame(butter_high_walking, group = "butterworth_high")
+
+auc_walking = trapz(butter_walking[[1]], abs(butter_walking[[2]]))
+auc_high_walking = trapz(butter_high_walking[[1]], abs(butter_high_walking[[2]]))
+
+print(auc_walking)
+print(auc_high_walking)
+
+print(abs(auc_high_walking - auc_walking)/auc_walking)
 
 walking_forplot = rbind(walking, butter_walking, butter_high_walking)
 

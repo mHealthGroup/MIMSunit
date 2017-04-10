@@ -10,4 +10,3 @@ import_actigraph_count(filename, col_name = "ACTIGRAPH_COUNT", axes = c(2,
 \arguments{
 \item{filename}{full file path of input Actigraph count csv file.}
 }
-

@@ -4,10 +4,10 @@ require(dplyr)
 require(reshape2)
 require(ggplot2)
 
-devices = c('20Hz_2g', '30Hz_2g', '40Hz_2g', '50Hz_2g', '60Hz_2g', '70Hz_2g', '80Hz_2g', '90Hz_2g', '100Hz_2g')
+devices = c('20Hz', '30Hz', '40Hz', '50Hz', '60Hz', '70Hz', '80Hz', '90Hz', '100Hz')
 
 optimize_result = ldply(devices, function(device) {
-  file_path = paste0('inst/extdata/extrapolate/optimize_on_', device, '.rds')
+  file_path = paste0('inst/extdata/extrapolate/optimize_on_', device, "_2g", '.rds')
   optimize_result = readRDS(file_path)
   optimize_result$device = device
   return(optimize_result)
@@ -74,22 +74,27 @@ optimize_stats_per_device = optimize_result %>%
     max_extrapolation_rate = max(extrapolated_rate)
   )
 
-optimize_stats_overall = data.frame(device = "total", sorted_stats[1,3:6], stringsAsFactors = FALSE)
+optimize_stats_overall = data.frame(device = "average", sorted_stats[1,3:6], stringsAsFactors = FALSE)
 optimize_stats_combined = rbind(optimize_stats_per_device, optimize_stats_overall)
 
+write.csv(x = optimize_stats_combined, file = "inst/table/extrapolation_optimization_stats.csv", row.names = FALSE, quote = FALSE)
+
 # extrapolation rate vs. devices plot
-p1 = ggplot(data = optimize_stats_combined, aes(x = device, y = average_extrapolation_rate, fill = device)) +
-  geom_bar(stat = 'identity') +
+p1 = ggplot(data = optimize_stats_combined, aes(x = device, y = average_extrapolation_rate)) +
+  geom_bar(stat = 'identity', fill = "grey70") +
   geom_point(aes(y = min_extrapolation_rate), shape = 2, size = 2) +
   geom_point(aes(y = max_extrapolation_rate), shape = 6, size = 2) +
   geom_linerange(aes(ymin = min_extrapolation_rate, ymax = average_extrapolation_rate - sd_extrapolation_rate), linetype = "dashed") +
   geom_linerange(aes(ymin = average_extrapolation_rate + sd_extrapolation_rate, ymax = max_extrapolation_rate), linetype = "dashed") +
   geom_errorbar(aes(ymin = average_extrapolation_rate - sd_extrapolation_rate, ymax = average_extrapolation_rate + sd_extrapolation_rate), width = 0.2) +
-  ylim(c(-0.2, 1.2)) +
-  xlab("Devices") +
+  ylim(c(-0.1, 1.1)) +
+  xlab("Devices (g range: ±2g)") +
   ylab("Extrapolation rate") +
   guides(fill=FALSE) +
-  theme_bw()
+  scale_y_continuous(breaks = c(0, 0.2, 0.4, 0.6, 0.8, 1)) +
+  theme_bw(base_size = 16, base_family = "Times New Roman")
+
+ggsave(filename = "inst/figure/extrapolate_optimize_devices.png", plot = p1, width = 4, height = 2, scale = 1.6)
 
 # extrapolation rate vs. signals under best setting for all devices
 p2 = optimize_result %>%
@@ -98,17 +103,14 @@ p2 = optimize_result %>%
   ggplot(aes(x = freq, y = amp, fill = value)) +
   geom_raster() +
   scale_fill_gradient2(low = "red", high = "black", mid = "white", midpoint = 0) +
-  facet_wrap(device~variable, labeller = function(labels){
-    labels$variable = stringr::str_replace(string = labels$variable, pattern = "_", replacement = " ")
-    labels$variable = R.utils::capitalize(labels$variable)
-    labels$variable[1:2] = paste0(labels$variable[1:2], "or")
-    return(labels)
-    }, ncol = 6) +
+  facet_wrap(variable~device, nrow = 3) +
   xlab("Frequency (Hz)") +
   ylab("Amplitude (g)") +
   ggtitle(sprintf("Smoothing factor = %.2f, neighborhood = %.2f", sorted_stats$spar[1], sorted_stats$k[1])) +
   theme_minimal() +
-  theme(title = element_text(size = 9))
+  theme(title = element_text(size = 9)) +
+  theme(strip.background = element_blank(),
+        strip.text.x = element_blank())
 
 # extrapolation rate vs. signals under best setting for selected device
 selected_device = '40Hz_2g'
@@ -132,7 +134,7 @@ p3 = optimize_result %>%
 
 ggsave(filename = "inst/figure/extrapolate_optimize_devices.png", plot = p1, width = 5, height = 2, scale = 1.5)
 
-ggsave(filename = "inst/figure/extrapolate_optimal_setting.png", plot = p2, width = 4 * 2, height = 1.5 * length(devices)/2, scale = 1.5)
+ggsave(filename = "inst/figure/extrapolate_optimal_setting.png", plot = p2, width = 5, height = 2, scale = 1.5)
 
 ggsave(filename = "inst/figure/extrapolate_optimal_setting_selected.png", plot = p3, width = 4, height = 1.5, scale = 1.5)
 

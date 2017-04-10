@@ -9,4 +9,3 @@ magnitude(df, axes = NULL)
 \arguments{
 \item{df}{input dataframe that matches specification.}
 }
-

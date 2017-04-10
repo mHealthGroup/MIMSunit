@@ -9,4 +9,3 @@ experiment_treadmill_count(raw_data, epoch = "5 sec", resample = 50,
   integration = "trapz", use_extrapolate = TRUE, use_interpolate = TRUE,
   use_resampling = TRUE, use_filtering = TRUE)
 }
-

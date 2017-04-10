@@ -16,8 +16,7 @@ experiment_treadmill_count = function(raw_data,
   walkrun_data = raw_data
   para = list(EPOCH = epoch, LOW_BW = cutoffs[1], HIGH_BW = cutoffs[2], INTEGRATION = integration, RESAMPLE = resample, SMOOTHING = spar, NEIGHBOR = k)
   # compute count over epoches
-  walkrun_count = walkrun_data %>% ddply(.(MPH, SUBJECT, SESSION, WEIGHTS, LOCATION, ID, SR, GRANGE), function(segment) {
-
+  walkrun_count = walkrun_data %>% ddply(.(MPH, PID, LOCATION, ID, SR, GRANGE), function(segment) {
       gr = as.numeric(segment$GRANGE[1])
       count = segment %>%
         subset(select = 1:4) %>%

@@ -7,4 +7,3 @@
 interpolate(df, method = "spline_natural", sr = 100, st = NULL,
   et = NULL, polyDegree = 3)
 }
-

@@ -13,4 +13,3 @@ average_removal(df, Fs, order)
 
 \item{order}{window size (in seconds) of filter}
 }
-

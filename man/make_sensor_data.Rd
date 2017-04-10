@@ -6,4 +6,3 @@
 \usage{
 make_sensor_data(oldData, new_range, new_sr)
 }
-

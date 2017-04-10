@@ -18,4 +18,3 @@ aggregate(df, breaks, type = "trapz", rectify = TRUE)
 \note{
 If certain break is not provided or missing, will use the entire sequence. The column name (except for the first column) of output dataframe would be: [SUMMARY\_METHOD]\_INPUT\_HEADER\_NAME.
 }
-

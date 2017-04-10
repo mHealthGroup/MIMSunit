@@ -7,4 +7,3 @@
 \usage{
 import_activpal_raw(filename, header_provided = FALSE)
 }
-

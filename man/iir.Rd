@@ -22,4 +22,3 @@ iir(df, Fs, Fc, order, type = "high", filter_type = "butter")
 \value{
 list of filtered dataframes.
 }
-

@@ -33,4 +33,3 @@ activity_count(df, breaks = "5 sec", range, noise_level, k = 0.65,
 \value{
 Will return NA if a segment break is too short to have enough samples to compute AUC
 }
-

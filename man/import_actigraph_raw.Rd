@@ -19,4 +19,3 @@ import_actigraph_raw(filename, ad_convert = FALSE, ts_provided = TRUE,
 \note{
 Please make sure the Actigraph raw csv file has timestamp included. The Actigraph raw csv file is not IMU csv file supported by GT9X.
 }
-

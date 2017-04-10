@@ -101,9 +101,13 @@ p1Data1[str_detect(p1Data1[,1], "walking at 3mph"),1] = "walking at 3mph"
 # exclude
 p1Data = dplyr::filter(p1Data1, !(ACTIVITY_NAME == "frisbee" & SUBJECT == "SPADES_26"))
 
+# scale to 1 min
 count_indices = which(p1Data$TYPE == "COUNTS" | p1Data$TYPE == "COUNTS_MAXEDOUT")
 # p1Data[count_indices, "value"] = p1Data[count_indices, "value"] * scalingFactor[2] + scalingFactor[1]
 p1Data[,"value"] = p1Data[, "value"] * acc_factor
+
+# exclude actigraph maxed out
+p1Data = p1Data %>% dplyr::filter(TYPE != "ACTIGRAPH_MAXEDOUT")
 
 p1Data$ACTIVITY_NAME <- factor(p1Data$ACTIVITY_NAME, levels=sorted_mets[,1])
 p1Data$SUBJECT_ID <- as.numeric(str_extract(p1Data$SUBJECT, "[0-9]+"))
@@ -176,23 +180,21 @@ ggsave(plot = p2, filename = file.path("inst/figure/", "spades_lab_counts.png"),
 p3Data = p1Data
 p3Data$ALGORITHM = str_split(p3Data$TYPE, "_", simplify = TRUE)[,1]
 legend = guide_legend(title = NULL, ncol = 2)
-labels = c("16g device", "2g device", "16g device", "2g device")
+p3Data$DEVICE = "GT9X"
+p3Data[str_detect(p3Data$TYPE, "MAXEDOUT"), "DEVICE"] = "GT9X truncated at ±2g"
 p3 = ggplot(data = p3Data, aes(x=ACTIVITY_NAME, y = value)) +
-  geom_boxplot(aes(fill = LOCATION, linetype = TYPE), outlier.colour = NA) +
-  theme_bw() +
-  theme(axis.text.x = element_text(angle = -90, hjust = 0), legend.position = "bottom",
+  geom_boxplot(aes(fill = LOCATION, linetype = DEVICE), outlier.colour = NA, colour = "grey40") +
+  theme_bw(base_size = 16, base_family = "Times New Roman") +
+  theme(axis.text.x = element_text(angle = -90, hjust = 0), legend.position = "bottom", legend.direction = "vertical",
         legend.margin = unit(10 ^ -3, 'inch'),
         panel.margin = unit(0.1, 'inch'),
         axis.text = element_text(margin = margin(0, 0, 0, 0)),
         plot.margin = margin(0, 0, 0, 0, 'inch'),
-        strip.background = element_blank(),
-        legend.key = element_blank()) +
-  # ylim(c(0, 3000)) +
+        strip.background = element_blank()) +
   xlab("") +
   ylab("Counts") +
   # scale_fill_manual(labels = labels, values = c("gray60", "gray60", "white", "white"), guide = legend) +
-  scale_linetype_manual(labels = labels, values = c("solid", "dashed", "solid", "dashed"), guide = legend) +
-  facet_grid(ALGORITHM ~ ., scales = "free")
+  facet_grid(ALGORITHM ~ ., scales = "free_y")
 
 # compensation
 # runningData = p1Data %>%
@@ -210,4 +212,4 @@ p3 = ggplot(data = p3Data, aes(x=ACTIVITY_NAME, y = value)) +
 #   mutate(ACTIGRAPH_CHANGE = (ACTIGRAPH - ACTIGRAPH_MAXEDOUT)/ACTIGRAPH, COUNTS_CHANGE = (COUNTS - COUNTS_MAXEDOUT)/COUNTS)
 #
 # ggsave(plot = p1, filename = file.path("inst/figure/", "activity_boxscatter_counts.png"), device = "png", scale = 3, width = 6, height = 3)
-ggsave(plot = p3, filename = file.path("inst/figure/", "spades_lab_counts_diff_scales.png"), device = "png", scale = 0.8, width = 10, height = 8)
+ggsave(plot = p3, filename = file.path("inst/figure/", "spades_lab_counts_diff_scales.png"), device = "png", scale = 1.5, width = 5, height = 4)

@@ -15,4 +15,3 @@ bessel(df, Fs, Fc, order)
 
 \item{order}{formula order of bessel filter}
 }
-

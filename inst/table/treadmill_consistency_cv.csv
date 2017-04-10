@@ -1,0 +1,91 @@
+name,MPH,CV
+Proposed,1,0.275229935739601
+Proposed,1.9,0.445863264152997
+Proposed,2,0.38052022892839
+Proposed,3,0.402743371813311
+Proposed,3.1,0.497403936312457
+Proposed,4,0.36815945216572
+Proposed,4.4,0.478872400389878
+Proposed,5,0.264921758051765
+Proposed,6,0.18976894447078
+Proposed,6.3,0.369993784686681
+Proposed,7,0.211005118894284
+Proposed,7.5,0.309144188304752
+Proposed,8,0.185688158708399
+Proposed,8.8,0.388297473199763
+Proposed,9,0.231145397874081
+Proposed,10,0.326636026955285
+Proposed,11.3,0.341111603524846
+Proposed,12.5,0.360249729092408
+Proposed without extrapolation,1,0.275229816102968
+Proposed without extrapolation,1.9,0.443567958104167
+Proposed without extrapolation,2,0.379515064626396
+Proposed without extrapolation,3,0.396751846704501
+Proposed without extrapolation,3.1,0.485786524700875
+Proposed without extrapolation,4,0.359128833373293
+Proposed without extrapolation,4.4,0.462111275804186
+Proposed without extrapolation,5,0.26429749799272
+Proposed without extrapolation,6,0.196560012021648
+Proposed without extrapolation,6.3,0.297638757747609
+Proposed without extrapolation,7,0.221619309134012
+Proposed without extrapolation,7.5,0.310203894382278
+Proposed without extrapolation,8,0.200990739745538
+Proposed without extrapolation,8.8,0.340561328192024
+Proposed without extrapolation,9,0.244354705710592
+Proposed without extrapolation,10,0.333454402695339
+Proposed without extrapolation,11.3,0.349180746961574
+Proposed without extrapolation,12.5,0.375960191941462
+Proposed with narrow passband (0.25-2.5Hz) 
+ and without extrapolation,1,0.268709386632096
+Proposed with narrow passband (0.25-2.5Hz) 
+ and without extrapolation,1.9,0.463079125956179
+Proposed with narrow passband (0.25-2.5Hz) 
+ and without extrapolation,2,0.386341686711411
+Proposed with narrow passband (0.25-2.5Hz) 
+ and without extrapolation,3,0.40167226453392
+Proposed with narrow passband (0.25-2.5Hz) 
+ and without extrapolation,3.1,0.470567748368314
+Proposed with narrow passband (0.25-2.5Hz) 
+ and without extrapolation,4,0.392436824990136
+Proposed with narrow passband (0.25-2.5Hz) 
+ and without extrapolation,4.4,0.496650497000283
+Proposed with narrow passband (0.25-2.5Hz) 
+ and without extrapolation,5,0.44595429785928
+Proposed with narrow passband (0.25-2.5Hz) 
+ and without extrapolation,6,0.386181830905772
+Proposed with narrow passband (0.25-2.5Hz) 
+ and without extrapolation,6.3,0.50939566507808
+Proposed with narrow passband (0.25-2.5Hz) 
+ and without extrapolation,7,0.40188726968369
+Proposed with narrow passband (0.25-2.5Hz) 
+ and without extrapolation,7.5,0.521301634615608
+Proposed with narrow passband (0.25-2.5Hz) 
+ and without extrapolation,8,0.449287795976516
+Proposed with narrow passband (0.25-2.5Hz) 
+ and without extrapolation,8.8,0.550593812751385
+Proposed with narrow passband (0.25-2.5Hz) 
+ and without extrapolation,9,0.446627154036482
+Proposed with narrow passband (0.25-2.5Hz) 
+ and without extrapolation,10,0.525446936235013
+Proposed with narrow passband (0.25-2.5Hz) 
+ and without extrapolation,11.3,0.580279184716229
+Proposed with narrow passband (0.25-2.5Hz) 
+ and without extrapolation,12.5,0.591533025166264
+Actigraph count algorithm,1,0.750789061804321
+Actigraph count algorithm,1.9,0.710093775064561
+Actigraph count algorithm,2,0.631247177641571
+Actigraph count algorithm,3,0.694131532557883
+Actigraph count algorithm,3.1,0.685385596834969
+Actigraph count algorithm,4,0.660473079638169
+Actigraph count algorithm,4.4,0.704267949649029
+Actigraph count algorithm,5,0.62875638827972
+Actigraph count algorithm,6,0.559539193897377
+Actigraph count algorithm,6.3,0.6524849539823
+Actigraph count algorithm,7,0.518075276031455
+Actigraph count algorithm,7.5,0.680830951743935
+Actigraph count algorithm,8,0.6240616593796
+Actigraph count algorithm,8.8,0.658745353001215
+Actigraph count algorithm,9,0.537835962510747
+Actigraph count algorithm,10,0.658192318183623
+Actigraph count algorithm,11.3,0.67881926186711
+Actigraph count algorithm,12.5,0.725951612769134

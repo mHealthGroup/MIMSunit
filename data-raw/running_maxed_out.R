@@ -1,11 +1,11 @@
-require(mhealthformatsupportr)
 require(plyr)
 require(dplyr)
 require(ggplot2)
 require(mHealthR)
+require(Counts)
 # Read in and clip raw sensor data ----
 
-folder = "offline_data/running_maxed_out/"
+folder = "../../data/counts/running_maxed_out/"
 
 gt3xFile = list.files(path = folder, all.files = FALSE, full.names = TRUE, pattern = "GT3X.*.csv.*", recursive = FALSE)[[1]]
 
@@ -27,8 +27,8 @@ gt3xbtData = mhealth.clip(gt3xbtData, start_time = clipStart, stop_time = clipEn
 gt3xplusData = mhealth.clip(gt3xplusData, start_time = clipStart, stop_time = clipEnd, file_type = "sensor")
 gt9xData = mhealth.clip(gt9xData, start_time = clipStart, stop_time = clipEnd, file_type = "sensor")
 
-gt3xbtData_cropped = SensorData.crop(gt3xbtData, range = c(-3,3))
-gt3xplusData_cropped = SensorData.crop(gt3xplusData, range = c(-3, 3))
+gt3xbtData_cropped = Counts::crop_grange(gt3xbtData, range = c(-2,2))
+gt3xplusData_cropped = Counts::crop_grange(gt3xplusData, range = c(-2,2))
 
 # Save them as Actigraph CSV ----
 

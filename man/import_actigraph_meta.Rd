@@ -6,4 +6,3 @@
 \usage{
 import_actigraph_meta(filename, header = TRUE)
 }
-

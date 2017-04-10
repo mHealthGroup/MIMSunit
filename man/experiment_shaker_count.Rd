@@ -10,4 +10,3 @@ experiment_shaker_count(raw_data, epoch = "5 sec", noise_level = 0.03,
   use_interpolate = TRUE, use_resampling = TRUE, use_filtering = TRUE,
   axes = c(2, 3, 4))
 }
-
