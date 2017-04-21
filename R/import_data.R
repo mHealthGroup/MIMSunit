@@ -111,6 +111,22 @@ import_actigraph_count = function(filename, col_name = "ACTIGRAPH_COUNT", axes =
   return(result)
 }
 
+#' @name import_actigraph_count_vm
+#' @title Import and convert Actigraph count csv files and load into data frame as in mhealth format.
+#' @export
+#' @import readr lubridate
+#' @param filename full file path of input Actigraph count csv file.
+import_actigraph_count_vm = function(filename, col_name = "ACTIGRAPH_COUNT") {
+  dat = readr::read_csv(
+    filename, col_names = TRUE, col_types = readr::cols(timestamp = readr::col_character(), vectormagnitude = readr::col_double())
+  );
+  dat = data.frame(dat)
+  dat[,1] = as.POSIXct(dat[,1], format = mHealthR::mhealth$format$csv$TIMESTAMP, tz = Sys.timezone())
+  result = dat
+  colnames(result) = c(mHealthR::mhealth$column$TIMESTAMP, col_name);
+  return(result)
+}
+
 #' @name import_actigraph_meta
 #' @title parse actigraph csv header to get related version and sampling rate information
 #' @export

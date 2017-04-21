@@ -13,8 +13,14 @@ files = list.files(path = folder, pattern = ".*RAW\\.csv", full.names = TRUE, re
 
 # read in session file
 sessions = read.csv(file = file.path(folder, "sessions.csv"), stringsAsFactors = FALSE)
-sessions["START_TIME"] = paste("2017-03-22",sessions[["START_TIME"]])
-sessions["STOP_TIME"] = paste("2017-03-22",sessions[["STOP_TIME"]])
+sessions[sessions$PID %in% 1:2,"START_TIME"] = paste("2017-03-16",sessions[sessions$PID %in% 1:2,"START_TIME"])
+sessions[sessions$PID %in% 1:2, "STOP_TIME"] = paste("2017-03-16",sessions[sessions$PID %in% 1:2, "STOP_TIME"])
+sessions[sessions$PID %in% 3:6,"START_TIME"] = paste("2017-03-22",sessions[sessions$PID %in% 3:6,"START_TIME"])
+sessions[sessions$PID %in% 3:6, "STOP_TIME"] = paste("2017-03-22",sessions[sessions$PID %in% 3:6, "STOP_TIME"])
+sessions[sessions$PID %in% 7:8, "START_TIME"] = paste("2016-03-25",sessions[sessions$PID %in% 7:8, "START_TIME"])
+sessions[sessions$PID %in% 7:8, "STOP_TIME"] = paste("2016-03-25",sessions[sessions$PID %in% 7:8, "STOP_TIME"])
+sessions[sessions$PID %in% 9:10, "START_TIME"] = paste("2016-03-22",sessions[sessions$PID %in% 9:10, "START_TIME"])
+sessions[sessions$PID %in% 9:10, "STOP_TIME"] = paste("2016-03-22",sessions[sessions$PID %in% 9:10, "STOP_TIME"])
 
 # read in raw and divide chunks and make extra versions for actigraph
 
@@ -33,10 +39,19 @@ csvData_raw = ldply(files, function(sensor_file){
     gr = 8
   }
   csvData = import_actigraph_raw(sensor_file)
+  if(stringr::str_detect(sensor_file, "2017-03-16")){
+    use_sessions = sessions %>% dplyr::filter(PID %in% 1:2)
+  }else if(stringr::str_detect(sensor_file, "2017-03-22")){
+    use_sessions = sessions %>% dplyr::filter(PID %in% 3:6)
+  }else if(stringr::str_detect(sensor_file, "2016-03-25")){
+    use_sessions = sessions %>% dplyr::filter(PID %in% 7:8)
+    sr = 100
+  }else if(stringr::str_detect(sensor_file, "2016-03-22")){
+    use_sessions = sessions %>% dplyr::filter(PID %in% 9:10)
+    sr = 100
+  }
 
-  sessions = sessions %>% dplyr::filter(PID %in% 3:6)
-
-  segmentedData = adply(sessions, 1, function(seg){
+  segmentedData = adply(use_sessions, 1, function(seg){
     segData = mHealthR::mhealth.clip(csvData, start_time = seg$START_TIME, stop_time = seg$STOP_TIME, file_type = "sensor")
     segData$ID = id
     segData$SR = sr

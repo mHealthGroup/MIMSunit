@@ -5,10 +5,15 @@ require(reshape2)
 require(mHealthR)
 require(doSNOW)
 require(Counts)
-cl = makeCluster(6, type = "SOCK")
+cl = makeCluster(4, type = "SOCK")
 registerDoSNOW(cl)
 filename = "inst/extdata/treadmill.rds"
 treadmill_data = readRDS(filename)
+
+# save raw plots in pdf
+p = mhealth.plot_timeseries(list(treadmill_data), file_types = c("sensor"), select_cols = list(c(2:4)), group_cols = c("MPH", "PID", 'ID', 'LOCATION'), ncols = 4)
+
+ggsave("inst/extdata/treadmill.pdf", plot = p, width = 8.5, height = 11)
 
 k = 0.05
 spar = 0.6
@@ -80,7 +85,7 @@ actigraph_data = readRDS(filename)
 actigraph_data$name = "Actigraph count algorithm"
 actigraph_stat <- ddply(
   actigraph_data,
-  c("ID", "GRANGE", "SR", "MPH", "name", "LOCATION"),
+  c("ID", "MPH", "name", "LOCATION"),
   summarise,
   N = length(ACTIGRAPH_COUNT),
   mean = mean(ACTIGRAPH_COUNT * acc_factor),
@@ -92,7 +97,7 @@ actigraph_stat <- ddply(
 count_stat <-
   ddply(
     count_data,
-    c("ID", "GRANGE", "SR", "MPH", "name", "LOCATION"),
+    c("ID", "MPH", "name", "LOCATION"),
     summarise,
     N = length(COUNT),
     mean = mean(COUNT * acc_factor),

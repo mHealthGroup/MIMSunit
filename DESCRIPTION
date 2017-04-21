@@ -1,7 +1,7 @@
 Package: Counts
 Type: Package
 Title: Code and results for counts paper
-Version: 0.1.0
+Version: 0.2.0
 Author: Qu Tang <tang.q@husky.neu.edu>
 Maintainer: Qu Tang <tang.q@husky.neu.edu>
 Description: Code and results for counts paper

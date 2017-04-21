@@ -5,19 +5,19 @@
 #' @param breaks epoch to compute counts on
 #' @param range dynamic range of the device (two element vector)
 #' @param noise_level noise level should be between 0.01 and 0.1
-#' @param k neighborhood duration for extrapolation in seconds, default is 0.1 seconds
-#' @param spar smoothing parameter for extrapolation, default is 0.4
+#' @param k neighborhood duration for extrapolation in seconds, default is 0.05 seconds
+#' @param spar smoothing parameter for extrapolation, default is 0.6
 #' @param resample set 0 to not use resampling, otherwise set to the desired sampling rate in numerical, e.g 40 for 40Hz. Default is 50.
 #' @param filter "butter", "ellip", "bessel"
-#' @param cutoffs cut off frequencies to be used in filtering, default is 0.3Hz and 5Hz. If choosing bessel, the low pass cut off would be multipled by 2 when being used.
+#' @param cutoffs cut off frequencies to be used in filtering, default is 0.2Hz and 5Hz. If choosing bessel, the low pass cut off would be multipled by 2 when being used.
 #' @param integration the integration method to be used: "trapz", "absoluteMeanByPoints".
 #' @export
 activity_count = function(df,
                           breaks = "5 sec",
                           range,
                           noise_level,
-                          k = 0.65,
-                          spar = 0.4,
+                          k = 0.05,
+                          spar = 0.6,
                           resample = 50,
                           filter_type = "butter",
                           cutoffs = c(0.2, 5),
