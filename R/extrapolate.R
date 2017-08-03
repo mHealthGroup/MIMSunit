@@ -43,7 +43,7 @@ extrapolate = function(t, value, range, noise_level, k = 0.65, spar = 0.4){
   if(is.POSIXct(t[1])){
     dat_over[1] = as.POSIXct(dat_over[[1]], origin = "1970-01-01")
   }
-  dat_over = rbind(dat_over, data.frame(x = t, y = value))
+  # dat_over = rbind(dat_over, data.frame(x = t, y = value))
   dat_over = dat_over[order(dat_over$x),]
   not_dups = !duplicated(dat_over$x)
   t = dat_over$x[not_dups]
@@ -63,6 +63,31 @@ extrapolate = function(t, value, range, noise_level, k = 0.65, spar = 0.4){
   dat_interp = .extrapolate.interpolate(t, value, marker, points_ex, 100)
 
   return(dat_interp)
+}
+
+#' @export
+.extrapolate.oversampling = function(t, value) {
+  t_over = seq(t[1], t[length(t)], by = 1/100)
+
+  # over sampling to 100Hz with spline interpolation
+  dat_over = spline(x = t, y = value, xout = t_over, method = "natural")
+  dat_over = data.frame(dat_over)
+  if(is.POSIXct(t[1])){
+    dat_over[1] = as.POSIXct(dat_over[[1]], origin = "1970-01-01")
+  }
+  # dat_over = rbind(dat_over, data.frame(x = t, y = value))
+  dat_over = dat_over[order(dat_over$x),]
+  not_dups = !duplicated(dat_over$x)
+  t = dat_over$x[not_dups]
+  value = dat_over$y[not_dups]
+  return(list(t=t, value=value))
+}
+
+#' @export
+.extrapolate.markregion = function(t, value, range) {
+  marker.fun = .extrapolate.mark("gamma")
+  marker = marker.fun(t, value, range[1], range[2], noise_level)
+  return(marker)
 }
 
 .extrapolate.mark = function(method = "gamma"){
@@ -106,6 +131,7 @@ extrapolate = function(t, value, range, noise_level, k = 0.65, spar = 0.4){
   return(result)
 }
 
+#' @export
 .mark.threshold = function(t, value, range_low, range_high, noise_sd = noise_sd){
   # init the mark vector
   marker = rep(0, length(t))
@@ -119,6 +145,7 @@ extrapolate = function(t, value, range, noise_level, k = 0.65, spar = 0.4){
   return(marker)
 }
 
+#' @export
 .extrapolate.edges = function(marker, confident){
   marker_diff_left = c(0, diff(marker))
   marker_diff_right = c(diff(marker), 0)
@@ -153,6 +180,7 @@ extrapolate = function(t, value, range, noise_level, k = 0.65, spar = 0.4){
   return(edges)
 }
 
+#' @export
 .extrapolate.neighbor = function(marker, sr, k, confident = 0.5){
   n_neighbor = k * sr
   edges = .extrapolate.edges(marker, confident)
@@ -167,6 +195,50 @@ extrapolate = function(t, value, range, noise_level, k = 0.65, spar = 0.4){
   if(lag > 0) v = v[-((n - lag + 1):n)]
   else v = v[-(1:(-lag))]
   return(v)
+}
+
+#' @export
+.extrapolate.fitline = function(t, value, neighbors, marker, spar, sr, k, model = "spline"){
+
+  neighbors$index = 1:nrow(neighbors)
+  point_ex = neighbors %>% adply(1, function(neighbor){
+    # validate neighboring
+    fitted_left = .fit.weighted(t, value, marker, neighbor$left_start, neighbor$left_end, spar, sr, k, model)
+    fitted_right = .fit.weighted(t, value, marker, neighbor$right_start, neighbor$right_end, spar, sr, k, model)
+
+    st = t[neighbor$left_end]
+    left_end = 0
+    right_start = as.numeric(t[neighbor$right_start] - st, units = "secs")
+
+    middle_t = (left_end + right_start) / 2
+    middle_t = st + middle_t
+    left_x_ex = c(seq(st,middle_t,1/100), middle_t)
+    right_x_ex = c(seq(middle_t,st+right_start, 1/100), middle_t)
+    switch(model,
+           linear = {
+             left_ex = fitted_left %>% predict(data.frame(over_t = as.numeric(middle_t)))
+             right_ex = fitted_right %>% predict(data.frame(over_t = as.numeric(middle_t)))
+             type_ex = rep('left_line', length(left_ex))
+             type_ex = c(type_ex, rep('right_line', length(right_ex)))
+             point_ex = (left_ex + right_ex) / 2
+             type_ex = c(type_ex, 'point')
+             index = rep(neighbor$index, length(type_ex))
+           },
+           spline = {
+             left_ex = fitted_left %>% predict(x = as.numeric(left_x_ex))
+             right_ex = fitted_right %>% predict(x = as.numeric(right_x_ex))
+             type_ex = rep('left_line', length(left_ex$y))
+
+             point_ex_left = fitted_left %>% predict(x = as.numeric(middle_t))
+             point_ex_right = fitted_right %>% predict(x = as.numeric(middle_t))
+             point_ex = (point_ex_left$y + point_ex_right$y) / 2
+             type_ex = c(type_ex, 'point')
+             type_ex = c(type_ex, rep('right_line', length(right_ex$y)))
+             index = rep(neighbor$index, length(type_ex))
+           })
+    return(data.frame(t_ex = c(left_x_ex, middle_t, right_x_ex), value_ex = c(left_ex$y,point_ex, right_ex$y), type_ex=type_ex, index=index))
+  }, .inform = TRUE, .id = NULL, .expand = FALSE)
+  return(point_ex)
 }
 
 .extrapolate.fit = function(t, value, neighbors, marker, spar, sr, k, model = "spline"){
@@ -238,6 +310,7 @@ extrapolate = function(t, value, range, noise_level, k = 0.65, spar = 0.4){
   return(fitted)
 }
 
+#' @export
 .extrapolate.interpolate = function(t, value, marker, points_ex, sr, confident = 0.5){
   t_mark = t[abs(marker) < confident]
   value_mark = value[abs(marker) < confident]

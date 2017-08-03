@@ -1,14 +1,8 @@
-
 require(stringr)
 require(plyr)
 require(dplyr)
 require(doSNOW)
-require(mhealthformatsupportr)
 require(mHealthR)
-
-
-cl = makeCluster(4, type = "SOCK")
-registerDoSNOW(cl)
 
 folder = "offline_data/walkrun1/";
 subjects = list.dirs(path = folder, full.names = FALSE, recursive = FALSE)

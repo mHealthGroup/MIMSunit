@@ -11,7 +11,7 @@ crop_grange = function(df, range = NULL, noise_std = 0.03){
       colData[colData < lower] = lower + rnorm(sum(colData < lower), 0, noise_std)
       return(colData)
     })
-    df[,2:ncol(df)] = cropFun(df[,2:ncol(df)])
+    df[,2:ncol(df)] = cropFun(df[2:ncol(df)])
   }
   return(df)
 }
