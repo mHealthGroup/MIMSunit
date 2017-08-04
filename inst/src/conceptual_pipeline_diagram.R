@@ -81,13 +81,18 @@ generate_diagram = function(data, device_name, range, sr, start_time, stop_time,
   if(nrow(neighbors) > 0){
     left_indices = c()
     right_indices = c()
+    mo_indices = c()
     for (i in 1:nrow(neighbors)){
       left_indices = c(left_indices, neighbors$left_start[i]:neighbors$left_end[i])
       right_indices = c(right_indices, neighbors$right_start[i]:neighbors$right_end[i])
+      mo_indices = c(mo_indices, neighbors$left_end[i]:neighbors$right_start[i])
     }
     left_neighbors = oversampled[left_indices,]
     right_neighbors = oversampled[right_indices,]
     oversampled_nn = oversampled[c(-left_indices,-right_indices),]
+    oversampled_nn_nm = oversampled[c(-left_indices,-right_indices, -mo_indices),]
+    mo_points = oversampled[mo_indices,]
+    mo_points$weight = markers_df[mo_indices,'value']
     left_neighbors = mhealth.clip(left_neighbors, start_time = start_time, stop_time = stop_time, file_type = "sensor")
     right_neighbors = mhealth.clip(right_neighbors, start_time = start_time, stop_time = stop_time, file_type = "sensor")
     plot_data = mhealth.clip(oversampled_nn, start_time = start_time, stop_time = stop_time, file_type = "sensor")
@@ -105,8 +110,8 @@ generate_diagram = function(data, device_name, range, sr, start_time, stop_time,
     points_ex = plot_fitted_data[plot_fitted_data$type == 'point',c(1,2)]
 
     p2 = plotting(plot_data,plot_line=F, range=range) +
-      geom_line(data = plot_markers_data, aes(x=HEADER_TIME_STAMP, y=value+4.3), size=0.3) +
-      geom_hline(yintercept = 4, size=0.3) +
+      # geom_line(data = plot_markers_data, aes(x=HEADER_TIME_STAMP, y=value+4.3), size=0.3) +
+      # geom_hline(yintercept = 4, size=0.3) +
       geom_point(data=left_neighbors, aes(x=HEADER_TIME_STAMP, y=value), shape=1, size=1) +
       geom_point(data=right_neighbors, aes(x=HEADER_TIME_STAMP, y=value), shape=1, size=1) +     geom_point(data = points_ex, aes(x=HEADER_TIME_STAMP, y=value), shape=17, size=1.5) +     geom_vline(xintercept = as.numeric(points_ex$HEADER_TIME_STAMP), size=0.3, linetype='dashed')
     indices = unique(plot_fitted_data$index)
@@ -116,6 +121,28 @@ generate_diagram = function(data, device_name, range, sr, start_time, stop_time,
     }
 
     ggsave(filename = paste0('inst/figure/conceptual_diagram/',device_name,'_2.eps'), plot = p2, dpi = 1500, width = 2, height = 1, scale=1)
+
+    # zoomed
+    plot_data_zoomed = mhealth.clip(oversampled_nn_nm, start_time = start_time + 0.5, stop_time = start_time + 0.8, file_type = "sensor")
+    plot_markers_data_zoomed = mhealth.clip(markers_df, start_time = start_time + 0.5, stop_time = start_time + 0.8, file_type = "sensor")
+    mo_points_zoomed = mhealth.clip(mo_points, start_time = start_time + 0.5, stop_time = start_time + 0.8, file_type = "sensor")
+    left_neighbors_zoomed = mhealth.clip(left_neighbors, start_time = start_time + 0.5, stop_time = start_time + 0.8, file_type = "sensor")
+    right_neighbors_zoomed = mhealth.clip(right_neighbors, start_time = start_time + 0.5, stop_time = start_time + 0.8, file_type = "sensor")
+    plot_fitted_data_zoomed = mhealth.clip(fitted_result, start_time = start_time + 0.5, stop_time = start_time + 0.8, file_type = "sensor")
+    points_ex_zoomed = plot_fitted_data_zoomed[plot_fitted_data_zoomed$type == 'point',c(1,2)]
+    p2_zoomed = plotting(plot_data_zoomed,plot_line=F, range=range) + ylim(-5.5, 0) +
+      geom_point(data=mo_points_zoomed, aes(x=HEADER_TIME_STAMP, y=value, color=weight), size=2) + scale_colour_continuous(low = '#cccccc', high='#333333', na.value = "white", guide=FALSE) +
+      geom_point(data=left_neighbors_zoomed, aes(x=HEADER_TIME_STAMP, y=value), shape=1, size=2) +
+      geom_point(data=right_neighbors_zoomed, aes(x=HEADER_TIME_STAMP, y=value), shape=1, size=2) +
+      geom_point(data = points_ex_zoomed, aes(x=HEADER_TIME_STAMP, y=value), shape=17, size=2) +
+      geom_vline(xintercept = as.numeric(points_ex_zoomed$HEADER_TIME_STAMP), size=0.3, linetype='dashed')
+    indices = unique(plot_fitted_data_zoomed$index)
+    for(i in indices){
+      p2_zoomed = p2_zoomed + geom_line(data = plot_fitted_data_zoomed[plot_fitted_data_zoomed$index == i & plot_fitted_data_zoomed$type == 'left_line',c(1,2)], aes(x=HEADER_TIME_STAMP, y=value),size=0.2) +
+        geom_line(data = plot_fitted_data_zoomed[plot_fitted_data_zoomed$index == i & plot_fitted_data_zoomed$type == 'right_line',c(1,2)], aes(x=HEADER_TIME_STAMP, y=value),size=0.2)
+    }
+
+    ggsave(filename = paste0('inst/figure/conceptual_diagram/',device_name,'_2_zoomed.eps'), plot = p2_zoomed, dpi = 1500, width = 2, height = 1, scale=1)
 
     # points to interpolate
     colnames(points_ex) = c('t_ex', 'value_ex')
