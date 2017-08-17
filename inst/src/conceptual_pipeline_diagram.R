@@ -73,7 +73,9 @@ generate_diagram = function(data, device_name, range, sr, start_time, stop_time,
   markers = .extrapolate.markregion(oversampled$HEADER_TIME_STAMP, oversampled$value, range = range)
   markers_df = data.frame(HEADER_TIME_STAMP=oversampled$HEADER_TIME_STAMP, value=abs(markers))
   plot_markers_data = mhealth.clip(markers_df, start_time = start_time, stop_time = stop_time, file_type = "sensor")
-  p2_1 = p1 + geom_line(data = plot_markers_data, aes(x=HEADER_TIME_STAMP, y=value+4.3), size=0.3) + geom_hline(yintercept = 4, size=0.3)
+  p2_1 = p1 +
+    geom_line(data = plot_markers_data, aes(x=HEADER_TIME_STAMP, y=value+4.3), size=0.3) +
+    geom_hline(yintercept = 4, size=0.3)
   ggsave(filename = paste0('inst/figure/conceptual_diagram/',device_name,'_2_1.eps'), plot = p2_1, dpi = 1500, width = 2, height = 1, scale=1)
 
   #neighbors
@@ -113,7 +115,9 @@ generate_diagram = function(data, device_name, range, sr, start_time, stop_time,
       # geom_line(data = plot_markers_data, aes(x=HEADER_TIME_STAMP, y=value+4.3), size=0.3) +
       # geom_hline(yintercept = 4, size=0.3) +
       geom_point(data=left_neighbors, aes(x=HEADER_TIME_STAMP, y=value), shape=1, size=1) +
-      geom_point(data=right_neighbors, aes(x=HEADER_TIME_STAMP, y=value), shape=1, size=1) +     geom_point(data = points_ex, aes(x=HEADER_TIME_STAMP, y=value), shape=17, size=1.5) +     geom_vline(xintercept = as.numeric(points_ex$HEADER_TIME_STAMP), size=0.3, linetype='dashed')
+      geom_point(data=right_neighbors, aes(x=HEADER_TIME_STAMP, y=value), shape=1, size=1) +
+      geom_point(data = points_ex, aes(x=HEADER_TIME_STAMP, y=value), shape=17, size=1.5) +
+      geom_vline(xintercept = as.numeric(points_ex$HEADER_TIME_STAMP), size=0.3, linetype='dotted')
     indices = unique(plot_fitted_data$index)
     for(i in indices){
       p2 = p2 + geom_line(data = plot_fitted_data[plot_fitted_data$index == i & plot_fitted_data$type == 'left_line',c(1,2)], aes(x=HEADER_TIME_STAMP, y=value),size=0.2) +
@@ -135,7 +139,7 @@ generate_diagram = function(data, device_name, range, sr, start_time, stop_time,
       geom_point(data=left_neighbors_zoomed, aes(x=HEADER_TIME_STAMP, y=value), shape=1, size=2) +
       geom_point(data=right_neighbors_zoomed, aes(x=HEADER_TIME_STAMP, y=value), shape=1, size=2) +
       geom_point(data = points_ex_zoomed, aes(x=HEADER_TIME_STAMP, y=value), shape=17, size=2) +
-      geom_vline(xintercept = as.numeric(points_ex_zoomed$HEADER_TIME_STAMP), size=0.3, linetype='dashed')
+      geom_vline(xintercept = as.numeric(points_ex_zoomed$HEADER_TIME_STAMP), size=0.3, linetype='dotted')
     indices = unique(plot_fitted_data_zoomed$index)
     for(i in indices){
       p2_zoomed = p2_zoomed + geom_line(data = plot_fitted_data_zoomed[plot_fitted_data_zoomed$index == i & plot_fitted_data_zoomed$type == 'left_line',c(1,2)], aes(x=HEADER_TIME_STAMP, y=value),size=0.2) +
