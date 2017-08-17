@@ -107,36 +107,54 @@ p2 = optimize_result %>%
   xlab("Frequency (Hz)") +
   ylab("Amplitude (g)") +
   ggtitle(sprintf("Smoothing factor = %.2f, neighborhood = %.2f", sorted_stats$spar[1], sorted_stats$k[1])) +
-  theme_minimal() +
+  theme_minimal(base_family = "Times New Roman") +
   theme(title = element_text(size = 9)) +
-  theme(strip.background = element_blank(),
-        strip.text.x = element_blank())
+  theme(strip.background = element_blank(), strip.text.x = element_blank())
 
-# extrapolation rate vs. signals under best setting for selected device
-selected_device = '40Hz_2g'
 p3 = optimize_result %>%
-  filter(device == selected_device & k == sorted_stats$k[1] & spar == sorted_stats$spar[1]) %>%
-  melt(id = c('freq', 'amp', 'sr', 'grange', 'k', 'spar', 'device')) %>%
-  ggplot(aes(x = freq, y = amp, fill = value)) +
+  filter(k == sorted_stats$k[1] & spar == sorted_stats$spar[1] & device %in% c('20Hz', '50Hz', '100Hz')) %>%
+  select(-c(test_err,extrapolated_err, sr, grange, k, spar)) %>%
+  ggplot(aes(x = freq, y = amp, fill = extrapolated_rate)) +
   geom_raster() +
   scale_fill_gradient2(low = "red", high = "black", mid = "white", midpoint = 0) +
-  facet_grid(.~variable, labeller = function(labels){
-    labels$variable = stringr::str_replace(string = labels$variable, pattern = "_", replacement = " ")
-    labels$variable = R.utils::capitalize(labels$variable)
-    labels$variable[1:2] = paste0(labels$variable[1:2], "or")
-    return(labels)
-  }) +
+  facet_wrap(~device, ncol = 3) +
   xlab("Frequency (Hz)") +
   ylab("Amplitude (g)") +
-  ggtitle(sprintf("Smoothing factor = %.2f, neighborhood = %.2f\nSelected device = %s", sorted_stats$spar[1], sorted_stats$k[1], devices[which(selected_device == devices)])) +
-  theme_minimal() +
-  theme(title = element_text(size = 9))
+  ggtitle(sprintf("Smoothing factor = %.2f, neighborhood = %.2f", sorted_stats$spar[1], sorted_stats$k[1])) +
+  theme_minimal(base_family = "Times New Roman") +
+  theme(title = element_text(size = 9)) +
+  theme(strip.background = element_blank())
 
-ggsave(filename = "inst/figure/extrapolate_optimize_devices.png", plot = p1, width = 5, height = 2, scale = 1.5)
+# extrapolation rate vs. signals under best setting for selected device
+# selected_device = '40Hz_2g'
+# p3 = optimize_result %>%
+#   filter(device == selected_device & k == sorted_stats$k[1] & spar == sorted_stats$spar[1]) %>%
+#   melt(id = c('freq', 'amp', 'sr', 'grange', 'k', 'spar', 'device')) %>%
+#   ggplot(aes(x = freq, y = amp, fill = value)) +
+#   geom_raster() +
+#   scale_fill_gradient2(low = "red", high = "black", mid = "white", midpoint = 0) +
+#   facet_grid(.~variable, labeller = function(labels){
+#     labels$variable = stringr::str_replace(string = labels$variable, pattern = "_", replacement = " ")
+#     labels$variable = R.utils::capitalize(labels$variable)
+#     labels$variable[1:2] = paste0(labels$variable[1:2], "or")
+#     return(labels)
+#   }) +
+#   xlab("Frequency (Hz)") +
+#   ylab("Amplitude (g)") +
+#   ggtitle(sprintf("Smoothing factor = %.2f, neighborhood = %.2f\nSelected device = %s", sorted_stats$spar[1], sorted_stats$k[1], devices[which(selected_device == devices)])) +
+#   theme_minimal(base_family = "Times New Roman") +
+#   theme(title = element_text(size = 9))
+library(extrafont)
+loadfonts(device="win")
 
-ggsave(filename = "inst/figure/extrapolate_optimal_setting.png", plot = p2, width = 5, height = 2, scale = 1.5)
+ggsave(filename = "inst/figure/extrapolate_optimize_devices.png", plot = p1, width = 5, height = 2, scale = 1.5, dpi=1500)
+ggsave(filename = "inst/figure/extrapolate_optimize_devices.eps", plot = p1, width = 5, height = 2, scale = 1.5, dpi=1500)
 
-ggsave(filename = "inst/figure/extrapolate_optimal_setting_selected.png", plot = p3, width = 4, height = 1.5, scale = 1.5)
+ggsave(filename = "inst/figure/extrapolate_optimal_setting.png", plot = p2, width = 5, height = 2, scale = 1.5, dpi=1500)
+ggsave(filename = "inst/figure/extrapolate_optimal_setting.eps", plot = p2, width = 5, height = 2, scale = 1.5, dpi=1500)
+
+ggsave(filename = "inst/figure/extrapolate_optimal_setting_selected.png", plot = p3, width = 4, height = 1.5, scale = 1.5, dpi=1500)
+ggsave(filename = "inst/figure/extrapolate_optimal_setting_selected.eps", plot = p3, width = 4, height = 1.5, scale = 1.5, dpi=1500)
 
 write.csv(x = sorted_stats, file = "inst/table/extrapolation_optimization_stats.csv", quote = FALSE, row.names = FALSE)
 write.csv(x = optimize_stats_combined, file = "inst/table/extrapolation_optimal_parameter_stats.csv", quote = FALSE, row.names = FALSE)
