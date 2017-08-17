@@ -200,10 +200,15 @@ generate_diagram = function(data, device_name, range, sr, start_time, stop_time,
     type = 'trapz',
     rectify = TRUE
   )
-  count_value = counts[1,2] * 60
+  second_count_value = counts[1,2]
+  minute_count_value = second_count_value * 60
   plot_agg =  mhealth.clip(agg, start_time, stop_time, "sensor")
-  label = paste0(round(count_value, 1), 'counts/min')
-  p6 = plotting(plot_agg, plot_maxed_out_line = F, plot_point = F) + geom_area() + geom_text(data=data.frame(x=start_time + 0.25, y=-5, label=label),aes(x=x,y=y,label=label),family="Times New Roman")
+  label1 = paste0("~", round(second_count_value, 2), ' counts/sec')
+  label2 = paste0("equiv. to ~", round(minute_count_value, 1), ' counts/min')
+  p6 = plotting(plot_agg, plot_maxed_out_line = F, plot_point = F) +
+    geom_area() +
+    geom_text(data=data.frame(x=start_time, y=-3.5, label=label1),aes(x=x,y=y,label=label),hjust = 0, size=3, family="Times New Roman") +
+    geom_text(data=data.frame(x=start_time, y=-5, label=label2),aes(x=x,y=y,label=label),hjust = 0, size=3, family="Times New Roman")
   ggsave(filename = paste0('inst/figure/conceptual_diagram/',device_name,'_6.eps'), plot = p6, dpi = 1500, width = 2, height = 1, scale=1)
 }
 
