@@ -26,7 +26,9 @@ activity_count = function(df,
                           use_extrapolation = TRUE,
                           use_interpolation = TRUE,
                           use_resampling = TRUE,
-                          use_filtering = TRUE) {
+                          use_filtering = TRUE,
+                          aggregation = "vm",
+                          aggregate_after_extrapolation=FALSE) {
 
   # apply extrapolation algorithm
   if (use_extrapolation) {
@@ -35,6 +37,10 @@ activity_count = function(df,
     extrapolatedData = interpolate(df, sr = 100, method = "spline_natural")
   } else{
     extrapolatedData = df
+  }
+
+  if(aggregate_after_extrapolation){
+    extrapolatedData = magnitude(extrapolatedData, axes = axes)
   }
 
   sr = sampling_rate(extrapolatedData)
@@ -88,7 +94,15 @@ activity_count = function(df,
     rectify = TRUE
   )
 
+  if(aggregate_after_extrapolation){
+    return(integratedData)
+  }
   # Compute vector magnitude
-  countsData = magnitude(integratedData, axes = axes)
+  if(aggregation == "vm")
+    countsData = magnitude(integratedData, axes = axes)
+  else if(aggregation == 'sum')
+    countsData = sumUp(integratedData, axes = axes)
+  else if(aggregation == "axis")
+    countsData = integratedData
   return(countsData)
 }

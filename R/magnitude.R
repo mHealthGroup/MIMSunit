@@ -20,3 +20,25 @@ magnitude = function(df, axes = NULL){
   magnitudeData = magnitudeData[, c(stampName, labelName)]
   return(magnitudeData)
 }
+
+#' @name sumUp
+#' @title Compute the sumUp value of sensor data.
+#' @export
+#' @import plyr
+#' @param df input dataframe that matches specification.
+sumUp = function(df, axes = NULL){
+  nCols = ncol(df)
+  sumUpData = df
+  stampName = colnames(df)[1]
+  tokens = str_split(names(df)[2], "_")[[1]]
+  labelName = paste(c("SUMUP",tokens[2:length(tokens)]),collapse="_")
+  if(is.null(axes)){
+    sumUpData[labelName] = rowSums(df[,2:nCols])
+  }else if(length(axes) == 1){
+    sumUpData[labelName] = df[,axes]
+  }else{
+    sumUpData[labelName] = rowSums(df[,axes])
+  }
+  sumUpData = sumUpData[, c(stampName, labelName)]
+  return(sumUpData)
+}
