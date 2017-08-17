@@ -11,4 +11,6 @@ LazyData: true
 RoxygenNote: 6.0.1
 Imports: mHealthR,
     akima,
-    caTools
+    caTools,
+    dplyr,
+    matlab
