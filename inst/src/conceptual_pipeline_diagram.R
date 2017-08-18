@@ -2,6 +2,7 @@ require(ggplot2)
 require(plyr)
 require(dplyr)
 require(mHealthR)
+require(Counts)
 k = 0.05
 spar = 0.6
 confidence = 0.5
@@ -15,9 +16,14 @@ device0 = jumping_jack_maxed_out %>% dplyr::filter(GRANGE == 8)
 device0 = device0[,1:2]
 
 # # add some impulse
-# begin_value = device0[16, 2]
-# device0[16:17,2] = begin_value * 1:2 + c(1,5)
-# device0[17:18,2] = begin_value * 1:2 + c(5,1)
+spike_values = -c(-0.023, -0.789,-2.488,-3.854, -2.532 -1.883,-0.879,-0.566,-0.136, 0, 0.24, 1.2
+)
+spike_x = seq(0, 0.12, 0.01)
+spike_x_80 = seq(0, 0.12, 1/80)
+spike_values_80 = signal::interp1(spike_x, spike_values, spike_x_80, method='linear')
+spike_values_80[9:10] = c(-0.823, -1.234)
+begin_value = device0[16, 2]
+device0[16:25,2] = spike_values_80
 # device 1: 40Hz, 2g
 device1 = make_sensor_data(device0, c(-2,2), 40)
 # device 2: 30Hz, 4g
@@ -27,6 +33,10 @@ device3 = make_sensor_data(device0, c(-2,2), 20)
 
 start_time =  device0[[1,1]]
 stop_time = start_time + 1
+
+current_run = format(Sys.time(), "%Y%m%d%H")
+
+dir.create(paste0('inst/figure/conceptual_diagram/',current_run, '/'))
 
 plotting = function(data, point_size=0.3,
                     plot_point=T,
@@ -59,15 +69,15 @@ generate_diagram = function(data, device_name, range, sr, start_time, stop_time,
   plot_data = mhealth.clip(data, start_time = start_time, stop_time = stop_time, file_type = "sensor")
   # original signal
   p0 = plotting(plot_data, range=range)
-  ggsave(filename = paste0('inst/figure/conceptual_diagram/',device_name,'_0.eps'), plot = p0, dpi = 1500, width = 2, height = 1, scale=1)
-
+  ggsave(filename = paste0('inst/figure/conceptual_diagram/',current_run, '/',device_name,'_0.eps'), plot = p0, dpi = 1500, width = 2, height = 1, scale=1)
+  ggsave(filename = paste0('inst/figure/conceptual_diagram/',current_run, '/',device_name,'_0.wmf'), plot = p0, dpi = 1500, width = 2, height = 1, scale=1)
   # oversampled signal
   oversampled = data.frame(.extrapolate.oversampling(data$HEADER_TIME_STAMP, data$value))
   colnames(oversampled) = c('HEADER_TIME_STAMP', 'value')
   plot_data = mhealth.clip(oversampled, start_time = start_time, stop_time = stop_time, file_type = "sensor")
   p1 = plotting(plot_data, range=range)
-  ggsave(filename = paste0('inst/figure/conceptual_diagram/',device_name,'_1.eps'), plot = p1, dpi = 1500, width = 2, height = 1, scale=1)
-
+  ggsave(filename = paste0('inst/figure/conceptual_diagram/',current_run, '/', device_name,'_1.eps'), plot = p1, dpi = 1500, width = 2, height = 1, scale=1)
+  ggsave(filename = paste0('inst/figure/conceptual_diagram/',current_run, '/', device_name,'_1.wmf'), plot = p1, dpi = 1500, width = 2, height = 1, scale=1)
 
   # markers
   markers = .extrapolate.markregion(oversampled$HEADER_TIME_STAMP, oversampled$value, range = range)
@@ -76,8 +86,8 @@ generate_diagram = function(data, device_name, range, sr, start_time, stop_time,
   p2_1 = p1 +
     geom_line(data = plot_markers_data, aes(x=HEADER_TIME_STAMP, y=value+4.3), size=0.3) +
     geom_hline(yintercept = 4, size=0.3)
-  ggsave(filename = paste0('inst/figure/conceptual_diagram/',device_name,'_2_1.eps'), plot = p2_1, dpi = 1500, width = 2, height = 1, scale=1)
-
+  ggsave(filename = paste0('inst/figure/conceptual_diagram/',current_run, '/',device_name,'_2_1.eps'), plot = p2_1, dpi = 1500, width = 2, height = 1, scale=1)
+  ggsave(filename = paste0('inst/figure/conceptual_diagram/',current_run, '/',device_name,'_2_1.wmf'), plot = p2_1, dpi = 1500, width = 2, height = 1, scale=1)
   #neighbors
   neighbors = .extrapolate.neighbor(markers, 100, k)
   if(nrow(neighbors) > 0){
@@ -103,8 +113,8 @@ generate_diagram = function(data, device_name, range, sr, start_time, stop_time,
       geom_hline(yintercept = 4, size=0.3) +
       geom_point(data=left_neighbors, aes(x=HEADER_TIME_STAMP, y=value), shape=1, size=1) +
       geom_point(data=right_neighbors, aes(x=HEADER_TIME_STAMP, y=value), shape=1, size=1)
-    ggsave(filename = paste0('inst/figure/conceptual_diagram/',device_name,'_2_2.eps'), plot = p2_2, dpi = 1500, width = 2, height = 1, scale=1)
-
+    ggsave(filename = paste0('inst/figure/conceptual_diagram/',current_run, '/', device_name,'_2_2.eps'), plot = p2_2, dpi = 1500, width = 2, height = 1, scale=1)
+    ggsave(filename = paste0('inst/figure/conceptual_diagram/',current_run, '/', device_name,'_2_2.wmf'), plot = p2_2, dpi = 1500, width = 2, height = 1, scale=1)
     # fitted lines
     fitted_result = .extrapolate.fitline(oversampled$HEADER_TIME_STAMP, oversampled$value, neighbors, markers, spar, 100, k)
     colnames(fitted_result) = c('HEADER_TIME_STAMP', 'value', 'type', 'index')
@@ -124,8 +134,8 @@ generate_diagram = function(data, device_name, range, sr, start_time, stop_time,
         geom_line(data = plot_fitted_data[plot_fitted_data$index == i & plot_fitted_data$type == 'right_line',c(1,2)], aes(x=HEADER_TIME_STAMP, y=value),size=0.2)
     }
 
-    ggsave(filename = paste0('inst/figure/conceptual_diagram/',device_name,'_2.eps'), plot = p2, dpi = 1500, width = 2, height = 1, scale=1)
-
+    ggsave(filename = paste0('inst/figure/conceptual_diagram/',current_run, '/', device_name,'_2.eps'), plot = p2, dpi = 1500, width = 2, height = 1, scale=1)
+    ggsave(filename = paste0('inst/figure/conceptual_diagram/',current_run, '/', device_name,'_2.wmf'), plot = p2, dpi = 1500, width = 2, height = 1, scale=1)
     # zoomed
     plot_data_zoomed = mhealth.clip(oversampled_nn_nm, start_time = start_time + 0.5, stop_time = start_time + 0.8, file_type = "sensor")
     plot_markers_data_zoomed = mhealth.clip(markers_df, start_time = start_time + 0.5, stop_time = start_time + 0.8, file_type = "sensor")
@@ -146,8 +156,8 @@ generate_diagram = function(data, device_name, range, sr, start_time, stop_time,
         geom_line(data = plot_fitted_data_zoomed[plot_fitted_data_zoomed$index == i & plot_fitted_data_zoomed$type == 'right_line',c(1,2)], aes(x=HEADER_TIME_STAMP, y=value),size=0.2)
     }
 
-    ggsave(filename = paste0('inst/figure/conceptual_diagram/',device_name,'_2_zoomed.eps'), plot = p2_zoomed, dpi = 1500, width = 2, height = 1, scale=1)
-
+    ggsave(filename = paste0('inst/figure/conceptual_diagram/',current_run, '/', device_name,'_2_zoomed.eps'), plot = p2_zoomed, dpi = 1500, width = 2, height = 1, scale=1)
+    ggsave(filename = paste0('inst/figure/conceptual_diagram/',current_run, '/', device_name,'_2_zoomed.wmf'), plot = p2_zoomed, dpi = 1500, width = 2, height = 1, scale=1)
     # points to interpolate
     colnames(points_ex) = c('t_ex', 'value_ex')
     t_mark = oversampled$HEADER_TIME_STAMP[abs(markers) < 0.5]
@@ -156,15 +166,16 @@ generate_diagram = function(data, device_name, range, sr, start_time, stop_time,
     plot_to_extrapolate_data = mhealth.clip(to_extrapolate_data, start_time, stop_time, 'sensor')
     p2_3 = plotting(plot_to_extrapolate_data, plot_line = FALSE, range=range) +
       geom_point(data = points_ex, aes(x=t_ex, y=value_ex), shape=17, size=1)
-    ggsave(filename = paste0('inst/figure/conceptual_diagram/',device_name,'_2_3.eps'), plot = p2_3, dpi = 1500, width = 2, height = 1, scale=1)
-
+    ggsave(filename = paste0('inst/figure/conceptual_diagram/', current_run, '/', device_name,'_2_3.eps'), plot = p2_3, dpi = 1500, width = 2, height = 1, scale=1)
+    ggsave(filename = paste0('inst/figure/conceptual_diagram/', current_run, '/', device_name,'_2_3.wmf'), plot = p2_3, dpi = 1500, width = 2, height = 1, scale=1)
     # extrapolated and interpolated
     extrapolated = .extrapolate.interpolate(oversampled$HEADER_TIME_STAMP,oversampled$value, markers, points_ex, 100)
     colnames(extrapolated) = c('HEADER_TIME_STAMP', 'value')
     plot_extrapolated = mhealth.clip(extrapolated, start_time, stop_time, "sensor")
 
     p3 = plotting(plot_extrapolated, range=range) + geom_point(data = points_ex, aes(x=as.numeric(t_ex), y=value_ex), shape=17, size=2)
-    ggsave(filename = paste0('inst/figure/conceptual_diagram/',device_name,'_3.eps'), plot = p3, dpi = 1500, width = 2, height = 1, scale=1)
+    ggsave(filename = paste0('inst/figure/conceptual_diagram/', current_run, '/', device_name,'_3.eps'), plot = p3, dpi = 1500, width = 2, height = 1, scale=1)
+    ggsave(filename = paste0('inst/figure/conceptual_diagram/', current_run, '/', device_name,'_3.wmf'), plot = p3, dpi = 1500, width = 2, height = 1, scale=1)
   }else{
     extrapolated = oversampled
   }
@@ -173,7 +184,8 @@ generate_diagram = function(data, device_name, range, sr, start_time, stop_time,
   resampled = resample(extrapolated, origSr = 100, newSr = 50)
   plot_resampled = mhealth.clip(resampled, start_time, stop_time, "sensor")
   p4 = plotting(plot_resampled, range=range)
-  ggsave(filename = paste0('inst/figure/conceptual_diagram/',device_name,'_4.eps'), plot = p4, dpi = 1500, width = 2, height = 1, scale=1)
+  ggsave(filename = paste0('inst/figure/conceptual_diagram/', current_run, '/', device_name,'_4.eps'), plot = p4, dpi = 1500, width = 2, height = 1, scale=1)
+  ggsave(filename = paste0('inst/figure/conceptual_diagram/', current_run, '/', device_name,'_4.wmf'), plot = p4, dpi = 1500, width = 2, height = 1, scale=1)
 
   # filtering
   filtered = iir(
@@ -187,8 +199,8 @@ generate_diagram = function(data, device_name, range, sr, start_time, stop_time,
   plot_filtered = mhealth.clip(filtered, start_time, stop_time, "sensor")
   colnames(plot_filtered) = c('HEADER_TIME_STAMP', 'value')
   p5 = plotting(plot_filtered, plot_maxed_out_line = F)
-  ggsave(filename = paste0('inst/figure/conceptual_diagram/',device_name,'_5.eps'), plot = p5, dpi = 1500, width = 2, height = 1, scale=1)
-
+  ggsave(filename = paste0('inst/figure/conceptual_diagram/', current_run, '/', device_name,'_5.eps'), plot = p5, dpi = 1500, width = 2, height = 1, scale=1)
+  ggsave(filename = paste0('inst/figure/conceptual_diagram/', current_run, '/', device_name,'_5.wmf'), plot = p5, dpi = 1500, width = 2, height = 1, scale=1)
   # aggregation
   filtered$HEADER_TIME_STAMP = as.POSIXct(filtered$HEADER_TIME_STAMP, origin="1970-01-01")
   agg = filtered
@@ -209,7 +221,8 @@ generate_diagram = function(data, device_name, range, sr, start_time, stop_time,
     geom_area() +
     geom_text(data=data.frame(x=start_time, y=-3.5, label=label1),aes(x=x,y=y,label=label),hjust = 0, size=3, family="Times New Roman") +
     geom_text(data=data.frame(x=start_time, y=-5, label=label2),aes(x=x,y=y,label=label),hjust = 0, size=3, family="Times New Roman")
-  ggsave(filename = paste0('inst/figure/conceptual_diagram/',device_name,'_6.eps'), plot = p6, dpi = 1500, width = 2, height = 1, scale=1)
+  ggsave(filename = paste0('inst/figure/conceptual_diagram/', current_run, '/', device_name,'_6.eps'), plot = p6, dpi = 1500, width = 2, height = 1, scale=1)
+  ggsave(filename = paste0('inst/figure/conceptual_diagram/', current_run, '/', device_name,'_6.wmf'), plot = p6, dpi = 1500, width = 2, height = 1, scale=1)
 }
 
 generate_diagram(data = device0, device_name = "device0", range = c(-8, 8), sr = 80, start_time = start_time, stop_time = stop_time, extrapolation_detail = T)
