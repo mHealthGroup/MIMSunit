@@ -3,18 +3,24 @@
 #' @export
 experiment_treadmill_count = function(raw_data,
                           epoch = "5 sec",
-                          resample = 50,
                           noise_level = 0.03,
                           cutoffs = c(0.2, 5),
                           k = 0.05,
                           spar = 0.6,
                           integration = "trapz",
+                          aggregation = 'axis',
                          use_extrapolate = TRUE,
                          use_interpolate = TRUE,
-                         use_resampling = TRUE,
+                         use_resampling = FALSE,
                          use_filtering = TRUE){
   walkrun_data = raw_data
-  para = list(EPOCH = epoch, LOW_BW = cutoffs[1], HIGH_BW = cutoffs[2], INTEGRATION = integration, RESAMPLE = resample, SMOOTHING = spar, NEIGHBOR = k)
+  para = list(EPOCH = epoch,
+              LOW_BW = cutoffs[1],
+              HIGH_BW = cutoffs[2],
+              INTEGRATION = integration,
+              AGGREGATION = aggregation,
+              SMOOTHING = spar,
+              NEIGHBOR = k)
   # compute count over epoches
   walkrun_count = walkrun_data %>% ddply(.(MPH, PID, LOCATION, ID, SR, GRANGE), function(segment) {
       gr = as.numeric(segment$GRANGE[1])
@@ -26,9 +32,9 @@ experiment_treadmill_count = function(raw_data,
           noise_level = noise_level,
           k = para$NEIGHBOR,
           spar = para$SMOOTHING,
-          resample = para$RESAMPLE,
           cutoffs = c(para$LOW_BW, para$HIGH_BW),
           integration = para$INTEGRATION,
+          aggregation = para$AGGREGATION,
           use_extrapolation = use_extrapolate,
           use_interpolation = use_interpolate,
           use_resampling = use_resampling,

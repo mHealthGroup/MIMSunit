@@ -18,16 +18,15 @@ activity_count = function(df,
                           noise_level,
                           k = 0.05,
                           spar = 0.6,
-                          resample = 50,
                           filter_type = "butter",
                           cutoffs = c(0.2, 5),
                           integration = "trapz",
                           axes = c(2, 3, 4),
                           use_extrapolation = TRUE,
                           use_interpolation = TRUE,
-                          use_resampling = TRUE,
+                          use_resampling = FALSE,
                           use_filtering = TRUE,
-                          aggregation = "vm",
+                          aggregation = "sum",
                           aggregate_after_extrapolation=FALSE) {
 
   # apply extrapolation algorithm
@@ -84,7 +83,6 @@ activity_count = function(df,
   } else{
     filteredData = resampledData
   }
-
 
   # Compute the AUC
   integratedData = Counts::aggregate(

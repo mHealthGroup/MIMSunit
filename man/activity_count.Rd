@@ -5,10 +5,10 @@
 \title{Compute activity counts using [citation] algorithm}
 \usage{
 activity_count(df, breaks = "5 sec", range, noise_level, k = 0.05,
-  spar = 0.6, resample = 50, filter_type = "butter", cutoffs = c(0.2,
-  5), integration = "trapz", axes = c(2, 3, 4), use_extrapolation = TRUE,
-  use_interpolation = TRUE, use_resampling = TRUE, use_filtering = TRUE,
-  aggregation = "vm", aggregate_after_extrapolation = FALSE)
+  spar = 0.6, filter_type = "butter", cutoffs = c(0.2, 5),
+  integration = "trapz", axes = c(2, 3, 4), use_extrapolation = TRUE,
+  use_interpolation = TRUE, use_resampling = FALSE, use_filtering = TRUE,
+  aggregation = "sum", aggregate_after_extrapolation = FALSE)
 }
 \arguments{
 \item{df}{input sensor data frame that fits the mhealth specification}
@@ -23,11 +23,11 @@ activity_count(df, breaks = "5 sec", range, noise_level, k = 0.05,
 
 \item{spar}{smoothing parameter for extrapolation, default is 0.6}
 
-\item{resample}{set 0 to not use resampling, otherwise set to the desired sampling rate in numerical, e.g 40 for 40Hz. Default is 50.}
-
 \item{cutoffs}{cut off frequencies to be used in filtering, default is 0.2Hz and 5Hz. If choosing bessel, the low pass cut off would be multipled by 2 when being used.}
 
 \item{integration}{the integration method to be used: "trapz", "absoluteMeanByPoints".}
+
+\item{resample}{set 0 to not use resampling, otherwise set to the desired sampling rate in numerical, e.g 40 for 40Hz. Default is 50.}
 
 \item{filter}{"butter", "ellip", "bessel"}
 }
