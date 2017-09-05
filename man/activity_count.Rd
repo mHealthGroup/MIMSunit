@@ -4,11 +4,11 @@
 \alias{activity_count}
 \title{Compute activity counts using [citation] algorithm}
 \usage{
-activity_count(df, breaks = "5 sec", range, noise_level, k = 0.05,
+activity_count(df, breaks = "5 sec", range, noise_level = 0.03, k = 0.05,
   spar = 0.6, filter_type = "butter", cutoffs = c(0.2, 5),
   integration = "trapz", axes = c(2, 3, 4), use_extrapolation = TRUE,
   use_interpolation = TRUE, use_resampling = FALSE, use_filtering = TRUE,
-  aggregation = "sum", aggregate_after_extrapolation = FALSE)
+  combination = "sum", vm_after_extrapolation = FALSE)
 }
 \arguments{
 \item{df}{input sensor data frame that fits the mhealth specification}

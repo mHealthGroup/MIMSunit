@@ -15,7 +15,7 @@
 activity_count = function(df,
                           breaks = "5 sec",
                           range,
-                          noise_level,
+                          noise_level = 0.03,
                           k = 0.05,
                           spar = 0.6,
                           filter_type = "butter",
@@ -24,10 +24,9 @@ activity_count = function(df,
                           axes = c(2, 3, 4),
                           use_extrapolation = TRUE,
                           use_interpolation = TRUE,
-                          use_resampling = FALSE,
                           use_filtering = TRUE,
-                          aggregation = "sum",
-                          aggregate_after_extrapolation=FALSE) {
+                          combination = "sum",
+                          vm_after_extrapolation=FALSE) {
 
   # apply extrapolation algorithm
   if (use_extrapolation) {
@@ -38,13 +37,13 @@ activity_count = function(df,
     extrapolatedData = df
   }
 
-  if(aggregate_after_extrapolation){
+  if(vm_after_extrapolation){
     extrapolatedData = magnitude(extrapolatedData, axes = axes)
   }
 
   sr = sampling_rate(extrapolatedData)
   # Resample to a consistent sampling rate
-  if (use_resampling) {
+  if (FALSE) {
     resampledData = Counts::resample(extrapolatedData, origSr = sr, newSr = resample)
     # update to the new sampling rate
     sr = resample
@@ -92,15 +91,15 @@ activity_count = function(df,
     rectify = TRUE
   )
 
-  if(aggregate_after_extrapolation){
+  if(vm_after_extrapolation){
     return(integratedData)
   }
   # Compute vector magnitude
-  if(aggregation == "vm")
+  if(combination == "vm")
     countsData = magnitude(integratedData, axes = axes)
-  else if(aggregation == 'sum')
+  else if(combination == 'sum')
     countsData = sumUp(integratedData, axes = axes)
-  else if(aggregation == "axis")
+  else if(combination == "axis")
     countsData = integratedData
   return(countsData)
 }
