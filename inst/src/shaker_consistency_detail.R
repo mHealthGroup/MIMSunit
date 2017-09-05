@@ -3,6 +3,7 @@ require(dplyr)
 require(ggplot2)
 require(reshape2)
 require(doSNOW)
+require(Counts)
 cl = makeCluster(6)
 registerDoSNOW(cl)
 
@@ -12,12 +13,10 @@ shaker4 = readRDS("inst/extdata/shaker4.rds")
 
 k = 0.05
 spar = 0.6
-scale_factor = 466.5
 acc_factor = 60 / 5 #(accumulate to 60 sec counts, based on 5 sec counts)
 noise_level = 0.02
 
 settings = data.frame(
-  resample = c(50, 50, 50, 50),
   low_bandwidth = c(0.2, 0.2, 0.25, 0.25),
   high_bandwidth = c(5, 5, 2.5, 2.5),
   use_extrapolate = c(TRUE, FALSE, TRUE, FALSE),
@@ -37,7 +36,6 @@ stat_data = adply(settings, 1, function(setting) {
   counts = experiment_shaker_count(
     shaker_raw,
     epoch = '5 sec',
-    resample = setting$resample,
     noise_level = noise_level,
     cutoffs = c(setting$low_bandwidth, setting$high_bandwidth),
     k = k,
@@ -45,9 +43,8 @@ stat_data = adply(settings, 1, function(setting) {
     integration = 'trapz',
     use_extrapolate = setting$use_extrapolate,
     use_interpolate = setting$use_interpolate,
-    use_resampling = TRUE,
     use_filtering = TRUE,
-    axes = c(2, 3)
+    axes = c(2, 3, 4)
   )
 
   stat = counts %>% ddply(
@@ -56,8 +53,6 @@ stat_data = adply(settings, 1, function(setting) {
     N = length(COUNT),
     mean = mean(COUNT * acc_factor),
     sd = sd(COUNT * acc_factor),
-    # mean = mean(COUNT) * scale_factor,
-    # sd   = sd(COUNT) * scale_factor,
     se   = sd / sqrt(N),
     cv = sd / mean
   )
@@ -84,7 +79,6 @@ stat_actigraph = shaker_actigraph %>% ddply(
 )
 
 stat_actigraph$name = "Actigraph count algorithm"
-stat_actigraph$resample = 50
 stat_actigraph$low_bandwidth = 0.25
 stat_actigraph$high_bandwidth = 2.5
 stat_actigraph$use_extrapolate = TRUE
@@ -125,7 +119,9 @@ stat_data_save$name = as.character(stat_data_save$name)
 
 stat_data_save[stat_data_save$name == "Proposed with narrow passband (0.25-2.5Hz) \n and without extrapolation", "name"] = "Proposed with narrow passband (0.25-2.5Hz) and without extrapolation"
 
-write.csv(stat_data_save, file = "inst/table/shaker_consistency_detail.csv", quote = FALSE, row.names = FALSE)
+current_run = format(Sys.time(), "%Y%m%d%H")
+
+write.csv(stat_data_save, file = paste0("inst/table/shaker_consistency_detail_", current_run,".csv"), quote = FALSE, row.names = FALSE)
 
 p = ggplot(data = stat_data_merged, aes(
   x = RPM,
@@ -136,7 +132,7 @@ p = ggplot(data = stat_data_merged, aes(
   geom_line() + geom_point(aes(shape = SERIES)) +
   scale_colour_manual(name = "Device", values = rep("black", 8), guide=FALSE) +
   # scale_linetype_discrete(name = "Device") +
-  facet_wrap(~name, ncol = 3) +
+  facet_wrap(~name, ncol = 3, scales = "free_y") +
   guides(shape = guide_legend(ncol = 3, title = NULL),
          linetype = guide_legend(ncol = 3, title = NULL)) +
   ylab("Activity Counts") + xlab("Frequency (Hz)") +
@@ -150,7 +146,7 @@ p = ggplot(data = stat_data_merged, aes(
         legend.key = element_blank())
 
 ggsave(
-  filename = "shaker_consistency_detail.png",
+  filename = paste0("shaker_consistency_detail_",current_run,".png"),
   plot = p,
   path = "inst/figure/",
   scale = 1.8,

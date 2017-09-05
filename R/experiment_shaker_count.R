@@ -5,14 +5,12 @@
 experiment_shaker_count = function(raw_data,
                          epoch = "5 sec",
                          noise_level = 0.03,
-                         resample = 50,
                          cutoffs = c(0.2, 5),
                          k = 0.05,
                          spar = 0.6,
                          integration = c("trapz"),
                          use_extrapolate = TRUE,
                          use_interpolate = TRUE,
-                         use_resampling = TRUE,
                          use_filtering = TRUE,
                          axes = c(2,3,4)){
 
@@ -20,7 +18,7 @@ experiment_shaker_count = function(raw_data,
 
   # prepare expanded data frame of parameter combinations
 
-  para = list(EPOCH = epoch, LOW_BW = cutoffs[1], HIGH_BW = cutoffs[2], INTEGRATION = integration, RESAMPLE = resample, SMOOTHING = spar, NEIGHBOR = k)
+  para = list(EPOCH = epoch, LOW_BW = cutoffs[1], HIGH_BW = cutoffs[2], INTEGRATION = integration, SMOOTHING = spar, NEIGHBOR = k)
 
   # compute count over epoches
   shaker_count = shaker_data %>% ddply(.(RPM, DEVICE, GRANGE, LOCATION, SR), function(segment) {
@@ -34,13 +32,11 @@ experiment_shaker_count = function(raw_data,
           noise_level = noise_level,
           k = para$NEIGHBOR,
           spar = para$SMOOTHING,
-          resample = para$RESAMPLE,
           cutoffs = c(para$LOW_BW, para$HIGH_BW),
           integration = para$INTEGRATION,
           axes = axes,
           use_extrapolation = use_extrapolate,
           use_interpolation = use_interpolate,
-          use_resampling = use_resampling,
           use_filtering = use_filtering
         ) %>%
         na.omit
@@ -52,7 +48,7 @@ experiment_shaker_count = function(raw_data,
     return(result)
   }, .progress = "text", .inform = TRUE, .parallel = FALSE)
 
-  countCol = shaker_count %>% colnames %>% str_detect(pattern = "MAGNITUDE") %>% which
+  countCol = shaker_count %>% colnames %>% str_detect(pattern = "SUMUP") %>% which
   names(shaker_count)[countCol] = "COUNT"
 
   return(shaker_count)

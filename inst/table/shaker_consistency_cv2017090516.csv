@@ -1,0 +1,41 @@
+RPM,name,variable,value
+1,Proposed,CV,0.112472734551671
+2,Proposed,CV,0.0308412404603715
+3,Proposed,CV,0.0234505086266269
+4,Proposed,CV,0.054958214925016
+5,Proposed,CV,0.047508620834567
+6,Proposed,CV,0.130533485358593
+7,Proposed,CV,0.221848211829664
+8,Proposed,CV,0.265814152189854
+1,Proposed without extrapolation,CV,0.1124727345472
+2,Proposed without extrapolation,CV,0.0308412408593006
+3,Proposed without extrapolation,CV,0.0233208441534668
+4,Proposed without extrapolation,CV,0.0826289947772147
+5,Proposed without extrapolation,CV,0.178448347083405
+6,Proposed without extrapolation,CV,0.272912171953662
+7,Proposed without extrapolation,CV,0.343972635263461
+8,Proposed without extrapolation,CV,0.375246686098592
+1,Proposed with narrower passband (0.25-2.5Hz),CV,0.0964110326075144
+2,Proposed with narrower passband (0.25-2.5Hz),CV,0.0258844128273186
+3,Proposed with narrower passband (0.25-2.5Hz),CV,0.0396696200272479
+4,Proposed with narrower passband (0.25-2.5Hz),CV,0.165920653964105
+5,Proposed with narrower passband (0.25-2.5Hz),CV,0.270190706466228
+6,Proposed with narrower passband (0.25-2.5Hz),CV,0.465246784533318
+7,Proposed with narrower passband (0.25-2.5Hz),CV,0.630846598881304
+8,Proposed with narrower passband (0.25-2.5Hz),CV,0.70916259656599
+1,Proposed with narrower passband (0.25-2.5Hz) and without extrapolation,CV,0.0964110371343934
+2,Proposed with narrower passband (0.25-2.5Hz) and without extrapolation,CV,0.0258844130346817
+3,Proposed with narrower passband (0.25-2.5Hz) and without extrapolation,CV,0.039593244990741
+4,Proposed with narrower passband (0.25-2.5Hz) and without extrapolation,CV,0.0973447458747084
+5,Proposed with narrower passband (0.25-2.5Hz) and without extrapolation,CV,0.20060439079621
+6,Proposed with narrower passband (0.25-2.5Hz) and without extrapolation,CV,0.258795003807616
+7,Proposed with narrower passband (0.25-2.5Hz) and without extrapolation,CV,0.583843503967087
+8,Proposed with narrower passband (0.25-2.5Hz) and without extrapolation,CV,0.646548150382793
+1,Actigraph count algorithm,CV,0.0280403893273263
+2,Actigraph count algorithm,CV,0.359157581672563
+3,Actigraph count algorithm,CV,0.38313271101926
+4,Actigraph count algorithm,CV,0.371761205215532
+5,Actigraph count algorithm,CV,0.627062798832767
+6,Actigraph count algorithm,CV,0.53974795684746
+7,Actigraph count algorithm,CV,0.670435908777705
+8,Actigraph count algorithm,CV,0.856096641563325

@@ -11,41 +11,28 @@ filename = "inst/extdata/treadmill.rds"
 treadmill_data = readRDS(filename)
 
 # save raw plots in pdf
-p = mhealth.plot_timeseries(list(treadmill_data), file_types = c("sensor"), select_cols = list(c(2:4)), group_cols = c("MPH", "PID", 'ID', 'LOCATION'), ncols = 4)
+# p = mhealth.plot_timeseries(list(treadmill_data), file_types = c("sensor"), select_cols = list(c(2:4)), group_cols = c("MPH", "PID", 'ID', 'LOCATION'), ncols = 4)
 
-ggsave("inst/extdata/treadmill.pdf", plot = p, width = 8.5, height = 11)
+# ggsave("inst/extdata/treadmill.pdf", plot = p, width = 8.5, height = 11)
 
 k = 0.05
 spar = 0.6
 noise_level = 0.03
-scale_factor = 466.5
 acc_factor = 60 / 5
 
 settings = data.frame(
-  resample = c(50
-               # 50,
-               # 50
-               ),
   low_bandwidth = c(0.2
                     # 0.2,
                     # 0.25
                     ),
   high_bandwidth = c(5
-                     # 5,
-                     # 2.5
                      ),
   use_extrapolate = c(TRUE
-                      # FALSE,
-                      # FALSE
                       ),
   use_interpolate = c(TRUE
-                      # TRUE,
-                      # TRUE
                       ),
   name = c(
     "Proposed"
-    # "Proposed without extrapolation",
-    # "Proposed with narrow passband (0.25-2.5Hz) \n and without extrapolation"
   )
 )
 
@@ -64,14 +51,13 @@ count_data = adply(settings, 1, function(setting) {
   counts = experiment_treadmill_count(
     treadmill_data,
     epoch = '5 sec',
-    resample = setting$resample,
     cutoffs = c(setting$low_bandwidth, setting$high_bandwidth),
     integration = c("trapz"),
     k = k,
     spar = spar,
+    combination = "sum",
     use_extrapolate = setting$use_extrapolate,
     use_interpolate = setting$use_interpolate,
-    use_resampling = TRUE,
     use_filtering = TRUE
   )
   return(counts)
@@ -117,8 +103,8 @@ stat_data_merged$SERIES = factor(paste0(
   stat_data_merged$GRANGE,
   "g"
 ))
-
-write.csv(x = stat_data_merged, file = "inst/table/treadmill_consistency_count_formatted.csv", row.names = FALSE, quote = FALSE)
+current_run = format(Sys.time(), "%Y%m%d%H")
+write.csv(x = stat_data_merged, file = paste0("inst/table/treadmill_consistency_count_formatted",current_run,".csv"), row.names = FALSE, quote = FALSE)
 
 p = ggplot(data = stat_data_merged, aes(
   x = MPH,
@@ -135,7 +121,7 @@ p = ggplot(data = stat_data_merged, aes(
   xlab("km/h")
 
 ggsave(
-  filename = "treadmill_consistency_detail.png",
+  filename = paste0("treadmill_consistency_detail_",current_run,".png"),
   plot = p,
   path = "inst/figure/",
   scale = 1.2,

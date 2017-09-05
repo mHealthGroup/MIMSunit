@@ -6,6 +6,6 @@
 \usage{
 experiment_treadmill_count(raw_data, epoch = "5 sec", noise_level = 0.03,
   cutoffs = c(0.2, 5), k = 0.05, spar = 0.6, integration = "trapz",
-  aggregation = "axis", use_extrapolate = TRUE, use_interpolate = TRUE,
-  use_resampling = FALSE, use_filtering = TRUE)
+  combination = "axis", use_extrapolate = TRUE, use_interpolate = TRUE,
+  use_filtering = TRUE)
 }

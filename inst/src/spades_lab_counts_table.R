@@ -6,6 +6,7 @@ require(dplyr)
 require(stringr)
 require(ggplot2)
 require(reshape2)
+require(Counts)
 forScaling = dplyr::filter(spades_lab_counts, ACTIVITY_NAME %in% c("walking at 1mph arms on desk",
                                                                    "walking at 2mph arms on desk",
                                                                    "walking at 3mph",

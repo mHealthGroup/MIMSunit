@@ -3,6 +3,7 @@ require(dplyr)
 require(ggplot2)
 require(reshape2)
 require(ggthemes)
+require(Counts)
 
 filename1 = "inst/extdata/shaker2.rds"
 filename2 = "inst/extdata/shaker3.rds"
@@ -14,17 +15,15 @@ shaker4 = readRDS(filename3)
 shaker_raw = rbind(shaker2, shaker3, shaker4)
 
 settings = data.frame(
-  resample = c(50, 50, 50, 50, 10),
-  low_bandwidth = c(0.2, 0.2, 0.25, 0.25, 0.25),
-  high_bandwidth = c(5, 5, 2.5, 2.5, 2.5),
-  use_extrapolate = c(TRUE, FALSE, TRUE, FALSE, FALSE),
-  use_interpolate = c(TRUE, TRUE, TRUE, TRUE, FALSE),
+  low_bandwidth = c(0.2, 0.2, 0.25, 0.25),
+  high_bandwidth = c(5, 5, 2.5, 2.5),
+  use_extrapolate = c(TRUE, FALSE, TRUE, FALSE),
+  use_interpolate = c(TRUE, TRUE, TRUE, TRUE),
   name = c(
     "Proposed",
     "Proposed without extrapolation",
     "Proposed with narrower passband (0.25-2.5Hz)",
-    "Proposed with narrower passband (0.25-2.5Hz)\n and without extrapolation",
-    "Proposed with narrower passband (0.25-2.5Hz)\n and without extrapolation, resample to 10Hz"
+    "Proposed with narrower passband (0.25-2.5Hz) and without extrapolation"
   )
 )
 
@@ -37,16 +36,14 @@ error_data = adply(settings, 1, function(setting) {
     shaker_raw,
     epoch = '5 sec',
     noise_level = noise_level,
-    resample = setting$resample,
     cutoffs = c(setting$low_bandwidth, setting$high_bandwidth),
     k = k,
     spar = spar,
     integration = 'trapz',
     use_extrapolate = setting$use_extrapolate,
     use_interpolate = setting$use_interpolate,
-    use_resampling = TRUE,
     use_filtering = TRUE,
-    axes = c(2, 3)
+    axes = c(2, 3, 4)
   )
 
   gt = counts %>% dplyr::filter(DEVICE == "TAS1C32140067") %>% ddply(c("RPM"),
@@ -75,8 +72,7 @@ error_data = adply(settings, 1, function(setting) {
   return(error)
 }, .progress = progress_text(), .id = NULL)
 
-error_data = error_data[c(6, 7, 9, 10)] # don't use RMSE
-
+error_data = error_data[c(5, 6, 8, 9)] # don't use RMSE
 
 filename1 = "inst/extdata/shaker2_count_actigraph.rds"
 filename2 = "inst/extdata/shaker3_count_actigraph.rds"
@@ -111,10 +107,10 @@ error_data$name = as.character(error_data$name)
 error_data_merged = rbind(error_data, error_actigraph)
 error_data_merged = error_data_merged[c(1, 2, 3)]
 error_data_melted = error_data_merged %>% dplyr::filter(
-  !name == "Proposed with narrower passband (0.25-2.5Hz)\n and without extrapolation, resample to 10Hz"
+  !name == "Proposed with narrower passband (0.25-2.5Hz) and without extrapolation, resample to 10Hz"
 ) %>% melt(c("RPM", "name"))
-
-write.csv(error_data_melted, file = "inst/table/shaker_consistency_cv.csv", quote = FALSE, row.names = FALSE)
+current_run = format(Sys.time(), "%Y%m%d%H")
+write.csv(error_data_melted, file = paste0("inst/table/shaker_consistency_cv", current_run ,".csv"), quote = FALSE, row.names = FALSE)
 
 p = ggplot(error_data_melted,
            aes(
@@ -144,7 +140,7 @@ p = ggplot(error_data_melted,
   xlab("Frequency (Hz)")
 
 ggsave(
-  filename = "shaker_consistency_error.png",
+  filename = paste0("shaker_consistency_error_",current_run,".png"),
   plot = p,
   path = "inst/figure/",
   scale = 2,

@@ -8,17 +8,16 @@ experiment_treadmill_count = function(raw_data,
                           k = 0.05,
                           spar = 0.6,
                           integration = "trapz",
-                          aggregation = 'axis',
+                          combination = 'axis',
                          use_extrapolate = TRUE,
                          use_interpolate = TRUE,
-                         use_resampling = FALSE,
                          use_filtering = TRUE){
   walkrun_data = raw_data
   para = list(EPOCH = epoch,
               LOW_BW = cutoffs[1],
               HIGH_BW = cutoffs[2],
               INTEGRATION = integration,
-              AGGREGATION = aggregation,
+              COMBINATION = combination,
               SMOOTHING = spar,
               NEIGHBOR = k)
   # compute count over epoches
@@ -34,10 +33,9 @@ experiment_treadmill_count = function(raw_data,
           spar = para$SMOOTHING,
           cutoffs = c(para$LOW_BW, para$HIGH_BW),
           integration = para$INTEGRATION,
-          aggregation = para$AGGREGATION,
+          combination = para$COMBINATION,
           use_extrapolation = use_extrapolate,
           use_interpolation = use_interpolate,
-          use_resampling = use_resampling,
           use_filtering = use_filtering
         ) %>%
         na.omit
@@ -51,8 +49,15 @@ experiment_treadmill_count = function(raw_data,
     .progress = "none",
     .inform = TRUE)
 
-  countCol = walkrun_count %>% colnames %>% str_detect(pattern = "MAGNITUDE") %>% which
-  names(walkrun_count)[countCol] = "COUNT"
-
+  if(para$COMBINATION == "sum"){
+    countCol = walkrun_count %>% colnames %>% str_detect(pattern = "SUMUP") %>% which
+    names(walkrun_count)[countCol] = "COUNT"
+  }else if(para$COMBINATION == "vm"){
+    countCol = walkrun_count %>% colnames %>% str_detect(pattern = "MAGNITUDE") %>% which
+    names(walkrun_count)[countCol] = "COUNT"
+  }else{
+    countCols = walkrun_count %>% colnames %>% str_detect(pattern = "_X|_Y|_Z") %>% which
+    names(walkrun_count)[countCols] = c('X', 'Y', 'Z')
+  }
   return(walkrun_count)
 }

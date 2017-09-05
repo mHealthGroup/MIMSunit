@@ -5,8 +5,7 @@
 \title{function to calculate the count values for shaker data}
 \usage{
 experiment_shaker_count(raw_data, epoch = "5 sec", noise_level = 0.03,
-  resample = 50, cutoffs = c(0.2, 5), k = 0.05, spar = 0.6,
-  integration = c("trapz"), use_extrapolate = TRUE,
-  use_interpolate = TRUE, use_resampling = TRUE, use_filtering = TRUE,
+  cutoffs = c(0.2, 5), k = 0.05, spar = 0.6, integration = c("trapz"),
+  use_extrapolate = TRUE, use_interpolate = TRUE, use_filtering = TRUE,
   axes = c(2, 3, 4))
 }
