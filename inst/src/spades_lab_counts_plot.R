@@ -1,3 +1,9 @@
+
+require(dplyr)
+require(stringr)
+require(ggplot2)
+require(reshape2)
+require(extrafont)
 smart_counts_filename = "inst/extdata/spades_lab_smart_counts.rds"
 spades_lab_smart_counts = readRDS(smart_counts_filename)
 actigraph_counts_filename = "inst/extdata/spades_lab_actigraph_counts.rds"
@@ -5,14 +11,10 @@ spades_lab_actigraph_counts = readRDS(actigraph_counts_filename)
 spades_lab_actigraph_counts$PID = as.numeric(spades_lab_actigraph_counts$PID)
 
 # merge these two dataframes
-spades_lab_counts = join(spades_lab_smart_counts, spades_lab_actigraph_counts)
+spades_lab_counts = plyr::join(spades_lab_smart_counts, spades_lab_actigraph_counts)
 spades_lab_counts = na.omit(spades_lab_counts)
 # optimize scaling
-require(dplyr)
-require(stringr)
-require(ggplot2)
-require(reshape2)
-require(extrafont)
+
 loadfonts(device = 'win')
 # forScaling = dplyr::filter(spades_lab_counts, ACTIVITY_NAME %in% c("walking at 1mph arms on desk",
 #                                                             "walking at 2mph arms on desk",
@@ -90,12 +92,14 @@ p3Data$ALGORITHM[str_detect(p3Data$TYPE, "SMART")] = "SMART-counts"
 p3Data$DEVICE = "±8g Device"
 p3Data[str_detect(p3Data$TYPE, "2g"), "DEVICE"] = "±2g Device"
 
+p3Data$DEVICE = factor(p3Data$DEVICE, c("±8g Device", "±2g Device"))
+
 p3Stats = p3Data %>% group_by(LABEL_NAME, LOCATION, TYPE, DEVICE, ALGORITHM) %>% summarise(
   ylower = quantile(value, 1/4),
   yupper = quantile(value, 3/4),
   ymin = max(min(value), ylower - 1.5 * (yupper - ylower)),
   ymax = min(max(value), yupper + 1.5 * (yupper - ylower)),
-  mean = mean(value)
+  mean = median(value)
 )
 
 p33 = ggplot(data = p3Stats, aes(x=LABEL_NAME, ymin = ymin, ymax = ymax, lower=ylower, upper=yupper, middle=mean)) +
