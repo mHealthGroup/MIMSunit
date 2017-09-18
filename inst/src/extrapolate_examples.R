@@ -8,8 +8,7 @@ require(Counts)
 # extrapolation parameters ----
 k = 0.05
 spar = 0.6
-confidence = 0.5
-noise_level = 0.1
+noise_level = 0.03
 
 gg_color_hue <- function(n) {
   hues = seq(15, 375, length = n + 1)
@@ -19,6 +18,50 @@ gg_color_hue <- function(n) {
 colors = gg_color_hue(2)
 
 # examples ----
+
+example_shaker_3g = function(){
+  filename = "inst/extdata/shaker2.rds"
+  shaker2 = readRDS(filename)
+  g3Shaker = shaker2 %>% dplyr::filter(GRANGE == 3 & RPM == 5) %>% select(c(1, 2))
+  g3Shaker = g3Shaker %>% mhealth.clip(start_time = g3Shaker[1, 1] + 74, stop_time = g3Shaker[1, 1] + 82, file_type = "sensor")
+  g6Shaker = shaker2 %>% dplyr::filter(GRANGE == 6 & RPM == 5) %>% select(c(1, 2))
+  g6Shaker = g6Shaker %>% mhealth.clip(start_time = g6Shaker[1, 1] + 74, stop_time = g6Shaker[1, 1] + 82, file_type = "sensor")
+  g6Shaker[[1]] = g6Shaker[[1]] + 0.06
+  g3Shaker_extrap = extrapolate.data.frame(g3Shaker, range = c(-3, 3), noise_level = noise_level, k = k, spar = spar)
+  forPlot = rbind(cbind(g6Shaker, group = "gt"),
+                cbind(g3Shaker_extrap, group = "extrap"),
+                cbind(g3Shaker, group = "origin")
+                )
+  labels = c("GT3XBT (80Hz, 6g)", "Extrapolated GT3X", "GT3X (30Hz, 3g)")
+  p1 = ggplot(data = forPlot, aes(
+                      x = HEADER_TIME_STAMP,
+                      y = X_ACCELATION_METERS_PER_SECOND_SQUARED,
+                      colour = group,
+                      lty = group,
+                      alpha = group
+                      )
+                    ) +
+                    geom_line(lwd = 1) +
+                    theme_minimal(base_size = 16, base_family = "Times New Roman") +
+                    scale_color_manual(values = c("gray", 'black', 'black'),labels = labels) +
+                    scale_linetype_manual(values = c("solid", "solid", "solid"),labels = labels) +
+                    scale_alpha_manual(values = c(0.8, 0.4, 1), labels = labels) +
+                    guides(
+                      colour = guide_legend(title = ""),
+                      linetype = guide_legend(title = ""),
+                      alpha = guide_legend(title = "")
+                    ) +
+                    xlab("time (s)") +
+                    ylab("X-axis acceleration (g)") +
+                    theme(legend.position = "bottom")
+  ggsave(path = file.path("inst/figure/"),
+        filename = "extrapolate_example_shaker.png",
+        plot = p1,
+        scale = 2,
+        width = 4,
+        height = 2
+  )
+}
 
 example_shaker = function(){
 filename = "inst/extdata/shaker3.rds"
@@ -75,11 +118,9 @@ p1 = ggplot(
 ) +
   geom_line(lwd = 1) +
   theme_minimal(base_size = 16, base_family = "Times New Roman") +
-  scale_color_manual(values = c("gray", colors[2], colors[1]),
-                     labels = labels) +
-  scale_linetype_manual(values = c("solid", "solid", "solid"),
-                        labels = labels) +
-  scale_alpha_manual(values = c(1, 0.4, 1), labels = labels) +
+  scale_color_manual(values = c("gray", 'black', 'black'),labels = labels) +
+  scale_linetype_manual(values = c("solid", "solid", "solid"),labels = labels) +
+  scale_alpha_manual(values = c(0.8, 0.4, 1), labels = labels) +
   guides(
     colour = guide_legend(title = ""),
     linetype = guide_legend(title = ""),
@@ -141,11 +182,9 @@ p2 = ggplot(data = forPlot,
             )) +
   geom_line(lwd = 1) +
   theme_minimal(base_size = 16) +
-  scale_color_manual(values = c("gray", colors[2], colors[1]),
-                     labels = labels) +
-  scale_linetype_manual(values = c("solid", "solid", "solid"),
-                        labels = labels) +
-  scale_alpha_manual(values = c(1, 0.4, 1), labels = labels) +
+  scale_color_manual(values = c("gray", 'black', 'black'),labels = labels) +
+  scale_linetype_manual(values = c("solid", "solid", "solid"),labels = labels) +
+  scale_alpha_manual(values = c(0.8, 0.4, 1), labels = labels) +
   guides(
     colour = guide_legend(title = ""),
     linetype = guide_legend(title = ""),
@@ -203,11 +242,9 @@ p3 = ggplot(
 ) +
   geom_line(lwd = 1) +
   theme_minimal(base_size = 18, base_family = "Times New Roman") +
-  scale_color_manual(values = c("gray", colors[2], colors[1]),
-                     labels = labels) +
-  scale_linetype_manual(values = c("solid", "solid", "solid"),
-                        labels = labels) +
-  scale_alpha_manual(values = c(1, 0.4, 1), labels = labels) +
+  scale_color_manual(values = c("gray", 'black', 'black'),labels = labels) +
+  scale_linetype_manual(values = c("solid", "solid", "solid"),labels = labels) +
+  scale_alpha_manual(values = c(0.8, 0.4, 1), labels = labels) +
   guides(
     colour = guide_legend(title = ""),
     linetype = guide_legend(title = ""),
@@ -272,11 +309,9 @@ p4 = ggplot(
 ) +
   geom_line(lwd = 1) +
   theme_minimal(base_size = 18, base_family = "Times New Roman") +
-  scale_color_manual(values = c("gray", colors[2], colors[1]),
-                     labels = labels) +
-  scale_linetype_manual(values = c("solid", "solid", "solid"),
-                        labels = labels) +
-  scale_alpha_manual(values = c(1, 0.4, 1), labels = labels) +
+  scale_color_manual(values = c("gray", 'black', 'black'),labels = labels) +
+  scale_linetype_manual(values = c("solid", "solid", "solid"),labels = labels) +
+  scale_alpha_manual(values = c(0.8, 0.4, 1), labels = labels) +
   guides(
     colour = guide_legend(title = ""),
     linetype = guide_legend(title = ""),
@@ -299,7 +334,7 @@ return(fb_rate)
 }
 
 example_running2 = function(){
-  noise_level = 0.03
+noise_level = 0.05
 filename = "inst/extdata/running2_maxed_out.rds"
 running2_maxed_out = readRDS(filename)
 
@@ -308,8 +343,8 @@ gt_r2 = running2_maxed_out %>% dplyr::filter(GRANGE == 8)
 
 # clip
 st = maxed_out_r2[1, 1]
-maxed_out_r2 = maxed_out_r2 %>% mHealthR::mhealth.clip(start_time = st, stop_time = st + 10, file_type = "sensor")
-gt_r2 = gt_r2 %>% mHealthR::mhealth.clip(start_time = st, stop_time = st + 10, file_type = "sensor")
+maxed_out_r2 = maxed_out_r2 %>% mHealthR::mhealth.clip(start_time = st, stop_time = st + 8, file_type = "sensor")
+gt_r2 = gt_r2 %>% mHealthR::mhealth.clip(start_time = st, stop_time = st + 8, file_type = "sensor")
 
 extrap_r2 = extrapolate.data.frame(
   maxed_out_r2[, 1:4],
@@ -346,11 +381,9 @@ p5 = ggplot(
 ) +
   geom_line(lwd = 1) +
   theme_minimal(base_size = 16, base_family = "Times New Roman") +
-  scale_color_manual(values = c("gray", colors[2], colors[1]),
-                     labels = labels) +
-  scale_linetype_manual(values = c("solid", "solid", "solid"),
-                        labels = labels) +
-  scale_alpha_manual(values = c(1, 0.4, 1), labels = labels) +
+  scale_color_manual(values = c("gray", 'black', 'black'),labels = labels) +
+  scale_linetype_manual(values = c("solid", "solid", "solid"),labels = labels) +
+  scale_alpha_manual(values = c(0.8, 0.4, 1), labels = labels) +
   guides(
     colour = guide_legend(title = ""),
     linetype = guide_legend(title = ""),
@@ -394,9 +427,9 @@ extrap_running = extrapolate.data.frame(
 running3_rate = Counts::extrapolate_rate(maxed_out_running[c(1,3)], gt_running[c(1,3)], extrap_running[c(1,3)])
 
 startTime = extrap_running[1, 1]
-extrap_clip = extrap_running[, c(1, 3)] %>% mHealthR::mhealth.clip(start_time = startTime, stop_time = startTime + 10, file_type = "sensor")
-maxedout_clip = maxed_out_running[, c(1, 3)] %>% mHealthR::mhealth.clip(start_time = startTime, stop_time = startTime + 10, file_type = "sensor")
-gt_clip = gt_running[, c(1, 3)] %>% mHealthR::mhealth.clip(start_time = startTime, stop_time = startTime + 10, file_type = "sensor")
+extrap_clip = extrap_running[, c(1, 3)] %>% mHealthR::mhealth.clip(start_time = startTime, stop_time = startTime + 8, file_type = "sensor")
+maxedout_clip = maxed_out_running[, c(1, 3)] %>% mHealthR::mhealth.clip(start_time = startTime, stop_time = startTime + 8, file_type = "sensor")
+gt_clip = gt_running[, c(1, 3)] %>% mHealthR::mhealth.clip(start_time = startTime, stop_time = startTime + 8, file_type = "sensor")
 
 # plot
 #
@@ -419,11 +452,9 @@ p2 = ggplot(
 ) +
   geom_line(lwd = 1) +
   theme_minimal(base_size = 16, base_family = "Times New Roman") +
-  scale_color_manual(values = c("gray", colors[2], colors[1]),
-                     labels = labels) +
-  scale_linetype_manual(values = c("solid", "solid", "solid"),
-                        labels = labels) +
-  scale_alpha_manual(values = c(1, 0.4, 1), labels = labels) +
+  scale_color_manual(values = c("gray", 'black', 'black'),labels = labels) +
+  scale_linetype_manual(values = c("solid", "solid", "solid"),labels = labels) +
+  scale_alpha_manual(values = c(0.8, 0.4, 1), labels = labels) +
   guides(
     colour = guide_legend(title = ""),
     linetype = guide_legend(title = ""),
@@ -492,11 +523,9 @@ example_running4 = function(){
   ) +
     geom_line(lwd = 1) +
     theme_minimal(base_size = 16, base_family = "Times New Roman") +
-    scale_color_manual(values = c("gray", colors[2], colors[1]),
-                       labels = labels) +
-    scale_linetype_manual(values = c("solid", "solid", "solid"),
-                          labels = labels) +
-    scale_alpha_manual(values = c(1, 0.4, 1), labels = labels) +
+    scale_color_manual(values = c("gray", 'black', 'black'),labels = labels) +
+    scale_linetype_manual(values = c("solid", "solid", "solid"),labels = labels) +
+    scale_alpha_manual(values = c(0.8, 0.4, 1), labels = labels) +
     guides(
       colour = guide_legend(title = ""),
       linetype = guide_legend(title = ""),
@@ -518,22 +547,23 @@ example_running4 = function(){
   return(running4_rate)
 }
 
-shaker_rate = example_shaker()
-jj_rate = example_jumpingjack()
-fb_rate = example_frisbee()
-r1_rate = example_running1()
-r2_rate = example_running2()
+# example_shaker_3g()
+# shaker_rate = example_shaker()
+# jj_rate = example_jumpingjack()
+# fb_rate = example_frisbee()
+# r1_rate = example_running1()
+# r2_rate = example_running2()
 r3_rate = example_running3()
-r4_rate = example_running4()
-
-print(shaker_rate)
-print(jj_rate)
-print(fb_rate)
-print(r1_rate)
-print(r2_rate)
-print(r3_rate)
-print(r4_rate)
-
-rate_result = data.frame(shaker = shaker_rate, jumpingjack = jj_rate, run_with_ankle = r2_rate, run_with_wrist = r3_rate)
-
-write.csv(rate_result, "inst/table/extrapolation_examples_rate.csv", quote = FALSE, row.names = FALSE)
+# r4_rate = example_running4()
+#
+# print(shaker_rate)
+# print(jj_rate)
+# print(fb_rate)
+# print(r1_rate)
+# print(r2_rate)
+# print(r3_rate)
+# print(r4_rate)
+#
+# rate_result = data.frame(shaker = shaker_rate, jumpingjack = jj_rate, run_with_ankle = r2_rate, run_with_wrist = r3_rate)
+#
+# write.csv(rate_result, "inst/table/extrapolation_examples_rate.csv", quote = FALSE, row.names = FALSE)
