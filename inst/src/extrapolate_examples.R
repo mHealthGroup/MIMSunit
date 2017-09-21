@@ -32,6 +32,7 @@ example_shaker_3g = function(){
                 cbind(g3Shaker_extrap, group = "extrap"),
                 cbind(g3Shaker, group = "origin")
                 )
+  write.csv(x = forPlot, file = "inst/table/extrapolation_examples_shaker_3g.csv", append = F, quote = FALSE, row.names = FALSE, col.names = TRUE)
   labels = c("GT3XBT (80Hz, 6g)", "Extrapolated GT3X", "GT3X (30Hz, 3g)")
   p1 = ggplot(data = forPlot, aes(
                       x = HEADER_TIME_STAMP,
@@ -104,6 +105,8 @@ forPlot = rbind(
   cbind(g2Shaker, group = "origin")
 )
 
+write.csv(x = forPlot, file = "inst/table/extrapolation_examples_shaker_2g.csv", append = F, quote = FALSE, row.names = FALSE, col.names = TRUE)
+
 labels = c("GT9X (80Hz, 8g)", "Extrapolated LG Watch", "LG Urbane R (100Hz, 2g)")
 
 p1 = ggplot(
@@ -171,6 +174,8 @@ forPlot = rbind(
   cbind(maxedout_clip, group = "origin")
 )
 
+write.csv(x = forPlot, file = "inst/table/extrapolation_examples_running_1.csv", append = F, quote = FALSE, row.names = FALSE, col.names = TRUE)
+
 labels = c("GT9X (80Hz, 8g)", "Extrapolated GT3X", "GT3X (30Hz, 3g)")
 p2 = ggplot(data = forPlot,
             aes(
@@ -228,6 +233,8 @@ forPlot = rbind(
   cbind(extrap_jj, group = "extrap"),
   cbind(maxed_out_jj[, 1:2], group = "origin")
 )
+
+write.csv(x = forPlot, file = "inst/table/extrapolation_examples_jumpingjack.csv", append = F, quote = FALSE, row.names = FALSE, col.names = TRUE)
 
 labels = c("8g device", "extrapolated 2g signal", "8g device cropped to 2g")
 p3 = ggplot(
@@ -295,6 +302,8 @@ forPlot = rbind(
   cbind(extrap_fb, group = "extrap"),
   cbind(maxed_out_fb[, 1:2], group = "origin")
 )
+
+write.csv(x = forPlot, file = "inst/table/extrapolation_examples_frisbee.csv", append = F, quote = FALSE, row.names = FALSE, col.names = TRUE)
 
 labels = c("8g device", "extrapolated 2g signal", "8g device cropped to 2g")
 p4 = ggplot(
@@ -368,6 +377,8 @@ forPlot = rbind(
   cbind(maxed_out_r2[, c(1, 3)], group = "origin")
 )
 
+write.csv(x = forPlot, file = "inst/table/extrapolation_examples_running2.csv", append = F, quote = FALSE, row.names = FALSE, col.names = TRUE)
+
 labels = c("8g device", "extrapolated 2g signal", "8g device cropped to 2g")
 p5 = ggplot(
   data = forPlot,
@@ -438,6 +449,7 @@ forPlot = rbind(
   cbind(extrap_clip, group = "extrap"),
   cbind(maxedout_clip, group = "origin")
 )
+write.csv(x = forPlot, file = "inst/table/extrapolation_examples_running3.csv", append = F, quote = FALSE, row.names = FALSE, col.names = TRUE)
 
 labels = c("GT9X (40Hz, 8g)", "Extrapolated GT9X", "GT9X cropped to 2g")
 p2 = ggplot(
@@ -510,6 +522,8 @@ example_running4 = function(){
     cbind(maxedout_clip, group = "origin")
   )
 
+  write.csv(x = forPlot, file = "inst/table/extrapolation_examples_running4.csv", append = F, quote = FALSE, row.names = FALSE, col.names = TRUE)
+
   labels = c("GT9X (100Hz, 8g)", "Extrapolated GT9X", "GT9X cropped to 2g")
   p2 = ggplot(
     data = forPlot,
@@ -547,23 +561,23 @@ example_running4 = function(){
   return(running4_rate)
 }
 
-# example_shaker_3g()
-# shaker_rate = example_shaker()
-# jj_rate = example_jumpingjack()
-# fb_rate = example_frisbee()
-# r1_rate = example_running1()
-# r2_rate = example_running2()
+shaker_rate = example_shaker_3g()
+example_shaker()
+jj_rate = example_jumpingjack()
+fb_rate = example_frisbee()
+r1_rate = example_running1()
+r2_rate = example_running2()
 r3_rate = example_running3()
-# r4_rate = example_running4()
+r4_rate = example_running4()
 #
-# print(shaker_rate)
-# print(jj_rate)
-# print(fb_rate)
-# print(r1_rate)
-# print(r2_rate)
-# print(r3_rate)
-# print(r4_rate)
-#
-# rate_result = data.frame(shaker = shaker_rate, jumpingjack = jj_rate, run_with_ankle = r2_rate, run_with_wrist = r3_rate)
-#
-# write.csv(rate_result, "inst/table/extrapolation_examples_rate.csv", quote = FALSE, row.names = FALSE)
+print(shaker_rate)
+print(jj_rate)
+print(fb_rate)
+print(r1_rate)
+print(r2_rate)
+print(r3_rate)
+print(r4_rate)
+
+rate_result = data.frame(shaker = shaker_rate, jumpingjack = jj_rate, run_with_ankle = r2_rate, run_with_wrist = r3_rate)
+
+write.csv(rate_result, "inst/table/extrapolation_examples_rate.csv", quote = FALSE, row.names = FALSE)
