@@ -1,4 +1,4 @@
-Package: Counts
+Package: SMARTcounts
 Type: Package
 Title: Code and results for counts paper
 Version: 0.2.0
