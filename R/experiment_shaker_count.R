@@ -1,6 +1,9 @@
 #' @name experiment_shaker_count
 #' @title function to calculate the count values for shaker data
-#' @import plyr dplyr
+#' @importFrom plyr ddply .
+#' @importFrom magrittr %>%
+#' @importFrom stringr str_detect
+#' @importFrom stats na.omit
 #' @export
 experiment_shaker_count = function(raw_data,
                          epoch = "5 sec",
@@ -21,7 +24,7 @@ experiment_shaker_count = function(raw_data,
   para = list(EPOCH = epoch, LOW_BW = cutoffs[1], HIGH_BW = cutoffs[2], INTEGRATION = integration, SMOOTHING = spar, NEIGHBOR = k)
 
   # compute count over epoches
-  shaker_count = shaker_data %>% ddply(.(RPM, DEVICE, GRANGE, LOCATION, SR), function(segment) {
+  shaker_count = shaker_data %>% plyr::ddply(plyr::.(RPM, DEVICE, GRANGE, LOCATION, SR), function(segment) {
 
       gr = as.numeric(segment$GRANGE[1])
       count = segment %>%
@@ -39,7 +42,7 @@ experiment_shaker_count = function(raw_data,
           use_interpolation = use_interpolate,
           use_filtering = use_filtering
         ) %>%
-        na.omit
+        stats::na.omit
       result = count %>% cbind(
         segment %>% subset(select = -(1:4)) %>% unique,
         INDEX = 1:nrow(count),
@@ -48,7 +51,7 @@ experiment_shaker_count = function(raw_data,
     return(result)
   }, .progress = "text", .inform = TRUE, .parallel = FALSE)
 
-  countCol = shaker_count %>% colnames %>% str_detect(pattern = "SUMUP") %>% which
+  countCol = shaker_count %>% colnames %>% stringr::str_detect(pattern = "SUMUP") %>% which
   names(shaker_count)[countCol] = "COUNT"
 
   return(shaker_count)

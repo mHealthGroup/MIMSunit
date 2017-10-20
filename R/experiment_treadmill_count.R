@@ -1,5 +1,8 @@
 #' @title function to calculate the count values for treadmill data
-#' @import plyr dplyr
+#' @importFrom plyr ddply .
+#' @importFrom magrittr %>%
+#' @importFrom stringr str_detect
+#' @importFrom stats na.omit
 #' @export
 experiment_treadmill_count = function(raw_data,
                           epoch = "5 sec",
@@ -21,7 +24,7 @@ experiment_treadmill_count = function(raw_data,
               SMOOTHING = spar,
               NEIGHBOR = k)
   # compute count over epoches
-  walkrun_count = walkrun_data %>% ddply(.(MPH, PID, LOCATION, ID, SR, GRANGE), function(segment) {
+  walkrun_count = walkrun_data %>% plyr::ddply(plyr::.(MPH, PID, LOCATION, ID, SR, GRANGE), function(segment) {
       gr = as.numeric(segment$GRANGE[1])
       count = segment %>%
         subset(select = 1:4) %>%
@@ -38,7 +41,7 @@ experiment_treadmill_count = function(raw_data,
           use_interpolation = use_interpolate,
           use_filtering = use_filtering
         ) %>%
-        na.omit
+        stats::na.omit
       result = count %>% cbind(
         segment %>% subset(select = -(1:4)) %>% unique,
         INDEX = 1:nrow(count),
@@ -50,13 +53,13 @@ experiment_treadmill_count = function(raw_data,
     .inform = TRUE)
 
   if(para$COMBINATION == "sum"){
-    countCol = walkrun_count %>% colnames %>% str_detect(pattern = "SUMUP") %>% which
+    countCol = walkrun_count %>% colnames %>% stringr::str_detect(pattern = "SUMUP") %>% which
     names(walkrun_count)[countCol] = "COUNT"
   }else if(para$COMBINATION == "vm"){
-    countCol = walkrun_count %>% colnames %>% str_detect(pattern = "MAGNITUDE") %>% which
+    countCol = walkrun_count %>% colnames %>% stringr::str_detect(pattern = "MAGNITUDE") %>% which
     names(walkrun_count)[countCol] = "COUNT"
   }else{
-    countCols = walkrun_count %>% colnames %>% str_detect(pattern = "_X|_Y|_Z") %>% which
+    countCols = walkrun_count %>% colnames %>% stringr::str_detect(pattern = "_X|_Y|_Z") %>% which
     names(walkrun_count)[countCols] = c('X', 'Y', 'Z')
   }
   return(walkrun_count)

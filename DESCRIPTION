@@ -4,8 +4,8 @@ Title: Code and results for counts paper
 Version: 0.2.0
 Author: Qu Tang <tang.q@husky.neu.edu>
 Maintainer: Qu Tang <tang.q@husky.neu.edu>
-Description: Code and results for counts paper
-License: MIT
+Description: Code and results for SMART counts algorithm.
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
@@ -13,4 +13,12 @@ Imports: mHealthR,
     akima,
     caTools,
     dplyr,
-    matlab
+    matlab,
+    R.utils,
+    h5,
+    lubridate,
+    plyr,
+    readr,
+    signal,
+    stringr,
+    magrittr

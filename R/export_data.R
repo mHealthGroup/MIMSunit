@@ -1,6 +1,6 @@
 #' @name export_actigraph_raw
 #' @title Export to Actigraph raw csv files
-#' @import readr
+#' @importFrom readr write_lines write_csv
 #' @export
 export_actigraph_raw = function(df, filepath, actilife_version = "6.13.3", firmware_version = "1.6.0") {
   sr = sampling_rate(df)
@@ -21,6 +21,6 @@ export_actigraph_raw = function(df, filepath, actilife_version = "6.13.3", firmw
   actigraph_meta = c(actigraph_meta, paste0('Timestamp,Accelerometer X,Accelerometer Y,Accelerometer Z'))
   df[[1]] = strftime(df[[1]], format = "%m/%d/%Y %H:%M:%OS3", tz = "UTC")
   df[c(2,3,4)] = round(df[c(2,3,4)], digits = 3)
-  write_lines(x = actigraph_meta, path = filepath, append = FALSE)
-  write_csv(x = df, path = filepath, col_names = FALSE, append = TRUE)
+  readr::write_lines(x = actigraph_meta, path = filepath, append = FALSE)
+  readr::write_csv(x = df, path = filepath, col_names = FALSE, append = TRUE)
 }

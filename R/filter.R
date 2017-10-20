@@ -1,7 +1,9 @@
 #' @name average_removal
 #' @title Apply average removal FIR filter to the input sensor data frame each column over certain breaks (e.g. hour, sec, min and etc.)
 #' @export
-#' @import signal matlab plyr mHealthR
+#' @importFrom signal filter
+#' @importFrom plyr colwise
+#' @importFrom matlab ones
 #' @param df the input dataframe that matches mhealth specification.
 #' @param Fs sampling rate of the input signal
 #' @param order window size (in seconds) of filter
@@ -13,8 +15,8 @@ average_removal = function(df, Fs, order){
   b = c((window - 1)/window, -matlab::ones(1, window - 1)/window);
   a = 1;
 
-  colFilter = colwise(.fun = function(x, filt, a){
-    filtered = filter(filt, a, x)
+  colFilter = plyr::colwise(.fun = function(x, filt, a){
+    filtered = signal::filter(filt, a, x)
     result = as.numeric(filtered)
   }, filt = b, a = a)
 
@@ -27,7 +29,8 @@ average_removal = function(df, Fs, order){
 #' @name bessel
 #' @title Apply low pass bessel filter to the input sensor data frame each column over certain breaks (e.g. hour, sec, min and etc.)
 #' @export
-#' @import signal matlab plyr
+#' @importFrom signal filter
+#' @importFrom plyr colwise
 #' @param df the input dataframe that matches mhealth specification.
 #' @param Fs sampling rate of the input signal
 #' @param Fc cut off frequency of bessel filter
@@ -38,8 +41,8 @@ bessel = function(df, Fs, Fc, order){
 
   nCols = ncol(df)
 
-  colFilter = colwise(.fun = function(x, filt){
-    filtered = filter(filt, x)
+  colFilter = plyr::colwise(.fun = function(x, filt){
+    filtered = signal::filter(filt, x)
     return(as.numeric(filtered))
   }, filt = armaCoeffs)
   filteredValue = colFilter(df[2:nCols])
@@ -52,7 +55,8 @@ bessel = function(df, Fs, Fc, order){
 #' @name iir
 #' @title Apply iir filter to the input sensor data frame each column over a certain break (e.g. hour, sec, min and etc.).
 #' @export
-#' @import signal matlab plyr
+#' @importFrom signal butter cheby1 cheby2 ellip filter
+#' @importFrom plyr colwise
 #' @param df the input dataframe that matches mhealth specification.
 #' @param Fs sampling rate of the input signal
 #' @param Fc cut off frequencies of butterworth filter, if more than one store as c(low, high)
@@ -64,16 +68,16 @@ iir = function(df, Fs, Fc, order, type = "high", filter_type = "butter"){
   nyquist=Fs/2;
 
   coeffs = switch(filter_type,
-         butter = butter(order,Fc/nyquist,type),
-         chebyI = cheby1(order, 0.05, W = Fc/nyquist, type, plane = "z"),
-         chebyII = cheby2(order, 0.05, W = Fc/nyquist, type, plane = "z"),
+         butter = signal::butter(order,Fc/nyquist,type),
+         chebyI = signal::cheby1(order, 0.05, W = Fc/nyquist, type, plane = "z"),
+         chebyII = signal::cheby2(order, 0.05, W = Fc/nyquist, type, plane = "z"),
          ellip = signal::ellip(order, 0.05, 50, W = Fc/nyquist, type, plane = "z")
         )
 
   nCols = ncol(df)
 
-  colFilter = colwise(.fun = function(x, filt, a){
-    filtered = filter(filt, a, x)
+  colFilter = plyr::colwise(.fun = function(x, filt, a){
+    filtered = signal::filter(filt, a, x)
     result = as.numeric(filtered)
   }, filt = coeffs$b, a = coeffs$a)
   filteredValue = colFilter(df[2:nCols])
@@ -85,20 +89,22 @@ iir = function(df, Fs, Fc, order, type = "high", filter_type = "butter"){
 #' @name resample
 #' @title Apply bandlimited interpolation filter to the input sensor data frame each column over a certain break (e.g. hour, sec, min and etc.).
 #' @export
-#' @import signal plyr dplyr
+#' @importFrom signal resample
+#' @importFrom plyr colwise
+#' @importFrom magrittr %>%
+#' @importFrom dplyr last
 #' @param dft dataframe that matches mhealth specification.
 #' @param origSr original sampling rate of each column
 #' @param newSr the desired sampling rate for each column
 #' @return list of filtered dataframes.
-
 resample = function(df, origSr, newSr){
   nCols = ncol(df)
 
-  colFilter = colwise(.fun = function(x){
+  colFilter = plyr::colwise(.fun = function(x){
     resampled = x %>% signal::resample(p = newSr, q = origSr) %>% as.numeric
   })
   resampledValue = colFilter(df[2:nCols])
-  resampledTs = seq(from = df[1, 1], to = df[, 1] %>% last, length = nrow(resampledValue))
+  resampledTs = seq(from = df[1, 1], to = df[, 1] %>% dplyr::last, length = nrow(resampledValue))
   resampledValue = cbind(resampledTs, resampledValue)
   colnames(resampledValue)[1] = colnames(df)[1]
   return(resampledValue)
@@ -171,10 +177,11 @@ resample = function(df, origSr, newSr){
   return(list(zd = zd, pd = pd, kd = kd))
 }
 
+#' @importFrom signal sftrans as.Arma Zpg
 .besself = function(Fs, Fc, order){
   zpkPrototype = .besselap(order)
-  zpkPrototype = sftrans(Zpg(zpkPrototype$z, zpkPrototype$p, zpkPrototype$k), W = Fc*2*pi)
+  zpkPrototype = signal::sftrans(signal::Zpg(zpkPrototype$z, zpkPrototype$p, zpkPrototype$k), W = Fc*2*pi)
   zpkPrototype = .bilinear(zpkPrototype$zero, zpkPrototype$pole, zpkPrototype$gain, Fs)
-  armaCoeffs = as.Arma(Zpg(zpkPrototype$z, zpkPrototype$p, zpkPrototype$k))
+  armaCoeffs = signal::as.Arma(signal::Zpg(zpkPrototype$z, zpkPrototype$p, zpkPrototype$k))
   return(armaCoeffs)
 }

@@ -3,7 +3,8 @@
 #' @note If wanting to obtain mediate results for plotting and debugging, please use this function.
 #' @author Qu Tang
 #' @export
-#' @import MASS akima plyr
+#' @importFrom plyr adply progress_text
+#' @importFrom lubridate tz
 #' @param t input index or timestamp sequence
 #' @param k duration of neighborhood to be used in local spline regression for each side, in seconds
 #' @param spar between 0 and 1, to control how smooth we want to fit local spline regression, 0 is linear and 1 matches all local points. A good choice is 0.3 to penalize the maxed out points.
@@ -29,7 +30,7 @@ extrapolate.data.frame = function(df, ...){
 #' @note If wanting to obtain mediate results for plotting and debugging, please use this function.
 #' @author Qu Tang
 #' @export
-#' @import MASS akima
+#' @importFrom stats spline
 #' @param t input index or timestamp sequence
 #' @param k duration of neighborhood to be used in local spline regression for each side, in seconds
 #' @param spar between 0 and 1, to control how smooth we want to fit local spline regression, 0 is linear and 1 matches all local points. A good choice is 0.3 to penalize the maxed out points.
@@ -38,7 +39,7 @@ extrapolate = function(t, value, range, noise_level, k = 0.65, spar = 0.4){
   t_over = seq(t[1], t[length(t)], by = 1/100)
 
   # over sampling to 100Hz with spline interpolation
-  dat_over = spline(x = t, y = value, xout = t_over, method = "natural")
+  dat_over = stats::spline(x = t, y = value, xout = t_over, method = "natural")
   dat_over = data.frame(dat_over)
   if(is.POSIXct(t[1])){
     dat_over[1] = as.POSIXct(dat_over[[1]], origin = "1970-01-01")
@@ -66,11 +67,12 @@ extrapolate = function(t, value, range, noise_level, k = 0.65, spar = 0.4){
 }
 
 #' @export
+#' @importFrom stats spline
 .extrapolate.oversampling = function(t, value) {
   t_over = seq(t[1], t[length(t)], by = 1/100)
 
   # over sampling to 100Hz with spline interpolation
-  dat_over = spline(x = t, y = value, xout = t_over, method = "natural")
+  dat_over = stats::spline(x = t, y = value, xout = t_over, method = "natural")
   dat_over = data.frame(dat_over)
   if(is.POSIXct(t[1])){
     dat_over[1] = as.POSIXct(dat_over[[1]], origin = "1970-01-01")
@@ -83,19 +85,13 @@ extrapolate = function(t, value, range, noise_level, k = 0.65, spar = 0.4){
   return(list(t=t, value=value))
 }
 
-#' @export
-.extrapolate.markregion = function(t, value, range) {
-  marker.fun = .extrapolate.mark("gamma")
-  marker = marker.fun(t, value, range[1], range[2], noise_level)
-  return(marker)
-}
-
 .extrapolate.mark = function(method = "gamma"){
    return(switch(method,
                  gamma = .mark.gamma,
                  threshold = .mark.threshold))
 }
 
+#' @importFrom stats pgamma
 .mark.gamma = function(t, value, range_low, range_high, noise_sd = noise_sd){
   # init the mark vector
   marker = rep(0, length(t))
@@ -103,20 +99,20 @@ extrapolate = function(t, value, range, noise_level, k = 0.65, spar = 0.4){
   # model of 3sd and shape para with confident probability at 0.95
   noise_sd = noise_sd + 10e-6
   shape = .optimize.gamma(3 * noise_sd)
-
   # mark using gamma distribution
-  marker[value >= 0] = pgamma(value[value >= 0] - (range_high - 3 * noise_sd), shape = shape, scale = 1)
-  marker[value < 0] = -pgamma(- value[value < 0] + (range_low + 3 * noise_sd), shape = shape, scale = 1)
+  marker[value >= 0] = stats::pgamma(value[value >= 0] - (range_high - 3 * noise_sd), shape = shape, scale = 1)
+  marker[value < 0] = -stats::pgamma(- value[value < 0] + (range_low + 3 * noise_sd), shape = shape, scale = 1)
   return(marker)
 }
 
+#' @importFrom stats pgamma
 .optimize.gamma = function(value){
   i = seq(0.5, 0.001, by = -0.001)
   result = 0;
   previous = 1;
   previous_ii = 0;
   for(ii in i){
-    current = pgamma(value, shape = ii, scale = 1)
+    current = stats::pgamma(value, shape = ii, scale = 1)
     if(previous < 0.95 & current >= 0.95){
       if(abs(0.95 - previous) > abs(current - 0.95)){
         result = ii
@@ -140,12 +136,14 @@ extrapolate = function(t, value, range, noise_level, k = 0.65, spar = 0.4){
   uBound = range_high - 5*noise_sd;
   lBound = range_low + 5*noise_sd;
 
-  marker[input >= uBound] = 1
-  marker[input <= lBound] = -1
+  marker[value >= uBound] = 1
+  marker[value <= lBound] = -1
   return(marker)
 }
 
 #' @export
+#' @importFrom stats na.omit
+#' @importFrom magrittr %>%
 .extrapolate.edges = function(marker, confident){
   marker_diff_left = c(0, diff(marker))
   marker_diff_right = c(diff(marker), 0)
@@ -154,8 +152,8 @@ extrapolate = function(t, value, range, noise_level, k = 0.65, spar = 0.4){
   positive_left_end = which(marker_diff_left > confident & marker > 0)
   positive_right_start = which(marker_diff_right < -confident & marker > 0)
   n_trunc = min(length(positive_left_end), length(positive_right_start))
-  positive_left_end = positive_left_end[1:n_trunc] %>% na.omit
-  positive_right_start = positive_right_start[1:n_trunc] %>% na.omit
+  positive_left_end = positive_left_end[1:n_trunc] %>% stats::na.omit
+  positive_right_start = positive_right_start[1:n_trunc] %>% stats::na.omit
   if(any(positive_right_start - positive_left_end < 0)) {
     positive_left_end = .shift(positive_left_end, 1)
     positive_right_start = .shift(positive_right_start, -1)
@@ -166,8 +164,8 @@ extrapolate = function(t, value, range, noise_level, k = 0.65, spar = 0.4){
   negative_left_end = which(marker_diff_left < -confident & marker < 0)
   negative_right_start = which(marker_diff_right > confident & marker < 0)
   n_trunc = min(length(negative_left_end), length(negative_right_start))
-  negative_left_end = negative_left_end[0:n_trunc] %>% na.omit
-  negative_right_start = negative_right_start[0:n_trunc] %>% na.omit
+  negative_left_end = negative_left_end[0:n_trunc] %>% stats::na.omit
+  negative_right_start = negative_right_start[0:n_trunc] %>% stats::na.omit
   if(any(negative_right_start - negative_left_end < 0)) {
     negative_left_end = .shift(negative_left_end, 1)
     negative_right_start = .shift(negative_right_start, -1)
@@ -181,10 +179,12 @@ extrapolate = function(t, value, range, noise_level, k = 0.65, spar = 0.4){
 }
 
 #' @export
+#' @importFrom magrittr %>%
+#' @importFrom dplyr mutate tbl_df
 .extrapolate.neighbor = function(marker, sr, k, confident = 0.5){
   n_neighbor = k * sr
   edges = .extrapolate.edges(marker, confident)
-  neighbors = edges %>% tbl_df() %>% mutate(left_start = left_end - n_neighbor + 1, right_end = right_start + n_neighbor - 1) %>% as.data.frame
+  neighbors = edges %>% dplyr::tbl_df() %>% dplyr::mutate(left_start = left_end - n_neighbor + 1, right_end = right_start + n_neighbor - 1) %>% as.data.frame
   neighbors$left_start = pmax(neighbors$left_start, 1)
   neighbors$right_end = pmin(neighbors$right_end, length(marker))
   return(neighbors)
@@ -198,10 +198,13 @@ extrapolate = function(t, value, range, noise_level, k = 0.65, spar = 0.4){
 }
 
 #' @export
+#' @importFrom plyr adply
+#' @importFrom stats predict
+#' @importFrom magrittr %>%
 .extrapolate.fitline = function(t, value, neighbors, marker, spar, sr, k, model = "spline"){
 
   neighbors$index = 1:nrow(neighbors)
-  point_ex = neighbors %>% adply(1, function(neighbor){
+  point_ex = neighbors %>% plyr::adply(1, function(neighbor){
     # validate neighboring
     fitted_left = .fit.weighted(t, value, marker, neighbor$left_start, neighbor$left_end, spar, sr, k, model)
     fitted_right = .fit.weighted(t, value, marker, neighbor$right_start, neighbor$right_end, spar, sr, k, model)
@@ -216,8 +219,8 @@ extrapolate = function(t, value, range, noise_level, k = 0.65, spar = 0.4){
     right_x_ex = c(seq(middle_t,st+right_start, 1/100), middle_t)
     switch(model,
            linear = {
-             left_ex = fitted_left %>% predict(data.frame(over_t = as.numeric(middle_t)))
-             right_ex = fitted_right %>% predict(data.frame(over_t = as.numeric(middle_t)))
+             left_ex = fitted_left %>% stats::predict(data.frame(over_t = as.numeric(middle_t)))
+             right_ex = fitted_right %>% stats::predict(data.frame(over_t = as.numeric(middle_t)))
              type_ex = rep('left_line', length(left_ex))
              type_ex = c(type_ex, rep('right_line', length(right_ex)))
              point_ex = (left_ex + right_ex) / 2
@@ -225,12 +228,12 @@ extrapolate = function(t, value, range, noise_level, k = 0.65, spar = 0.4){
              index = rep(neighbor$index, length(type_ex))
            },
            spline = {
-             left_ex = fitted_left %>% predict(x = as.numeric(left_x_ex))
-             right_ex = fitted_right %>% predict(x = as.numeric(right_x_ex))
+             left_ex = fitted_left %>% stats::predict(x = as.numeric(left_x_ex))
+             right_ex = fitted_right %>% stats::predict(x = as.numeric(right_x_ex))
              type_ex = rep('left_line', length(left_ex$y))
 
-             point_ex_left = fitted_left %>% predict(x = as.numeric(middle_t))
-             point_ex_right = fitted_right %>% predict(x = as.numeric(middle_t))
+             point_ex_left = fitted_left %>% stats::predict(x = as.numeric(middle_t))
+             point_ex_right = fitted_right %>% stats::predict(x = as.numeric(middle_t))
              point_ex = (point_ex_left$y + point_ex_right$y) / 2
              type_ex = c(type_ex, 'point')
              type_ex = c(type_ex, rep('right_line', length(right_ex$y)))
@@ -241,9 +244,12 @@ extrapolate = function(t, value, range, noise_level, k = 0.65, spar = 0.4){
   return(point_ex)
 }
 
+#' @importFrom plyr adply
+#' @importFrom magrittr %>%
+#' @importFrom stats predict
 .extrapolate.fit = function(t, value, neighbors, marker, spar, sr, k, model = "spline"){
 
-  point_ex = neighbors %>% adply(1, function(neighbor){
+  point_ex = neighbors %>% plyr::adply(1, function(neighbor){
       # validate neighboring
 
       fitted_left = .fit.weighted(t, value, marker, neighbor$left_start, neighbor$left_end, spar, sr, k, model)
@@ -257,13 +263,13 @@ extrapolate = function(t, value, range, noise_level, k = 0.65, spar = 0.4){
       middle_t = st + middle_t
       switch(model,
              linear = {
-               left_ex = fitted_left %>% predict(data.frame(over_t = as.numeric(middle_t)))
-               right_ex = fitted_right %>% predict(data.frame(over_t = as.numeric(middle_t)))
+               left_ex = fitted_left %>% stats::predict(data.frame(over_t = as.numeric(middle_t)))
+               right_ex = fitted_right %>% stats::predict(data.frame(over_t = as.numeric(middle_t)))
                point_ex = (left_ex + right_ex) / 2
              },
              spline = {
-               left_ex = fitted_left %>% predict(x = as.numeric(middle_t))
-               right_ex = fitted_right %>% predict(x = as.numeric(middle_t))
+               left_ex = fitted_left %>% stats::predict(x = as.numeric(middle_t))
+               right_ex = fitted_right %>% stats::predict(x = as.numeric(middle_t))
                point_ex = (left_ex$y + right_ex$y) / 2
              })
 
@@ -272,6 +278,7 @@ extrapolate = function(t, value, range, noise_level, k = 0.65, spar = 0.4){
   return(point_ex)
 }
 
+#' @importFrom stats smooth.spline lm na.omit
 .fit = function(t, value, marker, start, end, spar, sr, k, model = "spline"){
   if(start < 0) start = 1
   if(end > length(t)) end = length(t)
@@ -285,11 +292,12 @@ extrapolate = function(t, value, range, noise_level, k = 0.65, spar = 0.4){
 
   # fit locally with spline smoothing
   fitted = switch(model,
-                  spline = smooth.spline(over_t, over_value, spar = spar),
-                  linear = lm(over_value ~ over_t, na.action = na.omit))
+                  spline = stats::smooth.spline(over_t, over_value, spar = spar),
+                  linear = stats::lm(over_value ~ over_t, na.action = stats::na.omit))
   return(fitted)
 }
 
+#' @importFrom stats smooth.spline lm na.omit
 .fit.weighted = function(t, value, marker, start, end, spar, sr, k, model = "spline"){
   if(start < 0) start = 1
   if(end > length(t)) end = length(t)
@@ -305,22 +313,25 @@ extrapolate = function(t, value, range, noise_level, k = 0.65, spar = 0.4){
   weight = weight$y
   # fit locally with spline smoothing
   fitted = switch(model,
-                  spline = smooth.spline(over_t, over_value, weight, spar = spar),
-                  linear = lm(over_value ~ over_t, weights = weight, na.action = na.omit))
+                  spline = stats::smooth.spline(over_t, over_value, weight, spar = spar),
+                  linear = stats::lm(over_value ~ over_t, weights = weight, na.action = stats::na.omit))
   return(fitted)
 }
 
 #' @export
+#' @importFrom magrittr %>%
+#' @importFrom stats spline na.omit
+#' @importFrom dplyr arrange first
 .extrapolate.interpolate = function(t, value, marker, points_ex, sr, confident = 0.5){
   t_mark = t[abs(marker) < confident]
   value_mark = value[abs(marker) < confident]
   # t_mark = t
   # value_mark = value
   dat = rbind(data.frame(t = t_mark, value = value_mark), data.frame(t = points_ex$t_ex, value = points_ex$value_ex)) %>%
-      arrange(t)
+        dplyr::arrange(t)
 
-  t_interp = seq(t %>% first, t %>% last, by = 1/sr)
-  dat_interp = spline(dat$t, y = dat$value, xout = t_interp) %>% as.data.frame %>% na.omit
+  t_interp = seq(t %>% dplyr::first, t %>% dplyr::last, by = 1/sr)
+  dat_interp = stats::spline(dat$t, y = dat$value, xout = t_interp) %>% as.data.frame %>% stats::na.omit
   names(dat_interp) = c("t", "value")
 
   return(dat_interp)

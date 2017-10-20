@@ -44,7 +44,7 @@ activity_count = function(df,
   sr = sampling_rate(extrapolatedData)
   # Resample to a consistent sampling rate
   if (FALSE) {
-    resampledData = Counts::resample(extrapolatedData, origSr = sr, newSr = resample)
+    resampledData = resample(extrapolatedData, origSr = sr, newSr = resample)
     # update to the new sampling rate
     sr = resample
   } else{
@@ -84,7 +84,7 @@ activity_count = function(df,
   }
 
   # Compute the AUC
-  integratedData = Counts::aggregate(
+  integratedData = aggregate(
     filteredData,
     breaks = breaks,
     type = integration,

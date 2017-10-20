@@ -1,7 +1,8 @@
 
 #' @name import_activpal
 #' @title Import ActivPal Raw data files and load into dataframe as mhealth format.
-#' @import lubridate readr mHealthR
+#' @importFrom readr read_csv count_fields tokenizer_csv
+#' @importFrom mHealthR mhealth
 #' @export
 import_activpal_raw = function(filename, header_provided = FALSE){
   ncols = readr::count_fields(filename, readr::tokenizer_csv(), n_max = 1)
@@ -92,7 +93,8 @@ import_actigraph_raw = function(filename, ad_convert = FALSE, ts_provided = TRUE
 #' @name import_actigraph_count
 #' @title Import and convert Actigraph count csv files and load into data frame as in mhealth format.
 #' @export
-#' @import readr lubridate
+#' @importFrom readr read_csv cols col_character col_double
+#' @importFrom mHealthR mhealth
 #' @param filename full file path of input Actigraph count csv file.
 import_actigraph_count = function(filename, col_name = "ACTIGRAPH_COUNT", axes = c(2,3,4)) {
   dat = readr::read_csv(
@@ -114,7 +116,8 @@ import_actigraph_count = function(filename, col_name = "ACTIGRAPH_COUNT", axes =
 #' @name import_actigraph_count_vm
 #' @title Import and convert Actigraph count csv files and load into data frame as in mhealth format.
 #' @export
-#' @import readr lubridate
+#' @importFrom readr read_csv cols col_character col_double
+#' @importFrom mHealthR mhealth
 #' @param filename full file path of input Actigraph count csv file.
 import_actigraph_count_vm = function(filename, col_name = "ACTIGRAPH_COUNT") {
   dat = readr::read_csv(
@@ -130,7 +133,8 @@ import_actigraph_count_vm = function(filename, col_name = "ACTIGRAPH_COUNT") {
 #' @name import_actigraph_meta
 #' @title parse actigraph csv header to get related version and sampling rate information
 #' @export
-#' @import stringr R.utils
+#' @importFrom stringr str_match str_detect
+#' @importFrom R.utils countLines
 import_actigraph_meta = function(filename, header = TRUE) {
 
   ACTIGRAPH_HEADER_SR_PATTERN = "([0-9]+) Hz"
@@ -209,7 +213,6 @@ import_actigraph_meta = function(filename, header = TRUE) {
   timeFormat = ACTIGRAPH_TIMESTAMP
   dt = strptime(dt, timeFormat) + 0.0005
   options(digits.secs = 3);
-
   if(is.na(sr)){
     # determine sr by start and download time
     # options(digits = 13)
@@ -253,9 +256,9 @@ import_actigraph_meta = function(filename, header = TRUE) {
 #' @name import_hdf5
 #' @title import hdf5 format sensor data file
 #' @export
-#' @import h5
+#' @importFrom h5 h5file
 import_hdf5 = function(filename, key) {
-  data <- h5file(filename, "r")
+  data <- h5::h5file(filename, "r")
   values = data[paste0(key, '/block1_values')][,1:3]
   ts = data[paste0(key, '/block0_values')][]/1000000000
   ts = as.POSIXct(ts, origin="1970-01-01", tz = "UTC")
