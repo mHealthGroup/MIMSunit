@@ -130,6 +130,24 @@ import_actigraph_count_vm = function(filename, col_name = "ACTIGRAPH_COUNT") {
   return(result)
 }
 
+#' @name import_biobank_enmo
+#' @title Import and convert biobank epoch csv files and load into data frame as in mhealth format.
+#' @export
+#' @importFrom readr read_csv cols col_character col_double
+#' @importFrom mHealthR mhealth
+#' @param filename full file path of input biobank epoch csv file.
+import_biobank_enmo = function(filename, col_name = "biobank_enmo") {
+  dat = readr::read_csv(
+    filename, col_names = TRUE, col_types = readr::cols(timestamp = readr::col_character(), biobank_enmo = readr::col_double())
+  );
+  dat = data.frame(dat)
+  dat = dat[1:2]
+  dat[,1] = as.POSIXct(dat[,1], format = mHealthR::mhealth$format$csv$TIMESTAMP, tz = Sys.timezone())
+  result = dat
+  colnames(result) = c(mHealthR::mhealth$column$TIMESTAMP, col_name);
+  return(result)
+}
+
 #' @name import_actigraph_meta
 #' @title parse actigraph csv header to get related version and sampling rate information
 #' @export
