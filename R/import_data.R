@@ -271,18 +271,18 @@ import_actigraph_meta = function(filename, header = TRUE) {
   return(header)
 }
 
-#' #' @name import_hdf5
-#' #' @title import hdf5 format sensor data file
-#' #' @export
-#' #' @importFrom h5 h5file
-#' import_hdf5 = function(filename, key) {
-#'   data <- h5::h5file(filename, "r")
-#'   values = data[paste0(key, '/block1_values')][,1:3]
-#'   ts = data[paste0(key, '/block0_values')][]/1000000000
-#'   ts = as.POSIXct(ts, origin="1970-01-01", tz = "UTC")
-#'   test_data = data.frame(values)
-#'   test_data["HEADER_TIME_STAMP"] = ts
-#'   colnames(test_data)[1:3] = c("X", "Y", "Z")
-#'   result = test_data[c("HEADER_TIME_STAMP", 'X', 'Y', 'Z')]
-#'   return(result)
-#' }
+#' @name import_hdf5
+#' @title import hdf5 format sensor data file
+#' @export
+#' @importFrom h5 h5file
+import_hdf5 = function(filename, key) {
+  data <- h5::h5file(filename, "r")
+  values = data[paste0(key, '/block1_values')][,1:3]
+  ts = data[paste0(key, '/block0_values')][]/1000000000
+  ts = as.POSIXct(ts, origin="1970-01-01", tz = "UTC")
+  test_data = data.frame(values)
+  test_data["HEADER_TIME_STAMP"] = ts
+  colnames(test_data)[1:3] = c("X", "Y", "Z")
+  result = test_data[c("HEADER_TIME_STAMP", 'X', 'Y', 'Z')]
+  return(result)
+}
