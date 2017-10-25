@@ -101,5 +101,6 @@ activity_count = function(df,
     countsData = sumUp(integratedData, axes = axes)
   else if(combination == "axis")
     countsData = integratedData
+  colnames(countsData)[2] = "SMART_COUNTS"
   return(countsData)
 }
