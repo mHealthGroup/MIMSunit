@@ -41,9 +41,9 @@ experiment_treadmill_count = function(raw_data,
           use_interpolation = use_interpolate,
           use_filtering = use_filtering
         ) %>%
-        stats::na.omit
+        stats::na.omit()
       result = count %>% cbind(
-        segment %>% subset(select = -(1:4)) %>% unique,
+        segment %>% subset(select = -(1:4)) %>% unique(),
         INDEX = 1:nrow(count),
         stringsAsFactors = FALSE
       )
@@ -53,13 +53,13 @@ experiment_treadmill_count = function(raw_data,
     .inform = TRUE)
 
   if(para$COMBINATION == "sum"){
-    countCol = walkrun_count %>% colnames %>% stringr::str_detect(pattern = "SUMUP") %>% which
+    countCol = walkrun_count %>% colnames() %>% stringr::str_detect(pattern = "SUMUP") %>% which()
     names(walkrun_count)[countCol] = "COUNT"
   }else if(para$COMBINATION == "vm"){
-    countCol = walkrun_count %>% colnames %>% stringr::str_detect(pattern = "MAGNITUDE") %>% which
+    countCol = walkrun_count %>% colnames() %>% stringr::str_detect(pattern = "MAGNITUDE") %>% which()
     names(walkrun_count)[countCol] = "COUNT"
   }else{
-    countCols = walkrun_count %>% colnames %>% stringr::str_detect(pattern = "_X|_Y|_Z") %>% which
+    countCols = walkrun_count %>% colnames() %>% stringr::str_detect(pattern = "_X|_Y|_Z") %>% which()
     names(walkrun_count)[countCols] = c('X', 'Y', 'Z')
   }
   return(walkrun_count)

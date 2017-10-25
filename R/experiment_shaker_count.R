@@ -42,16 +42,16 @@ experiment_shaker_count = function(raw_data,
           use_interpolation = use_interpolate,
           use_filtering = use_filtering
         ) %>%
-        stats::na.omit
+        stats::na.omit()
       result = count %>% cbind(
-        segment %>% subset(select = -(1:4)) %>% unique,
+        segment %>% subset(select = -(1:4)) %>% unique(),
         INDEX = 1:nrow(count),
         stringsAsFactors = FALSE
       )
     return(result)
   }, .progress = "text", .inform = TRUE, .parallel = FALSE)
 
-  countCol = shaker_count %>% colnames %>% stringr::str_detect(pattern = "SUMUP") %>% which
+  countCol = shaker_count %>% colnames() %>% stringr::str_detect(pattern = "SUMUP") %>% which()
   names(shaker_count)[countCol] = "COUNT"
 
   return(shaker_count)

@@ -27,7 +27,8 @@ import_activpal_raw = function(filename, header_provided = FALSE){
 #' @name import_actigraph_raw
 #' @title Import and convert Actigraph raw csv files and load into data frame as in mhealth format.
 #' @export
-#' @import readr lubridate mHealthR
+#' @importFrom readr count_fields tokenizer_csv read_csv
+#' @importFrom mHealthR mhealth
 #' @note Please make sure the Actigraph raw csv file has timestamp included. The Actigraph raw csv file is not IMU csv file supported by GT9X.
 #' @param filename full file path of input Actigraph raw csv file.
 #' @param ad_convert set as TRUE only when the input Actigraph csv file is in analog quantized format and need to be converted into g value

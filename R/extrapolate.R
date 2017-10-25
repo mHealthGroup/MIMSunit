@@ -31,6 +31,7 @@ extrapolate.data.frame = function(df, ...){
 #' @author Qu Tang
 #' @export
 #' @importFrom stats spline
+#' @importFrom lubridate is.POSIXct
 #' @param t input index or timestamp sequence
 #' @param k duration of neighborhood to be used in local spline regression for each side, in seconds
 #' @param spar between 0 and 1, to control how smooth we want to fit local spline regression, 0 is linear and 1 matches all local points. A good choice is 0.3 to penalize the maxed out points.
@@ -41,7 +42,7 @@ extrapolate = function(t, value, range, noise_level, k = 0.65, spar = 0.4){
   # over sampling to 100Hz with spline interpolation
   dat_over = stats::spline(x = t, y = value, xout = t_over, method = "natural")
   dat_over = data.frame(dat_over)
-  if(is.POSIXct(t[1])){
+  if(lubridate::is.POSIXct(t[1])){
     dat_over[1] = as.POSIXct(dat_over[[1]], origin = "1970-01-01")
   }
   # dat_over = rbind(dat_over, data.frame(x = t, y = value))
@@ -152,8 +153,8 @@ extrapolate = function(t, value, range, noise_level, k = 0.65, spar = 0.4){
   positive_left_end = which(marker_diff_left > confident & marker > 0)
   positive_right_start = which(marker_diff_right < -confident & marker > 0)
   n_trunc = min(length(positive_left_end), length(positive_right_start))
-  positive_left_end = positive_left_end[1:n_trunc] %>% stats::na.omit
-  positive_right_start = positive_right_start[1:n_trunc] %>% stats::na.omit
+  positive_left_end = positive_left_end[1:n_trunc] %>% stats::na.omit()
+  positive_right_start = positive_right_start[1:n_trunc] %>% stats::na.omit()
   if(any(positive_right_start - positive_left_end < 0)) {
     positive_left_end = .shift(positive_left_end, 1)
     positive_right_start = .shift(positive_right_start, -1)
@@ -164,8 +165,8 @@ extrapolate = function(t, value, range, noise_level, k = 0.65, spar = 0.4){
   negative_left_end = which(marker_diff_left < -confident & marker < 0)
   negative_right_start = which(marker_diff_right > confident & marker < 0)
   n_trunc = min(length(negative_left_end), length(negative_right_start))
-  negative_left_end = negative_left_end[0:n_trunc] %>% stats::na.omit
-  negative_right_start = negative_right_start[0:n_trunc] %>% stats::na.omit
+  negative_left_end = negative_left_end[0:n_trunc] %>% stats::na.omit()
+  negative_right_start = negative_right_start[0:n_trunc] %>% stats::na.omit()
   if(any(negative_right_start - negative_left_end < 0)) {
     negative_left_end = .shift(negative_left_end, 1)
     negative_right_start = .shift(negative_right_start, -1)
@@ -330,8 +331,8 @@ extrapolate = function(t, value, range, noise_level, k = 0.65, spar = 0.4){
   dat = rbind(data.frame(t = t_mark, value = value_mark), data.frame(t = points_ex$t_ex, value = points_ex$value_ex)) %>%
         dplyr::arrange(t)
 
-  t_interp = seq(t %>% dplyr::first, t %>% dplyr::last, by = 1/sr)
-  dat_interp = stats::spline(dat$t, y = dat$value, xout = t_interp) %>% as.data.frame %>% stats::na.omit
+  t_interp = seq(t %>% dplyr::first(), t %>% dplyr::last(), by = 1/sr)
+  dat_interp = stats::spline(dat$t, y = dat$value, xout = t_interp) %>% as.data.frame %>% stats::na.omit()
   names(dat_interp) = c("t", "value")
 
   return(dat_interp)

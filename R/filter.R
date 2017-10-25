@@ -101,10 +101,10 @@ resample = function(df, origSr, newSr){
   nCols = ncol(df)
 
   colFilter = plyr::colwise(.fun = function(x){
-    resampled = x %>% signal::resample(p = newSr, q = origSr) %>% as.numeric
+    resampled = x %>% signal::resample(p = newSr, q = origSr) %>% as.numeric()
   })
   resampledValue = colFilter(df[2:nCols])
-  resampledTs = seq(from = df[1, 1], to = df[, 1] %>% dplyr::last, length = nrow(resampledValue))
+  resampledTs = seq(from = df[1, 1], to = df[, 1] %>% dplyr::last(), length = nrow(resampledValue))
   resampledValue = cbind(resampledTs, resampledValue)
   colnames(resampledValue)[1] = colnames(df)[1]
   return(resampledValue)
