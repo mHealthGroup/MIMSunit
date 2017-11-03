@@ -58,7 +58,12 @@ stat_data = adply(settings, 1, function(setting) {
   )
   return(stat)
 }, .progress = progress_text(), .id = NULL, .parallel = FALSE)
-
+stat_data$name = as.character(stat_data$name)
+stat_data$SERIES = factor(paste0(
+  stat_data$DEVICE, ": ",
+  stat_data$SR, "Hz, ",
+  stat_data$GRANGE, "g"
+))
 stopCluster(cl)
 
 shaker2_actigraph = readRDS("inst/extdata/shaker2_count_actigraph.rds")
@@ -89,21 +94,41 @@ stat_actigraph$use_interpolate = TRUE
 #
 # Don't use ActivPal for actigraph count algorithm, meaningless
 stat_actigraph = stat_actigraph %>% dplyr::filter(!(DEVICE == "ActivPal3"))
-stat_data$name = as.character(stat_data$name)
-
-stat_data$SERIES = factor(paste0(
-  stat_data$DEVICE, ": ",
-  stat_data$SR, "Hz, ",
-  stat_data$GRANGE, "g"
-))
-
 stat_actigraph$SERIES = factor(paste0(
   stat_actigraph$DEVICE, ": ",
   stat_actigraph$SR, "Hz, ",
   stat_actigraph$GRANGE, "g"
 ))
 
-stat_data_merged = rbind(stat_data, stat_actigraph)
+shaker2_biobank = readRDS("inst/extdata/shaker2_biobank_enmo.rds")
+shaker3_biobank = readRDS("inst/extdata/shaker3_biobank_enmo.rds")
+shaker4_biobank = readRDS("inst/extdata/shaker4_biobank_enmo.rds")
+
+shaker_biobank = rbind(shaker2_biobank, shaker3_biobank, shaker4_biobank)
+
+
+stat_biobank = shaker_biobank %>% ddply(
+  c("DEVICE", "GRANGE", "SR", "RPM"),
+  summarise,
+  N = length(biobank_enmo),
+  mean = mean(biobank_enmo * acc_factor),
+  sd   = sd(biobank_enmo * acc_factor),
+  se   = sd / sqrt(N),
+  cv = sd / mean
+)
+
+stat_biobank$name = "Biobank ENMO algorithm"
+stat_biobank$low_bandwidth = 0
+stat_biobank$high_bandwidth = 20
+stat_biobank$use_extrapolate = FALSE
+stat_biobank$use_interpolate = TRUE
+stat_biobank$SERIES = factor(paste0(
+  stat_biobank$DEVICE, ": ",
+  stat_biobank$SR, "Hz, ",
+  stat_biobank$GRANGE, "g"
+))
+
+stat_data_merged = rbind(stat_data, stat_actigraph, stat_biobank)
 
 
 stat_data_merged$name = factor(stat_data_merged$name, levels = c(c(

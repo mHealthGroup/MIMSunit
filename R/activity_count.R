@@ -26,7 +26,21 @@ activity_count = function(df,
                           use_interpolation = TRUE,
                           use_filtering = TRUE,
                           combination = "sum",
-                          vm_after_extrapolation=FALSE) {
+                          vm_after_extrapolation=FALSE,
+                          before_df = NULL,
+                          after_df = NULL) {
+
+  # save the start and stop time of original df
+  start_time = df[1,1]
+  stop_time = df[nrow(df),1]
+
+  # concatenate with before and after df
+  if(is.data.frame(before_df)){
+    df = rbind(before_df, df)
+  }
+  if(is.data.frame(after_df)){
+    df = rbind(df, after_df)
+  }
 
   # apply extrapolation algorithm
   if (use_extrapolation) {
@@ -102,5 +116,12 @@ activity_count = function(df,
   else if(combination == "axis")
     countsData = integratedData
   colnames(countsData)[2] = "SMART_COUNTS"
+
+  # only keep data between start and end time
+  keep_mask = countsData[[1]] >= start_time & countsData[[1]] < stop_time
+  countsData = countsData[keep_mask,]
+  if(is.na(countsData[1,2])){
+    countsData = countsData[2:nrow(countsData),]
+  }
   return(countsData)
 }
