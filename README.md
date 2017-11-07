@@ -1,4 +1,4 @@
-# Source codes, data and publication results for SMART-counts algorithm
+# Source codes, data and publication results for MIMS-unit algorithm
 
 ## Installation
 
@@ -19,7 +19,7 @@ All data are saved in `rds` format (loadable by R script) in `inst/extdata` fold
 
 All scripts are saved in `inst/src` folder. You may run each script to generate different plots or tables independently.
 
-## Use SMARTcounts algorithm in your own script
+## Use MIMS-unit algorithm in your own script
 
 After loading the library, make sure your data (in dataframe) is in following format. The first column (timestamp) should be `POXlct` objects.
 
@@ -29,10 +29,10 @@ HEADER_TIME_STAMP,X,Y,Z
 ...
 ```
 
-Assuming your data is in variable `df`, knowing accelerometer data's dynamic range (i.e. `c(-3, 3)`) and the desired epoch (i.e. '1 min'). You may run following script to generate SMART-counts values.
+Assuming your data is in variable `df`, knowing accelerometer data's dynamic range (i.e. `c(-3, 3)`) and the desired epoch (i.e. '1 min'). You may run following script to generate MIMS-unit values.
 
 ```
 output = activity_count(df = df, range = c(-3,3), breaks = '1 min')
 ```
 
-Output will be in the same format as input, with the first column being the start time of each epoch segment, and the second column being the SMART-count value.
+Output will be in the same format as input, with the first column being the start time of each epoch segment, and the second column being the MIMS-unit value.
