@@ -28,7 +28,7 @@ experiment_treadmill_count = function(raw_data,
       gr = as.numeric(segment$GRANGE[1])
       count = segment %>%
         subset(select = 1:4) %>%
-        activity_count(
+        mims_unit(
           breaks = para$EPOCH,
           range = c(-gr, gr),
           noise_level = noise_level,

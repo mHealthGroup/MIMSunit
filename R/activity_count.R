@@ -1,4 +1,4 @@
-#' @name activity_count
+#' @name mims_unit
 #' @title Compute activity counts using [citation] algorithm
 #' @return Will return NA if a segment break is too short to have enough samples to compute AUC
 #' @param df input sensor data frame that fits the mhealth specification
@@ -12,7 +12,7 @@
 #' @param cutoffs cut off frequencies to be used in filtering, default is 0.2Hz and 5Hz. If choosing bessel, the low pass cut off would be multipled by 2 when being used.
 #' @param integration the integration method to be used: "trapz", "absoluteMeanByPoints".
 #' @export
-activity_count = function(df,
+mims_unit = function(df,
                           breaks = "5 sec",
                           range,
                           noise_level = 0.03,
@@ -115,7 +115,7 @@ activity_count = function(df,
     countsData = sumUp(integratedData, axes = axes)
   else if(combination == "axis")
     countsData = integratedData
-  colnames(countsData)[2] = "SMART_COUNTS"
+  colnames(countsData)[2] = "MIMS_UNIT"
 
   # only keep data between start and end time
   keep_mask = countsData[[1]] >= start_time & countsData[[1]] < stop_time

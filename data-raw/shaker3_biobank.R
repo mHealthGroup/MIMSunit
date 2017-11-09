@@ -4,7 +4,7 @@ rm(list = ls(all.names = TRUE))
 require(stringr)
 require(plyr)
 require(dplyr)
-require(SMARTcounts)
+require(MIMSunit)
 require(lubridate)
 require(mHealthR)
 folder = "F:/data/shaker3/";
@@ -19,7 +19,7 @@ shaker3_biobank = ldply(raw_files, function(file){
   sr = as.numeric(str_split(tokens[[1]][2], "Hz")[[1]][1])
   id = tokens[[1]][1]
   gr = as.numeric(str_split(tokens[[1]][3], "gEpoch")[[1]][1])
-  data = SMARTcounts::import_biobank_enmo(file)
+  data = import_biobank_enmo(file)
   data[1] = force_tz(data[1], tzone = Sys.timezone())
   data = data[c(1,2)]
   # cut into segments

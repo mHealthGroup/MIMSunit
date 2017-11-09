@@ -20,33 +20,33 @@ sensorFiles = list.files(path = data_folder, pattern = "*.h5$", full.names = TRU
 mask = str_detect(sensorFiles, '(_dominant waist_)|(_non dominant wrist_)')
 sensorFiles = sensorFiles[mask]
 
-smartCounts = ldply(sensorFiles, function(sensorFile){
+mims_units = ldply(sensorFiles, function(sensorFile){
   id = basename(dirname(dirname(sensorFile)))
   location = str_split(basename(sensorFile), "_")[[1]][2]
 
   # check cache
   cache_path = file.path(data_folder, paste(id, location, "counts.csv", sep = "_"))
   if(file.exists(cache_path)){
-    smartCounts = read.csv(file = cache_path, stringsAsFactors = FALSE)
-    smartCounts$HEADER_TIME_STAMP = as.POSIXct(smartCounts$HEADER_TIME_STAMP, tz="CEST")
-    return(smartCounts)
+    mims_units = read.csv(file = cache_path, stringsAsFactors = FALSE)
+    mims_units$HEADER_TIME_STAMP = as.POSIXct(mims_units$HEADER_TIME_STAMP, tz="CEST")
+    return(mims_units)
   }else{
     # import data
     sensorData = import_hdf5(sensorFile, "sensor")
     maxedout_sensorData = make_sensor_data(sensorData, c(-2,2), sampling_rate(sensorData))
-    smartCounts = activity_count(sensorData, breaks = paste(epoch, "sec"),
+    mims_units = activity_count(sensorData, breaks = paste(epoch, "sec"),
                            range = c(-8, 8),
                            noise_level = noise_level,
                            k = k,
                            spar = spar)
-    colnames(smartCounts)[2] = "SMARTcounts8g"
-    maxedout_smartCounts = activity_count(maxedout_sensorData, breaks = paste(epoch, "sec"),
+    colnames(mims_units)[2] = "MIMSunit8g"
+    maxedout_mims_units = activity_count(maxedout_sensorData, breaks = paste(epoch, "sec"),
                                  range = c(-2, 2),
                                  noise_level = noise_level,
                                  k = k,
                                  spar = spar)
-    colnames(maxedout_smartCounts)[2] = "SMARTcounts2g"
-    countsData = join(smartCounts, maxedout_smartCounts, by='HEADER_TIME_STAMP')
+    colnames(maxedout_mims_units)[2] = "MIMSunit2g"
+    countsData = join(mims_units, maxedout_mims_units, by='HEADER_TIME_STAMP')
 
     # import annotation data
     annotationFile = file.path(dirname(sensorFile), "SPADESInLab_merged.annotation.csv")
@@ -112,4 +112,4 @@ smartCounts = ldply(sensorFiles, function(sensorFile){
 
 }, .parallel = FALSE, .progress = progress_text())
 
-saveRDS(smartCounts, file = "inst/extdata/spades_lab_smart_counts.rds")
+saveRDS(mims_units, file = "inst/extdata/spades_lab_mims_unit.rds")
