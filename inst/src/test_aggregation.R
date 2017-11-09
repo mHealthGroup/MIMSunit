@@ -44,4 +44,4 @@ ggsave(filename = "inst/figure/combination_comparison.png", plot = p, scale = 1,
 write.csv(x = plot_data, file = "inst/table/test_aggregation.csv", quote = FALSE, row.names = FALSE)
 plot_data_melted = plot_data %>% melt(id=c('HEADER_TIME_STAMP', 'vm', 'vm_after_extrapolation'))
 p1 = ggplot(data=plot_data_melted, aes(x=HEADER_TIME_STAMP, y=value, color=variable)) + geom_line() + theme_minimal() + theme(legend.position="bottom")
-p2 = ggplot(data=plot_data, aes(x=sum, y=vm)) + geom_point() + geom_point(data=plot_data, aes(x=sum, y=vm_after_extrapolation), color='red') + xlab('SMART-count (sum)') + ylab('SMART-count (vm)')
+p2 = ggplot(data=plot_data, aes(x=sum, y=vm)) + geom_point() + geom_point(data=plot_data, aes(x=sum, y=vm_after_extrapolation), color='red') + xlab('MIMS-unit (sum)') + ylab('MIMS-unit (vm)')

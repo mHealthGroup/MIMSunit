@@ -4,14 +4,14 @@ require(stringr)
 require(ggplot2)
 require(reshape2)
 require(extrafont)
-smart_counts_filename = "inst/extdata/spades_lab_smart_counts.rds"
-spades_lab_smart_counts = readRDS(smart_counts_filename)
+mims_unit_filename = "inst/extdata/spades_lab_mims_unit.rds"
+spades_lab_mims_unit = readRDS(mims_unit_filename)
 actigraph_counts_filename = "inst/extdata/spades_lab_actigraph_counts.rds"
 spades_lab_actigraph_counts = readRDS(actigraph_counts_filename)
 spades_lab_actigraph_counts$PID = as.numeric(spades_lab_actigraph_counts$PID)
 
 # merge these two dataframes
-spades_lab_counts = plyr::join(spades_lab_smart_counts, spades_lab_actigraph_counts)
+spades_lab_counts = plyr::join(spades_lab_mims_unit, spades_lab_actigraph_counts)
 spades_lab_counts = na.omit(spades_lab_counts)
 # optimize scaling
 
@@ -87,8 +87,8 @@ p1Data$LABEL_NAME <- factor(p1Data$LABEL_NAME, levels=act_list)
 p3Data = p1Data
 legend = guide_legend(title = NULL, ncol = 2)
 p3Data$ALGORITHM = as.character(p3Data$TYPE)
-p3Data$ALGORITHM[str_detect(p3Data$TYPE, "SMART")] = "SMART-counts"
-p3Data$ALGORITHM[str_detect(p3Data$TYPE, "SMART")] = "SMART-counts"
+p3Data$ALGORITHM[str_detect(p3Data$TYPE, "MIMS")] = "MIMS-unit"
+p3Data$ALGORITHM[str_detect(p3Data$TYPE, "MIMS")] = "MIMS-unit"
 p3Data$DEVICE = "±8g Device"
 p3Data[str_detect(p3Data$TYPE, "2g"), "DEVICE"] = "±2g Device"
 

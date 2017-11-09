@@ -215,7 +215,7 @@ generate_diagram = function(data, device_name, range, sr, start_time, stop_time,
   minute_count_value = second_count_value * 60
   plot_agg =  mhealth.clip(agg, start_time, stop_time, "sensor")
   label1 = paste0("Area under curve: ", round(second_count_value, 2))
-  label2 = paste0("Equiv. to ", round(minute_count_value, 1), ' SMART-counts/min')
+  label2 = paste0("Equiv. to ", round(minute_count_value, 1), ' MIMS-unit/min')
   p5 = plotting(plot_agg, plot_maxed_out_line = F, plot_point = F) +
     geom_area() +
     geom_text(data=data.frame(x=start_time, y=-3.5, label=label1),aes(x=x,y=y,label=label),hjust = 0, size=3, family="Times New Roman") +

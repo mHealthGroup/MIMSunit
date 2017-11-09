@@ -30,5 +30,5 @@ gt9x_counts = gt9x_data %>% ddply(.(MPH, PID, LOCATION), function(chunk){
 }, .progress = progress_text())
 
 gt9x_counts_melted = gt9x_counts %>% melt(id=c(1,5,6,7,8,9))
-p = ggplot(data = gt9x_counts_melted, aes(x=as.factor(MPH), y=value * 12, fill=LOCATION)) + geom_boxplot() + xlab("Speed (mph)") + ylab("SMART-counts") + ylim(c(0, 150)) + theme_minimal() + facet_grid(variable ~ .) + ggtitle("cut off at 0.2 and 2.5Hz")
+p = ggplot(data = gt9x_counts_melted, aes(x=as.factor(MPH), y=value * 12, fill=LOCATION)) + geom_boxplot() + xlab("Speed (mph)") + ylab("MIMS-unit") + ylim(c(0, 150)) + theme_minimal() + facet_grid(variable ~ .) + ggtitle("cut off at 0.2 and 2.5Hz")
 ggsave(filename = "inst/figure/treadmill_counts_by_axes_2dot5Hz.png", plot = p, scale = 1, width = 8, height = 6, dpi=100)

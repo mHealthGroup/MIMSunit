@@ -19,14 +19,14 @@ if(length(args) < 2){
   print(paste("Output file is:", output_file))
   print(paste("Loading file..."))
   dat = mHealthR::mhealth.read(file = input_file, filetype = "sensor")
-  if(~is.null(before_file)){
+  if(!is.null(before_file)){
     print("Get the last 2 minutes data for before file")
     before_dat = mHealthR::mhealth.read(file = before_file, filetype = "sensor")
     before_dat = mHealthR::mhealth.clip(before_dat, start_time = dat[1,1] - 120, stop_time = dat[1,1], file_type = "sensor")
   }else{
     before_dat = NULL
   }
-  if(~is.null(after_file)){
+  if(!is.null(after_file)){
     print("Get the first 2 minutes data for after file")
     after_dat = mHealthR::mhealth.read(file = after_file, filetype = "sensor")
     after_dat = mHealthR::mhealth.clip(after_dat, start_time = dat[nrow(dat),1], stop_time = dat[nrow(dat),1] + 120, file_type = "sensor")
@@ -34,9 +34,9 @@ if(length(args) < 2){
     after_dat = NULL
   }
 
-  print(paste("Computing SMART counts..."))
-  output_dat = SMARTcounts::activity_count(df = dat, breaks = "1 min", range = c(-6, 6), before_df = before_dat, after_df = after_dat)
-  print(paste("Saving SMART counts..."))
+  print(paste("Computing MIMS-unit..."))
+  output_dat = MIMSunit::mims_unit(df = dat, breaks = "1 min", range = c(-6, 6), before_df = before_dat, after_df = after_dat)
+  print(paste("Saving MIMS-unit..."))
   write.csv(x = output_dat, file = output_file, append = FALSE, quote = FALSE, row.names = FALSE)
   print(paste("Completed"))
 }

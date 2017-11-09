@@ -1,10 +1,10 @@
-Package: SMARTcounts
+Package: MIMSunit
 Type: Package
-Title: Code and results for counts paper
+Title: Code and results for MIMS-unit algorithm
 Version: 0.2.1
 Author: Qu Tang <tang.q@husky.neu.edu>
 Maintainer: Qu Tang <tang.q@husky.neu.edu>
-Description: Code and results for SMART counts algorithm.
+Description: Code and results for MIMS-unit algorithm.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
