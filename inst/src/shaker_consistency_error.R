@@ -1,19 +1,21 @@
-rm(list = ls(all.names = TRUE))
+# rm(list = ls(all.names = TRUE))
 require(plyr)
 require(dplyr)
 require(ggplot2)
 require(reshape2)
 require(ggthemes)
-require(Counts)
+require(mHealthR)
+require(SMARTcounts)
 
 filename1 = "inst/extdata/shaker2.rds"
 filename2 = "inst/extdata/shaker3.rds"
 filename3 = "inst/extdata/shaker4.rds"
+filename4 = "inst/extdata/shaker5.rds"
 shaker2 = readRDS(filename1)
 shaker3 = readRDS(filename2)
 shaker4 = readRDS(filename3)
-
-shaker_raw = rbind(shaker2, shaker3, shaker4)
+shaker5 = readRDS(filename4)
+shaker_raw = rbind(shaker2, shaker3, shaker4, shaker5)
 
 settings = data.frame(
   low_bandwidth = c(0.2, 0.2, 0.25, 0.25),
@@ -32,7 +34,7 @@ k = 0.05
 spar = 0.6
 noise_level = 0.03
 
-error_data = adply(settings, 1, function(setting) {
+shaker_experiments = adply(settings, 1, function(setting) {
   counts = experiment_shaker_count(
     shaker_raw,
     epoch = '5 sec',
@@ -46,55 +48,66 @@ error_data = adply(settings, 1, function(setting) {
     use_filtering = TRUE,
     axes = c(2, 3, 4)
   )
+})
+
+shaker_experiments_clean = shaker_experiments%>% ddply(c('RPM', 'name', 'DEVICE', 'SR', 'GRANGE'), function(counts) {
+  return(counts[4:nrow(counts),])
+})
+
+saveRDS(file="inst/extdata/shakers_mims_algorithms.rds", object = shaker_experiments_clean)
+
+shaker_experiments_clean = readRDS("inst/extdata/shakers_mims_algorithms.rds")
+
+error_data = shaker_experiments_clean %>% ddply(c("RPM", 'name'), function(counts) {
 
   gt = counts %>% dplyr::filter(DEVICE == "TAS1C32140067") %>% ddply(c("RPM"),
                                                                      summarise,
-                                                                     MEAN = mean(COUNT),
-                                                                     VAR = var(COUNT))
+                                                                     MEAN = mean(SMART_COUNTS),
+                                                                     VAR = var(SMART_COUNTS))
 
-  error = counts %>% ddply(c("RPM"), function(counts) {
-    rpm = unique(counts$RPM)
-    gt_value = gt[gt$RPM == rpm, "MEAN"]
-    n_total = nrow(counts)
-    cv_counts = counts %>% dplyr::filter(DEVICE != "ActivPal3")
-    mse_counts = counts %>% dplyr::filter(DEVICE != "TAS1C32140067" &
-                                            DEVICE != "ActivPal3")
-    n_mse = nrow(mse_counts)
-    rmse = sqrt(sum((mse_counts$COUNT - gt_value) ^ 2) / n_mse)
-    cv_relative = rmse / gt_value
+  rpm = unique(counts$RPM)
+  gt_value = gt[gt$RPM == rpm, "MEAN"]
+  n_total = nrow(counts)
+  cv_counts = counts
+  mse_counts = counts %>% dplyr::filter(DEVICE != "TAS1C32140067" &
+                                          DEVICE != "ActivPal3")
+  n_mse = nrow(mse_counts)
+  rmse = sqrt(sum((mse_counts$COUNT - gt_value) ^ 2) / n_mse)
+  cv_relative = rmse / gt_value
 
-    cv = sd(cv_counts$COUNT) / mean(cv_counts$COUNT)
-    return(data.frame(
-      RMSE = rmse,
-      CV = cv,
-      CV_gt = cv_relative
-    ))
-  })
+  cv = sd(cv_counts$SMART_COUNTS) / mean(cv_counts$SMART_COUNTS)
+  return(data.frame(
+    RMSE = rmse,
+    CV = cv,
+    CV_gt = cv_relative
+  ))
   return(error)
 }, .progress = progress_text(), .id = NULL)
 
-error_data = error_data[c(5, 6, 8, 9)] # don't use RMSE
+error_data = error_data[c(2, 1, 4, 5)] # don't use RMSE
 
 # BIOBANK
 filename1 = "inst/extdata/shaker2_biobank_enmo.rds"
 filename2 = "inst/extdata/shaker3_biobank_enmo.rds"
 filename3 = "inst/extdata/shaker4_biobank_enmo.rds"
+filename4 = "inst/extdata/shaker5_biobank_enmo.rds"
 shaker2_biobank = readRDS(filename1)
 shaker3_biobank = readRDS(filename2)
 shaker4_biobank = readRDS(filename3)
+shaker5_biobank = readRDS(filename4)
 
 shaker_biobank = rbind(shaker2_biobank, shaker3_biobank, shaker4_biobank)
 gt_biobank = shaker_biobank %>% dplyr::filter(DEVICE == "TAS1C32140067") %>% ddply(c("RPM"),
                                                                                                    summarise,
                                                                                                    MEAN = mean(biobank_enmo),
                                                                                                    VAR = var(biobank_enmo))
-error_biobank = shaker_biobank %>% ddply(c("RPM"), function(counts) {
+error_biobank = shaker_biobank %>% ddply(c("RPM", "name"), function(counts) {
   rpm = unique(counts$RPM)
   gt_value = gt_biobank[gt_biobank$RPM == rpm, "MEAN"]
   n_total = nrow(counts)
   mse_counts = counts %>% dplyr::filter(DEVICE != "TAS1C32140067" &
                                           DEVICE != "ActivPal3")
-  cv_counts = counts %>% dplyr::filter(DEVICE != "ActivPal3")
+  cv_counts = counts
 
   n_mse = nrow(mse_counts)
   rmse = sqrt(sum((mse_counts$biobank_enmo - gt_value) ^ 2) / n_mse)
@@ -103,18 +116,19 @@ error_biobank = shaker_biobank %>% ddply(c("RPM"), function(counts) {
   return(data.frame(RMSE = rmse, CV = cv, CV_gt = cv_relative))
 })
 
-error_biobank$name = "UK Biobank ENMO"
-error_biobank = error_biobank[c(5, 1, 3, 4)]
+error_biobank = error_biobank[c(2, 1, 4, 5)]
 
 # Actigraph Count
 filename1 = "inst/extdata/shaker2_count_actigraph.rds"
 filename2 = "inst/extdata/shaker3_count_actigraph.rds"
 filename3 = "inst/extdata/shaker4_count_actigraph.rds"
+filename4 = "inst/extdata/shaker5_count_actigraph.rds"
 shaker2_actigraph = readRDS(filename1)
 shaker3_actigraph = readRDS(filename2)
 shaker4_actigraph = readRDS(filename3)
+shaker5_actigraph = readRDS(filename4)
 
-shaker_actigraph_count = rbind(shaker2_actigraph, shaker3_actigraph, shaker4_actigraph)
+shaker_actigraph_count = rbind(shaker2_actigraph, shaker3_actigraph, shaker4_actigraph, shaker5_actigraph)
 gt_actigraph_count = shaker_actigraph_count %>% dplyr::filter(DEVICE == "TAS1C32140067") %>% ddply(c("RPM"),
                                                                                                    summarise,
                                                                                                    MEAN = mean(ACTIGRAPH),
@@ -125,7 +139,7 @@ error_actigraph = shaker_actigraph_count %>% ddply(c("RPM"), function(counts) {
   n_total = nrow(counts)
   mse_counts = counts %>% dplyr::filter(DEVICE != "TAS1C32140067" &
                                           DEVICE != "ActivPal3")
-  cv_counts = counts %>% dplyr::filter(DEVICE != "ActivPal3")
+  cv_counts = counts
 
   n_mse = nrow(mse_counts)
   rmse = sqrt(sum((mse_counts$ACTIGRAPH - gt_value) ^ 2) / n_mse)

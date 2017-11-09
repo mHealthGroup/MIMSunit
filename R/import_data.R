@@ -3,6 +3,7 @@
 #' @title Import ActivPal Raw data files and load into dataframe as mhealth format.
 #' @importFrom readr read_csv count_fields tokenizer_csv
 #' @importFrom mHealthR mhealth
+#' @importFrom lubridate force_tz
 #' @export
 import_activpal_raw = function(filename, header_provided = FALSE){
   ncols = readr::count_fields(filename, readr::tokenizer_csv(), n_max = 1)
@@ -17,7 +18,7 @@ import_activpal_raw = function(filename, header_provided = FALSE){
   dat = dat[1:4]
   colnames(dat) = c(mHealthR::mhealth$column$TIMESTAMP, "X", "Y", "Z")
   dat[mHealthR::mhealth$column$TIMESTAMP] = as.POSIXct(dat[[mHealthR::mhealth$column$TIMESTAMP]] * 60 * 60 * 24, origin="1899-12-30", tz = "GMT")
-  dat[mHealthR::mhealth$column$TIMESTAMP] = force_tz(dat[mHealthR::mhealth$column$TIMESTAMP], tzone = Sys.timezone())
+  dat[mHealthR::mhealth$column$TIMESTAMP] = lubridate::force_tz(dat[mHealthR::mhealth$column$TIMESTAMP], tzone = Sys.timezone())
   dat[2:4] = (dat[2:4] - 127) / 2^8 * 4
   options(digits.secs = 3);
   dat = as.data.frame(dat);
@@ -139,7 +140,7 @@ import_actigraph_count_vm = function(filename, col_name = "ACTIGRAPH_COUNT") {
 #' @param filename full file path of input biobank epoch csv file.
 import_biobank_enmo = function(filename, col_name = "biobank_enmo") {
   dat = readr::read_csv(
-    filename, col_names = TRUE, col_types = readr::cols(timestamp = readr::col_character(), biobank_enmo = readr::col_double())
+    filename, col_names = TRUE, col_types = readr::cols(Time = readr::col_character(), enmoTrunc = readr::col_double())
   );
   dat = data.frame(dat)
   dat = dat[1:2]

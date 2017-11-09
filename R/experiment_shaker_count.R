@@ -48,6 +48,7 @@ experiment_shaker_count = function(raw_data,
         INDEX = 1:nrow(count),
         stringsAsFactors = FALSE
       )
+      count = count[-1,]
     return(result)
   }, .progress = "text", .inform = TRUE, .parallel = FALSE)
 

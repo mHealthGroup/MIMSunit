@@ -7,30 +7,31 @@ require(dplyr)
 require(lubridate)
 require(mHealthR)
 require(SMARTcounts)
-folder = "F:/data/shaker3/";
+
+folder = "F:/data/shaker5/";
 
 # shaker raw data -----------
 raw_files = list.files(path = folder, all.files = FALSE, full.names = TRUE, pattern = ".*.csv", recursive = FALSE)
 raw_files = raw_files[!str_detect(raw_files, "sessions")]
 raw_files = normalizePath(unlist(raw_files))
 
-shaker3_actigraph = ldply(raw_files, function(file){
+shaker5_actigraph = ldply(raw_files, function(file){
+  header = file %>% import_actigraph_meta(header = TRUE)
+  sr = header$sr
   if(str_detect(file, "ActivPal")){
-    sr = 20
     id = "ActivPal3"
     gr = 2
   }else{
-    header = file %>% import_actigraph_meta(header = TRUE)
-    sr = header$sr
     id = header$sn
     gr = header$gr
   }
-  data = import_actigraph_count(file.path(folder, "agd", basename(file)), axes = c(2,3, 4), col_name = "ACTIGRAPH")
-  data[1] = force_tz(data[1], tzone = Sys.timezone())
+
+  raw_data = import_actigraph_count(file.path(folder, "agd", basename(file)), col_name = "ACTIGRAPH", axes = c(2,3,4))
+  raw_data[1] = force_tz(raw_data[1], Sys.timezone())
   # cut into segments
   sessions = read.csv(file.path(folder, "sessions.csv"), header = TRUE, stringsAsFactors = FALSE)
   segmented = sessions %>% adply(1, function(row){
-    segment = data %>% mhealth.clip(row[,1], row[,2], file_type = "sensor")
+    segment = raw_data %>% mhealth.clip(row[,1], row[,2], file_type='sensor')
     rpm = row[,3]
     hz = row[,4]
     return(segment %>% cbind(LOCATION = "Shaker", SR = sr, RPM = hz, DEVICE = id, GRANGE = gr, stringsAsFactors = FALSE))
@@ -40,5 +41,4 @@ shaker3_actigraph = ldply(raw_files, function(file){
 }, .parallel = FALSE, .progress = "text", .id = NULL, .inform = TRUE)
 
 # save as exported data
-# devtools::use_data(shaker3_actigraph, compress = "bzip2", overwrite = TRUE)
-saveRDS(shaker3_actigraph, file = "inst/extdata/shaker3_count_actigraph.rds", compress = TRUE)
+saveRDS(shaker5_actigraph, file = "inst/extdata/shaker5_count_actigraph.rds", compress = TRUE)

@@ -10,7 +10,7 @@ require(mHealthR)
 folder = "F:/data/shaker4/";
 
 # shaker raw data -----------
-raw_files = list.files(path = folder, all.files = FALSE, full.names = TRUE, pattern = ".*Epoch.csv", recursive = FALSE)
+raw_files = list.files(path = file.path(folder, 'enmo'), all.files = FALSE, full.names = TRUE, pattern = ".*Epoch.*.csv", recursive = FALSE)
 raw_files = raw_files[!str_detect(raw_files, "sessions")]
 raw_files = normalizePath(unlist(raw_files))
 
@@ -19,12 +19,14 @@ shaker4_biobank = ldply(raw_files, function(file){
   sr = as.numeric(str_split(tokens[[1]][2], "Hz")[[1]][1])
   id = tokens[[1]][1]
   gr = as.numeric(str_split(tokens[[1]][3], "gEpoch")[[1]][1])
+  name = paste0("ENMO_", str_split(tokens[[1]][4], "\\.")[[1]][1])
   data = import_biobank_enmo(file)
   data[1] = force_tz(data[1], tzone = Sys.timezone())
   if(str_detect(id, "LG")){
     data[1] = data[1]-60 * 22 + 20
   }
   data = data[c(1,2)]
+  data$name = name
   # cut into segments
   sessions = read.csv(file.path(folder, "sessions.csv"), header = TRUE, stringsAsFactors = FALSE)
   segmented = sessions %>% adply(1, function(row){
@@ -38,5 +40,4 @@ shaker4_biobank = ldply(raw_files, function(file){
 }, .parallel = FALSE, .progress = "text", .id = NULL, .inform = TRUE)
 
 # save as exported data
-# devtools::use_data(shaker2_actigraph, compress = "bzip2", overwrite = TRUE)
 saveRDS(shaker4_biobank, file = "inst/extdata/shaker4_biobank_enmo.rds", compress = TRUE)
