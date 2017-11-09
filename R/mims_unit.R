@@ -120,8 +120,7 @@ mims_unit = function(df,
   # only keep data between start and end time
   keep_mask = countsData[[1]] >= start_time & countsData[[1]] < stop_time
   countsData = countsData[keep_mask,]
-  if(is.na(countsData[1,2])){
-    countsData = countsData[2:nrow(countsData),]
-  }
+
+  countsData = countsData[!is.na(countsData[,2]),]
   return(countsData)
 }
