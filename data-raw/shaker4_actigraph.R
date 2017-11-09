@@ -1,11 +1,13 @@
 # create exported dataset for mhealth package
-# 
+#
 rm(list = ls(all.names = TRUE))
 require(stringr)
 require(plyr)
 require(dplyr)
 require(lubridate)
-folder = "offline_data/shaker4/";
+require(mHealthR)
+require(SMARTcounts)
+folder = "F:/data/shaker4/";
 
 # shaker raw data -----------
 raw_files = list.files(path = folder, all.files = FALSE, full.names = TRUE, pattern = ".*.csv", recursive = FALSE)
@@ -22,20 +24,19 @@ shaker4_actigraph = ldply(raw_files, function(file){
     id = "LG Watch R Urbane"
     gr = 2
   }
-  data = SensorData.importActigraphCountCsv(file.path(folder, "agd", basename(file)), axes = c(2,3), count_col_name = "ACTIGRAPH")
+  data = import_actigraph_count(file.path(folder, "agd", basename(file)), axes = c(2,3,4), col_name = "ACTIGRAPH")
   data[1] = force_tz(data[1], tzone = Sys.timezone())
   # cut into segments
   sessions = read.csv(file.path(folder, "sessions.csv"), header = TRUE, stringsAsFactors = FALSE)
   segmented = sessions %>% adply(1, function(row){
-    segment = data %>% SensorData.clip(row[,1], row[,2])
+    segment = data %>% mhealth.clip(row[,1], row[,2], file_type = 'sensor')
     rpm = row[,3]
     hz = row[,4]
     return(segment %>% cbind(LOCATION = "Shaker", SR = sr, RPM = hz, DEVICE = id, GRANGE = gr, stringsAsFactors = FALSE))
-  }, .inform = TRUE, .id = NULL) %>% 
+  }, .inform = TRUE, .id = NULL) %>%
     subset(select = -(1:3))
   return(segmented)
 }, .parallel = FALSE, .progress = "text", .id = NULL, .inform = TRUE)
 
 # save as exported data
-# devtools::use_data(shaker4_actigraph, compress = "bzip2", overwrite = TRUE)
 saveRDS(shaker4_actigraph, file = "inst/extdata/shaker4_count_actigraph.rds", compress = TRUE)

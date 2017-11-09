@@ -1,0 +1,57 @@
+RPM,name,variable,value
+1,Proposed,CV,0.0196808528966561
+1,Proposed with narrower passband (0.25-2.5Hz),CV,0.021087288797398
+1,Proposed with narrower passband (0.25-2.5Hz) and without extrapolation,CV,0.021087288797398
+1,Proposed without extrapolation,CV,0.0196808522790865
+2,Proposed,CV,0.0190145043604241
+2,Proposed with narrower passband (0.25-2.5Hz),CV,0.0203305983078073
+2,Proposed with narrower passband (0.25-2.5Hz) and without extrapolation,CV,0.0203305983078073
+2,Proposed without extrapolation,CV,0.019014504084802
+3,Proposed,CV,0.0213845116628235
+3,Proposed with narrower passband (0.25-2.5Hz),CV,0.0279078634265975
+3,Proposed with narrower passband (0.25-2.5Hz) and without extrapolation,CV,0.0280590279804571
+3,Proposed without extrapolation,CV,0.0214078419886278
+4,Proposed,CV,0.0693114701876691
+4,Proposed with narrower passband (0.25-2.5Hz),CV,0.215233588776363
+4,Proposed with narrower passband (0.25-2.5Hz) and without extrapolation,CV,0.149073297721256
+4,Proposed without extrapolation,CV,0.111980797495712
+5,Proposed,CV,0.132516292223384
+5,Proposed with narrower passband (0.25-2.5Hz),CV,0.61653680710903
+5,Proposed with narrower passband (0.25-2.5Hz) and without extrapolation,CV,0.585591458462826
+5,Proposed without extrapolation,CV,0.225788932182237
+6,Proposed,CV,0.18828438263532
+6,Proposed with narrower passband (0.25-2.5Hz),CV,0.502338607256642
+6,Proposed with narrower passband (0.25-2.5Hz) and without extrapolation,CV,0.493366835063164
+6,Proposed without extrapolation,CV,0.310585091889356
+7,Proposed,CV,0.222753812848051
+7,Proposed with narrower passband (0.25-2.5Hz),CV,0.661801109968483
+7,Proposed with narrower passband (0.25-2.5Hz) and without extrapolation,CV,0.834156685530671
+7,Proposed without extrapolation,CV,0.336872152368371
+8,Proposed,CV,0.263862253078652
+8,Proposed with narrower passband (0.25-2.5Hz),CV,0.700618787399165
+8,Proposed with narrower passband (0.25-2.5Hz) and without extrapolation,CV,0.845948757509676
+8,Proposed without extrapolation,CV,0.362395364470041
+1,Actigraph count algorithm,CV,0.535691809235947
+2,Actigraph count algorithm,CV,0.434915930121586
+3,Actigraph count algorithm,CV,0.424545386304652
+4,Actigraph count algorithm,CV,0.419275148084899
+5,Actigraph count algorithm,CV,0.690094092720736
+6,Actigraph count algorithm,CV,0.61496002515523
+7,Actigraph count algorithm,CV,0.769919003254101
+8,Actigraph count algorithm,CV,0.896595533636324
+1,ENMO_calibrated,CV,0.181555644223863
+1,ENMO_uncalibrated,CV,0.976829810746583
+2,ENMO_calibrated,CV,0.343121530998606
+2,ENMO_uncalibrated,CV,0.151595846204605
+3,ENMO_calibrated,CV,0.36361053774347
+3,ENMO_uncalibrated,CV,0.0431217363751258
+4,ENMO_calibrated,CV,0.388488391989507
+4,ENMO_uncalibrated,CV,0.155056854342991
+5,ENMO_calibrated,CV,0.465260110059396
+5,ENMO_uncalibrated,CV,0.306941623574642
+6,ENMO_calibrated,CV,0.56305707959931
+6,ENMO_uncalibrated,CV,0.443895401476669
+7,ENMO_calibrated,CV,0.698731625856408
+7,ENMO_uncalibrated,CV,0.577796525712134
+8,ENMO_calibrated,CV,0.759545928825098
+8,ENMO_uncalibrated,CV,0.637545103034781
