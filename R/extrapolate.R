@@ -153,8 +153,15 @@ extrapolate = function(t, value, range, noise_level, k = 0.65, spar = 0.4){
   positive_left_end = which(marker_diff_left > confident & marker > 0)
   positive_right_start = which(marker_diff_right < -confident & marker > 0)
   n_trunc = min(length(positive_left_end), length(positive_right_start))
-  positive_left_end = positive_left_end[1:n_trunc] %>% stats::na.omit()
-  positive_right_start = positive_right_start[1:n_trunc] %>% stats::na.omit()
+  if(n_trunc == 0){
+    positive_left_end = c()
+    positive_right_start = c()
+  }else{
+    positive_left_end = positive_left_end[1:n_trunc] %>% stats::na.omit()
+    positive_right_start = positive_right_start[1:n_trunc] %>% stats::na.omit()
+  }
+
+
   if(any(positive_right_start - positive_left_end < 0)) {
     positive_left_end = .shift(positive_left_end, 1)
     positive_right_start = .shift(positive_right_start, -1)
@@ -328,9 +335,12 @@ extrapolate = function(t, value, range, noise_level, k = 0.65, spar = 0.4){
   value_mark = value[abs(marker) < confident]
   # t_mark = t
   # value_mark = value
-  dat = rbind(data.frame(t = t_mark, value = value_mark), data.frame(t = points_ex$t_ex, value = points_ex$value_ex)) %>%
-        dplyr::arrange(t)
-
+  if(length(t_mark) / length(t) < 0.3){
+    dat = data.frame(t = t, value = value)
+  }else{
+    dat = rbind(data.frame(t = t_mark, value = value_mark), data.frame(t = points_ex$t_ex, value = points_ex$value_ex)) %>%
+      dplyr::arrange(t)
+  }
   t_interp = seq(t %>% dplyr::first(), t %>% dplyr::last(), by = 1/sr)
   dat_interp = stats::spline(dat$t, y = dat$value, xout = t_interp) %>% as.data.frame %>% stats::na.omit()
   names(dat_interp) = c("t", "value")
