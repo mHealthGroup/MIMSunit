@@ -4,7 +4,7 @@
 
 Make sure you have `R` and preferred `R studio` installed. If on windows, make sure `Rtools` is installed.
 
-```
+```r
 install.packages('devtools')
 devtools::install_github('qutang/mHealthR')
 devtools::install_github('qutang/MIMSunit')
@@ -31,8 +31,8 @@ HEADER_TIME_STAMP,X,Y,Z
 
 Assuming your data is in variable `df`, knowing accelerometer data's dynamic range (i.e. `c(-3, 3)`) and the desired epoch (i.e. '1 min'). You may run following script to generate MIMS-unit values.
 
-```
-output = activity_count(df = df, range = c(-3,3), breaks = '1 min')
+```r
+output = mims_unit(df = df, range = c(-3,3), breaks = '1 min')
 ```
 
 Output will be in the same format as input, with the first column being the start time of each epoch segment, and the second column being the MIMS-unit value.
