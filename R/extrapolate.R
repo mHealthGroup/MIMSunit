@@ -3,6 +3,7 @@
 #' @note If wanting to obtain mediate results for plotting and debugging, please use this function.
 #' @author Qu Tang
 #' @export
+#' @rdname extrapolate
 #' @importFrom plyr adply progress_text
 #' @importFrom lubridate tz
 #' @param t input index or timestamp sequence

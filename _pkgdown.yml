@@ -1,0 +1,61 @@
+reference:
+  - title: "IO for Actigraph Monitors"
+    desc: >
+      Functions for importing and exporting data with Actigraph Monitors (e.g. GT3X, GT9X)
+    contents:
+      - matches(".*actigraph.*")
+  - title: "IO for ActivPal Monitors"
+    desc: >
+      Functions for importing and exporting data with ActivPal Monitors (e.g. ActivPal 3)
+    contents:
+      - matches(".*activpal.*")
+  - title: "API for computing MIMS-unit"
+    desc: >
+      Function to generate MIMS-unit value
+    contents:
+      - mims_unit
+  - title: "APIs for Intermediate step"
+    desc: "Functions used in intermediate process when computing MIMS-unit"
+    contents:
+      - interpolate
+      - average_removal
+      - iir
+      - bessel
+      - extrapolate
+      - aggregate
+  - title: "Util functions"
+    desc: >
+      Utility functions
+    contents:
+      - sampling_rate
+      - extrapolate_rate
+
+authors:
+  Qu Tang:
+    href: http://qutang.github.io
+
+template:
+  params:
+    bootswatch: readable
+    ganalytics: UA-38342303-3
+navbar:
+  title: "MIMSunit"
+  type: inverse
+  left:
+    - text: "Get Started"
+      href: articles/MIMSunit.html
+    - text: "Advance Guidance"
+      menu:
+        - text: "Import Data"
+          href: articles/import_data.html
+        - text: "Generate Intermediate Output"
+          href: articles/generate_intermediate.html
+        - text: "Customize MIMS unit algorithm"
+          href: articles/customize.html
+    - text: "Replicate publication results"
+      href: articles/replicate.html
+    - text: "API References"
+      href: "reference/index.html"
+  right:
+    - icon: fa-github
+      href: https://github.com/qutang/mimsunit

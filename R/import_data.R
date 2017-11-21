@@ -97,6 +97,7 @@ import_actigraph_raw = function(filename, ad_convert = FALSE, ts_provided = TRUE
 #' @export
 #' @importFrom readr read_csv cols col_character col_double
 #' @importFrom mHealthR mhealth
+#' @rdname import_actigraph_count
 #' @param filename full file path of input Actigraph count csv file.
 import_actigraph_count = function(filename, col_name = "ACTIGRAPH_COUNT", axes = c(2,3,4)) {
   dat = readr::read_csv(
@@ -118,6 +119,7 @@ import_actigraph_count = function(filename, col_name = "ACTIGRAPH_COUNT", axes =
 #' @name import_actigraph_count_vm
 #' @title Import and convert Actigraph count csv files and load into data frame as in mhealth format.
 #' @export
+#' @rdname import_actigraph_count
 #' @importFrom readr read_csv cols col_character col_double
 #' @importFrom mHealthR mhealth
 #' @param filename full file path of input Actigraph count csv file.

@@ -4,3 +4,5 @@
 ^offline_data$
 ^mims_unit.R$
 ^docs$
+^README_data$
+^_pkgdown\.yml$
