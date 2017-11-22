@@ -27,7 +27,7 @@ HEADER_TIME_STAMP,X,Y,Z
 
 ### Load into memory using [`mHealthR`](https://qutang.github.io/mHealthR/) package
 
-```{r, include=FALSE}
+```{r, include=FALSE, warning=FALSE}
 wd = getwd()
 if(stringr::str_detect(wd, "articles")){
   file_path = normalizePath(file.path(wd, "../../vignettes/data/shaker.csv"))
@@ -45,8 +45,10 @@ df = mHealthR::mhealth.read(file_path, filetype='sensor')
 knitr::kable(head(df, 5))
 ```
 
-```{r, echo=FALSE, fig.height=4, fig.width=8, message=FALSE, warning=FALSE}
-mHealthR::mhealth.plot_timeseries(list(df), file_types=c('sensor'), select_cols = list(c(2, 3, 4)), ncols = 1)
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2.5, fig.width=8.5}
+require(dygraphs)
+df_xts = xts::xts(df[,2:4], df[,1])
+dygraphs::dygraph(df_xts) %>% dygraphs::dyRangeSelector() %>% dyOptions(colors = RColorBrewer::brewer.pal(3, "Set2")) %>% dyLegend(width = 400)
 ```
 
 ### Run MIMS-unit algorithm on input data
@@ -63,6 +65,7 @@ mims = MIMSunit::mims_unit(df, breaks = '5 sec', range = c(-2, 2))
 knitr::kable(head(mims, 5))
 ```
 
-```{r, echo=FALSE, fig.height=4, fig.width=8, message=FALSE, warning=FALSE}
-mHealthR::mhealth.plot_timeseries(list(mims), file_types=c('sensor'), select_cols = list(c(2)), ncols = 1)
+```{r, echo=FALSE, fig.height=2.5, fig.width=8.5, message=FALSE, warning=FALSE}
+mims_xts = xts::xts(mims[,2], mims[,1])
+dygraphs::dygraph(mims_xts) %>% dygraphs::dyRangeSelector() %>% dyOptions(colors = RColorBrewer::brewer.pal(1, "Set2")) %>% dyLegend(width = 400)
 ```
