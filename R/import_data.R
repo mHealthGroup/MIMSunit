@@ -16,9 +16,9 @@ import_activpal_raw = function(filename, header_provided = FALSE){
       filename, col_names = FALSE, trim_ws = TRUE, col_types = colTypes);
   }
   dat = dat[1:4]
-  colnames(dat) = c(mHealthR::mhealth$column$TIMESTAMP, "X", "Y", "Z")
-  dat[mHealthR::mhealth$column$TIMESTAMP] = as.POSIXct(dat[[mHealthR::mhealth$column$TIMESTAMP]] * 60 * 60 * 24, origin="1899-12-30", tz = "GMT")
-  dat[mHealthR::mhealth$column$TIMESTAMP] = lubridate::force_tz(dat[mHealthR::mhealth$column$TIMESTAMP], tzone = Sys.timezone())
+  colnames(dat) = c("HEADER_TIME_STAMP", "X", "Y", "Z")
+  dat["HEADER_TIME_STAMP"] = as.POSIXct(dat[["HEADER_TIME_STAMP"]] * 60 * 60 * 24, origin="1899-12-30", tz = "GMT")
+  dat["HEADER_TIME_STAMP"] = lubridate::force_tz(dat["HEADER_TIME_STAMP"], tzone = Sys.timezone())
   dat[2:4] = (dat[2:4] - 127) / 2^8 * 4
   options(digits.secs = 3);
   dat = as.data.frame(dat);
@@ -62,7 +62,7 @@ import_actigraph_raw = function(filename, ad_convert = FALSE, ts_provided = TRUE
   dat = dat[,1:4]
 
   names(dat) = c(
-    mHealthR::mhealth$column$TIMESTAMP,
+    "HEADER_TIME_STAMP",
     "X",
     "Y",
     "Z"
@@ -72,7 +72,7 @@ import_actigraph_raw = function(filename, ad_convert = FALSE, ts_provided = TRUE
     timeFormat = ifelse(test = actigraph_meta$imu,
                         yes = "%Y-%m-%dT%H:%M:%OS",
                         no = "%m/%d/%Y %H:%M:%OS")
-    dat[[mhealth$column$TIMESTAMP]] = strptime(x = dat[[mhealth$column$TIMESTAMP]],
+    dat[["HEADER_TIME_STAMP"]] = strptime(x = dat[["HEADER_TIME_STAMP"]],
                                                    format = timeFormat) + 0.0005
   }
 
@@ -112,7 +112,7 @@ import_actigraph_count = function(filename, col_name = "ACTIGRAPH_COUNT", axes =
   }
   dat[col_name] = count_value
   result = dat[c(1, ncol(dat))]
-  colnames(result) = c(mHealthR::mhealth$column$TIMESTAMP, col_name);
+  colnames(result) = c("HEADER_TIME_STAMP", col_name);
   return(result)
 }
 
@@ -130,7 +130,7 @@ import_actigraph_count_vm = function(filename, col_name = "ACTIGRAPH_COUNT") {
   dat = data.frame(dat)
   dat[,1] = as.POSIXct(dat[,1], format = mHealthR::mhealth$format$csv$TIMESTAMP, tz = Sys.timezone())
   result = dat
-  colnames(result) = c(mHealthR::mhealth$column$TIMESTAMP, col_name);
+  colnames(result) = c("HEADER_TIME_STAMP", col_name);
   return(result)
 }
 
@@ -148,7 +148,7 @@ import_biobank_enmo = function(filename, col_name = "biobank_enmo") {
   dat = dat[1:2]
   dat[,1] = as.POSIXct(dat[,1], format = mHealthR::mhealth$format$csv$TIMESTAMP, tz = Sys.timezone())
   result = dat
-  colnames(result) = c(mHealthR::mhealth$column$TIMESTAMP, col_name);
+  colnames(result) = c("HEADER_TIME_STAMP", col_name);
   return(result)
 }
 
@@ -275,18 +275,18 @@ import_actigraph_meta = function(filename, header = TRUE) {
   return(header)
 }
 
-#' @name import_hdf5
-#' @title import hdf5 format sensor data file
-#' @export
-#' @importFrom h5 h5file
-import_hdf5 = function(filename, key) {
-  data <- h5::h5file(filename, "r")
-  values = data[paste0(key, '/block1_values')][,1:3]
-  ts = data[paste0(key, '/block0_values')][]/1000000000
-  ts = as.POSIXct(ts, origin="1970-01-01", tz = "UTC")
-  test_data = data.frame(values)
-  test_data["HEADER_TIME_STAMP"] = ts
-  colnames(test_data)[1:3] = c("X", "Y", "Z")
-  result = test_data[c("HEADER_TIME_STAMP", 'X', 'Y', 'Z')]
-  return(result)
-}
+#' #' @name import_hdf5
+#' #' @title import hdf5 format sensor data file
+#' #' @export
+#' #' @importFrom h5 h5file
+#' import_hdf5 = function(filename, key) {
+#'   data <- h5::h5file(filename, "r")
+#'   values = data[paste0(key, '/block1_values')][,1:3]
+#'   ts = data[paste0(key, '/block0_values')][]/1000000000
+#'   ts = as.POSIXct(ts, origin="1970-01-01", tz = "UTC")
+#'   test_data = data.frame(values)
+#'   test_data["HEADER_TIME_STAMP"] = ts
+#'   colnames(test_data)[1:3] = c("X", "Y", "Z")
+#'   result = test_data[c("HEADER_TIME_STAMP", 'X', 'Y', 'Z')]
+#'   return(result)
+#' }
