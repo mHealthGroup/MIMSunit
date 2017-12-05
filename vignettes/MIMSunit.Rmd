@@ -11,6 +11,8 @@ vignette: >
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+require(magrittr)
+require(dygraphs)
 ```
 
 ### Make sure you prepare your raw accelerometer data in following csv format
