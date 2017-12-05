@@ -31,8 +31,8 @@ mims_unit = function(df,
                           after_df = NULL) {
 
   # save the start and stop time of original df
-  start_time = df[1,1]
-  stop_time = df[nrow(df),1]
+  start_time = lubridate::floor_date(df[1,1], unit = 'seconds');
+  stop_time = lubridate::floor_date(df[nrow(df),1], unit = 'seconds');
 
   # concatenate with before and after df
   if(is.data.frame(before_df)){
