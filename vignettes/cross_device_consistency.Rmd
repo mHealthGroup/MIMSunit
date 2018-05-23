@@ -1,0 +1,139 @@
+---
+title: "Cross device consistency of MIMS-Unit algorithm"
+output: rmarkdown::html_vignette
+author: "Qu Tang"
+date: "May 22, 2018"
+vignette: >
+  %\VignetteIndexEntry{pkgdown}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+require(plyr)
+require(dplyr)
+require(ggplot2)
+```
+
+```{r, include=FALSE}
+wd = getwd()
+if(stringr::str_detect(wd, "articles")){
+  file_path = normalizePath(file.path(wd, "../../inst/extdata/cross_device_consistency.rds"))
+}else{
+  file_path = normalizePath(file.path(wd, "../inst/extdata/cross_device_consistency.rds"))
+}
+df = readRDS(file_path)
+```
+
+### Introduction
+
+This is a replication of Figure ? in the published MIMS-Unit [paper](). The cross device consistency test is run with following devices on a orbital shaker with FREQ_IN_HZ from 60 (approx. 1 Hz) to 480 (approx. 8Hz).
+
+```{r, include=FALSE}
+device_table = df %>% ddply(c('NAME'), summarise, 
+             SR = head(SR, 1),
+             GRANGE = head(GRANGE, 1),
+             DEVICE = head(DEVICE ,1))
+device_table = device_table[c('DEVICE', 'SR', 'GRANGE')]
+colnames(device_table) = c('DEVICE', 'SAMPLING RATE (Hz)', 'DYNAMIC RANGE (g)')
+```
+```{r, echo=FALSE}
+knitr::kable(device_table)
+```
+
+The collected dataset is then processed by three accelerometer data summarization algorithms for comparison.
+
+1. Actigraph counts (processed using Actilife software)
+2. [ENMO]() (used by UK Biobank project)
+3. MIMS-Unit
+
+The collected data is calibrated using at least 24h wearing data when applying ENMO algorithm as suggested in the paper. The other two algorithms do not require specific calibration unless the calibration is suggested by device manufacturers.
+
+### Coefficient of variety of three accelerometer data summarizations cross different devices
+
+```{r, include=FALSE}
+acc_factor = 60 / 5
+summary_df = df %>% ddply(
+  c("TYPE", "FREQ_IN_HZ"),
+  summarise,
+  N = length(VALUE),
+  mean = mean(VALUE * acc_factor),
+  sd   = sd(VALUE * acc_factor),
+  se   = sd / sqrt(N),
+  cv = sd / mean
+)
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, out.width = "100%", fig.width=10,fig.height=8}
+p1 = ggplot(summary_df,
+           aes(
+             x = FREQ_IN_HZ,
+             y = cv,
+             linetype = TYPE,
+             shape = TYPE
+           )) +
+
+  geom_line() +
+  geom_point(size = 3) + 
+  ylim(0, 1) +
+  theme_bw() +
+  theme(
+    legend.position = "bottom",
+    legend.margin = unit(10 ^ -3, 'inch'),
+    panel.margin = unit(0.1, 'inch'),
+    axis.text = element_text(margin = margin(0, 0, 0, 0)),
+    plot.margin = margin(0, 0, 0, 0, 'inch'),
+    strip.background = element_blank(),
+    legend.key = element_blank()
+  ) +
+  # facet_wrap(~ variable, scales = "free_y") +
+  guides(shape = guide_legend(ncol = 2, title = NULL),
+         linetype = guide_legend(ncol = 2, title = NULL)) +
+  ylab("Coefficient of variance (CV)") +
+  xlab("Frequency (Hz)")
+
+p1
+```
+
+
+
+### Accelerometer data summarizations for different devices
+
+```{r, include=FALSE}
+acc_factor = 60 / 5
+summary_df = df %>% ddply(
+  c("DEVICE", "GRANGE", "SR", "TYPE", "FREQ_IN_HZ", "NAME"),
+  summarise,
+  N = length(VALUE),
+  mean = mean(VALUE * acc_factor),
+  sd   = sd(VALUE * acc_factor),
+  se   = sd / sqrt(N),
+  cv = sd / mean
+)
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, out.width = "100%", fig.width=10,fig.height=24}
+p2 = ggplot(data = summary_df, aes(
+  x = FREQ_IN_HZ,
+  y = mean,
+  color = NAME,
+  linetype = NAME
+)) +
+  geom_line() + geom_point(aes(shape = NAME)) +
+  scale_colour_manual(name = "Device", values = rep("black", 12), guide=FALSE) +
+  # scale_linetype_discrete(name = "Device") +
+  facet_wrap(~TYPE, ncol = 1, scales = "free_y") +
+  guides(shape = guide_legend(ncol = 3, title = NULL),
+         linetype = guide_legend(ncol = 3, title = NULL)) +
+  ylab("Activity Counts") + xlab("Frequency (Hz)") +
+  theme_bw() +
+  theme(legend.position = "bottom",
+        legend.margin = unit(10 ^ -3, 'inch'),
+        panel.margin = unit(0.1, 'inch'),
+        axis.text = element_text(margin = margin(0, 0, 0, 0)),
+        plot.margin = margin(0, 0, 0, 0, 'inch'),
+        strip.background = element_blank(),
+        legend.key = element_blank())
+p2
+```

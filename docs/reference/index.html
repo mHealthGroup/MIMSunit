@@ -18,13 +18,19 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+
+
+
+<meta property="og:title" content="Function reference" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -34,16 +40,14 @@
 <![endif]-->
 
 
-<!-- Google analytics -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-38342303-3"></script>
 <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-  ga('create', 'UA-38342303-3', 'auto');
-  ga('send', 'pageview');
-
+  gtag('config', 'UA-38342303-3');
 </script>
 
   </head>
@@ -59,8 +63,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">MIMSunit</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">MIMSunit</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.3.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -84,8 +92,17 @@
     </li>
   </ul>
 </li>
-<li>
-  <a href="../articles/replicate.html">Replicate publication results</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Performances
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/cross_device_consistency.html">Cross device consistency</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="../reference/index.html">API References</a>
@@ -100,6 +117,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -107,150 +125,145 @@
       
       </header>
 
-      <div class="row">
-  <div class="col-md-9">
+<div class="row">
+  <div class="contents col-md-9">
     <div class="page-header">
-      <h1>
-        Reference
-        <small>version&nbsp;0.2.1</small>
-      </h1>
+      <h1>Reference</h1>
     </div>
 
-    <div class="contents">
-      <table class="ref-index">
+    <table class="ref-index">
 
-      <colgroup>
-        <col class="alias" />
-        <col class="title" />
-      </colgroup>
+    <colgroup>
+      <col class="alias" />
+      <col class="title" />
+    </colgroup>
 
-      <tbody>
-        <tr>
-          <th colspan="2">
-            <h2 id="section-io-for-actigraph-monitors" class="hasAnchor"><a href="#section-io-for-actigraph-monitors" class="anchor"></a>IO for Actigraph Monitors</h2>
-            <p class="section-desc"><p>Functions for importing and exporting data with Actigraph Monitors (e.g. GT3X, GT9X)</p></p>
-          </th>
-        </tr>
-        <tr>
-          <!--  -->
-          <td>
-            <p><code><a href="export_actigraph_raw.html">export_actigraph_raw</a></code> </p>
-          </td>
-          <td><p>Export to Actigraph raw csv files</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="import_actigraph_count.html">import_actigraph_count</a></code> <code><a href="import_actigraph_count.html">import_actigraph_count_vm</a></code> </p>
-          </td>
-          <td><p>Import and convert Actigraph count csv files and load into data frame as in mhealth format.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="import_actigraph_meta.html">import_actigraph_meta</a></code> </p>
-          </td>
-          <td><p>parse actigraph csv header to get related version and sampling rate information</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="import_actigraph_raw.html">import_actigraph_raw</a></code> </p>
-          </td>
-          <td><p>Import and convert Actigraph raw csv files and load into data frame as in mhealth format.</p></td>
-        </tr>
-      </tbody><tbody>
-        <tr>
-          <th colspan="2">
-            <h2 id="section-io-for-activpal-monitors" class="hasAnchor"><a href="#section-io-for-activpal-monitors" class="anchor"></a>IO for ActivPal Monitors</h2>
-            <p class="section-desc"><p>Functions for importing and exporting data with ActivPal Monitors (e.g. ActivPal 3)</p></p>
-          </th>
-        </tr>
-        <tr>
-          <!--  -->
-          <td>
-            <p><code><a href="import_activpal.html">import_activpal_raw</a></code> </p>
-          </td>
-          <td><p>Import ActivPal Raw data files and load into dataframe as mhealth format.</p></td>
-        </tr>
-      </tbody><tbody>
-        <tr>
-          <th colspan="2">
-            <h2 id="section-api-for-computing-mims-unit" class="hasAnchor"><a href="#section-api-for-computing-mims-unit" class="anchor"></a>API for computing MIMS-unit</h2>
-            <p class="section-desc"><p>Function to generate MIMS-unit value</p></p>
-          </th>
-        </tr>
-        <tr>
-          <!--  -->
-          <td>
-            <p><code><a href="mims_unit.html">mims_unit</a></code> </p>
-          </td>
-          <td><p>Compute activity counts using [citation] algorithm</p></td>
-        </tr>
-      </tbody><tbody>
-        <tr>
-          <th colspan="2">
-            <h2 id="section-apis-for-intermediate-step" class="hasAnchor"><a href="#section-apis-for-intermediate-step" class="anchor"></a>APIs for Intermediate step</h2>
-            <p class="section-desc"><p>Functions used in intermediate process when computing MIMS-unit</p></p>
-          </th>
-        </tr>
-        <tr>
-          <!--  -->
-          <td>
-            <p><code><a href="interpolate.html">interpolate</a></code> </p>
-          </td>
-          <td><p>Interpolate the missing points and unify sampling interval for the input sensor data</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="average_removal.html">average_removal</a></code> </p>
-          </td>
-          <td><p>Apply average removal FIR filter to the input sensor data frame each column over certain breaks (e.g. hour, sec, min and etc.)</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="iir.html">iir</a></code> </p>
-          </td>
-          <td><p>Apply iir filter to the input sensor data frame each column over a certain break (e.g. hour, sec, min and etc.).</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="bessel.html">bessel</a></code> </p>
-          </td>
-          <td><p>Apply low pass bessel filter to the input sensor data frame each column over certain breaks (e.g. hour, sec, min and etc.)</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="extrapolate.html">extrapolate.data.frame</a></code> <code><a href="extrapolate.html">extrapolate</a></code> </p>
-          </td>
-          <td><p>Apply extrapolate algorithm to a single stream of data.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="aggregate.html">aggregate</a></code> </p>
-          </td>
-          <td><p>Calculate summary value (area under curve) for each column over a certain break (e.g. hour, min).</p></td>
-        </tr>
-      </tbody><tbody>
-        <tr>
-          <th colspan="2">
-            <h2 id="section-util-functions" class="hasAnchor"><a href="#section-util-functions" class="anchor"></a>Util functions</h2>
-            <p class="section-desc"><p>Utility functions</p></p>
-          </th>
-        </tr>
-        <tr>
-          <!--  -->
-          <td>
-            <p><code><a href="sampling_rate.html">sampling_rate</a></code> </p>
-          </td>
-          <td><p>Get sensor data's sampling rate from the time difference of adjacent samples</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="extrapolate_rate.html">extrapolate_rate</a></code> </p>
-          </td>
-          <td><p>compute extrapolation rate</p></td>
-        </tr>
-      </tbody>
-      </table>
-    </div>
+    <tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-io-for-actigraph-monitors" class="hasAnchor"><a href="#section-io-for-actigraph-monitors" class="anchor"></a>IO for Actigraph Monitors</h2>
+          <p class="section-desc"><p>Functions for importing and exporting data with Actigraph Monitors (e.g. GT3X, GT9X)</p></p>
+        </th>
+      </tr>
+      <tr>
+        <!--  -->
+        <td>
+          <p><code><a href="export_actigraph_raw.html">export_actigraph_raw()</a></code> </p>
+        </td>
+        <td><p>Export to Actigraph raw csv files</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="import_actigraph_count.html">import_actigraph_count()</a></code> <code><a href="import_actigraph_count.html">import_actigraph_count_vm()</a></code> </p>
+        </td>
+        <td><p>Import and convert Actigraph count csv files and load into data frame as in mhealth format.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="import_actigraph_meta.html">import_actigraph_meta()</a></code> </p>
+        </td>
+        <td><p>parse actigraph csv header to get related version and sampling rate information</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="import_actigraph_raw.html">import_actigraph_raw()</a></code> </p>
+        </td>
+        <td><p>Import and convert Actigraph raw csv files and load into data frame as in mhealth format.</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-io-for-activpal-monitors" class="hasAnchor"><a href="#section-io-for-activpal-monitors" class="anchor"></a>IO for ActivPal Monitors</h2>
+          <p class="section-desc"><p>Functions for importing and exporting data with ActivPal Monitors (e.g. ActivPal 3)</p></p>
+        </th>
+      </tr>
+      <tr>
+        <!--  -->
+        <td>
+          <p><code><a href="import_activpal.html">import_activpal_raw()</a></code> </p>
+        </td>
+        <td><p>Import ActivPal Raw data files and load into dataframe as mhealth format.</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-api-for-computing-mims-unit" class="hasAnchor"><a href="#section-api-for-computing-mims-unit" class="anchor"></a>API for computing MIMS-unit</h2>
+          <p class="section-desc"><p>Function to generate MIMS-unit value</p></p>
+        </th>
+      </tr>
+      <tr>
+        <!--  -->
+        <td>
+          <p><code><a href="mims_unit.html">mims_unit()</a></code> </p>
+        </td>
+        <td><p>Compute activity counts using [citation] algorithm</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-apis-for-intermediate-step" class="hasAnchor"><a href="#section-apis-for-intermediate-step" class="anchor"></a>APIs for Intermediate step</h2>
+          <p class="section-desc"><p>Functions used in intermediate process when computing MIMS-unit</p></p>
+        </th>
+      </tr>
+      <tr>
+        <!--  -->
+        <td>
+          <p><code><a href="interpolate.html">interpolate()</a></code> </p>
+        </td>
+        <td><p>Interpolate the missing points and unify sampling interval for the input sensor data</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="average_removal.html">average_removal()</a></code> </p>
+        </td>
+        <td><p>Apply average removal FIR filter to the input sensor data frame each column over certain breaks (e.g. hour, sec, min and etc.)</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="iir.html">iir()</a></code> </p>
+        </td>
+        <td><p>Apply iir filter to the input sensor data frame each column over a certain break (e.g. hour, sec, min and etc.).</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="bessel.html">bessel()</a></code> </p>
+        </td>
+        <td><p>Apply low pass bessel filter to the input sensor data frame each column over certain breaks (e.g. hour, sec, min and etc.)</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="extrapolate.html">extrapolate.data.frame()</a></code> <code><a href="extrapolate.html">extrapolate()</a></code> </p>
+        </td>
+        <td><p>Apply extrapolate algorithm to a single stream of data.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="aggregate.html">aggregate()</a></code> </p>
+        </td>
+        <td><p>Calculate summary value (area under curve) for each column over a certain break (e.g. hour, min).</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-util-functions" class="hasAnchor"><a href="#section-util-functions" class="anchor"></a>Util functions</h2>
+          <p class="section-desc"><p>Utility functions</p></p>
+        </th>
+      </tr>
+      <tr>
+        <!--  -->
+        <td>
+          <p><code><a href="sampling_rate.html">sampling_rate()</a></code> </p>
+        </td>
+        <td><p>Get sensor data's sampling rate from the time difference of adjacent samples</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="extrapolate_rate.html">extrapolate_rate()</a></code> </p>
+        </td>
+        <td><p>compute extrapolation rate</p></td>
+      </tr>
+    </tbody>
+    </table>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -271,11 +284,14 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

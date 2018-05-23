@@ -52,8 +52,10 @@ navbar:
           href: articles/generate_intermediate.html
         - text: "Customize MIMS unit algorithm"
           href: articles/customize.html
-    - text: "Replicate publication results"
-      href: articles/replicate.html
+    - text: "Performances"
+      menu:
+        - text: "Cross device consistency"
+          href: articles/cross_device_consistency.html
     - text: "API References"
       href: "reference/index.html"
   right:
