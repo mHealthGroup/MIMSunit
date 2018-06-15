@@ -17,5 +17,5 @@ import_actigraph_raw(filename, ad_convert = FALSE, ts_provided = TRUE,
 \item{header_provided}{set as TRUE only when column header is provided}
 }
 \note{
-Please make sure the Actigraph raw csv file has timestamp included. The Actigraph raw csv file is not IMU csv file supported by GT9X.
+Also support GT9X IMU csv file
 }

@@ -55,7 +55,7 @@ The collected data is calibrated using at least 24h wearing data when applying E
 ```{r, include=FALSE}
 acc_factor = 60 / 5
 summary_df = df %>% ddply(
-  c("TYPE", "FREQ_IN_HZ"),
+  c("TYPE", "HZ"),
   summarise,
   N = length(VALUE),
   mean = mean(VALUE * acc_factor),
@@ -68,7 +68,7 @@ summary_df = df %>% ddply(
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, out.width = "100%", fig.width=10,fig.height=8}
 p1 = ggplot(summary_df,
            aes(
-             x = FREQ_IN_HZ,
+             x = HZ,
              y = cv,
              linetype = TYPE,
              shape = TYPE
@@ -103,7 +103,7 @@ p1
 ```{r, include=FALSE}
 acc_factor = 60 / 5
 summary_df = df %>% ddply(
-  c("DEVICE", "GRANGE", "SR", "TYPE", "FREQ_IN_HZ", "NAME"),
+  c("DEVICE", "GRANGE", "SR", "TYPE", "HZ", "NAME"),
   summarise,
   N = length(VALUE),
   mean = mean(VALUE * acc_factor),
@@ -115,7 +115,7 @@ summary_df = df %>% ddply(
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, out.width = "100%", fig.width=10,fig.height=24}
 p2 = ggplot(data = summary_df, aes(
-  x = FREQ_IN_HZ,
+  x = HZ,
   y = mean,
   color = NAME,
   linetype = NAME

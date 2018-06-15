@@ -30,7 +30,7 @@ import_activpal_raw = function(filename, header_provided = FALSE){
 #' @export
 #' @importFrom readr count_fields tokenizer_csv read_csv
 #' @importFrom mHealthR mhealth
-#' @note Please make sure the Actigraph raw csv file has timestamp included. The Actigraph raw csv file is not IMU csv file supported by GT9X.
+#' @note Also support GT9X IMU csv file
 #' @param filename full file path of input Actigraph raw csv file.
 #' @param ad_convert set as TRUE only when the input Actigraph csv file is in analog quantized format and need to be converted into g value
 #' @param ts_provided set as TRUE only when timestamp is provided as the first column
