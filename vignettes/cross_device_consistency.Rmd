@@ -63,6 +63,14 @@ summary_df = df %>% ddply(
   se   = sd / sqrt(N),
   cv = sd / mean
 )
+summary_df_melted = summary_df[c('TYPE','HZ','cv')] %>% reshape2::melt(c("HZ", "TYPE"))
+current_run = format(Sys.time(), "%Y%m%d%H")
+if(stringr::str_detect(wd, "articles")){
+  write.csv(summary_df_melted, file = paste0("../../inst/table/shaker_consistency_cv", current_run ,".csv"), quote = FALSE, row.names = FALSE)
+}else{
+  write.csv(summary_df_melted, file = paste0("../inst/table/shaker_consistency_cv", current_run ,".csv"), quote = FALSE, row.names = FALSE)
+}
+
 ```
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, out.width = "100%", fig.width=10,fig.height=8}
@@ -111,6 +119,13 @@ summary_df = df %>% ddply(
   se   = sd / sqrt(N),
   cv = sd / mean
 )
+current_run = format(Sys.time(), "%Y%m%d%H")
+if(stringr::str_detect(wd, "articles")){
+  write.csv(summary_df, file = paste0("../../inst/table/shaker_consistency_detail_", current_run,".csv"), quote = FALSE, row.names = FALSE)
+}else{
+  write.csv(summary_df, file = paste0("../inst/table/shaker_consistency_detail_", current_run,".csv"), quote = FALSE, row.names = FALSE)
+}
+
 ```
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, out.width = "100%", fig.width=10,fig.height=24}
