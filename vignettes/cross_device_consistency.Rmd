@@ -79,10 +79,11 @@ p1 = ggplot(summary_df,
              x = HZ,
              y = cv,
              linetype = TYPE,
-             shape = TYPE
+             shape = TYPE,
+             colour = TYPE
            )) +
 
-  geom_line() +
+  geom_line(size=1.2) +
   geom_point(size = 3) + 
   ylim(0, 1) +
   theme_bw() +
@@ -90,14 +91,18 @@ p1 = ggplot(summary_df,
     legend.position = "bottom",
     legend.margin = unit(10 ^ -3, 'inch'),
     panel.margin = unit(0.1, 'inch'),
-    axis.text = element_text(margin = margin(0, 0, 0, 0)),
+    axis.text = element_text(margin = margin(0, 0, 0, 0), size=16),
+    text = element_text(size=16),
     plot.margin = margin(0, 0, 0, 0, 'inch'),
     strip.background = element_blank(),
     legend.key = element_blank()
   ) +
   # facet_wrap(~ variable, scales = "free_y") +
+  scale_colour_discrete(name = "Device") +
+  scale_shape_discrete(name = "Device") +
   guides(shape = guide_legend(ncol = 2, title = NULL),
-         linetype = guide_legend(ncol = 2, title = NULL)) +
+         linetype = guide_legend(ncol = 2, title = NULL),
+         colour = guide_legend(ncol = 2, title = NULL)) +
   ylab("Coefficient of variance (CV)") +
   xlab("Frequency (Hz)")
 
@@ -135,18 +140,20 @@ p2 = ggplot(data = summary_df, aes(
   color = NAME,
   linetype = NAME
 )) +
-  geom_line() + geom_point(aes(shape = NAME)) +
-  scale_colour_manual(name = "Device", values = rep("black", 12), guide=FALSE) +
-  # scale_linetype_discrete(name = "Device") +
+  geom_line(size=1.2) + geom_point(aes(shape = NAME), size = 3) +
+  scale_colour_discrete(name = "Device") +
+  scale_shape_discrete(name = "Device") +
   facet_wrap(~TYPE, ncol = 1, scales = "free_y") +
   guides(shape = guide_legend(ncol = 3, title = NULL),
-         linetype = guide_legend(ncol = 3, title = NULL)) +
+         linetype = guide_legend(ncol = 3, title = NULL),
+         colour = guide_legend(ncol = 3, title = NULL)) +
   ylab("Activity Counts") + xlab("Frequency (Hz)") +
   theme_bw() +
   theme(legend.position = "bottom",
         legend.margin = unit(10 ^ -3, 'inch'),
         panel.margin = unit(0.1, 'inch'),
-        axis.text = element_text(margin = margin(0, 0, 0, 0)),
+        axis.text = element_text(margin = margin(0, 0, 0, 0), size=16),
+        text = element_text(size=16),
         plot.margin = margin(0, 0, 0, 0, 'inch'),
         strip.background = element_blank(),
         legend.key = element_blank())
