@@ -102,8 +102,8 @@ extrapolate = function(t, value, range, noise_level, k = 0.65, spar = 0.4){
   noise_sd = noise_sd + 10e-6
   shape = .optimize.gamma(3 * noise_sd)
   # mark using gamma distribution
-  marker[value >= 0] = stats::pgamma(value[value >= 0] - (range_high - 3 * noise_sd), shape = shape, scale = 1)
-  marker[value < 0] = -stats::pgamma(- value[value < 0] + (range_low + 3 * noise_sd), shape = shape, scale = 1)
+  marker[value >= 0] = stats::pgamma(value[value >= 0] - (range_high - 5 * noise_sd), shape = shape, scale = 1)
+  marker[value < 0] = -stats::pgamma(- value[value < 0] + (range_low + 5 * noise_sd), shape = shape, scale = 1)
   return(marker)
 }
 
@@ -146,43 +146,93 @@ extrapolate = function(t, value, range, noise_level, k = 0.65, spar = 0.4){
 #' @export
 #' @importFrom stats na.omit
 #' @importFrom magrittr %>%
-.extrapolate.edges = function(marker, confident){
+.extrapolate.edges = function(marker, confident, sr){
   marker_diff_left = c(0, diff(marker))
   marker_diff_right = c(diff(marker), 0)
+
+  threshold_maxedout = sr * 5
 
   # hills
   positive_left_end = which(marker_diff_left > confident & marker > 0)
   positive_right_start = which(marker_diff_right < -confident & marker > 0)
-  n_trunc = min(length(positive_left_end), length(positive_right_start))
-  if(n_trunc == 0){
-    positive_left_end = c()
-    positive_right_start = c()
-  }else{
-    positive_left_end = positive_left_end[1:n_trunc] %>% stats::na.omit()
-    positive_right_start = positive_right_start[1:n_trunc] %>% stats::na.omit()
+
+  if(length(positive_left_end) - length(positive_right_start) == 1){ # end case
+    if(length(marker) - positive_left_end[length(positive_left_end)] > threshold_maxedout){ # > 2 second maxed out edge region
+      positive_right_start = c(positive_right_start, -1)
+    }else{ # < 2 second maxed out edge region, do nothing
+      if(length(positive_left_end) == 1){
+        positive_left_end = c()
+      }else{
+        positive_left_end = positive_left_end[1:(length(positive_left_end)-1)]
+      }
+    }
+  }else if(length(positive_left_end) - length(positive_right_start == -1)){ # start case
+    if(positive_right_start[1] > threshold_maxedout){ # > 2 second maxed out edge region
+      positive_left_end = c(-1, positive_left_end)
+    }else{ # < 2 second maxed out edge region, do nothing
+      if(length(positive_right_start) == 1){
+        positive_right_start = c()
+      }else{
+        positive_right_start = positive_right_start[2:length(positive_right_start)]
+      }
+    }
   }
 
+  positive_left_end = positive_left_end %>% stats::na.omit()
+  positive_right_start = positive_right_start %>% stats::na.omit()
 
-  if(any(positive_right_start - positive_left_end < 0)) {
+  if(abs(length(positive_left_end) - length(positive_right_start)) > 2){ # something is wrong
+    stop("The side of maxed out hills are diff more than 1, should never happen")
+  }
+
+  if(any(positive_right_start - positive_left_end < 0) && length(positive_right_start) > 1) {
     positive_left_end = .shift(positive_left_end, 1)
     positive_right_start = .shift(positive_right_start, -1)
   }
+
   positive_edges = data.frame(left_end = positive_left_end, right_start = positive_right_start, stringsAsFactors = FALSE)
+
 
   # valleys
   negative_left_end = which(marker_diff_left < -confident & marker < 0)
   negative_right_start = which(marker_diff_right > confident & marker < 0)
-  n_trunc = min(length(negative_left_end), length(negative_right_start))
-  negative_left_end = negative_left_end[0:n_trunc] %>% stats::na.omit()
-  negative_right_start = negative_right_start[0:n_trunc] %>% stats::na.omit()
-  if(any(negative_right_start - negative_left_end < 0)) {
+
+  if(length(negative_left_end) - length(negative_right_start) == 1){ # end case
+    if(length(marker) - negative_left_end[length(negative_left_end)] > threshold_maxedout){ # > 2 second maxed out edge region
+      negative_right_start = c(negative_right_start, -1)
+    }else{ # < 2 second maxed out edge region, do nothing
+      if(length(negative_left_end) == 1){
+        negative_left_end = c()
+      }else{
+        negative_left_end = negative_left_end[1:(length(negative_left_end)-1)]
+      }
+    }
+  }else if(length(negative_left_end) - length(negative_right_start == -1)){ # start case
+    if(negative_right_start[1] > threshold_maxedout){ # > 5 second maxed out edge region
+      negative_left_end = c(-1, negative_left_end)
+    }else{ # < 2 second maxed out edge region, do nothing
+      if(length(negative_right_start) == 1){
+        negative_right_start = c()
+      }else{
+        negative_right_start = negative_right_start[2:length(negative_right_start)]
+      }
+    }
+  }
+
+  negative_left_end = negative_left_end %>% stats::na.omit()
+  negative_right_start = negative_right_start %>% stats::na.omit()
+
+  if(abs(length(negative_left_end) - length(negative_right_start)) > 2){ # something is wrong
+    stop("The side of maxed out valleys are diff more than 1, should never happen")
+  }
+
+  if(any(negative_right_start - negative_left_end < 0) && length(negative_right_start) > 1) {
     negative_left_end = .shift(negative_left_end, 1)
     negative_right_start = .shift(negative_right_start, -1)
   }
-  if(length(negative_left_end) != length(negative_right_start)){
-    print("pause")
-  }
+
   negative_edges = data.frame(left_end = negative_left_end, right_start = negative_right_start, stringsAsFactors = FALSE)
+
   edges = rbind(positive_edges, negative_edges)
   return(edges)
 }
@@ -192,10 +242,16 @@ extrapolate = function(t, value, range, noise_level, k = 0.65, spar = 0.4){
 #' @importFrom dplyr mutate tbl_df
 .extrapolate.neighbor = function(marker, sr, k, confident = 0.5){
   n_neighbor = k * sr
-  edges = .extrapolate.edges(marker, confident)
-  neighbors = edges %>% dplyr::tbl_df() %>% dplyr::mutate(left_start = left_end - n_neighbor + 1, right_end = right_start + n_neighbor - 1) %>% as.data.frame
-  neighbors$left_start = pmax(neighbors$left_start, 1)
-  neighbors$right_end = pmin(neighbors$right_end, length(marker))
+  edges = .extrapolate.edges(marker, confident, sr)
+  if(nrow(edges) > 0){
+    neighbors = edges %>% dplyr::tbl_df() %>% dplyr::mutate(left_start = left_end - n_neighbor + 1, right_end = right_start + n_neighbor - 1) %>% as.data.frame
+    neighbors$left_start = pmax(neighbors$left_start, 1)
+    neighbors$right_end = pmin(neighbors$right_end, length(marker))
+    neighbors$left_start[neighbors$left_end == -1] = -1
+    neighbors$right_end[neighbors$right_start == -1] = -1
+  }else{
+    neighbors = data.frame(left_start = c(), right_end = c(), left_end = c(), right_start = c())
+  }
   return(neighbors)
 }
 
@@ -264,24 +320,33 @@ extrapolate = function(t, value, range, noise_level, k = 0.65, spar = 0.4){
       fitted_left = .fit.weighted(t, value, marker, neighbor$left_start, neighbor$left_end, spar, sr, k, model)
       fitted_right = .fit.weighted(t, value, marker, neighbor$right_start, neighbor$right_end, spar, sr, k, model)
 
-      st = t[neighbor$left_end]
-      left_end = 0
-      right_start = as.numeric(t[neighbor$right_start] - st, units = "secs")
+      if(is.null(fitted_left)){
+        n_rep = neighbor$right_start - 1
+        point_ex = rep(-200, n_rep) # give an extra huge value
+        middle_t = t[1:(neighbor$right_start - 1)]
+      }else if(is.null(fitted_right)){
+        n_rep = length(t) - neighbor$left_end
+        point_ex = rep(-200, n_rep) # give an extra huge value
+        middle_t = t[(neighbor$left_end + 1):length(t)]
+      }else{
+        st = t[neighbor$left_end]
+        left_end = 0
+        right_start = as.numeric(t[neighbor$right_start] - st, units = "secs")
 
-      middle_t = (left_end + right_start) / 2
-      middle_t = st + middle_t
-      switch(model,
-             linear = {
-               left_ex = fitted_left %>% stats::predict(data.frame(over_t = as.numeric(middle_t)))
-               right_ex = fitted_right %>% stats::predict(data.frame(over_t = as.numeric(middle_t)))
-               point_ex = (left_ex + right_ex) / 2
-             },
-             spline = {
-               left_ex = fitted_left %>% stats::predict(x = as.numeric(middle_t))
-               right_ex = fitted_right %>% stats::predict(x = as.numeric(middle_t))
-               point_ex = (left_ex$y + right_ex$y) / 2
-             })
-
+        middle_t = (left_end + right_start) / 2
+        middle_t = st + middle_t
+        switch(model,
+               linear = {
+                 left_ex = fitted_left %>% stats::predict(data.frame(over_t = as.numeric(middle_t)))
+                 right_ex = fitted_right %>% stats::predict(data.frame(over_t = as.numeric(middle_t)))
+                 point_ex = (left_ex + right_ex) / 2
+               },
+               spline = {
+                 left_ex = fitted_left %>% stats::predict(x = as.numeric(middle_t))
+                 right_ex = fitted_right %>% stats::predict(x = as.numeric(middle_t))
+                 point_ex = (left_ex$y + right_ex$y) / 2
+               })
+      }
       return(data.frame(t_ex = middle_t, value_ex = point_ex))
   }, .inform = TRUE, .id = NULL, .expand = FALSE)
   return(point_ex)
@@ -308,22 +373,29 @@ extrapolate = function(t, value, range, noise_level, k = 0.65, spar = 0.4){
 
 #' @importFrom stats smooth.spline lm na.omit
 .fit.weighted = function(t, value, marker, start, end, spar, sr, k, model = "spline"){
-  if(start < 0) start = 1
-  if(end > length(t)) end = length(t)
+  # if(start < 0) start = 1
+  # if(end > length(t)) end = length(t)
+
   # over sampling so that we have enough points
   n_over = k * sr
-  sub_t  = t[start:end]
-  sub_value = value[start:end]
-  weight = 1- marker[start:end]
-  sp = approx(x = sub_t, y = sub_value, n = n_over)
-  weight = approx(x = sub_t, y = weight, n = n_over)
-  over_t = sp$x
-  over_value = sp$y
-  weight = weight$y
-  # fit locally with spline smoothing
-  fitted = switch(model,
-                  spline = stats::smooth.spline(over_t, over_value, weight, spar = spar),
-                  linear = stats::lm(over_value ~ over_t, weights = weight, na.action = stats::na.omit))
+
+  if(start == -1 && end == -1){ # start edge case
+    fitted = NULL
+  }
+  else{
+    sub_t  = t[start:end]
+    sub_value = value[start:end]
+    weight = 1- marker[start:end]
+    sp = approx(x = sub_t, y = sub_value, n = n_over)
+    weight = approx(x = sub_t, y = weight, n = n_over)
+    over_t = sp$x
+    over_value = sp$y
+    weight = weight$y
+    # fit locally with spline smoothing
+    fitted = switch(model,
+                    spline = stats::smooth.spline(over_t, over_value, weight, spar = spar),
+                    linear = stats::lm(over_value ~ over_t, weights = weight, na.action = stats::na.omit))
+  }
   return(fitted)
 }
 

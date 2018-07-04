@@ -26,23 +26,38 @@ aggregate = function(df, breaks, type = "trapz", rectify = TRUE){
     rows = stats::na.omit(rows)
     if(nrow(rows) >= 0.9 * nThreshold){
       if(rectify){
-        rows[2:nCols] = abs(rows[2:nCols])
+        rows[2:nCols] = plyr::numcolwise(function(col_data){
+          col_data[col_data > -150] = abs(col_data[col_data > -150])
+          if(any(col_data < 0)){
+            col_data = rep(-200, length(col_data))
+          }
+          return(col_data)
+          })(rows[2:nCols])
       }
       if(type == "trapz"){
         aucValues = plyr::numcolwise(caTools::trapz, x = rows[,1])(rows[2:nCols])
+        maxValue = 16 * nThreshold
       }else if(type == "power"){
         aucValues = plyr::numcolwise(caTools::trapz, x = rows[,1])(as.data.frame(rows[2:nCols]^2))
+        maxValue = 16^2 * nThreshold
       }else if(type == "mean_by_time"){
         aucValues = plyr::numcolwise(sum)(rows[2:nCols])/(max(rows[,1]) - min(rows[,1]))
+        maxValue = 16 * nThreshold / 32
       }else if(type == "mean_by_size"){
         aucValues = plyr::numcolwise(sum)(rows[2:nCols])/length(rows[,1])
+        maxValue = 16
       }else if(type == "sum"){
         aucValues = plyr::numcolwise(sum)(rows[2:nCols])
+        maxValue = 16 * nrows(rows)
       }
     }else{
-      aucValues = as.data.frame(lapply(rows, function(x) rep.int(NA, 1)))
+      aucValues = as.data.frame(lapply(rows, function(x) rep.int(-1, 1)))
       aucValues = aucValues[2:nCols]
+      maxValue = 0
     }
+    # flag extra huge values
+    aucValues[aucValues >= maxValue] = -1
+    aucValues[aucValues < 0] = -1
     return(data.frame(ts = rows[1,1], aucValues))
   })
   result$SEGMENT = NULL

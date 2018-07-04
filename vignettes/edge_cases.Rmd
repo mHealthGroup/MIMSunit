@@ -1,0 +1,94 @@
+---
+title: "Example of edge cases"
+output: rmarkdown::html_vignette
+author: "Qu Tang"
+date: "Jul 03, 2018"
+vignette: >
+  %\VignetteIndexEntry{pkgdown}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+require(magrittr)
+require(dygraphs)
+```
+
+### When maxed-out region lasts to the end of time (< 2s)
+
+Bouts at the edge region (region duration less than 2 seconds) (unable to do extrapolation) will skip extrapolation and use the original values.
+
+```{r, include=FALSE, warning=FALSE}
+wd = getwd()
+if(stringr::str_detect(wd, "articles")){
+  file_path = normalizePath(file.path(wd, "../../vignettes/data/end_edge_case_short.csv"))
+}else{
+  file_path = normalizePath(file.path(wd, "../vignettes/data/end_edge_case_short.csv"))
+}
+options(digits.secs=3)
+```
+
+```{r load_data_short, warning=FALSE, message=FALSE, include=FALSE}
+df = mHealthR::mhealth.read(file_path, filetype='sensor')
+```
+
+#### Input data
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2.5, fig.width=8.5}
+require(dygraphs)
+df_xts = xts::xts(df[,2:4], df[,1])
+dygraphs::dygraph(df_xts) %>% dygraphs::dyRangeSelector() %>% dyOptions(colors = RColorBrewer::brewer.pal(3, "Set2")) %>% dyLegend(width = 400) %>% dyAxis("y", label = "Acceleration (g)", valueRange = c(-10, 10))
+```
+
+```r
+mims = MIMSunit::mims_unit(df, breaks = '5 sec', range = c(-6, 6))
+```
+
+```{r, message=FALSE, warning=FALSE, include=FALSE}
+mims = MIMSunit::mims_unit(df, breaks = '5 sec', range = c(-6, 6))
+```
+
+#### Output: MIMS unit values
+```{r, echo=FALSE, fig.height=2.5, fig.width=8.5, message=FALSE, warning=FALSE}
+mims_xts = xts::xts(mims[,2], mims[,1])
+dygraphs::dygraph(mims_xts) %>% dygraphs::dyRangeSelector() %>% dyOptions(colors = RColorBrewer::brewer.pal(1, "Set2"), drawPoints=TRUE, pointSize=2) %>% dyLegend(width = 400) %>% dyAxis("y", label = "MIMS unit")
+```
+
+### When maxed-out region lasts to the end of time (> 2s)
+
+Bouts at the edge region (unable to do extrapolation) will be marked with __-1__.
+
+```{r, include=FALSE, warning=FALSE}
+wd = getwd()
+if(stringr::str_detect(wd, "articles")){
+  file_path = normalizePath(file.path(wd, "../../vignettes/data/end_edge_case_long.csv"))
+}else{
+  file_path = normalizePath(file.path(wd, "../vignettes/data/end_edge_case_long.csv"))
+}
+options(digits.secs=3)
+```
+
+```{r load_data_long, warning=FALSE, message=FALSE, include=FALSE}
+df = mHealthR::mhealth.read(file_path, filetype='sensor')
+```
+
+#### Input data
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2.5, fig.width=8.5}
+require(dygraphs)
+df_xts = xts::xts(df[,2:4], df[,1])
+dygraphs::dygraph(df_xts) %>% dygraphs::dyRangeSelector() %>% dyOptions(colors = RColorBrewer::brewer.pal(3, "Set2")) %>% dyLegend(width = 400) %>% dyAxis("y", label = "Acceleration (g)", valueRange = c(-10, 10))
+```
+
+```r
+mims = MIMSunit::mims_unit(df, breaks = '5 sec', range = c(-6, 6))
+```
+
+```{r, message=FALSE, warning=FALSE, include=FALSE}
+mims = MIMSunit::mims_unit(df, breaks = '5 sec', range = c(-6, 6))
+```
+
+#### Output: MIMS unit values
+```{r, echo=FALSE, fig.height=2.5, fig.width=8.5, message=FALSE, warning=FALSE}
+mims_xts = xts::xts(mims[,2], mims[,1])
+dygraphs::dygraph(mims_xts) %>% dygraphs::dyRangeSelector() %>% dyOptions(colors = RColorBrewer::brewer.pal(1, "Set2"), drawPoints=TRUE, pointSize=2) %>% dyLegend(width = 400) %>% dyAxis("y", label = "MIMS unit")
+```

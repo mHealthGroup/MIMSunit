@@ -65,11 +65,20 @@ mims_unit = function(df,
     resampledData = extrapolatedData
   }
 
+  # store -1 values separately
+  row_abnormal = rep(FALSE, nrow(resampledData))
+  for(i in 2:ncol(resampledData)){
+    row_abnormal = row_abnormal | resampledData[[i]] < -150
+  }
+
+  abnormalData = resampledData[row_abnormal,]
+  normalData = resampledData[!row_abnormal,]
+
   # Apply filter cascade
   if (use_filtering) {
     if (filter_type == "butter") {
       filteredData = iir(
-        resampledData,
+        normalData,
         Fs = sr,
         Fc = cutoffs,
         order = 4,
@@ -77,7 +86,7 @@ mims_unit = function(df,
         filter_type = "butter"
       )
     } else if (filter_type == "bessel") {
-      filteredData = average_removal(resampledData, Fs = sr, order = 0.5)
+      filteredData = average_removal(normalData, Fs = sr, order = 0.5)
       filteredData = filteredData[[1]]
       filteredData = bessel(filteredData,
                             Fs = sr,
@@ -85,7 +94,7 @@ mims_unit = function(df,
                             order = 8)
     } else if (filter_type == "ellip") {
       filteredData = iir(
-        resampledData,
+        normalData,
         Fs = sr,
         Fc = cutoffs,
         order = 4,
@@ -94,8 +103,13 @@ mims_unit = function(df,
       )
     }
   } else{
-    filteredData = resampledData
+    filteredData = normalData
   }
+
+  # sort by timestamp
+  colnames(abnormalData)[2:4] = colnames(filteredData)[2:4]
+  filteredData = rbind(filteredData, abnormalData)
+  filteredData = filteredData[order(filteredData$HEADER_TIME_STAMP),]
 
   # Compute the AUC
   integratedData = aggregate(
@@ -109,18 +123,25 @@ mims_unit = function(df,
     return(integratedData)
   }
   # Compute vector magnitude
+  row_abnormal = rep(FALSE, nrow(integratedData))
+  for(i in 2:ncol(integratedData)){
+    row_abnormal = row_abnormal | integratedData[[i]] < 0
+  }
   if(combination == "vm")
     countsData = magnitude(integratedData, axes = axes)
-  else if(combination == 'sum')
+  else if(combination == 'sum'){
     countsData = sumUp(integratedData, axes = axes)
-  else if(combination == "axis")
-    countsData = integratedData
+  }else{
+    countsData = sumUp(integratedData, axes = axes)
+  }
+
   colnames(countsData)[2] = "MIMS_UNIT"
+  countsData[row_abnormal, 2] = -0.01
 
   # only keep data between start and end time
   keep_mask = countsData[[1]] >= start_time & countsData[[1]] < stop_time
   countsData = countsData[keep_mask,]
 
-  countsData = countsData[!is.na(countsData[,2]),]
+  # countsData = countsData[!is.na(countsData[,2]),]
   return(countsData)
 }
