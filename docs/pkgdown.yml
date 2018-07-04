@@ -1,9 +1,10 @@
-pandoc: 2.1.3
+pandoc: 1.19.2.1
 pkgdown: 1.1.0
 pkgdown_sha: ~
 articles:
   cross_device_consistency: cross_device_consistency.html
   customize: customize.html
+  edge_cases: edge_cases.html
   generate_intermediate: generate_intermediate.html
   import_data: import_data.html
   MIMSunit: MIMSunit.html
