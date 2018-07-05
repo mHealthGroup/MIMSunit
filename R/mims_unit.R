@@ -11,6 +11,7 @@
 #' @param filter "butter", "ellip", "bessel"
 #' @param cutoffs cut off frequencies to be used in filtering, default is 0.2Hz and 5Hz. If choosing bessel, the low pass cut off would be multipled by 2 when being used.
 #' @param integration the integration method to be used: "trapz", "absoluteMeanByPoints".
+#' @param allow_truncation use zero truncation or not, default is TRUE
 #' @export
 mims_unit = function(df,
                           breaks = "5 sec",
@@ -27,6 +28,7 @@ mims_unit = function(df,
                           use_filtering = TRUE,
                           combination = "sum",
                           vm_after_extrapolation=FALSE,
+                          allow_truncation=TRUE,
                           before_df = NULL,
                           after_df = NULL) {
 
@@ -137,6 +139,11 @@ mims_unit = function(df,
 
   colnames(countsData)[2] = "MIMS_UNIT"
   countsData[row_abnormal, 2] = -0.01
+
+  if(allow_truncation){
+    truncate_indices = countsData[,2] >0 & countsData[,2] <= 1e-3 * break_str_to_sample_size(NULL, breaks, sr) / sr
+    countsData[truncate_indices,2] = 0
+  }
 
   # only keep data between start and end time
   keep_mask = countsData[[1]] >= start_time & countsData[[1]] < stop_time

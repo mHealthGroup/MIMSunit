@@ -44,6 +44,10 @@ navbar:
   left:
     - text: "Get Started"
       href: articles/MIMSunit.html
+    - text: "Algorithm Walkthrough"
+      menu:
+        - text: "Deciding truncation threshold"
+          href: articles/truncation_threshold.html
     - text: "Advance Guidance"
       menu:
         - text: "Import Data"

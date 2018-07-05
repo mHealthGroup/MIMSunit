@@ -28,11 +28,11 @@ mims_unit_(df, breaks = "5 sec", range, noise_level = 0.03, k = 0.05,
 
 \item{integration}{the integration method to be used: "trapz", "absoluteMeanByPoints".}
 
+\item{output}{"extrapolation", "filter"}
+
 \item{resample}{set 0 to not use resampling, otherwise set to the desired sampling rate in numerical, e.g 40 for 40Hz. Default is 50.}
 
 \item{filter}{"butter", "ellip", "bessel"}
-
-\item{output_after}{"extrapolation", "filter"}
 }
 \value{
 Will return NA if a segment break is too short to have enough samples to compute AUC

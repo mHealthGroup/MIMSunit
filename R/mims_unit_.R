@@ -11,7 +11,7 @@
 #' @param filter "butter", "ellip", "bessel"
 #' @param cutoffs cut off frequencies to be used in filtering, default is 0.2Hz and 5Hz. If choosing bessel, the low pass cut off would be multipled by 2 when being used.
 #' @param integration the integration method to be used: "trapz", "absoluteMeanByPoints".
-#' @param output_after "extrapolation", "filter"
+#' @param output "extrapolation", "filter"
 #' @export
 mims_unit_ = function(df,
                      breaks = "5 sec",

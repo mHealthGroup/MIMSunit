@@ -4,8 +4,10 @@ pkgdown_sha: ~
 articles:
   cross_device_consistency: cross_device_consistency.html
   customize: customize.html
+  edge_cases: edge_cases.html
   generate_intermediate: generate_intermediate.html
   import_data: import_data.html
   MIMSunit: MIMSunit.html
   replicate: replicate.html
+  truncation_threshold: truncation_threshold.html
 

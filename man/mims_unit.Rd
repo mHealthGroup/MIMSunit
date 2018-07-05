@@ -8,7 +8,8 @@ mims_unit(df, breaks = "5 sec", range, noise_level = 0.03, k = 0.05,
   spar = 0.6, filter_type = "butter", cutoffs = c(0.2, 5),
   integration = "trapz", axes = c(2, 3, 4), use_extrapolation = TRUE,
   use_interpolation = TRUE, use_filtering = TRUE, combination = "sum",
-  vm_after_extrapolation = FALSE, before_df = NULL, after_df = NULL)
+  vm_after_extrapolation = FALSE, allow_truncation = TRUE,
+  before_df = NULL, after_df = NULL)
 }
 \arguments{
 \item{df}{input sensor data frame that fits the mhealth specification}
@@ -26,6 +27,8 @@ mims_unit(df, breaks = "5 sec", range, noise_level = 0.03, k = 0.05,
 \item{cutoffs}{cut off frequencies to be used in filtering, default is 0.2Hz and 5Hz. If choosing bessel, the low pass cut off would be multipled by 2 when being used.}
 
 \item{integration}{the integration method to be used: "trapz", "absoluteMeanByPoints".}
+
+\item{allow_truncation}{use zero truncation or not, default is TRUE}
 
 \item{resample}{set 0 to not use resampling, otherwise set to the desired sampling rate in numerical, e.g 40 for 40Hz. Default is 50.}
 
