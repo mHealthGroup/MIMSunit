@@ -142,7 +142,7 @@ import_actigraph_count_vm = function(filename, col_name = "ACTIGRAPH_COUNT") {
 #' @param filename full file path of input biobank epoch csv file.
 import_biobank_enmo = function(filename, col_name = "biobank_enmo") {
   dat = readr::read_csv(
-    filename, col_names = TRUE, col_types = readr::cols(Time = readr::col_character(), enmoTrunc = readr::col_double())
+    filename, col_names = TRUE
   );
   dat = data.frame(dat)
   dat = dat[1:2]

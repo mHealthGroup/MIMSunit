@@ -8,10 +8,10 @@ require(doSNOW)
 require(Counts)
 require(h5)
 
-data_folder = "F:/data/spades_lab_counts_analysis/"
+data_folder = "D:/data/spades_lab_counts_analysis/"
 
 # create actigraph count data package
-count_folder = "F:/data/spades_lab_counts_analysis/Actigraph_raw/agd"
+count_folder = "D:/data/spades_lab_counts_analysis/Actigraph_raw/agd"
 
 countFiles = list.files(path = count_folder, pattern = "*.csv", full.names = TRUE, recursive = TRUE)
 

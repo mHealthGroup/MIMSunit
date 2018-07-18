@@ -5,14 +5,14 @@ require(plyr)
 require(dplyr)
 require(stringr)
 require(doSNOW)
-require(Counts)
+require(MIMSunit)
 
 spar = 0.6
 k = 0.05
 noise_level = 0.03
 epoch = 5
 
-data_folder = "F:/data/spades_lab_counts_analysis"
+data_folder = "D:/data/spades_lab_counts_analysis"
 
 sensorFiles = list.files(path = data_folder, pattern = "*.h5$", full.names = TRUE, recursive = TRUE)
 

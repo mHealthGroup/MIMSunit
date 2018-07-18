@@ -5,38 +5,24 @@ require(plyr)
 require(dplyr)
 require(stringr)
 require(doSNOW)
-require(Counts)
+require(MIMSunit)
 require(h5)
 
-data_folder = "F:/data/spades_lab_counts_analysis/"
+data_folder = "D:/data/spades_lab_counts_analysis/"
 
-sensorFiles = list.files(path = data_folder, pattern = "*.h5$", full.names = TRUE, recursive = TRUE)
+enmoFiles = list.files(path = data_folder, pattern = "*.merged\\.sensorEpoch\\.csv", full.names = TRUE, recursive = TRUE)
 
-# choose only waist and nondominant wrist
-mask = str_detect(sensorFiles, '(_dominant waist_)|(_non dominant wrist_)')
-sensorFiles = sensorFiles[mask]
-
-for(sensorFile in sensorFiles){
-  id = basename(dirname(dirname(sensorFile)))
-  location = str_split(basename(sensorFile), "_")[[1]][2]
-  sensorData = import_hdf5(sensorFile, key = "sensor")
-  output_path = file.path(data_folder, "Actigraph_raw", paste(id, location, "actigraph.csv", sep="_"))
-  export_actigraph_raw(sensorData, output_path)
-}
-
-# create actigraph count data package
-count_folder = "F:/data/spades_lab_counts_analysis/Actigraph_raw/agd"
-
-countFiles = list.files(path = count_folder, pattern = "*.csv", full.names = TRUE, recursive = TRUE)
-
-actigraphCounts = ldply(countFiles, function(countFile){
-  actigraphCounts = import_actigraph_count(filename = countFile)
-  id = paste(strsplit(basename(countFile), "_")[[1]][1], strsplit(basename(countFile), "_")[[1]][2], sep="_")
-  location = strsplit(basename(countFile), "_")[[1]][3]
+enmos = ldply(enmoFiles, function(enmoFile){
+  print(paste('process', enmoFile))
+  enmo8g_values = import_biobank_enmo(filename = enmoFile, col_name = "ENMO8g")
+  enmo2g_values = import_biobank_enmo(filename = str_replace(enmoFile, '\\.sensorEpoch\\.csv', '_2g\\.sensorEpoch\\.csv'), col_name = 'ENMO2g')
+  enmo_values = join(enmo8g_values, enmo2g_values, by="HEADER_TIME_STAMP")
+  id = str_extract(enmoFile, 'SPADES_[0-9]+')
+  location = strsplit(basename(enmoFile), "_")[[1]][2]
   # import annotation data
   annotationFile = file.path(data_folder, id, "Derived", "SPADESInLab_merged.annotation.csv")
   annotationData = mhealth.read(annotationFile, filetype = "annotation")
-  actigraphCounts = actigraphCounts %>% adply(1, function(row){
+  enmo_values = enmo_values %>% adply(1, function(row){
     st = row$HEADER_TIME_STAMP
     et = st + 5
     selected_annotations = mhealth.clip(annotationData, st, et, file_type = "annotation")
@@ -70,24 +56,24 @@ actigraphCounts = ldply(countFiles, function(countFile){
         activity = "Walk 3 mph"
       }else if(str_detect(annotation_names, "(3.5mph)|(3.5 mph)")){
         activity = "Walk 3.5 mph"
-      }else if(str_detect(annotation_names, "walk") | str_detect(annotation_names, "(city)|(outdoor)")){
+      }else if(str_detect(annotation_names, "walk") & str_detect(annotation_names, "(city)|(outdoor)")){
         activity = "Self-paced walk"
       }else if(str_detect(annotation_names, "(run)|jog")){
         activity = "Run- 5.5 mph"
       }else if(str_detect(annotation_names, "biking") & str_detect(annotation_names, "stationary")){
         activity = "Bike- 300 kmph/min"
       }else if(str_detect(annotation_names, "biking") & str_detect(annotation_names, "(outdoor)|(city)")){
-        activity = "Bike- 300 kmph/min"
+        activity = "Bike outdoor"
       }else{
         return(NULL)
       }
     }
     row$LABEL_NAME = activity
-    row$PID = str_split(id, "_")[[1]][2]
+    row$PID = as.numeric(str_split(id, "_")[[1]][2])
     row$LOCATION = location
     return(row)
   })
-  return(actigraphCounts)
-})
+  return(enmo_values)
+}, .progress = progress_time())
 
-saveRDS(actigraphCounts, file = "../counts/inst/extdata/spades_lab_actigraph_counts.rds")
+saveRDS(enmos, file = "../MIMSunit/inst/extdata/spades_lab_enmo.rds")

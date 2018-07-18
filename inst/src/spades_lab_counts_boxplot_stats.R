@@ -9,9 +9,12 @@ spades_lab_mims_unit = readRDS(mims_unit_filename)
 actigraph_counts_filename = "inst/extdata/spades_lab_actigraph_counts.rds"
 spades_lab_actigraph_counts = readRDS(actigraph_counts_filename)
 spades_lab_actigraph_counts$PID = as.numeric(spades_lab_actigraph_counts$PID)
+enmo_filename = "inst/extdata/spades_lab_enmo.rds"
+spades_lab_enmos = readRDS(enmo_filename)
+spades_lab_enmos$PID = as.numeric(spades_lab_enmos$PID)
 
 # merge these two dataframes
-spades_lab_counts = plyr::join(spades_lab_mims_unit, spades_lab_actigraph_counts)
+spades_lab_counts = plyr::join(spades_lab_mims_unit, plyr::join(spades_lab_actigraph_counts, spades_lab_enmos))
 spades_lab_counts = na.omit(spades_lab_counts)
 # optimize scaling
 
@@ -87,8 +90,8 @@ p1Data$LABEL_NAME <- factor(p1Data$LABEL_NAME, levels=act_list)
 p3Data = p1Data
 legend = guide_legend(title = NULL, ncol = 2)
 p3Data$ALGORITHM = as.character(p3Data$TYPE)
-p3Data$ALGORITHM[str_detect(p3Data$TYPE, "MIMS")] = "MIMS-unit"
-p3Data$ALGORITHM[str_detect(p3Data$TYPE, "MIMS")] = "MIMS-unit"
+p3Data$ALGORITHM[str_detect(p3Data$TYPE, "SMARTcounts")] = "MIMS-unit"
+p3Data$ALGORITHM[str_detect(p3Data$TYPE, "ENMO")] = "ENMO"
 p3Data$DEVICE = "±8g Device"
 p3Data[str_detect(p3Data$TYPE, "2g"), "DEVICE"] = "±2g Device"
 
@@ -101,6 +104,7 @@ p3Stats = p3Data %>% group_by(LABEL_NAME, LOCATION, TYPE, DEVICE, ALGORITHM) %>%
   ymax = min(max(value), yupper + 1.5 * (yupper - ylower)),
   mean = median(value)
 )
+p3Stats$ALGORITHM = as.character(p3Stats$ALGORITHM)
 
 boxStats = p3Data %>% group_by(LABEL_NAME, LOCATION, TYPE, DEVICE, ALGORITHM) %>% summarise(
   percentile25 = quantile(value, 1/4),
@@ -109,22 +113,28 @@ boxStats = p3Data %>% group_by(LABEL_NAME, LOCATION, TYPE, DEVICE, ALGORITHM) %>
   max = min(max(value), percentile75 + 1.5 * (percentile75 - percentile25)),
   median = median(value)
 )
+boxStats$DEVICE = as.character(boxStats$DEVICE)
+boxStats$TYPE = NULL
+boxStats[str_detect(boxStats$DEVICE, "2g"), "DEVICE"] = "2g Device"
+boxStats[str_detect(boxStats$DEVICE, "8g"), "DEVICE"] = "8g Device"
+write.csv(boxStats, file='inst/table/spades_lab_count_boxplot_stats.csv', quote = FALSE, row.names = FALSE)
 
 p33 = ggplot(data = p3Stats, aes(x=LABEL_NAME, ymin = ymin, ymax = ymax, lower=ylower, upper=yupper, middle=mean)) +
   geom_boxplot(aes(fill = LOCATION, linetype = DEVICE), colour = "grey40", stat="identity") +
   scale_fill_grey() +
   theme_bw(base_size = 16, base_family = "Times New Roman") +
   theme(legend.position = "bottom", legend.direction = "vertical",
-        legend.margin = unit(10 ^ -3, 'inch'),
-        panel.margin = unit(0.2, 'inch'),
+        legend.spacing = unit(10 ^ -3, 'inch'),
+        panel.spacing = unit(0.2, 'inch'),
         plot.margin = margin(0, 0.5, 0, 0, "inch"),
         axis.text = element_text(margin = margin(0, 0, 0, 0)),
-        strip.background = element_blank()) +
+        strip.background = element_blank()
+        ) +
   xlab("") +
   ylab("") +
-  theme(axis.text.x = element_text(angle = -45, hjust = 0), strip.text.y = element_blank()) +
+  theme(axis.text.x = element_text(angle = -45, hjust = 0)) +
   # scale_fill_manual(labels = labels, values = c("gray60", "gray60", "white", "white"), guide = legend) +
-  facet_grid(ALGORITHM ~ ., scales = "free_y")
+  facet_grid(rows=vars(ALGORITHM), scales = "free_y")
 
 
 p3 = ggplot(data = p3Data, aes(x=LABEL_NAME, y = value)) +
@@ -135,8 +145,9 @@ p3 = ggplot(data = p3Data, aes(x=LABEL_NAME, y = value)) +
         legend.margin = unit(10 ^ -3, 'inch'),
         panel.margin = unit(0.2, 'inch'),
         plot.margin = margin(0, 0.5, 0, 0, "inch"),
-        axis.text = element_text(margin = margin(0, 0, 0, 0)),
-        strip.background = element_blank()) +
+        axis.text = element_text(margin = margin(0, 0, 0, 0))
+        # strip.background = element_blank()
+        ) +
   xlab("") +
   ylab("") +
   theme(axis.text.x = element_text(angle = -45, hjust = 0), strip.text.y = element_blank()) +
@@ -159,4 +170,4 @@ p3 = ggplot(data = p3Data, aes(x=LABEL_NAME, y = value)) +
 #   mutate(ACTIGRAPH_CHANGE = (ACTIGRAPH - ACTIGRAPH_MAXEDOUT)/ACTIGRAPH, COUNTS_CHANGE = (COUNTS - COUNTS_MAXEDOUT)/COUNTS)
 #
 # ggsave(plot = p1, filename = file.path("inst/figure/", "activity_boxscatter_counts.png"), device = "png", scale = 3, width = 6, height = 3)
-ggsave(plot = p33, filename = file.path("inst/figure/", "spades_lab_counts_diff_scales.png"), device = "png", scale = 3, width = 4, height = 2, dpi = 1000)
+ggsave(plot = p33, filename = file.path("inst/figure/", "spades_lab_counts_diff_scales.png"), device = "png", scale = 3, width = 6, height = 3, dpi = 1000)

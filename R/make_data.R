@@ -21,7 +21,11 @@ crop_grange = function(df, range = NULL, noise_std = 0.03){
 #' @title make sensor data given range and sampling rate and old sensor data
 #' @export
 make_sensor_data = function(oldData, new_range, new_sr){
-  newData = interpolate(oldData, method = "spline_natural", sr = new_sr)
+  if(sampling_rate(oldData) != new_sr){
+    newData = interpolate(oldData, method = "spline_natural", sr = new_sr)
+  }else{
+    newData = oldData
+  }
   newData = crop_grange(newData, range = new_range)
   return(newData)
 }

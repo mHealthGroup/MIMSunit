@@ -77,7 +77,26 @@ actigraph_stat <- ddply(
   mean = mean(ACTIGRAPH_COUNT * acc_factor),
   sd = sd(ACTIGRAPH_COUNT * acc_factor),
   se = sd / sqrt(N),
-  cv = sd / mean
+  cv = sd / mean,
+  SR = mean(SR),
+  GRANGE = mean(GRANGE)
+)
+
+filename = "inst/extdata/treadmill_enmo.rds"
+enmo_data = readRDS(filename)
+
+enmo_data$name = "Biobank ENMO algorithm"
+enmo_stat <- ddply(
+  enmo_data,
+  c("ID", "MPH", "name", "LOCATION"),
+  summarise,
+  N = length(ENMO),
+  mean = mean(ENMO * acc_factor),
+  sd = sd(ENMO * acc_factor),
+  se = sd / sqrt(N),
+  cv = sd / mean,
+  SR = mean(SR),
+  GRANGE = mean(GRANGE)
 )
 
 count_stat <-
@@ -85,15 +104,19 @@ count_stat <-
     count_data,
     c("ID", "MPH", "name", "LOCATION"),
     summarise,
-    N = length(COUNT),
-    mean = mean(COUNT * acc_factor),
-    sd = sd(COUNT * acc_factor),
+    N = length(MIMS_UNIT),
+    mean = mean(MIMS_UNIT * acc_factor),
+    sd = sd(MIMS_UNIT * acc_factor),
     se   = sd / sqrt(N),
-    cv = sd / mean
+    cv = sd / mean,
+    SR = mean(SR),
+    GRANGE = mean(GRANGE)
   )
 
 count_stat$name = as.character(count_stat$name)
-stat_data_merged = rbind(count_stat, actigraph_stat)
+
+
+stat_data_merged = rbind(count_stat, actigraph_stat, enmo_stat)
 
 stat_data_merged$SERIES = factor(paste0(
   stat_data_merged$ID,
@@ -112,7 +135,7 @@ p = ggplot(data = stat_data_merged, aes(
 )) +
   # geom_ribbon(aes(ymin = mean - sd, ymax = mean + sd, fill = ID, alpha = LOCATION)) +
   geom_point(aes(shape = ID)) + geom_line(aes(linetype = LOCATION, color = ID)) +
-  facet_wrap( ~ name, ncol = 2, scales = "free_y") +
+  facet_wrap( ~ name, ncol = 3, scales = "free_y") +
   theme_minimal(base_family = "Times New Roman", base_size = 16) +
   scale_color_grey(start = 0.2, end = 0.3) +
   scale_fill_grey(start = 0.2, end = 0.6) +
@@ -125,7 +148,7 @@ ggsave(
   plot = p,
   path = "inst/figure/",
   scale = 1.2,
-  width = 6,
+  width = 9,
   height = 2.75,
   dpi = 300
 )
