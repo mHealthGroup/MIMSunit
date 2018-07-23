@@ -10,7 +10,7 @@ cl = makeCluster(4, type = "SOCK")
 registerDoSNOW(cl)
 
 folder = "D:\\data\\mims_treadmill\\data";
-files = list.files(path = folder, pattern = ".*RAW-enmo\\.feature\\.csv", full.names = TRUE, recursive = FALSE)
+files = list.files(path = folder, pattern = ".*-enmo\\.feature\\.csv", full.names = TRUE, recursive = FALSE)
 
 # read in session file
 sessions = read.csv(file = file.path(folder, "sessions.csv"), stringsAsFactors = FALSE)
@@ -43,6 +43,11 @@ csvData_enmo = ldply(files, function(sensor_file){
     if(stringr::str_detect(sensor_file,"TT2")){
       sr = 80
     }
+  }
+
+  if(stringr::str_detect(sensor_file, "2g")){
+    gr = 2
+    id = paste(id, '2g', sep='')
   }
 
   if(stringr::str_detect(sensor_file, "2017-03-16")){

@@ -3,12 +3,12 @@ require(plyr)
 require(dplyr)
 require(doSNOW)
 require(mHealthR)
-require(Counts)
+require(MIMSunit)
 
 cl = makeCluster(4, type = "SOCK")
 registerDoSNOW(cl)
 
-folder = "../../data/Treadmill/";
+folder = "D:/data/mims_treadmill/data/";
 files = list.files(path = folder, pattern = ".*RAW\\.csv", full.names = TRUE, recursive = FALSE)
 
 # read in session file
@@ -59,7 +59,21 @@ csvData_raw = ldply(files, function(sensor_file){
     segData$LOCATION = sensorLocation
     return(segData)
   }, .progress = progress_text(), .parallel = TRUE)
-  return(segmentedData)
+
+  csvData2g = make_sensor_data(csvData, new_range = c(-2,2), new_sr = sampling_rate(csvData))
+
+  segmentedData2g = adply(use_sessions, 1, function(seg){
+    segData = mHealthR::mhealth.clip(csvData2g, start_time = seg$START_TIME, stop_time = seg$STOP_TIME, file_type = "sensor")
+    segData$ID = paste(id, '2g', sep='')
+    segData$SR = sr
+    segData$GRANGE = 2
+    segData$LOCATION = sensorLocation
+    return(segData)
+  }, .progress = progress_text(), .parallel = TRUE)
+
+  result = rbind(segmentedData, segmentedData2g)
+
+  return(result)
 }, .parallel = FALSE, .progress = "text", .id = NULL, .inform = TRUE)
 
 csvData_raw = csvData_raw[c(5:8, 1:4, 9:12)]

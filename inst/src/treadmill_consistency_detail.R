@@ -4,7 +4,7 @@ require(ggplot2)
 require(reshape2)
 require(mHealthR)
 require(doSNOW)
-require(Counts)
+require(MIMSunit)
 cl = makeCluster(4, type = "SOCK")
 registerDoSNOW(cl)
 filename = "inst/extdata/treadmill.rds"
@@ -36,17 +36,7 @@ settings = data.frame(
   )
 )
 
-device_settings = data.frame(
-  RANGE = c(6, 8),
-  SR = c(80, 80),
-  ID = c(
-    "GT3X+",
-    "GT9X"
-  ),
-  stringsAsFactors = FALSE
-)
-
-count_data = adply(settings, 1, function(setting) {
+mims_data = adply(settings, 1, function(setting) {
   require(plyr)
   counts = experiment_treadmill_count(
     treadmill_data,
@@ -64,6 +54,8 @@ count_data = adply(settings, 1, function(setting) {
 }, .progress = progress_text(), .id = NULL, .parallel = FALSE)
 
 stopCluster(cl)
+
+saveRDS(mims_data, file = "inst/extdata/treadmill_mims.rds")
 
 filename = "inst/extdata/treadmill_actigraph.rds"
 actigraph_data = readRDS(filename)
@@ -99,9 +91,9 @@ enmo_stat <- ddply(
   GRANGE = mean(GRANGE)
 )
 
-count_stat <-
+mims_stat <-
   ddply(
-    count_data,
+    mims_data,
     c("ID", "MPH", "name", "LOCATION"),
     summarise,
     N = length(MIMS_UNIT),
@@ -113,10 +105,10 @@ count_stat <-
     GRANGE = mean(GRANGE)
   )
 
-count_stat$name = as.character(count_stat$name)
+mims_stat$name = as.character(mims_stat$name)
 
 
-stat_data_merged = rbind(count_stat, actigraph_stat, enmo_stat)
+stat_data_merged = rbind(mims_stat, actigraph_stat, enmo_stat)
 
 stat_data_merged$SERIES = factor(paste0(
   stat_data_merged$ID,
