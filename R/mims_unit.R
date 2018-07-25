@@ -29,6 +29,7 @@ mims_unit = function(df,
                           combination = "sum",
                           vm_after_extrapolation=FALSE,
                           allow_truncation=TRUE,
+                          output_per_axis=FALSE,
                           before_df = NULL,
                           after_df = NULL) {
 
@@ -137,12 +138,22 @@ mims_unit = function(df,
     countsData = sumUp(integratedData, axes = axes)
   }
 
-  colnames(countsData)[2] = "MIMS_UNIT"
-  countsData[row_abnormal, 2] = -0.01
+  if(output_per_axis){
+    countsData = cbind(countsData, integratedData[,2:ncol(integratedData)])
+    colnames(countsData)[2:ncol(countsData)] = c("MIMS_UNIT", 'MIMS_UNIT_X', 'MIMS_UNIT_Y', 'MIMS_UNIT_Z')
+    countsData[row_abnormal, c(2,3,4,5)] = -0.01
+  }else{
+    colnames(countsData)[2] = "MIMS_UNIT"
+    countsData[row_abnormal, 2] = -0.01
+  }
+
 
   if(allow_truncation){
-    truncate_indices = countsData[,2] >0 & countsData[,2] <= 1e-3 * break_str_to_sample_size(NULL, breaks, sr) / sr
-    countsData[truncate_indices,2] = 0
+    truncate_indices = countsData[,2:ncol(countsData)] >0 & (countsData[,2:ncol(countsData)] <= (1e-4 * break_str_to_sample_size(NULL, breaks, sr) / sr))
+    countsData[,2:ncol(countsData)] = sapply(1:(ncol(countsData)-1), function(n){
+      countsData[truncate_indices[,n], n+1] = 0
+      return(countsData[,n+1])
+    })
   }
 
   # only keep data between start and end time

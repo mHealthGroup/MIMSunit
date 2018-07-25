@@ -9,7 +9,7 @@ mims_unit(df, breaks = "5 sec", range, noise_level = 0.03, k = 0.05,
   integration = "trapz", axes = c(2, 3, 4), use_extrapolation = TRUE,
   use_interpolation = TRUE, use_filtering = TRUE, combination = "sum",
   vm_after_extrapolation = FALSE, allow_truncation = TRUE,
-  before_df = NULL, after_df = NULL)
+  output_per_axis = FALSE, before_df = NULL, after_df = NULL)
 }
 \arguments{
 \item{df}{input sensor data frame that fits the mhealth specification}

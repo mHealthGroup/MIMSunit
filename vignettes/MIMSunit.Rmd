@@ -60,7 +60,7 @@ mims = MIMSunit::mims_unit(df, breaks = '1 min', range = c(-2, 2))
 ```
 
 ```{r, message=FALSE, warning=FALSE, include=FALSE}
-mims = MIMSunit::mims_unit(df, breaks = '5 sec', range = c(-2, 2))
+mims = MIMSunit::mims_unit(df, breaks = '5 sec', range = c(-2, 2), output_per_axis = TRUE)
 ```
 
 ```{r, echo=FALSE}
@@ -68,6 +68,6 @@ knitr::kable(head(mims, 5))
 ```
 
 ```{r, echo=FALSE, fig.height=2.5, fig.width=8.5, message=FALSE, warning=FALSE}
-mims_xts = xts::xts(mims[,2], mims[,1])
-dygraphs::dygraph(mims_xts) %>% dygraphs::dyRangeSelector() %>% dyOptions(colors = RColorBrewer::brewer.pal(1, "Set2")) %>% dyLegend(width = 400)
+mims_xts = xts::xts(mims[,2:5], mims[,1])
+dygraphs::dygraph(mims_xts) %>% dygraphs::dyRangeSelector() %>% dyOptions(colors = RColorBrewer::brewer.pal(4, "Set2")) %>% dyLegend(width = 400) %>% dyAxis("y", valueRange = c(0, 2 * max(mims_xts)))
 ```

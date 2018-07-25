@@ -45,11 +45,11 @@ mims = MIMSunit::mims_unit(df, breaks = '5 sec', range = c(-6, 6))
 ```
 
 ```{r, message=FALSE, warning=FALSE, include=FALSE}
-mims = MIMSunit::mims_unit(df, breaks = '5 sec', range = c(-6, 6))
+mims = MIMSunit::mims_unit(df, breaks = '5 sec', range = c(-6, 6), output_per_axis=TRUE)
 ```
 
 #### Output: MIMS unit values
 ```{r, echo=FALSE, fig.height=2.5, fig.width=8.5, message=FALSE, warning=FALSE}
-mims_xts = xts::xts(mims[,2], mims[,1])
-dygraphs::dygraph(mims_xts) %>% dygraphs::dyRangeSelector() %>% dyOptions(colors = RColorBrewer::brewer.pal(1, "Set2"), drawPoints=TRUE, pointSize=2) %>% dyLegend(width = 400) %>% dyAxis("y", label = "MIMS unit")
+mims_xts = xts::xts(mims[,2:5], mims[,1])
+dygraphs::dygraph(mims_xts) %>% dygraphs::dyRangeSelector() %>% dyOptions(colors = RColorBrewer::brewer.pal(4, "Set2"), drawPoints=TRUE, pointSize=2) %>% dyLegend(width = 400) %>% dyAxis("y", label = "MIMS unit")
 ```

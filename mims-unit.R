@@ -35,7 +35,7 @@ if(length(args) < 2){
   }
 
   print(paste("Computing MIMS-unit..."))
-  output_dat = MIMSunit::mims_unit(df = dat, breaks = "1 min", range = c(-6, 6), before_df = before_dat, after_df = after_dat)
+  output_dat = MIMSunit::mims_unit(df = dat, breaks = "1 min", range = c(-6, 6), before_df = before_dat, after_df = after_dat, output_per_axis = TRUE)
   print(paste("Saving MIMS-unit..."))
   write.csv(x = output_dat, file = output_file, append = FALSE, quote = FALSE, row.names = FALSE)
   print(paste("Completed"))
