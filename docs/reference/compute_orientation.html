@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Compute activity counts using [citation] algorithm — mims_unit • MIMSunit</title>
+<title>Calculate orientation of a sensor in (X,Y,Z degrees) for each axis — compute_orientation • MIMSunit</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,7 +30,7 @@
 
 
 
-<meta property="og:title" content="Compute activity counts using [citation] algorithm — mims_unit" />
+<meta property="og:title" content="Calculate orientation of a sensor in (X,Y,Z degrees) for each axis — compute_orientation" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -147,85 +147,23 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Compute activity counts using [citation] algorithm</h1>
-    <small class="dont-index">Source: <a href='https://github.com/qutang/mimsunit//blob/master/R/mims_unit.R'><code>R/mims_unit.R</code></a></small>
-    <div class="hidden name"><code>mims_unit.Rd</code></div>
+    <h1>Calculate orientation of a sensor in (X,Y,Z degrees) for each axis</h1>
+    <small class="dont-index">Source: <a href='https://github.com/qutang/mimsunit//blob/master/R/orientation.R'><code>R/orientation.R</code></a></small>
+    <div class="hidden name"><code>compute_orientation.Rd</code></div>
     </div>
 
     <div class="ref-description">
 
     </div>
 
-    <pre class="usage"><span class='fu'>mims_unit</span>(<span class='no'>df</span>, <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='st'>"5 sec"</span>, <span class='no'>range</span>, <span class='kw'>noise_level</span> <span class='kw'>=</span> <span class='fl'>0.03</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>0.05</span>,
-  <span class='kw'>spar</span> <span class='kw'>=</span> <span class='fl'>0.6</span>, <span class='kw'>filter_type</span> <span class='kw'>=</span> <span class='st'>"butter"</span>, <span class='kw'>cutoffs</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0.2</span>, <span class='fl'>5</span>),
-  <span class='kw'>integration</span> <span class='kw'>=</span> <span class='st'>"trapz"</span>, <span class='kw'>axes</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>4</span>), <span class='kw'>use_extrapolation</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>use_interpolation</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>use_filtering</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>combination</span> <span class='kw'>=</span> <span class='st'>"sum"</span>,
-  <span class='kw'>vm_after_extrapolation</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>allow_truncation</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>output_per_axis</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>output_orientation</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>breaks_for_orientation</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>before_df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>after_df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>df</th>
-      <td><p>input sensor data frame that fits the mhealth specification</p></td>
-    </tr>
-    <tr>
-      <th>breaks</th>
-      <td><p>epoch to compute counts on</p></td>
-    </tr>
-    <tr>
-      <th>range</th>
-      <td><p>dynamic range of the device (two element vector)</p></td>
-    </tr>
-    <tr>
-      <th>noise_level</th>
-      <td><p>noise level should be between 0.01 and 0.1</p></td>
-    </tr>
-    <tr>
-      <th>k</th>
-      <td><p>neighborhood duration for extrapolation in seconds, default is 0.05 seconds</p></td>
-    </tr>
-    <tr>
-      <th>spar</th>
-      <td><p>smoothing parameter for extrapolation, default is 0.6</p></td>
-    </tr>
-    <tr>
-      <th>cutoffs</th>
-      <td><p>cut off frequencies to be used in filtering, default is 0.2Hz and 5Hz. If choosing bessel, the low pass cut off would be multipled by 2 when being used.</p></td>
-    </tr>
-    <tr>
-      <th>integration</th>
-      <td><p>the integration method to be used: "trapz", "absoluteMeanByPoints".</p></td>
-    </tr>
-    <tr>
-      <th>allow_truncation</th>
-      <td><p>use zero truncation or not, default is TRUE</p></td>
-    </tr>
-    <tr>
-      <th>resample</th>
-      <td><p>set 0 to not use resampling, otherwise set to the desired sampling rate in numerical, e.g 40 for 40Hz. Default is 50.</p></td>
-    </tr>
-    <tr>
-      <th>filter</th>
-      <td><p>"butter", "ellip", "bessel"</p></td>
-    </tr>
-    </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>Will return NA if a segment break is too short to have enough samples to compute AUC</p>
-    
+    <pre class="usage"><span class='fu'>compute_orientation</span>(<span class='no'>df</span>, <span class='kw'>epoch</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>unit</span> <span class='kw'>=</span> <span class='st'>"deg"</span>)</pre>
+        
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-          </ul>
+                </ul>
 
   </div>
 </div>
