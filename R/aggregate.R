@@ -68,3 +68,39 @@ aggregate = function(df, breaks, type = "trapz", rectify = TRUE){
   result[1] = as.POSIXct(result[[1]], origin = "1970-01-01", tz = time_zone)
   return(result)
 }
+
+#' @name aggregate_for_orientation
+#' @title Calculate orientation value for each column over a certain break (e.g. hour, min).
+#' @note If certain break is not provided or missing, will use the entire sequence. The column name (except for the first column) of output dataframe would be: [SUMMARY\_METHOD]\_INPUT\_HEADER\_NAME.
+#' @export
+#' @importFrom plyr ddply numcolwise
+#' @importFrom caTools trapz
+#' @importFrom mHealthR mhealth.segment
+#' @importFrom lubridate tz
+#' @importFrom stats na.omit
+#' @param df input dataframe that matches mhealth sensor data format.
+#' @param breaks could be "sec", "min", "hour", "day", "week", "month", "quarter" or "year"; or preceded by an interger and a space.
+aggregate_for_orientation = function(df, breaks, epoch=2, unit='deg'){
+  time_zone = lubridate::tz(df[1,1])
+  nCols = ncol(df)
+  if(missing(breaks) || is.null(breaks)){
+    df$SEGMENT = 1
+  }else{
+    df = mHealthR::mhealth.segment(df, breaks, file_type = "sensor")
+  }
+
+  nThreshold = break_str_to_sample_size(ts = df[,1], breaks = breaks, sr = sampling_rate(df))
+  result = plyr::ddply(df,c("SEGMENT"), function(rows){
+    rows = stats::na.omit(rows)
+    if(nrow(rows) >= 0.9 * nThreshold){
+      ori_values = compute_orientation(rows[,1:nCols], epoch=epoch, unit=unit)
+    }else{
+      ori_values = data.frame(HEADER_TIME_STAMP = rows[1,1], X_ANGLE=NaN, Y_ANGLE=NaN, Z_ANGLE=NaN)
+    }
+    return(ori_values)
+  })
+  result$SEGMENT = NULL
+  names(result)[1] = names(df)[1]
+  result[1] = as.POSIXct(result[[1]], origin = "1970-01-01", tz = time_zone)
+  return(result)
+}

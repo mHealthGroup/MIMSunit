@@ -30,6 +30,8 @@ mims_unit = function(df,
                           vm_after_extrapolation=FALSE,
                           allow_truncation=TRUE,
                           output_per_axis=FALSE,
+                          output_orientation=FALSE,
+                          breaks_for_orientation=NULL,
                           before_df = NULL,
                           after_df = NULL) {
 
@@ -114,6 +116,16 @@ mims_unit = function(df,
   filteredData = rbind(filteredData, abnormalData)
   filteredData = filteredData[order(filteredData$HEADER_TIME_STAMP),]
 
+  # Compute orientations
+  if(output_orientation){
+    if(is.null(breaks_for_orientation)){
+      breaks_for_orientation = breaks
+    }
+    orientationData = aggregate_for_orientation(filteredData, breaks=breaks_for_orientation)
+  }else{
+    orientationData = NULL
+  }
+
   # Compute the AUC
   integratedData = aggregate(
     filteredData,
@@ -161,5 +173,9 @@ mims_unit = function(df,
   countsData = countsData[keep_mask,]
 
   # countsData = countsData[!is.na(countsData[,2]),]
-  return(countsData)
+  if(output_orientation){
+    return(list('mims'=countsData, 'orientation'=orientationData))
+  }else{
+    return(countsData)
+  }
 }
