@@ -6,7 +6,8 @@ if(length(args) < 2){
   input_file = args[1]
   before_file = args[2]
   after_file = args[3]
-  output_file = args[4]
+  output_file_mims = args[4]
+  output_file_orientation = args[5]
   if(before_file == 'NULL'){
     before_file = NULL
   }
@@ -16,7 +17,8 @@ if(length(args) < 2){
   print(paste("Input file is:", input_file))
   print(paste("Before file is:", before_file))
   print(paste("After file is:", after_file))
-  print(paste("Output file is:", output_file))
+  print(paste("Output file is:", output_file_mims))
+  print(paste("Output file is:", output_file_orientation))
   print(paste("Loading file..."))
   dat = mHealthR::mhealth.read(file = input_file, filetype = "sensor")
   if(!is.null(before_file)){
@@ -35,8 +37,10 @@ if(length(args) < 2){
   }
 
   print(paste("Computing MIMS-unit..."))
-  output_dat = MIMSunit::mims_unit(df = dat, breaks = "1 min", range = c(-6, 6), before_df = before_dat, after_df = after_dat, output_per_axis = TRUE)
+  output_dat = MIMSunit::mims_unit(df = dat, breaks = "1 min", range = c(-6, 6), before_df = before_dat, after_df = after_dat, output_per_axis = TRUE, output_orientation = TRUE, breaks_for_orientation = '5 sec')
   print(paste("Saving MIMS-unit..."))
-  write.csv(x = output_dat, file = output_file, append = FALSE, quote = FALSE, row.names = FALSE)
+  write.csv(x = output_dat['mims'], file = output_file_mims, append = FALSE, quote = FALSE, row.names = FALSE)
+  print(paste("Saving Orientation estimation..."))
+  write.csv(x = output_dat['orientation'], file = output_file_orientation, append = FALSE, quote = FALSE, row.names = FALSE)
   print(paste("Completed"))
 }
