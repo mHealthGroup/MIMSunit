@@ -1,26 +1,27 @@
-filename = "inst/extdata/spades_lab_counts.rds"
-spades_lab_counts = readRDS(filename)
-
-# optimize scaling
+require(plyr)
 require(dplyr)
 require(stringr)
 require(ggplot2)
 require(reshape2)
-require(Counts)
-forScaling = dplyr::filter(spades_lab_counts, ACTIVITY_NAME %in% c("walking at 1mph arms on desk",
-                                                                   "walking at 2mph arms on desk",
-                                                                   "walking at 3mph",
-                                                                   "walking at 3mph carrying drink",
-                                                                   "walking at 3mph carrying bag",
-                                                                   "walking at 3mph phone talking",
-                                                                   "walking at 3.5mph") & LOCATION == "DOMINANT WAIST")
+require(extrafont)
 
-forScaling_counts = forScaling %>% dplyr::filter(TYPE == "COUNTS")
-forScaling_actigraph = forScaling %>% dplyr::filter(TYPE == "ACTIGRAPH")
-countsForScaling = data.frame(count = forScaling_counts$value, actigraph = forScaling_actigraph$value)
+mims_unit_filename = "inst/extdata/spades_lab_mims_unit.rds"
+spades_lab_mims_unit = readRDS(mims_unit_filename)
+actigraph_counts_filename = "inst/extdata/spades_lab_actigraph_counts.rds"
+spades_lab_actigraph_counts = readRDS(actigraph_counts_filename)
+spades_lab_actigraph_counts$PID = as.numeric(spades_lab_actigraph_counts$PID)
+enmo_filename = "inst/extdata/spades_lab_enmo.rds"
+spades_lab_enmos = readRDS(enmo_filename)
+spades_lab_enmos$PID = as.numeric(spades_lab_enmos$PID)
 
-regressionResult = lm(formula = actigraph ~ count, data = countsForScaling, na.action = na.omit)
-scalingFactor = coef(regressionResult)
+# merge these two dataframes
+spades_lab_counts = plyr::join(spades_lab_mims_unit, plyr::join(spades_lab_actigraph_counts, spades_lab_enmos))
+spades_lab_counts = na.omit(spades_lab_counts)
+
+
+loadfonts(device = 'win')
+
+acc_factor = 60 / 5
 
 # 51 participants' average, compared with Actigraph and METs
 act_list = c("lying",
@@ -49,44 +50,42 @@ act_list = c("lying",
              "shelf reload",
              "frisbee")
 
-act_list = c("lying",
-             "sitting",
-             "standing",
-             "walking at 1mph arms on desk",
-             "walking at 2mph arms on desk",
-             "walking at 3mph",
-             "walking at 3.5mph",
-             "running at 5.5mph 5% grade",
-             "walking outdoor",
-             "walking upstairs",
-             "walking donwstairs",
-             "biking at 300 KPM/Min",
-             "biking outdoor",
-             "sweeping",
-             "laundry",
-             "shelf unload",
-             "shelf reload",
-             "frisbee")
+act_list = c("Lying",
+             "Sitting",
+             "Standing",
+             "Walk 1 mph",
+             "Walk 2 mph",
+             "Laundry",
+             "Frisbee",
+             "Walk 3 mph",
+             "Self-paced walk",
+             "Bike- 300 kmph/min",
+             "Sweeping",
+             "Walk 3.5 mph",
+             "Downstairs",
+             "Reload/unload shelf",
+             "Upstairs",
+             "Bike outdoor",
+             "Run- 5.5 mph")
 
 mets = c(
+  1,
   1.3,
-  1.5,
-  1.8,
+  1.3,
   2,
   2.8,
-  3.5,
-  4.3,
-  9.8,
-  3.5,
-  6,
-  5,
-  3.5,
-  6.8,
-  3.8,
   2,
+  3,
+  3.5,
+  4,
+  3.5,
+  3.3,
+  4.3,
+  3.5,
+  3.5,
   5,
-  5,
-  3
+  7.5,
+  9
 )
 
 mets = data.frame(activity = act_list, mets_value = mets)
@@ -94,42 +93,40 @@ sorted_mets = mets[order(mets[,"mets_value"]),]
 
 p1Data1 = spades_lab_counts
 
-# merge similar activities
-p1Data1[str_detect(p1Data1[,1], "sitting"),1] = "sitting"
-p1Data1[str_detect(p1Data1[,1], "standing"),1] = "standing"
-p1Data1[str_detect(p1Data1[,1], "walking at 3mph"),1] = "walking at 3mph"
-
 # exclude
-p1Data = dplyr::filter(p1Data1, !(ACTIVITY_NAME == "frisbee" & SUBJECT == "SPADES_26"))
+p1Data = dplyr::filter(spades_lab_counts, !(LABEL_NAME == "Frisbee" & PID == 26))
+p1Data = melt(p1Data, id.vars=c('HEADER_TIME_STAMP', 'LABEL_NAME', 'PID', 'LOCATION'), variable.name = "TYPE")
 
-count_indices = which(p1Data$TYPE == "COUNTS" | p1Data$TYPE == "COUNTS_MAXEDOUT")
-p1Data[count_indices, "value"] = p1Data[count_indices, "value"] * scalingFactor[2] + scalingFactor[1]
-p1Data$ACTIVITY_NAME <- factor(p1Data$ACTIVITY_NAME, levels=sorted_mets[,1])
-p1Data$SUBJECT_ID <- as.numeric(str_extract(p1Data$SUBJECT, "[0-9]+"))
-p1Data = p1Data %>% mutate(LOCATION_TYPE = str_sub(LOCATION, start = -5, end = -1)) %>% mutate(LOCATION_SIDE = str_sub(LOCATION, start = 1, end = -7))
+# scale to 1 min
+p1Data[,"value"] = p1Data[, "value"] * acc_factor
+p1Data$LABEL_NAME <- factor(p1Data$LABEL_NAME, levels=act_list)
 
-# summarize
-# p1Data_summary <- ddply(p1Data, c("ACTIVITY_NAME", "START_TIME", "STOP_TIME", "LABEL_NAME", "TYPE", 'LOCATION', 'LOCATION_TYPE', 'LOCATION_SIDE'), summarise,
-#                N    = length(value),
-#                mean = mean(value),
-#                sd   = sd(value),
-#                se   = sd / sqrt(N)
-# )
+p3Data = p1Data
+p3Data$ALGORITHM = as.character(p3Data$TYPE)
+p3Data$ALGORITHM[str_detect(p3Data$TYPE, "SMARTcounts")] = "MIMS-unit"
+p3Data$ALGORITHM[str_detect(p3Data$TYPE, "ENMO")] = "ENMO"
+p3Data$DEVICE = "8g Device"
+p3Data[str_detect(p3Data$TYPE, "2g"), "DEVICE"] = "2g Device"
+p3Data$DEVICE = factor(p3Data$DEVICE, c("8g Device", "2g Device"))
 
-# scatter + box plot
-p1Data = p1Data %>% dplyr::filter(LOCATION == "NON DOMINANT WRIST" | LOCATION == "DOMINANT WAIST")
-p1Data$LOCATION = str_to_title(p1Data$LOCATION)
 
-t_test_data = p1Data %>% ddply(.(ACTIVITY_NAME, LOCATION), function(rows){
-  counts = rows %>% filter(TYPE == "COUNTS")
-  counts_maxedout = rows %>% filter(TYPE == "COUNTS_MAXEDOUT")
-  actigraph = rows %>% filter(TYPE == "ACTIGRAPH")
-  actigraph_maxedout = rows %>% filter(TYPE == "ACTIGRAPH_MAXEDOUT")
-  counts_t = t.test(counts$value, counts_maxedout$value, paired = FALSE)
-  counts_p = counts_t$p.value
-  actigraph_t = t.test(actigraph$value, actigraph_maxedout$value, paired = FALSE)
-  actigraph_p = actigraph_t$p.value
-  return(data.frame(counts_p, actigraph_p))
+t_test_results = p3Data %>% ddply(.(LABEL_NAME, LOCATION), function(rows){
+  print(rows$LABEL_NAME[1])
+  mims_8g = rows %>% filter(ALGORITHM == "MIMS-unit" & DEVICE == "8g Device")
+  mims_2g = rows %>% filter(ALGORITHM == "MIMS-unit" & DEVICE == "2g Device")
+  actigraph_8g = rows %>% filter(ALGORITHM == "ACTIGRAPH_COUNT" & DEVICE == "8g Device")
+  actigraph_2g = rows %>% filter(ALGORITHM == "ACTIGRAPH_COUNT" & DEVICE == "2g Device")
+  enmo_8g = rows %>% filter(ALGORITHM == "ENMO" & DEVICE == "8g Device")
+  enmo_2g = rows %>% filter(ALGORITHM == "ENMO" & DEVICE == "2g Device")
+  mims_t = t.test(mims_8g$value, mims_2g$value, paired = FALSE)
+  mims_p = mims_t$p.value
+  # actigraph_t = t.test(actigraph_8g$value, actigraph_2g$value, paired = FALSE)
+  # actigraph_p = actigraph_t$p.value
+  enmo_t = t.test(enmo_8g$value, enmo_2g$value, paired = FALSE)
+  enmo_p = enmo_t$p.value
+  return(data.frame(mims_p, enmo_p))
 })
 
-write.csv(x = t_test_data, file = "inst/table/spades_lab_count_t_test.csv", quote = FALSE, row.names = FALSE, col.names = TRUE)
+current_run = format(Sys.time(), "%Y%m%d%H")
+
+write.csv(x = t_test_results, file = paste0("inst/table/spades_lab_count_t_test", current_run,".csv"), quote = FALSE, row.names = FALSE, col.names = TRUE)
