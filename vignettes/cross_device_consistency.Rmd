@@ -54,12 +54,13 @@ The collected data is calibrated using at least 24h wearing data when applying E
 
 ```{r, include=FALSE}
 acc_factor = 60 / 5
-summary_df = df %>% ddply(
+filtered_df = df %>% dplyr::filter(DEVICE != "Activpal")
+summary_df = filtered_df %>% ddply(
   c("TYPE", "HZ"),
   summarise,
   N = length(VALUE),
-  mean = mean(VALUE * acc_factor),
-  sd   = sd(VALUE * acc_factor),
+  mean = mean(VALUE),
+  sd   = sd(VALUE),
   se   = sd / sqrt(N),
   cv = sd / mean
 )

@@ -1,3 +1,4 @@
+require(plyr)
 require(ggplot2)
 require(dplyr)
 require(caTools)
@@ -43,6 +44,8 @@ original_biking_examples$GROUP = 'Original'
 filtered_biking_examples$GROUP = 'Filtered'
 
 biking_data = rbind(original_biking_examples, filtered_biking_examples)
+
+write.csv(biking_data, file = "inst/table/biking_filter_examples.csv", append = FALSE, row.names = FALSE, quote = FALSE)
 
 p = ggplot(
   data = biking_data,

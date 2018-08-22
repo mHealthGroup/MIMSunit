@@ -107,7 +107,7 @@ error_biobank = shaker_biobank %>% ddply(c("RPM", "name"), function(counts) {
   n_total = nrow(counts)
   mse_counts = counts %>% dplyr::filter(DEVICE != "TAS1C32140067" &
                                           DEVICE != "ActivPal3")
-  cv_counts = counts
+  cv_counts = counts %>% dplyr::filter(DEVICE != "ActivPal3")
 
   n_mse = nrow(mse_counts)
   rmse = sqrt(sum((mse_counts$biobank_enmo - gt_value) ^ 2) / n_mse)
@@ -139,7 +139,7 @@ error_actigraph = shaker_actigraph_count %>% ddply(c("RPM"), function(counts) {
   n_total = nrow(counts)
   mse_counts = counts %>% dplyr::filter(DEVICE != "TAS1C32140067" &
                                           DEVICE != "ActivPal3")
-  cv_counts = counts
+  cv_counts = counts %>% dplyr::filter(DEVICE != "ActivPal3")
 
   n_mse = nrow(mse_counts)
   rmse = sqrt(sum((mse_counts$ACTIGRAPH - gt_value) ^ 2) / n_mse)
