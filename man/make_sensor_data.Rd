@@ -6,3 +6,6 @@
 \usage{
 make_sensor_data(oldData, new_range, new_sr)
 }
+\description{
+make sensor data given range and sampling rate and old sensor data
+}

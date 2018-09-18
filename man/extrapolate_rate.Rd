@@ -6,3 +6,6 @@
 \usage{
 extrapolate_rate(test_df, true_df, extrap_df)
 }
+\description{
+compute extrapolation rate
+}

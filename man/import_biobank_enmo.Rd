@@ -9,3 +9,6 @@ import_biobank_enmo(filename, col_name = "biobank_enmo")
 \arguments{
 \item{filename}{full file path of input biobank epoch csv file.}
 }
+\description{
+Import and convert biobank epoch csv files and load into data frame as in mhealth format.
+}

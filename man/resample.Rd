@@ -16,3 +16,6 @@ resample(df, origSr, newSr)
 \value{
 list of filtered dataframes.
 }
+\description{
+Apply bandlimited interpolation filter to the input sensor data frame each column over a certain break (e.g. hour, sec, min and etc.).
+}

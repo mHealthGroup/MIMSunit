@@ -7,3 +7,6 @@
 export_actigraph_raw(df, filepath, actilife_version = "6.13.3",
   firmware_version = "1.6.0")
 }
+\description{
+Export to Actigraph raw csv files
+}

@@ -22,3 +22,6 @@ iir(df, Fs, Fc, order, type = "high", filter_type = "butter")
 \value{
 list of filtered dataframes.
 }
+\description{
+Apply iir filter to the input sensor data frame each column over a certain break (e.g. hour, sec, min and etc.).
+}

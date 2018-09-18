@@ -4,8 +4,12 @@
 \alias{experiment_treadmill_count}
 \title{function to calculate the count values for treadmill data}
 \usage{
-experiment_treadmill_count(raw_data, epoch = "5 sec", noise_level = 0.03,
-  cutoffs = c(0.2, 5), k = 0.05, spar = 0.6, integration = "trapz",
-  combination = "axis", use_extrapolate = TRUE, use_interpolate = TRUE,
+experiment_treadmill_count(raw_data, epoch = "5 sec",
+  noise_level = 0.03, cutoffs = c(0.2, 5), k = 0.05, spar = 0.6,
+  integration = "trapz", combination = "axis",
+  use_extrapolate = TRUE, use_interpolate = TRUE,
   use_filtering = TRUE)
+}
+\description{
+function to calculate the count values for treadmill data
 }

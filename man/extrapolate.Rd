@@ -22,6 +22,11 @@ extrapolate(t, value, range, noise_level, k = 0.65, spar = 0.4)
 
 \item{spar}{between 0 and 1, to control how smooth we want to fit local spline regression, 0 is linear and 1 matches all local points. A good choice is 0.3 to penalize the maxed out points.}
 }
+\description{
+Apply extrapolate algorithm to a single stream of data.
+
+Apply extrapolate algorithm to a single stream of data.
+}
 \note{
 If wanting to obtain mediate results for plotting and debugging, please use this function.
 

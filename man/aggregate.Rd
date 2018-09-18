@@ -15,6 +15,9 @@ aggregate(df, breaks, type = "trapz", rectify = TRUE)
 
 \item{rectify}{whether rectify the values before computing AUC, default is TRUE}
 }
+\description{
+Calculate summary value (area under curve) for each column over a certain break (e.g. hour, min).
+}
 \note{
 If certain break is not provided or missing, will use the entire sequence. The column name (except for the first column) of output dataframe would be: [SUMMARY\_METHOD]\_INPUT\_HEADER\_NAME.
 }

@@ -16,6 +16,9 @@ import_actigraph_raw(filename, ad_convert = FALSE, ts_provided = TRUE,
 
 \item{header_provided}{set as TRUE only when column header is provided}
 }
+\description{
+Import and convert Actigraph raw csv files and load into data frame as in mhealth format.
+}
 \note{
 Also support GT9X IMU csv file
 }

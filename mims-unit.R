@@ -1,7 +1,7 @@
 args = commandArgs(trailingOnly = TRUE)
 
-if(length(args) < 2){
-  stop("Input arguments should be greater than 2")
+if(length(args) < 3){
+  stop("Input arguments should be greater than 3")
 }else{
   input_file = args[1]
   before_file = args[2]
@@ -39,8 +39,8 @@ if(length(args) < 2){
   print(paste("Computing MIMS-unit..."))
   output_dat = MIMSunit::mims_unit(df = dat, breaks = "1 min", range = c(-6, 6), before_df = before_dat, after_df = after_dat, output_per_axis = TRUE, output_orientation = TRUE, breaks_for_orientation = '5 sec')
   print(paste("Saving MIMS-unit..."))
-  write.csv(x = output_dat['mims'], file = output_file_mims, append = FALSE, quote = FALSE, row.names = FALSE)
+  write.csv(x = output_dat[['mims']], file = output_file_mims, append = FALSE, quote = FALSE, row.names = FALSE)
   print(paste("Saving Orientation estimation..."))
-  write.csv(x = output_dat['orientation'], file = output_file_orientation, append = FALSE, quote = FALSE, row.names = FALSE)
+  write.csv(x = output_dat[['orientation']], file = output_file_orientation, append = FALSE, quote = FALSE, row.names = FALSE)
   print(paste("Completed"))
 }

@@ -15,3 +15,6 @@ bessel(df, Fs, Fc, order)
 
 \item{order}{formula order of bessel filter}
 }
+\description{
+Apply low pass bessel filter to the input sensor data frame each column over certain breaks (e.g. hour, sec, min and etc.)
+}

@@ -13,3 +13,6 @@ average_removal(df, Fs, order)
 
 \item{order}{window size (in seconds) of filter}
 }
+\description{
+Apply average removal FIR filter to the input sensor data frame each column over certain breaks (e.g. hour, sec, min and etc.)
+}

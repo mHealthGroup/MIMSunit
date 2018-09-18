@@ -6,3 +6,6 @@
 \usage{
 sampling_rate(df)
 }
+\description{
+Get sensor data's sampling rate from the time difference of adjacent samples
+}

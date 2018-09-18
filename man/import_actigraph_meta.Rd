@@ -6,3 +6,6 @@
 \usage{
 import_actigraph_meta(filename, header = TRUE)
 }
+\description{
+parse actigraph csv header to get related version and sampling rate information
+}

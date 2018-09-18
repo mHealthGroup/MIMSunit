@@ -5,8 +5,8 @@
 \alias{import_actigraph_count_vm}
 \title{Import and convert Actigraph count csv files and load into data frame as in mhealth format.}
 \usage{
-import_actigraph_count(filename, col_name = "ACTIGRAPH_COUNT", axes = c(2,
-  3, 4))
+import_actigraph_count(filename, col_name = "ACTIGRAPH_COUNT",
+  axes = c(2, 3, 4))
 
 import_actigraph_count_vm(filename, col_name = "ACTIGRAPH_COUNT")
 }
@@ -14,4 +14,9 @@ import_actigraph_count_vm(filename, col_name = "ACTIGRAPH_COUNT")
 \item{filename}{full file path of input Actigraph count csv file.}
 
 \item{filename}{full file path of input Actigraph count csv file.}
+}
+\description{
+Import and convert Actigraph count csv files and load into data frame as in mhealth format.
+
+Import and convert Actigraph count csv files and load into data frame as in mhealth format.
 }

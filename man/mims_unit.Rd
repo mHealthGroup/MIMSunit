@@ -7,10 +7,11 @@
 mims_unit(df, breaks = "5 sec", range, noise_level = 0.03, k = 0.05,
   spar = 0.6, filter_type = "butter", cutoffs = c(0.2, 5),
   integration = "trapz", axes = c(2, 3, 4), use_extrapolation = TRUE,
-  use_interpolation = TRUE, use_filtering = TRUE, combination = "sum",
-  vm_after_extrapolation = FALSE, allow_truncation = TRUE,
-  output_per_axis = FALSE, output_orientation = FALSE,
-  breaks_for_orientation = NULL, before_df = NULL, after_df = NULL)
+  use_interpolation = TRUE, use_filtering = TRUE,
+  combination = "sum", vm_after_extrapolation = FALSE,
+  allow_truncation = TRUE, output_per_axis = FALSE,
+  output_orientation = FALSE, breaks_for_orientation = NULL,
+  before_df = NULL, after_df = NULL)
 }
 \arguments{
 \item{df}{input sensor data frame that fits the mhealth specification}
@@ -37,4 +38,7 @@ mims_unit(df, breaks = "5 sec", range, noise_level = 0.03, k = 0.05,
 }
 \value{
 Will return NA if a segment break is too short to have enough samples to compute AUC
+}
+\description{
+Compute activity counts using [citation] algorithm
 }

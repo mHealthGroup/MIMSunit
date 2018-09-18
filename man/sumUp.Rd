@@ -9,3 +9,6 @@ sumUp(df, axes = NULL)
 \arguments{
 \item{df}{input dataframe that matches specification.}
 }
+\description{
+Compute the sumUp value of sensor data.
+}

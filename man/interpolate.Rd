@@ -7,3 +7,6 @@
 interpolate(df, method = "spline_natural", sr = 100, st = NULL,
   et = NULL, polyDegree = 3)
 }
+\description{
+Interpolate the missing points and unify sampling interval for the input sensor data
+}

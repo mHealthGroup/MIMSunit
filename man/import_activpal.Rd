@@ -7,3 +7,6 @@
 \usage{
 import_activpal_raw(filename, header_provided = FALSE)
 }
+\description{
+Import ActivPal Raw data files and load into dataframe as mhealth format.
+}

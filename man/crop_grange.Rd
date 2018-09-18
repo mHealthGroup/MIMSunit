@@ -6,3 +6,6 @@
 \usage{
 crop_grange(df, range = NULL, noise_std = 0.03)
 }
+\description{
+Crop grange for sensor data
+}

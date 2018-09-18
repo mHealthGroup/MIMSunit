@@ -6,3 +6,6 @@
 \usage{
 compute_orientation(df, epoch = 2, unit = "deg")
 }
+\description{
+Calculate orientation of a sensor in (X,Y,Z degrees) for each axis
+}
