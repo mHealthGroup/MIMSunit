@@ -162,6 +162,7 @@ mims_unit = function(df,
 
   if(allow_truncation){
     truncate_indices = countsData[,2:ncol(countsData)] >0 & (countsData[,2:ncol(countsData)] <= (1e-4 * break_str_to_sample_size(NULL, breaks, sr) / sr))
+    truncate_indices = data.frame(truncate_indices)
     countsData[,2:ncol(countsData)] = sapply(1:(ncol(countsData)-1), function(n){
       countsData[truncate_indices[,n], n+1] = 0
       return(countsData[,n+1])

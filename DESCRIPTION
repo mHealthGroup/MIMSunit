@@ -1,7 +1,7 @@
 Package: MIMSunit
 Type: Package
 Title: MIMS-unit algorithm
-Version: 0.5.2
+Version: 0.5.3
 Author: Qu Tang <tang.q@husky.neu.edu>
 Authors@R: person("Qu", "Tang", email = "tang.q@husky.neu.edu",
                   role = c("aut", "cre"))
