@@ -1,8 +1,16 @@
+^release\.R$
+^README\.rmd$
 ^.*\.Rproj$
-^\.Rproj\.user$
+^\.github$
+^dists$
 ^data-raw$
 ^offline_data$
-^mims_unit.R$
+^mims-unit.R$
+^mims-unit.zip$
 ^docs$
 ^README_data$
 ^_pkgdown\.yml$
+^\.Rproj\.user$     # used for temporary files.
+^cran-comments\.md$ # Comments for CRAN submission
+^NEWS\.md$          # A news file written in Markdown
+^\.travis\.yml$     # Used for continuous integration testing with

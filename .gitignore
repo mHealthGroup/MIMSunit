@@ -4,3 +4,4 @@
 .Ruserdata
 offline_data/
 .DS_Store
+dists/*
