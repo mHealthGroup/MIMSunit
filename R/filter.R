@@ -1,9 +1,6 @@
 #' @name average_removal
 #' @title Apply average removal FIR filter to the input sensor data frame each column over certain breaks (e.g. hour, sec, min and etc.)
 #' @export
-#' @importFrom signal filter
-#' @importFrom plyr colwise
-#' @importFrom matlab ones
 #' @param df the input dataframe that matches mhealth specification.
 #' @param sr sampling rate of the input signal
 #' @param order window size (in seconds) of filter
@@ -38,8 +35,6 @@ average_removal <- function(df, sr, order)
 #' @name bessel
 #' @title Apply low pass bessel filter to the input sensor data frame each column over certain breaks (e.g. hour, sec, min and etc.)
 #' @export
-#' @importFrom signal filter
-#' @importFrom plyr colwise
 #' @param df the input dataframe that matches mhealth specification.
 #' @param sr sampling rate of the input signal
 #' @param cutoff_freq cut off frequency of bessel filter
@@ -73,8 +68,6 @@ bessel <- function(df, sr, cutoff_freq, order)
 #' @name iir
 #' @title Apply iir filter to the input sensor data frame each column over a certain break (e.g. hour, sec, min and etc.).
 #' @export
-#' @importFrom signal butter cheby1 cheby2 ellip filter
-#' @importFrom plyr colwise
 #' @param df the input dataframe that matches mhealth specification.
 #' @param sr sampling rate of the input signal
 #' @param cutoff_freq cut off frequencies of butterworth filter, if more than one store as c(low, high)
@@ -126,10 +119,7 @@ iir <-
 #' @name change_sampling_rate
 #' @title Apply bandlimited interpolation filter to the input sensor data frame each column over a certain break (e.g. hour, sec, min and etc.).
 #' @export
-#' @importFrom signal resample
-#' @importFrom plyr colwise
 #' @importFrom magrittr %>%
-#' @importFrom dplyr last
 #' @param dft dataframe that matches mhealth specification.
 #' @param orig_sr original sampling rate of each column
 #' @param new_sr the desired sampling rate for each column
@@ -149,7 +139,7 @@ change_sampling_rate <- function(df, orig_sr, new_sr)
   resampled_ts <-
     seq(
       from = df[1, 1],
-      to = df[, 1] %>% dplyr::last(),
+      to = dplyr::last(df[, 1]),
       length = nrow(resampled_value)
     )
   resampled_value <- cbind(resampled_ts, resampled_value)
@@ -300,7 +290,6 @@ change_sampling_rate <- function(df, orig_sr, new_sr)
   return(list(zd = zd, pd = pd, kd = kd))
 }
 
-#' @importFrom signal sftrans as.Arma Zpg
 .besself <- function(sr, cutoff_freq, order)
 {
   zpk_prototype <- .besselap(order)

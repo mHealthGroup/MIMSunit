@@ -1,8 +1,6 @@
 #' @name crop_grange
 #' @title Crop grange for sensor data
 #' @export
-#' @importFrom plyr colwise
-#' @importFrom stats rnorm
 crop_grange <- function(df,
                         range = NULL,
                         noise_std = 0.03)

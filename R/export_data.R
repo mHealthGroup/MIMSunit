@@ -1,6 +1,5 @@
 #' @name export_actigraph_raw
 #' @title Export to Actigraph raw csv files
-#' @importFrom readr write_lines write_csv
 #' @export
 export_actigraph_raw <-
   function(df,

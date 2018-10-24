@@ -1,7 +1,6 @@
 #' @name vector_magnitude
 #' @title Compute the vector magnitude value of sensor data.
 #' @export
-#' @importFrom stringr str_split
 #' @param df input dataframe that matches specification.
 vector_magnitude <- function(df, axes = NULL)
 {
@@ -29,7 +28,6 @@ vector_magnitude <- function(df, axes = NULL)
 #' @name sum_up
 #' @title Compute the sum up value of sensor data.
 #' @export
-#' @importFrom stringr str_split
 #' @param df input dataframe that matches specification.
 sum_up <- function(df, axes = NULL)
 {

@@ -1,7 +1,6 @@
 #' @name compute_orientation
 #' @title Calculate orientation of a sensor in (X,Y,Z degrees) for each axis
 #' @export
-#' @importFrom plyr ddply
 compute_orientation <- function(df, epoch = 2, unit = "deg")
 {
   sr <- sampling_rate(df)

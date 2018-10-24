@@ -1,10 +1,6 @@
 #' @name interpolate_signal
 #' @title Interpolate the missing points and unify sampling interval for the input sensor data
 #' @export
-#' @importFrom akima aspline
-#' @importFrom plyr adply progress_text
-#' @importFrom lubridate tz
-#' @importFrom stats approx spline
 interpolate_signal <-
   function(df,
            method = "spline_natural",

@@ -1,8 +1,5 @@
 #' @name import_activpal
 #' @title Import ActivPal Raw data files and load into dataframe as mhealth format.
-#' @importFrom readr read_csv count_fields tokenizer_csv
-#' @importFrom mHealthR mhealth
-#' @importFrom lubridate force_tz
 #' @export
 import_activpal_raw <- function(filename, header_provided = FALSE)
 {
@@ -43,8 +40,6 @@ import_activpal_raw <- function(filename, header_provided = FALSE)
 #' @name import_actigraph_raw
 #' @title Import and convert Actigraph raw csv files and load into data frame as in mhealth format.
 #' @export
-#' @importFrom readr count_fields tokenizer_csv read_csv
-#' @importFrom mHealthR mhealth
 #' @note Also support GT9X IMU csv file
 #' @param filename full file path of input Actigraph raw csv file.
 #' @param ad_convert set as TRUE only when the input Actigraph csv file is in analog quantized format and need to be converted into g value
@@ -140,8 +135,6 @@ import_actigraph_raw <-
 #' @name import_actigraph_count
 #' @title Import and convert Actigraph count csv files and load into data frame as in mhealth format.
 #' @export
-#' @importFrom readr read_csv cols col_character col_double
-#' @importFrom mHealthR mhealth
 #' @rdname import_actigraph_count
 #' @param filename full file path of input Actigraph count csv file.
 import_actigraph_count <-
@@ -182,8 +175,6 @@ import_actigraph_count <-
 #' @title Import and convert Actigraph count csv files and load into data frame as in mhealth format.
 #' @export
 #' @rdname import_actigraph_count
-#' @importFrom readr read_csv cols col_character col_double
-#' @importFrom mHealthR mhealth
 #' @param filename full file path of input Actigraph count csv file.
 import_actigraph_count_vm <-
   function(filename, col_name = "ACTIGRAPH_COUNT")
@@ -210,8 +201,6 @@ import_actigraph_count_vm <-
 #' @name import_biobank_enmo
 #' @title Import and convert biobank epoch csv files and load into data frame as in mhealth format.
 #' @export
-#' @importFrom readr read_csv cols col_character col_double
-#' @importFrom mHealthR mhealth
 #' @param filename full file path of input biobank epoch csv file.
 import_biobank_enmo <- function(filename, col_name = "biobank_enmo")
 {
@@ -230,8 +219,6 @@ import_biobank_enmo <- function(filename, col_name = "biobank_enmo")
 #' @name import_actigraph_meta
 #' @title parse actigraph csv header to get related version and sampling rate information
 #' @export
-#' @importFrom stringr str_match str_detect
-#' @importFrom R.utils countLines
 import_actigraph_meta <- function(filename, header = TRUE)
 {
   ACTIGRAPH_HEADER_SR_PATTERN <- "([0-9]+) Hz"
@@ -321,10 +308,10 @@ import_actigraph_meta <- function(filename, header = TRUE)
     duration <- as.numeric(dt - st, units = "secs")
     if (header)
     {
-      nlines <- countLines(filename) - 11
+      nlines <- R.utils::countLines(filename) - 11
     } else
     {
-      nlines <- countLines(filename) - 10
+      nlines <- R.utils::countLines(filename) - 10
     }
     sr <- as.numeric(ceiling(nlines / duration))
   }

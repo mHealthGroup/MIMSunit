@@ -4,8 +4,6 @@
 #' @author Qu Tang
 #' @export
 #' @rdname extrapolate
-#' @importFrom plyr adply progress_text
-#' @importFrom lubridate tz
 #' @param t input index or timestamp sequence
 #' @param k duration of neighborhood to be used in local spline regression for each side, in seconds
 #' @param spar between 0 and 1, to control how smooth we want to fit local spline regression, 0 is linear and 1 matches all local points. A good choice is 0.3 to penalize the maxed out points.
@@ -39,8 +37,6 @@ extrapolate.data.frame <- function(df, ...)
 #' @note If wanting to obtain mediate results for plotting and debugging, please use this function.
 #' @author Qu Tang
 #' @export
-#' @importFrom stats spline
-#' @importFrom lubridate is.POSIXct
 #' @param t input index or timestamp sequence
 #' @param k duration of neighborhood to be used in local spline regression for each side, in seconds
 #' @param spar between 0 and 1, to control how smooth we want to fit local spline regression, 0 is linear and 1 matches all local points. A good choice is 0.3 to penalize the maxed out points.
@@ -92,7 +88,6 @@ extrapolate <-
   }
 
 #' @export
-#' @importFrom stats spline
 .extrapolate_oversampling <- function(t, value)
 {
   t_over <- seq(t[1], t[length(t)], by = 1 / 100)
@@ -122,7 +117,6 @@ extrapolate <-
   return(switch(method, gamma = .mark_gamma, threshold = .mark_threshold))
 }
 
-#' @importFrom stats pgamma
 .mark_gamma <-
   function(t, value, range_low, range_high, noise_sd = noise_sd)
   {
@@ -144,7 +138,6 @@ extrapolate <-
     return(marker)
   }
 
-#' @importFrom stats pgamma
 .optimize_gamma <- function(value)
 {
   i <- seq(0.5, 0.001, by = -0.001)
@@ -189,7 +182,6 @@ extrapolate <-
   }
 
 #' @export
-#' @importFrom stats na.omit
 #' @importFrom magrittr %>%
 .extrapolate_edges <- function(marker, confident, sr)
 {
@@ -343,7 +335,6 @@ extrapolate <-
 
 #' @export
 #' @importFrom magrittr %>%
-#' @importFrom dplyr mutate tbl_df
 .extrapolate_neighbor <- function(marker, sr, k, confident = 0.5)
 {
   n_neighbor <- k * sr
@@ -384,8 +375,6 @@ extrapolate <-
 }
 
 #' @export
-#' @importFrom plyr adply
-#' @importFrom stats predict
 #' @importFrom magrittr %>%
 .extrapolate_fitline <-
   function(t,
@@ -473,9 +462,7 @@ extrapolate <-
     return(point_ex)
   }
 
-#' @importFrom plyr adply
 #' @importFrom magrittr %>%
-#' @importFrom stats predict
 .extrapolate_fit <-
   function(t,
            value,
@@ -554,7 +541,6 @@ extrapolate <-
     return(point_ex)
   }
 
-#' @importFrom stats smooth.spline lm na.omit
 .fit <-
   function(t,
            value,
@@ -588,7 +574,6 @@ extrapolate <-
     return(fitted)
   }
 
-#' @importFrom stats smooth.spline lm na.omit
 .fit_weighted <-
   function(t,
            value,
@@ -639,8 +624,6 @@ extrapolate <-
 
 #' @export
 #' @importFrom magrittr %>%
-#' @importFrom stats spline na.omit
-#' @importFrom dplyr arrange first
 .extrapolate_interpolate <-
   function(t, value, marker, points_ex, sr, confident = 0.5)
   {

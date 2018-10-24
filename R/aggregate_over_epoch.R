@@ -2,11 +2,6 @@
 #' @title Calculate summary value (area under curve) for each column over a certain break (e.g. hour, min).
 #' @note If certain break is not provided or missing, will use the entire sequence. The column name (except for the first column) of output dataframe would be: [SUMMARY\_METHOD]\_INPUT\_HEADER\_NAME.
 #' @export
-#' @importFrom plyr ddply numcolwise
-#' @importFrom caTools trapz
-#' @importFrom mHealthR mhealth.segment
-#' @importFrom lubridate tz
-#' @importFrom stats na.omit
 #' @param df input dataframe that matches mhealth sensor data format.
 #' @param breaks could be 'sec', 'min', 'hour', 'day', 'week', 'month', 'quarter' or 'year'; or preceded by an interger and a space.
 #' @param type 'trapz', 'power', 'sum', 'meanBySecond', 'meanBySize'
@@ -103,11 +98,6 @@ aggregate_for_mims <-
 #' @title Calculate orientation value for each column over a certain break (e.g. hour, min).
 #' @note If certain break is not provided or missing, will use the entire sequence. The column name (except for the first column) of output dataframe would be: [SUMMARY\_METHOD]\_INPUT\_HEADER\_NAME.
 #' @export
-#' @importFrom plyr ddply numcolwise
-#' @importFrom caTools trapz
-#' @importFrom mHealthR mhealth.segment
-#' @importFrom lubridate tz
-#' @importFrom stats na.omit
 #' @param df input dataframe that matches mhealth sensor data format.
 #' @param breaks could be 'sec', 'min', 'hour', 'day', 'week', 'month', 'quarter' or 'year'; or preceded by an interger and a space.
 aggregate_for_orientation <-

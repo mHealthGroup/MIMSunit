@@ -1,7 +1,6 @@
 #' @name extrapolate_rate
 #' @title compute extrapolation rate
 #' @export
-#' @importFrom caTools trapz
 extrapolate_rate <- function(test_df, true_df, extrap_df)
 {
   true_auc <- caTools::trapz(true_df[[1]], abs(true_df[[2]]))

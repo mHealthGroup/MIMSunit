@@ -5,7 +5,6 @@ numeric.equal <- function(x, y)
 }
 
 #' @export
-#' @importFrom stringr str_detect str_split
 break_str_to_sample_size <- function(ts, breaks, sr)
 {
   if (missing(breaks) || is.null(breaks))
@@ -35,7 +34,6 @@ break_str_to_sample_size <- function(ts, breaks, sr)
 #' @name sampling_rate
 #' @title Get sensor data's sampling rate from the time difference of adjacent samples
 #' @importFrom magrittr %>%
-#' @importFrom dplyr last first
 #' @export
 sampling_rate <- function(df)
 {
