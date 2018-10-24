@@ -14,7 +14,7 @@ average_removal <- function(df, sr, order)
   window <- round(order * sr)
 
   b <-
-    c( (window - 1) / window, -matlab::ones(1, window - 1) / window)
+    c((window - 1) / window, -matlab::ones(1, window - 1) / window)
   a <- 1
 
   col_filter <- plyr::colwise(
@@ -95,25 +95,13 @@ iir <-
     coeffs <-
       switch(
         filter_type,
-        butter = signal::butter(order,
-                                cutoff_freq / nyquist,
-                                type),
-        chebyI = signal::cheby1(order,
-                                0.05,
-                                W = cutoff_freq / nyquist,
-                                type,
-                                plane = "z"),
-        chebyII = signal::cheby2(order,
-                                 0.05,
-                                 W = cutoff_freq / nyquist,
-                                 type,
-                                 plane = "z"),
-        ellip = signal::ellip(order,
-                              0.05,
-                              50,
-                              W = cutoff_freq / nyquist,
-                              type,
-                              plane = "z")
+        butter = signal::butter(order, cutoff_freq / nyquist, type),
+        chebyI = signal::cheby1(order, 0.05, W = cutoff_freq / nyquist,
+                                type, plane = "z"),
+        chebyII = signal::cheby2(order, 0.05, W = cutoff_freq / nyquist,
+                                 type, plane = "z"),
+        ellip = signal::ellip(order, 0.05,
+                              50, W = cutoff_freq / nyquist, type, plane = "z")
       )
 
     n_cols <- ncol(df)
@@ -317,23 +305,18 @@ change_sampling_rate <- function(df, orig_sr, new_sr)
 {
   zpk_prototype <- .besselap(order)
   zpk_prototype <-
-    signal::sftrans(
-      signal::Zpg(
-        zpk_prototype$z,
-        zpk_prototype$p,
-        zpk_prototype$k
-        ),
-      W = cutoff_freq * 2 * pi
-      )
+    signal::sftrans(signal::Zpg(zpk_prototype$z,
+                                zpk_prototype$p,
+                                zpk_prototype$k),
+                    W = cutoff_freq * 2 * pi)
   zpk_prototype <-
-    .bilinear(zpk_prototype$zero, zpk_prototype$pole, zpk_prototype$gain, sr)
+    .bilinear(zpk_prototype$zero,
+              zpk_prototype$pole,
+              zpk_prototype$gain,
+              sr)
   arma_coeffs <-
-    signal::as.Arma(
-      signal::Zpg(
-        zpk_prototype$z,
-        zpk_prototype$p,
-        zpk_prototype$k
-        )
-      )
+    signal::as.Arma(signal::Zpg(zpk_prototype$z,
+                                zpk_prototype$p,
+                                zpk_prototype$k))
   return(arma_coeffs)
 }

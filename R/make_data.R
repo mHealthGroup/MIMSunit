@@ -32,7 +32,7 @@ make_sensor_data <- function(old_data, new_range, new_sr)
   if (sampling_rate(old_data) != new_sr)
   {
     new_data <-
-      interpolate(old_data, method = "spline_natural", sr = new_sr)
+      interpolate_signal(old_data, method = "spline_natural", sr = new_sr)
   } else
   {
     new_data <- old_data

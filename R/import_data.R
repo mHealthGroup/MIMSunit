@@ -1,9 +1,3 @@
-
-
-
-
-
-
 #' @name import_activpal
 #' @title Import ActivPal Raw data files and load into dataframe as mhealth format.
 #' @importFrom readr read_csv count_fields tokenizer_csv
@@ -37,9 +31,7 @@ import_activpal_raw <- function(filename, header_provided = FALSE)
   dat <- dat[1:4]
   colnames(dat) <- c("HEADER_TIME_STAMP", "X", "Y", "Z")
   dat["HEADER_TIME_STAMP"] <-
-    as.POSIXct(dat[["HEADER_TIME_STAMP"]] * 60 * 60 * 24,
-               origin = "1899-12-30",
-               tz = "GMT")
+    as.POSIXct(dat[["HEADER_TIME_STAMP"]] * 60 * 60 * 24, origin = "1899-12-30", tz = "GMT")
   dat["HEADER_TIME_STAMP"] <-
     lubridate::force_tz(dat["HEADER_TIME_STAMP"], tzone = Sys.timezone())
   dat[2:4] <- (dat[2:4] - 127) / 2 ^ 8 * 4
@@ -243,12 +235,9 @@ import_biobank_enmo <- function(filename, col_name = "biobank_enmo")
 import_actigraph_meta <- function(filename, header = TRUE)
 {
   ACTIGRAPH_HEADER_SR_PATTERN <- "([0-9]+) Hz"
-  ACTIGRAPH_FIRMWARE_PATTERN <-
-    "Firmware v([0-9]+.[0-9]+.[0-9]+)"
-  ACTIGRAPH_SOFTWARE_PATTERN <-
-    "ActiLife v([0-9]+.[0-9]+.[0-9]+)"
-  ACTIGRAPH_SERIALNUM_PATTERN <-
-    "Serial Number: ([A-Za-z0-9]+)"
+  ACTIGRAPH_FIRMWARE_PATTERN <- "Firmware v([0-9]+.[0-9]+.[0-9]+)"
+  ACTIGRAPH_SOFTWARE_PATTERN <- "ActiLife v([0-9]+.[0-9]+.[0-9]+)"
+  ACTIGRAPH_SERIALNUM_PATTERN <- "Serial Number: ([A-Za-z0-9]+)"
   ACTIGRAPH_TIMESTAMP <- "%m/%d/%Y %H:%M:%OS"
 
   headlines <- readLines(filename, n = 10, encoding = "UTF-8")

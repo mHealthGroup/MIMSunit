@@ -39,8 +39,8 @@ break_str_to_sample_size <- function(ts, breaks, sr)
 #' @export
 sampling_rate <- function(df)
 {
-  duration <- as.numeric(dplyr::last(df[, 1]) - dplyr::first(df[, 1]),
-                         units = "secs")
+  duration <-
+    as.numeric(dplyr::last(df[, 1]) - dplyr::first(df[, 1]), units = "secs")
   sr <- round(nrow(df) / duration / 10) * 10
   return(sr)
 }

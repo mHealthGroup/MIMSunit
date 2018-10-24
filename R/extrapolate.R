@@ -68,7 +68,7 @@ extrapolate <-
     {
       dat_over[1] <- as.POSIXct(dat_over[[1]], origin = "1970-01-01")
     }
-    dat_over <- dat_over[order(dat_over$x), ]
+    dat_over <- dat_over[order(dat_over$x),]
     not_dups <- !duplicated(dat_over$x)
     t <- dat_over$x[not_dups]
     value <- dat_over$y[not_dups]
@@ -110,7 +110,7 @@ extrapolate <-
   {
     dat_over[1] <- as.POSIXct(dat_over[[1]], origin = "1970-01-01")
   }
-  dat_over <- dat_over[order(dat_over$x), ]
+  dat_over <- dat_over[order(dat_over$x),]
   not_dups <- !duplicated(dat_over$x)
   t <- dat_over$x[not_dups]
   value <- dat_over$y[not_dups]
