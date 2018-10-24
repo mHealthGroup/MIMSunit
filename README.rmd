@@ -1,7 +1,7 @@
 ---
 title: "README"
 author: "Qu Tang"
-date: "November 21, 2017"
+date: "December 24, 2018"
 output: github_document
 ---
 
@@ -11,17 +11,37 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # MIMS-unit algorithm
 
-MIMS-unit is abbreviated for _Monitor Independent Movement Summary_ unit. This measurement is developed to harmonize the processing of accelerometer data from different devices. See citation for detailed description of the algorithm.
+__This work is in submission. At the time of publication, this site will be updated with additional code/documentation. Before publication, the codes are subject to refactoring. Please create github [issues](https://github.com/qutang/mimsunit/issues/) if you have any question related to the package.__
 
-> D. John, Q. Tang, F. Albinali, and S.S. Intille, A monitor-independent movement summary to harmonize accelerometer data processing. In: MSSE; 2017 (In submission)
+## Short introduction
+
+MIMS-unit is abbreviated for _Monitor Independent Movement Summary_ unit. This measurement is developed to harmonize the processing of accelerometer data from different devices. You may refer to the in publishing manuscript for the detail description of the algorithm. If you would like to get access to the manuscript, please contact [Qu Tang](mailto: tang.q@husky.neu.edu) or [Dinesh John](mailto: d.john@northeastern.edu).
+
+## Copyright and citation
+
+The copyright of the work belongs to Northeastern University, [mHealth Research Group](https://mhealthgroup.org). Please kindly cite the manuscript if you have used the package in your work.
+
+> D. John, Q. Tang, F. Albinali, and S.S. Intille. 2018. _A monitor-independent movement summary to harmonize accelerometer data processing_. Journal of Measuring Physical Behaviors. Status: Submitted.
+
+## System Requirements
+
+1. R (>3.5.1)
+2. memory (> 4GB)
 
 ## Installation
 
-```r
-install.packages("devtools")
-devtools::install_github('qutang/mHealthR')
-devtools::install_github("qutang/MIMSunit")
-```
+1. Stable version on CRAN (bundled or binary)
+
+  _Coming soon..._
+
+2. Development version (source codes)
+
+  ```r
+  install.packages("devtools")
+  devtools::install_github('qutang/mHealthR')
+  devtools::install_github("qutang/MIMSunit")
+  ```
+
 ## Usage
 
 ```r

@@ -1,20 +1,51 @@
 README
 ================
 Qu Tang
-November 21, 2017
+December 24, 2018
 
 # MIMS-unit algorithm
 
+**This work is in submission. At the time of publication, this site will
+be updated with additional code/documentation. Before publication, the
+codes are subject to refactoring. Please create github
+[issues](https://github.com/qutang/mimsunit/issues/) if you have any
+question related to the package.**
+
+## Short introduction
+
 MIMS-unit is abbreviated for *Monitor Independent Movement Summary*
 unit. This measurement is developed to harmonize the processing of
-accelerometer data from different devices. See citation for detailed
-description of the algorithm.
+accelerometer data from different devices. You may refer to the in
+publishing manuscript for the detail description of the algorithm. If
+you would like to get access to the manuscript, please contact [Qu
+Tang](mailto:%20tang.q@husky.neu.edu) or [Dinesh
+John](mailto:%20d.john@northeastern.edu).
 
-> D. John, Q. Tang, F. Albinali, and S.S. Intille, A monitor-independent
-> movement summary to harmonize accelerometer data processing. In: MSSE;
-> 2017 (In submission)
+## Copyright and citation
+
+The copyright of the work belongs to Northeastern University, [mHealth
+Research Group](https://mhealthgroup.org). Please kindly cite the
+manuscript if you have used the package in your work.
+
+> D. John, Q. Tang, F. Albinali, and S.S. Intille. 2018. *A
+> monitor-independent movement summary to harmonize accelerometer data
+> processing*. Journal of Measuring Physical Behaviors. Status:
+> Submitted.
+
+## System Requirements
+
+1.  R (\>3.5.1)
+2.  memory (\> 4GB)
 
 ## Installation
+
+1.  Stable version on CRAN (bundled or binary)
+
+*Coming soon…*
+
+2.  Development version (source codes)
+
+<!-- end list -->
 
 ``` r
 install.packages("devtools")
