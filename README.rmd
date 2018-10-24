@@ -38,7 +38,6 @@ The copyright of the work belongs to Northeastern University, [mHealth Research 
 
   ```r
   install.packages("devtools")
-  devtools::install_github('qutang/mHealthR')
   devtools::install_github("qutang/MIMSunit")
   ```
 

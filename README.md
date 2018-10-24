@@ -49,7 +49,6 @@ manuscript if you have used the package in your work.
 
 ``` r
 install.packages("devtools")
-devtools::install_github('qutang/mHealthR')
 devtools::install_github("qutang/MIMSunit")
 ```
 
