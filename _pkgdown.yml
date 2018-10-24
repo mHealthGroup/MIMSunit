@@ -32,7 +32,13 @@ reference:
 
 authors:
   Qu Tang:
-    href: http://qutang.github.io
+    href: https://qutang.github.io
+  Dinesh John:
+    href: "https://bouve.northeastern.edu/directory/dinesh-john/"
+  Stephen Intille:
+    href: "http://www.ccs.neu.edu/home/intille/"
+  mHealth Research Group:
+    href: "https://mhealthgroup.org"
 
 template:
   params:
