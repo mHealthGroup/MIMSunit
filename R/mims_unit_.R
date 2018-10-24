@@ -38,7 +38,7 @@ mims_unit_ <- function(df, breaks = "5 sec", range, noise_level = 0.03, k = 0.05
         extrapolatedData <- extrapolate.data.frame(df, range, noise_level, k, spar)
     } else if (use_interpolation)
     {
-        extrapolatedData <- interpolate(df, sr = 100, method = "spline_natural")
+        extrapolatedData <- interpolate_signal(df, sr = 100, method = "spline_natural")
     } else
     {
         extrapolatedData <- df

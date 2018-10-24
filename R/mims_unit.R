@@ -38,7 +38,7 @@ mims_unit <- function(df, breaks = "5 sec", range, noise_level = 0.03, k = 0.05,
         extrapolatedData <- extrapolate.data.frame(df, range, noise_level, k, spar)
     } else if (use_interpolation)
     {
-        extrapolatedData <- interpolate(df, sr = 100, method = "spline_natural")
+        extrapolatedData <- interpolate_signal(df, sr = 100, method = "spline_natural")
     } else
     {
         extrapolatedData <- df
@@ -110,7 +110,7 @@ mims_unit <- function(df, breaks = "5 sec", range, noise_level = 0.03, k = 0.05,
     }
 
     # Compute the AUC
-    integratedData <- aggregate(filteredData, breaks = breaks, type = integration, rectify = TRUE)
+    integratedData <- aggregate_for_mims(filteredData, breaks = breaks, type = integration, rectify = TRUE)
 
     if (vm_after_extrapolation)
     {
@@ -145,8 +145,8 @@ mims_unit <- function(df, breaks = "5 sec", range, noise_level = 0.03, k = 0.05,
 
     if (allow_truncation)
     {
-        truncate_indices <- countsData[, 2:ncol(countsData)] > 0 & (countsData[, 2:ncol(countsData)] <= (1e-04 * break_str_to_sample_size(NULL,
-            breaks, sr)/sr))
+        truncate_indices <- countsData[, 2:ncol(countsData)] > 0 & (countsData[, 2:ncol(countsData)] <= (1e-04 * break_str_to_sample_size(NULL, breaks,
+            sr)/sr))
         truncate_indices <- data.frame(truncate_indices)
         countsData[, 2:ncol(countsData)] <- sapply(1:(ncol(countsData) - 1), function(n)
         {
