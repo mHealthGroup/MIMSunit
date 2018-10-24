@@ -150,8 +150,8 @@ mims_unit <-
         breaks_for_orientation <- breaks
       }
       orientation_data <-
-        aggregate_for_orientation(filtered_data,
-                                  breaks = breaks_for_orientation)
+        aggregate_for_orientation(resampled_data,
+                                  epoch = breaks_for_orientation)
     } else
     {
       orientation_data <- NULL
@@ -160,8 +160,8 @@ mims_unit <-
     # Compute the AUC
     integrated_data <-
       aggregate_for_mims(filtered_data,
-                         breaks = breaks,
-                         type = integration,
+                         epoch = breaks,
+                         method = integration,
                          rectify = TRUE)
 
     if (vm_after_extrapolation)

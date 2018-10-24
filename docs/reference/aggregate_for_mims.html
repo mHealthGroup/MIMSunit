@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate summary value (area under curve) for each column over a certain break (e.g. hour, min). — aggregate_for_mims • MIMSunit</title>
+<title>Aggregate over epoch to get numerically integrated values. — aggregate_for_mims • MIMSunit</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,11 @@
 
 
 
-<meta property="og:title" content="Calculate summary value (area under curve) for each column over a certain break (e.g. hour, min). — aggregate_for_mims" />
+<meta property="og:title" content="Aggregate over epoch to get numerically integrated values. — aggregate_for_mims" />
 
-<meta property="og:description" content="Calculate summary value (area under curve) for each column over a certain break (e.g. hour, min)." />
+<meta property="og:description" content="aggregate_for_mims returns a dataframe with integrated values by
+trapzoidal method over each epoch for each column. The epoch start time will
+be used as timestamp in the first column." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -71,7 +73,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.5.3</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.5.4</span>
       </span>
     </div>
 
@@ -149,43 +151,79 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate summary value (area under curve) for each column over a certain break (e.g. hour, min).</h1>
+    <h1>Aggregate over epoch to get numerically integrated values.</h1>
     <small class="dont-index">Source: <a href='https://github.com/qutang/mimsunit//blob/master/R/aggregate_over_epoch.R'><code>R/aggregate_over_epoch.R</code></a></small>
     <div class="hidden name"><code>aggregate_for_mims.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Calculate summary value (area under curve) for each column over a certain break (e.g. hour, min).</p>
+    <p><code>aggregate_for_mims</code> returns a dataframe with integrated values by
+trapzoidal method over each epoch for each column. The epoch start time will
+be used as timestamp in the first column.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>aggregate_for_mims</span>(<span class='no'>df</span>, <span class='no'>breaks</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"trapz"</span>, <span class='kw'>rectify</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>aggregate_for_mims</span>(<span class='no'>df</span>, <span class='no'>epoch</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"trapz"</span>, <span class='kw'>rectify</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>df</th>
-      <td><p>input dataframe that matches mhealth sensor data format.</p></td>
+      <td><p>dataframe of accelerometer data in mhealth format. First column
+should be timestamps in POSIXt format.</p></td>
     </tr>
     <tr>
-      <th>breaks</th>
-      <td><p>could be 'sec', 'min', 'hour', 'day', 'week', 'month', 'quarter' or 'year'; or preceded by an interger and a space.</p></td>
+      <th>epoch</th>
+      <td><p>string. Any format that is acceptable by argument <code>breaks</code>
+in method <code><a href='http://www.rdocumentation.org/packages/base/topics/cut.POSIXt'>cut.POSIXt</a></code>.For example, "1 sec", "1 min", "5
+secs", "10 mins".</p></td>
     </tr>
     <tr>
-      <th>type</th>
-      <td><p>'trapz', 'power', 'sum', 'meanBySecond', 'meanBySize'</p></td>
+      <th>method</th>
+      <td><p>string. Integration methods. Supported strings include:
+"trapz", "power", "sum", "meanBySecond", "meanBySize". Default is "trapz".</p></td>
     </tr>
     <tr>
       <th>rectify</th>
-      <td><p>whether rectify the values before computing AUC, default is TRUE</p></td>
+      <td><p>logical. If TRUE, input data will be rectified before
+intregration. Default is TRUE.</p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>dataframe. The returned dataframe will have the same format as input
+  dataframe.</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This function accepts a dataframe (in mhealth accelerometer data format) and
+computes its aggregated values over each fixed epoch using different
+integration methods (default is trapzoidal method, other methods are not used
+by mims unit algorithm) for each value columns. The returned dataframe will
+have the same number of columns as input dataframe, and have the same
+datetime format as input dataframe in the timestamp column. The trapzoidal
+method used in the function is based on <code><a href='http://www.rdocumentation.org/packages/caTools/topics/trapz'>trapz</a></code>.</p>
+    
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>If certain break is not provided or missing, will use the entire sequence. The column name (except for the first column) of output dataframe would be: [SUMMARY\_METHOD]\_INPUT\_HEADER\_NAME.</p>
+    <p>If <code>epoch</code> argument is not provided or is <code>NULL</code>, the
+  function will treat the input dataframe as a single epoch.</p>
+    
+    <h2 class="hasAnchor" id="how-is-it-used-in-mims-unit-algorithm-"><a class="anchor" href="#how-is-it-used-in-mims-unit-algorithm-"></a>How is it used in mims-unit algorithm?</h2>
+
+    <p>This function is used in
+  mims-unit algorithm after filtering (<code><a href='iir.html'>iir</a></code>). The filtered
+  signal will be rectified and integrated to get mims unit values for each
+  axis using this function.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='aggregate_for_orientation.html'>aggregate_for_orientation</a></code> for aggregating to get
+  accelerometer orientation estimation for each epoch.</p>
+<p>Other aggregate functions: <code><a href='aggregate_for_orientation.html'>aggregate_for_orientation</a></code></p></div>
     
 
   </div>
@@ -194,7 +232,15 @@
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
+
       <li><a href="#note">Note</a></li>
+
+      <li><a href="#how-is-it-used-in-mims-unit-algorithm-">How is it used in mims-unit algorithm?</a></li>
+
+      <li><a href="#see-also">See also</a></li>
           </ul>
 
   </div>

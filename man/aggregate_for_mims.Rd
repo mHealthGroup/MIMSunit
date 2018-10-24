@@ -2,22 +2,57 @@
 % Please edit documentation in R/aggregate_over_epoch.R
 \name{aggregate_for_mims}
 \alias{aggregate_for_mims}
-\title{Calculate summary value (area under curve) for each column over a certain break (e.g. hour, min).}
+\title{Aggregate over epoch to get numerically integrated values.}
 \usage{
-aggregate_for_mims(df, breaks, type = "trapz", rectify = TRUE)
+aggregate_for_mims(df, epoch, method = "trapz", rectify = TRUE)
 }
 \arguments{
-\item{df}{input dataframe that matches mhealth sensor data format.}
+\item{df}{dataframe of accelerometer data in mhealth format. First column
+should be timestamps in POSIXt format.}
 
-\item{breaks}{could be 'sec', 'min', 'hour', 'day', 'week', 'month', 'quarter' or 'year'; or preceded by an interger and a space.}
+\item{epoch}{string. Any format that is acceptable by argument \code{breaks}
+in method \code{\link[base]{cut.POSIXt}}.For example, "1 sec", "1 min", "5
+secs", "10 mins".}
 
-\item{type}{'trapz', 'power', 'sum', 'meanBySecond', 'meanBySize'}
+\item{method}{string. Integration methods. Supported strings include:
+"trapz", "power", "sum", "meanBySecond", "meanBySize". Default is "trapz".}
 
-\item{rectify}{whether rectify the values before computing AUC, default is TRUE}
+\item{rectify}{logical. If TRUE, input data will be rectified before
+intregration. Default is TRUE.}
+}
+\value{
+dataframe. The returned dataframe will have the same format as input
+  dataframe.
 }
 \description{
-Calculate summary value (area under curve) for each column over a certain break (e.g. hour, min).
+\code{aggregate_for_mims} returns a dataframe with integrated values by
+trapzoidal method over each epoch for each column. The epoch start time will
+be used as timestamp in the first column.
+}
+\details{
+This function accepts a dataframe (in mhealth accelerometer data format) and
+computes its aggregated values over each fixed epoch using different
+integration methods (default is trapzoidal method, other methods are not used
+by mims unit algorithm) for each value columns. The returned dataframe will
+have the same number of columns as input dataframe, and have the same
+datetime format as input dataframe in the timestamp column. The trapzoidal
+method used in the function is based on \code{\link[caTools]{trapz}}.
 }
 \note{
-If certain break is not provided or missing, will use the entire sequence. The column name (except for the first column) of output dataframe would be: [SUMMARY\_METHOD]\_INPUT\_HEADER\_NAME.
+If \code{epoch} argument is not provided or is \code{NULL}, the
+  function will treat the input dataframe as a single epoch.
 }
+\section{How is it used in mims-unit algorithm?}{
+ This function is used in
+  mims-unit algorithm after filtering (\code{\link{iir}}). The filtered
+  signal will be rectified and integrated to get mims unit values for each
+  axis using this function.
+}
+
+\seealso{
+\code{\link{aggregate_for_orientation}} for aggregating to get
+  accelerometer orientation estimation for each epoch.
+
+Other aggregate functions: \code{\link{aggregate_for_orientation}}
+}
+\concept{aggregate functions}

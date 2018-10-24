@@ -2,18 +2,64 @@
 % Please edit documentation in R/aggregate_over_epoch.R
 \name{aggregate_for_orientation}
 \alias{aggregate_for_orientation}
-\title{Calculate orientation value for each column over a certain break (e.g. hour, min).}
+\title{Aggregate over epoch to get estimated accelerometer orientation.}
 \usage{
-aggregate_for_orientation(df, breaks, epoch = 2, unit = "deg")
+aggregate_for_orientation(df, epoch, estimation_duration = 2,
+  unit = "deg")
 }
 \arguments{
-\item{df}{input dataframe that matches mhealth sensor data format.}
+\item{df}{dataframe of accelerometer data in mhealth format. First column
+should be timestamps in POSIXt format.}
 
-\item{breaks}{could be 'sec', 'min', 'hour', 'day', 'week', 'month', 'quarter' or 'year'; or preceded by an interger and a space.}
+\item{epoch}{string. Any format that is acceptable by argument \code{breaks}
+in method \code{\link[base]{cut.POSIXt}}.For example, "1 sec", "1 min", "5
+secs", "10 mins".}
+
+\item{estimation_duration}{numeric value. duration in seconds to be used to
+estimate orientation within each epoch. Default is 2 (seconds), as
+suggested by
+\href{https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=1241424}{Mizell,
+2003}.}
+
+\item{unit}{string. The unit of orientation angles. Can be "deg" (degree) or
+"rad" (radian). Default is "deg".}
+}
+\value{
+dataframe. The returned dataframe will have the same format as input
+  dataframe.
 }
 \description{
-Calculate orientation value for each column over a certain break (e.g. hour, min).
+\code{aggregate_for_orientation} returns a dataframe with accelerometer
+orientations estimated by
+\href{https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=1241424}{Mizell,
+2003} over each epoch. The epoch start time will be used as timestamp in the
+first column.
+}
+\details{
+This function accepts a dataframe (in mhealth accelerometer data format) and
+computes the estimated acclerometer orientations (in x, y, and z angles) over
+each fixed epoch. The returned dataframe will have the same format as input
+dataframe, including four columns, and have the same datetime format as input
+dataframe in the timestamp column. The orientation estimation method used in
+the function is based on
+\href{https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=1241424}{Mizell,
+2003}.
 }
 \note{
-If certain break is not provided or missing, will use the entire sequence. The column name (except for the first column) of output dataframe would be: [SUMMARY\_METHOD]\_INPUT\_HEADER\_NAME.
+If \code{epoch} argument is not provided or is \code{NULL}, the
+  function will treat the input dataframe as a single epoch.
 }
+\section{How is it used in mims-unit algorithm?}{
+ This function is used in
+  mims-unit algorithm after extrapolation (\code{\link{extrapolate}}). The
+  extrapolated signal will be estimated to get orientation angles using this
+  function.
+}
+
+\seealso{
+\code{\link{aggregate_for_mims}} for aggregating to get integrated
+  values for each axis for each epoch.
+
+Other aggregate functions: \code{\link{aggregate_for_mims}}
+}
+\concept{aggregate functions}
