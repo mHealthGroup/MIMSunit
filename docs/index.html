@@ -143,6 +143,16 @@
 <li>R (&gt;3.5.1)</li>
 <li>memory (&gt; 4GB)</li>
 </ol>
+<div id="for-windows" class="section level3">
+<h3 class="hasAnchor">
+<a href="#for-windows" class="anchor"></a>For Windows</h3>
+<p>Rtools 3.5 (see: <a href="https://cran.r-project.org/bin/windows/Rtools/" class="uri">https://cran.r-project.org/bin/windows/Rtools/</a>)</p>
+</div>
+<div id="for-linux-use-ubuntu-as-an-example" class="section level3">
+<h3 class="hasAnchor">
+<a href="#for-linux-use-ubuntu-as-an-example" class="anchor"></a>For Linux (use ubuntu as an example)</h3>
+<p>Install depedency system packages for <code>devtools</code>: <code>build-essential</code>, <code>libcurl4-gnutls-dev</code>, <code>libxml2-dev</code>, <code>libssl-dev</code>.</p>
+</div>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
@@ -154,13 +164,22 @@
 <ol start="2" style="list-style-type: decimal">
 <li>Development version (source codes)</li>
 </ol>
+<ul>
+<li>For Windows users</li>
+</ul>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">"devtools"</span>)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"qutang/MIMSunit"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb1-2" data-line-number="2">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"qutang/MIMSunit"</span>, <span class="dt">type=</span><span class="st">'win.binary'</span>)</a></code></pre></div>
+<ul>
+<li>For mac or Linux users</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">"devtools"</span>)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"qutang/MIMSunit"</span>)</a></code></pre></div>
+<p><em>Note: It is recommended to use Rstudio when installing the package, because <code>devtools</code> has some compatible issues with R command line interface.</em></p>
 </div>
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">MIMSunit<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/MIMSunit/topics/mims_unit">mims_unit</a></span>(input_dataframe, <span class="dt">range=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">3</span>,<span class="dv">3</span>), <span class="dt">breaks=</span><span class="st">'1 min'</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">MIMSunit<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/MIMSunit/topics/mims_unit">mims_unit</a></span>(input_dataframe, <span class="dt">range=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">3</span>,<span class="dv">3</span>), <span class="dt">breaks=</span><span class="st">'1 min'</span>)</a></code></pre></div>
 <p>Assume the input dataframe is in following format, with the first column (timestamp) in <code>POSXlct</code> objects and the device used to collect this data has dynamic range being -3g to 3g. You may set the epoch length to be <code>1 min</code>, <code>1 sec</code>, <code>5 sec</code>, <code>10 sec</code> and so on.</p>
 <pre><code>HEADER_TIME_STAMP,X,Y,Z
 2016-10-03 14:51:14.236,0.007,-0.005,0.984

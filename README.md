@@ -37,6 +37,15 @@ manuscript if you have used the package in your work.
 1.  R (\>3.5.1)
 2.  memory (\> 4GB)
 
+### For Windows
+
+Rtools 3.5 (see: <https://cran.r-project.org/bin/windows/Rtools/>)
+
+### For Linux (use ubuntu as an example)
+
+Install depedency system packages for `devtools`: `build-essential`,
+`libcurl4-gnutls-dev`, `libxml2-dev`, `libssl-dev`.
+
 ## Installation
 
 1.  Stable version on CRAN (bundled or binary)
@@ -47,10 +56,27 @@ manuscript if you have used the package in your work.
 
 <!-- end list -->
 
+  - For Windows users
+
+<!-- end list -->
+
+``` r
+install.packages("devtools")
+devtools::install_github("qutang/MIMSunit", type='win.binary')
+```
+
+  - For mac or Linux users
+
+<!-- end list -->
+
 ``` r
 install.packages("devtools")
 devtools::install_github("qutang/MIMSunit")
 ```
+
+*Note: It is recommended to use Rstudio when installing the package,
+because `devtools` has some compatible issues with R command line
+interface.*
 
 ## Usage
 
