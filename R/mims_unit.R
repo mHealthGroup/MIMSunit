@@ -46,7 +46,7 @@ mims_unit <- function(df, breaks = "5 sec", range, noise_level = 0.03, k = 0.05,
 
     if (vm_after_extrapolation)
     {
-        extrapolatedData <- magnitude(extrapolatedData, axes = axes)
+        extrapolatedData <- vector_magnitude(extrapolatedData, axes = axes)
     }
 
     sr <- sampling_rate(extrapolatedData)
@@ -123,12 +123,12 @@ mims_unit <- function(df, breaks = "5 sec", range, noise_level = 0.03, k = 0.05,
         row_abnormal <- row_abnormal | integratedData[[i]] < 0
     }
     if (combination == "vm")
-        countsData <- magnitude(integratedData, axes = axes) else if (combination == "sum")
+        countsData <- vector_magnitude(integratedData, axes = axes) else if (combination == "sum")
         {
-        countsData <- sumUp(integratedData, axes = axes)
+        countsData <- sum_up(integratedData, axes = axes)
     } else
     {
-        countsData <- sumUp(integratedData, axes = axes)
+        countsData <- sum_up(integratedData, axes = axes)
     }
 
     if (output_per_axis)
