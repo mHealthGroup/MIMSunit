@@ -1,4 +1,9 @@
 reference:
+  - title: "IO for Biobank data analysis tool output"
+    desc: >
+      Functions for importing data from the output of Biobank data analysis tool
+    contents:
+      - import_biobank_enmo
   - title: "IO for Actigraph Monitors"
     desc: >
       Functions for importing and exporting data with Actigraph Monitors (e.g. GT3X, GT9X)
@@ -17,18 +22,25 @@ reference:
   - title: "APIs for Intermediate step"
     desc: "Functions used in intermediate process when computing MIMS-unit"
     contents:
-      - interpolate
+      - interpolate_signal
       - average_removal
       - iir
       - bessel
       - extrapolate
-      - aggregate
+      - aggregate_for_mims
+      - aggregate_for_orientation
+      - compute_orientation
   - title: "Util functions"
     desc: >
       Utility functions
     contents:
       - sampling_rate
       - extrapolate_rate
+      - change_sampling_rate
+      - crop_grange
+      - make_sensor_data
+      - sum_up
+      - vector_magnitude
 
 authors:
   Qu Tang:

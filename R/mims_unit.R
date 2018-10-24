@@ -102,8 +102,8 @@ mims_unit <-
         filtered_data <-
           iir(
             normal_data,
-            Fs = sr,
-            Fc = cutoffs,
+            sr = sr,
+            cutoff_freq = cutoffs,
             order = 4,
             type = "pass",
             filter_type = "butter"
@@ -124,8 +124,8 @@ mims_unit <-
         filtered_data <-
           iir(
             normal_data,
-            Fs = sr,
-            Fc = cutoffs,
+            sr = sr,
+            cutoff_freq = cutoffs,
             order = 4,
             type = "pass",
             filter_type = "ellip"

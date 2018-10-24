@@ -71,15 +71,15 @@ mims_unit_ <- function(df, breaks = "5 sec", range, noise_level = 0.03, k = 0.05
     {
         if (filter_type == "butter")
         {
-            filteredData <- iir(resampledData, Fs = sr, Fc = cutoffs, order = 4, type = "pass", filter_type = "butter")
+            filteredData <- iir(resampledData, sr = sr, cutoff_freq = cutoffs, order = 4, type = "pass", filter_type = "butter")
         } else if (filter_type == "bessel")
         {
-            filteredData <- average_removal(resampledData, Fs = sr, order = 0.5)
+            filteredData <- average_removal(resampledData, sr = sr, order = 0.5)
             filteredData <- filteredData[[1]]
-            filteredData <- bessel(filteredData, Fs = sr, Fc = cutoffs[2] * 2, order = 8)
+            filteredData <- bessel(filteredData, sr = sr, cutoff_freq = cutoffs[2] * 2, order = 8)
         } else if (filter_type == "ellip")
         {
-            filteredData <- iir(resampledData, Fs = sr, Fc = cutoffs, order = 4, type = "pass", filter_type = "ellip")
+            filteredData <- iir(resampledData, sr = sr, cutoff_freq = cutoffs, order = 4, type = "pass", filter_type = "ellip")
         }
     } else
     {
