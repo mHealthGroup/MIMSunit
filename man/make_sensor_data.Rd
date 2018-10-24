@@ -4,7 +4,7 @@
 \alias{make_sensor_data}
 \title{make sensor data given range and sampling rate and old sensor data}
 \usage{
-make_sensor_data(oldData, new_range, new_sr)
+make_sensor_data(old_data, new_range, new_sr)
 }
 \description{
 make sensor data given range and sampling rate and old sensor data

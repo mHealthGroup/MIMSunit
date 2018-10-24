@@ -7,7 +7,8 @@
 \usage{
 extrapolate.data.frame(df, ...)
 
-extrapolate(t, value, range, noise_level, k = 0.65, spar = 0.4)
+extrapolate(t, value, range, noise_level = 0.03, k = 0.65,
+  spar = 0.4)
 }
 \arguments{
 \item{t}{input index or timestamp sequence}

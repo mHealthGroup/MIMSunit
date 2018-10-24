@@ -4,14 +4,14 @@
 \alias{bessel}
 \title{Apply low pass bessel filter to the input sensor data frame each column over certain breaks (e.g. hour, sec, min and etc.)}
 \usage{
-bessel(df, Fs, Fc, order)
+bessel(df, sr, cutoff_freq, order)
 }
 \arguments{
 \item{df}{the input dataframe that matches mhealth specification.}
 
-\item{Fs}{sampling rate of the input signal}
+\item{sr}{sampling rate of the input signal}
 
-\item{Fc}{cut off frequency of bessel filter}
+\item{cutoff_freq}{cut off frequency of bessel filter}
 
 \item{order}{formula order of bessel filter}
 }

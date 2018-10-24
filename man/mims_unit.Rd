@@ -28,13 +28,13 @@ mims_unit(df, breaks = "5 sec", range, noise_level = 0.03, k = 0.05,
 
 \item{cutoffs}{cut off frequencies to be used in filtering, default is 0.2Hz and 5Hz. If choosing bessel, the low pass cut off would be multipled by 2 when being used.}
 
-\item{integration}{the integration method to be used: "trapz", "absoluteMeanByPoints".}
+\item{integration}{the integration method to be used: 'trapz', 'absoluteMeanByPoints'.}
 
 \item{allow_truncation}{use zero truncation or not, default is TRUE}
 
 \item{resample}{set 0 to not use resampling, otherwise set to the desired sampling rate in numerical, e.g 40 for 40Hz. Default is 50.}
 
-\item{filter}{"butter", "ellip", "bessel"}
+\item{filter}{'butter', 'ellip', 'bessel'}
 }
 \value{
 Will return NA if a segment break is too short to have enough samples to compute AUC

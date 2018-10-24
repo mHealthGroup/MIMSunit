@@ -31,6 +31,8 @@
 
 
 <meta property="og:title" content="Compute activity counts using [citation] algorithm — mims_unit" />
+
+<meta property="og:description" content="Compute activity counts using [citation] algorithm" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -69,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.5.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.5.3</span>
       </span>
     </div>
 
@@ -153,16 +155,19 @@
     </div>
 
     <div class="ref-description">
-
+    
+    <p>Compute activity counts using [citation] algorithm</p>
+    
     </div>
 
     <pre class="usage"><span class='fu'>mims_unit</span>(<span class='no'>df</span>, <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='st'>"5 sec"</span>, <span class='no'>range</span>, <span class='kw'>noise_level</span> <span class='kw'>=</span> <span class='fl'>0.03</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>0.05</span>,
   <span class='kw'>spar</span> <span class='kw'>=</span> <span class='fl'>0.6</span>, <span class='kw'>filter_type</span> <span class='kw'>=</span> <span class='st'>"butter"</span>, <span class='kw'>cutoffs</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0.2</span>, <span class='fl'>5</span>),
   <span class='kw'>integration</span> <span class='kw'>=</span> <span class='st'>"trapz"</span>, <span class='kw'>axes</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>4</span>), <span class='kw'>use_extrapolation</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>use_interpolation</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>use_filtering</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>combination</span> <span class='kw'>=</span> <span class='st'>"sum"</span>,
-  <span class='kw'>vm_after_extrapolation</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>allow_truncation</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>output_per_axis</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>output_orientation</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>breaks_for_orientation</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>before_df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>after_df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+  <span class='kw'>use_interpolation</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>use_filtering</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>combination</span> <span class='kw'>=</span> <span class='st'>"sum"</span>, <span class='kw'>vm_after_extrapolation</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>allow_truncation</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>output_per_axis</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>output_orientation</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>breaks_for_orientation</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>before_df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>after_df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -197,7 +202,7 @@
     </tr>
     <tr>
       <th>integration</th>
-      <td><p>the integration method to be used: "trapz", "absoluteMeanByPoints".</p></td>
+      <td><p>the integration method to be used: 'trapz', 'absoluteMeanByPoints'.</p></td>
     </tr>
     <tr>
       <th>allow_truncation</th>
@@ -209,7 +214,7 @@
     </tr>
     <tr>
       <th>filter</th>
-      <td><p>"butter", "ellip", "bessel"</p></td>
+      <td><p>'butter', 'ellip', 'bessel'</p></td>
     </tr>
     </table>
     
@@ -232,7 +237,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='http://qutang.github.io'>Qu Tang</a>.</p>
+  <p>Developed by <a href='https://qutang.github.io'>Qu Tang</a>, <a href='https://bouve.northeastern.edu/directory/dinesh-john/'>Dinesh John</a>, <a href='http://www.ccs.neu.edu/home/intille/'>Stephen Intille</a>.</p>
 </div>
 
 <div class="pkgdown">

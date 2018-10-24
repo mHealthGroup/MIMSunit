@@ -31,6 +31,8 @@
 
 
 <meta property="og:title" content="Apply low pass bessel filter to the input sensor data frame each column over certain breaks (e.g. hour, sec, min and etc.) — bessel" />
+
+<meta property="og:description" content="Apply low pass bessel filter to the input sensor data frame each column over certain breaks (e.g. hour, sec, min and etc.)" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -69,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.5.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.5.3</span>
       </span>
     </div>
 
@@ -153,10 +155,12 @@
     </div>
 
     <div class="ref-description">
-
+    
+    <p>Apply low pass bessel filter to the input sensor data frame each column over certain breaks (e.g. hour, sec, min and etc.)</p>
+    
     </div>
 
-    <pre class="usage"><span class='fu'>bessel</span>(<span class='no'>df</span>, <span class='no'>Fs</span>, <span class='no'>Fc</span>, <span class='no'>order</span>)</pre>
+    <pre class="usage"><span class='fu'>bessel</span>(<span class='no'>df</span>, <span class='no'>sr</span>, <span class='no'>cutoff_freq</span>, <span class='no'>order</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -166,11 +170,11 @@
       <td><p>the input dataframe that matches mhealth specification.</p></td>
     </tr>
     <tr>
-      <th>Fs</th>
+      <th>sr</th>
       <td><p>sampling rate of the input signal</p></td>
     </tr>
     <tr>
-      <th>Fc</th>
+      <th>cutoff_freq</th>
       <td><p>cut off frequency of bessel filter</p></td>
     </tr>
     <tr>
@@ -192,7 +196,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='http://qutang.github.io'>Qu Tang</a>.</p>
+  <p>Developed by <a href='https://qutang.github.io'>Qu Tang</a>, <a href='https://bouve.northeastern.edu/directory/dinesh-john/'>Dinesh John</a>, <a href='http://www.ccs.neu.edu/home/intille/'>Stephen Intille</a>.</p>
 </div>
 
 <div class="pkgdown">

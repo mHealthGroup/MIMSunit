@@ -4,20 +4,20 @@
 \alias{iir}
 \title{Apply iir filter to the input sensor data frame each column over a certain break (e.g. hour, sec, min and etc.).}
 \usage{
-iir(df, Fs, Fc, order, type = "high", filter_type = "butter")
+iir(df, sr, cutoff_freq, order, type = "high", filter_type = "butter")
 }
 \arguments{
 \item{df}{the input dataframe that matches mhealth specification.}
 
-\item{Fs}{sampling rate of the input signal}
+\item{sr}{sampling rate of the input signal}
 
-\item{Fc}{cut off frequencies of butterworth filter, if more than one store as c(low, high)}
+\item{cutoff_freq}{cut off frequencies of butterworth filter, if more than one store as c(low, high)}
 
 \item{order}{formula order of butterworth filter}
 
-\item{type}{"low", "high", "stop", "pass"}
+\item{type}{'low', 'high', 'stop', 'pass'}
 
-\item{filter_type}{"butter", "chebyI", "chebyII", "ellip"}
+\item{filter_type}{'butter', 'chebyI', 'chebyII', 'ellip'}
 }
 \value{
 list of filtered dataframes.

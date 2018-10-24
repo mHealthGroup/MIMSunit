@@ -68,7 +68,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.5.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.5.3</span>
       </span>
     </div>
 
@@ -160,6 +160,20 @@
     <tbody>
       <tr>
         <th colspan="2">
+          <h2 id="section-io-for-biobank-data-analysis-tool-output" class="hasAnchor"><a href="#section-io-for-biobank-data-analysis-tool-output" class="anchor"></a>IO for Biobank data analysis tool output</h2>
+          <p class="section-desc"><p>Functions for importing data from the output of Biobank data analysis tool</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="import_biobank_enmo.html">import_biobank_enmo()</a></code> </p>
+        </td>
+        <td><p>Import and convert biobank epoch csv files and load into data frame as in mhealth format.</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
           <h2 id="section-io-for-actigraph-monitors" class="hasAnchor"><a href="#section-io-for-actigraph-monitors" class="anchor"></a>IO for Actigraph Monitors</h2>
           <p class="section-desc"><p>Functions for importing and exporting data with Actigraph Monitors (e.g. GT3X, GT9X)</p></p>
         </th>
@@ -227,7 +241,7 @@
       <tr>
         
         <td>
-          <p><code><a href="interpolate.html">interpolate()</a></code> </p>
+          <p><code><a href="interpolate_signal.html">interpolate_signal()</a></code> </p>
         </td>
         <td><p>Interpolate the missing points and unify sampling interval for the input sensor data</p></td>
       </tr><tr>
@@ -257,9 +271,21 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="aggregate.html">aggregate()</a></code> </p>
+          <p><code><a href="aggregate_for_mims.html">aggregate_for_mims()</a></code> </p>
         </td>
         <td><p>Calculate summary value (area under curve) for each column over a certain break (e.g. hour, min).</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="aggregate_for_orientation.html">aggregate_for_orientation()</a></code> </p>
+        </td>
+        <td><p>Calculate orientation value for each column over a certain break (e.g. hour, min).</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="compute_orientation.html">compute_orientation()</a></code> </p>
+        </td>
+        <td><p>Calculate orientation of a sensor in (X,Y,Z degrees) for each axis</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -280,6 +306,36 @@
           <p><code><a href="extrapolate_rate.html">extrapolate_rate()</a></code> </p>
         </td>
         <td><p>compute extrapolation rate</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="change_sampling_rate.html">change_sampling_rate()</a></code> </p>
+        </td>
+        <td><p>Apply bandlimited interpolation filter to the input sensor data frame each column over a certain break (e.g. hour, sec, min and etc.).</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="crop_grange.html">crop_grange()</a></code> </p>
+        </td>
+        <td><p>Crop grange for sensor data</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="make_sensor_data.html">make_sensor_data()</a></code> </p>
+        </td>
+        <td><p>make sensor data given range and sampling rate and old sensor data</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="sum_up.html">sum_up()</a></code> </p>
+        </td>
+        <td><p>Compute the sum up value of sensor data.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="vector_magnitude.html">vector_magnitude()</a></code> </p>
+        </td>
+        <td><p>Compute the vector magnitude value of sensor data.</p></td>
       </tr>
     </tbody>
     </table>
@@ -288,6 +344,7 @@
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#section-io-for-biobank-data-analysis-tool-output">IO for Biobank data analysis tool output</a></li>
       <li><a href="#section-io-for-actigraph-monitors">IO for Actigraph Monitors</a></li>
       <li><a href="#section-io-for-activpal-monitors">IO for ActivPal Monitors</a></li>
       <li><a href="#section-api-for-computing-mims-unit">API for computing MIMS-unit</a></li>
@@ -299,7 +356,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='http://qutang.github.io'>Qu Tang</a>.</p>
+  <p>Developed by <a href='https://qutang.github.io'>Qu Tang</a>, <a href='https://bouve.northeastern.edu/directory/dinesh-john/'>Dinesh John</a>, <a href='http://www.ccs.neu.edu/home/intille/'>Stephen Intille</a>.</p>
 </div>
 
 <div class="pkgdown">

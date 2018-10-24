@@ -31,6 +31,8 @@
 
 
 <meta property="og:title" content="Calculate orientation value for each column over a certain break (e.g. hour, min). — aggregate_for_orientation" />
+
+<meta property="og:description" content="Calculate orientation value for each column over a certain break (e.g. hour, min)." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -69,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.5.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.5.3</span>
       </span>
     </div>
 
@@ -148,12 +150,14 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Calculate orientation value for each column over a certain break (e.g. hour, min).</h1>
-    <small class="dont-index">Source: <a href='https://github.com/qutang/mimsunit//blob/master/R/aggregate.R'><code>R/aggregate.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/qutang/mimsunit//blob/master/R/aggregate_over_epoch.R'><code>R/aggregate_over_epoch.R</code></a></small>
     <div class="hidden name"><code>aggregate_for_orientation.Rd</code></div>
     </div>
 
     <div class="ref-description">
-
+    
+    <p>Calculate orientation value for each column over a certain break (e.g. hour, min).</p>
+    
     </div>
 
     <pre class="usage"><span class='fu'>aggregate_for_orientation</span>(<span class='no'>df</span>, <span class='no'>breaks</span>, <span class='kw'>epoch</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>unit</span> <span class='kw'>=</span> <span class='st'>"deg"</span>)</pre>
@@ -167,7 +171,7 @@
     </tr>
     <tr>
       <th>breaks</th>
-      <td><p>could be "sec", "min", "hour", "day", "week", "month", "quarter" or "year"; or preceded by an interger and a space.</p></td>
+      <td><p>could be 'sec', 'min', 'hour', 'day', 'week', 'month', 'quarter' or 'year'; or preceded by an interger and a space.</p></td>
     </tr>
     </table>
     
@@ -190,7 +194,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='http://qutang.github.io'>Qu Tang</a>.</p>
+  <p>Developed by <a href='https://qutang.github.io'>Qu Tang</a>, <a href='https://bouve.northeastern.edu/directory/dinesh-john/'>Dinesh John</a>, <a href='http://www.ccs.neu.edu/home/intille/'>Stephen Intille</a>.</p>
 </div>
 
 <div class="pkgdown">

@@ -4,12 +4,12 @@
 \alias{average_removal}
 \title{Apply average removal FIR filter to the input sensor data frame each column over certain breaks (e.g. hour, sec, min and etc.)}
 \usage{
-average_removal(df, Fs, order)
+average_removal(df, sr, order)
 }
 \arguments{
 \item{df}{the input dataframe that matches mhealth specification.}
 
-\item{Fs}{sampling rate of the input signal}
+\item{sr}{sampling rate of the input signal}
 
 \item{order}{window size (in seconds) of filter}
 }
