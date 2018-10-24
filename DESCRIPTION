@@ -42,5 +42,7 @@ Imports:
 Suggests:
     ggplot2 (>= 3.0.0),
     dygraphs (>= 1.1.1.6)
+Remotes:
+    qutang/mHealthR
 SystemRequirements:
     memory (>= 4GB)
