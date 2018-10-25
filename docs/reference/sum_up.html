@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Compute the sum up value of sensor data. — sum_up • MIMSunit</title>
+<title>Sum of multi-channel signal. — sum_up • MIMSunit</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,10 @@
 
 
 
-<meta property="og:title" content="Compute the sum up value of sensor data. — sum_up" />
+<meta property="og:title" content="Sum of multi-channel signal. — sum_up" />
 
-<meta property="og:description" content="Compute the sum up value of sensor data." />
+<meta property="og:description" content="sum_up computes the sum up value for each sample (row) of a
+multi-channel signal." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -149,14 +150,15 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Compute the sum up value of sensor data.</h1>
+    <h1>Sum of multi-channel signal.</h1>
     <small class="dont-index">Source: <a href='https://github.com/qutang/mimsunit//blob/master/R/combine_axes.R'><code>R/combine_axes.R</code></a></small>
     <div class="hidden name"><code>sum_up.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Compute the sum up value of sensor data.</p>
+    <p><code>sum_up</code> computes the sum up value for each sample (row) of a
+multi-channel signal.</p>
     
     </div>
 
@@ -167,9 +169,39 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>df</th>
-      <td><p>input dataframe that matches specification.</p></td>
+      <td><p>dataframe. multi-channel signal, with the first column being the
+timestamp in POSXct format.</p></td>
+    </tr>
+    <tr>
+      <th>axes</th>
+      <td><p>numerical vector. Specify the column indices for each axis. When
+this value is NULL, the function assumes the axes are starting from column
+2 to the end. Default is <code>NULL</code>.</p></td>
     </tr>
     </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>dataframe. The transformed dataframe will have the same number of
+  rows as input dataframe but only two columns, with the first being
+  timestamps and second being the sum up values.</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This function takes a dataframe of a multi-channel signal as input, and then
+computes the sum of each row and returns a transformed dataframe with two
+columns.</p>
+    
+    <h2 class="hasAnchor" id="how-is-it-used-in-mims-unit-algorithm-"><a class="anchor" href="#how-is-it-used-in-mims-unit-algorithm-"></a>How is it used in MIMS-unit algorithm?</h2>
+
+    <p>This function is used to
+  combine MIMS-unit values on each axis into a single value after aggregating
+  over each epoch using <code><a href='aggregate_for_mims.html'>aggregate_for_mims</a></code>.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='vector_magnitude.html'>vector_magnitude</a></code></p>
+<p>Other combination functions: <code><a href='vector_magnitude.html'>vector_magnitude</a></code></p></div>
     
 
   </div>
@@ -177,7 +209,15 @@
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+      
+      <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
+
+      <li><a href="#how-is-it-used-in-mims-unit-algorithm-">How is it used in MIMS-unit algorithm?</a></li>
+
+      <li><a href="#see-also">See also</a></li>
+          </ul>
 
   </div>
 </div>

@@ -2,13 +2,42 @@
 % Please edit documentation in R/combine_axes.R
 \name{vector_magnitude}
 \alias{vector_magnitude}
-\title{Compute the vector magnitude value of sensor data.}
+\title{Vector magnitude of multi-channel signal.}
 \usage{
 vector_magnitude(df, axes = NULL)
 }
 \arguments{
-\item{df}{input dataframe that matches specification.}
+\item{df}{dataframe. multi-channel signal, with the first column being the
+timestamp in POSXct format.}
+
+\item{axes}{numerical vector. Specify the column indices for each axis. When
+this value is NULL, the function assumes the axes are starting from column
+2 to the end. Default is \code{NULL}.}
+}
+\value{
+dataframe. The transformed dataframe will have the same number of
+  rows as input dataframe but only two columns, with the first being
+  timestamps and second being the vector magnitude values.
 }
 \description{
-Compute the vector magnitude value of sensor data.
+\code{vector_magnitude} computes the vector magnitude value for each sample
+(row) of a multi-channel signal.
 }
+\details{
+This function takes a dataframe of a multi-channel signal as input, and then
+computes the 2-norm (vector magnitude) for each row and returns a transformed
+dataframe with two columns.
+}
+\section{How is it used in MIMS-unit algorithm?}{
+ This function is not used in
+  the released version of MIMS-unit algorithm, but was used to compare the
+  alternative \code{\link{sum_up}} method when combining MIMS-unit values on
+  each axis into a single value.
+}
+
+\seealso{
+\code{\link{sum_up}}
+
+Other combination functions: \code{\link{sum_up}}
+}
+\concept{combination functions}
