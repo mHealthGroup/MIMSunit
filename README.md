@@ -5,6 +5,11 @@ December 24, 2018
 
 # MIMS-unit algorithm
 
+[![Travis-CI build
+status](https://travis-ci.org/qutang/MIMSunit.svg?branch=master)](https://travis-ci.org/qutang/MIMSunit)
+[![CRAN
+Status](https://www.r-pkg.org/badges/version/MIMSunit)](https://cran.r-project.org/package=MIMSunit)
+
 **This work is in submission. At the time of publication, this site will
 be updated with additional code/documentation. Before publication, the
 codes are subject to refactoring. Please create github
