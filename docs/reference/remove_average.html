@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Apply Bessel lowpass filter to the signal — bessel • MIMSunit</title>
+<title>Remove constant component of the signal — remove_average • MIMSunit</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,10 +30,10 @@
 
 
 
-<meta property="og:title" content="Apply Bessel lowpass filter to the signal — bessel" />
+<meta property="og:title" content="Remove constant component of the signal — remove_average" />
 
-<meta property="og:description" content="bessel function takes a multi-channel signal and applies a bessel
-lowpass filter to the signal." />
+<meta property="og:description" content="remove_average function takes a multi-channel signal and removes the
+average value over a filtering window." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -150,19 +150,19 @@ lowpass filter to the signal." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Apply Bessel lowpass filter to the signal</h1>
+    <h1>Remove constant component of the signal</h1>
     <small class="dont-index">Source: <a href='https://github.com/qutang/mimsunit//blob/master/R/filter.R'><code>R/filter.R</code></a></small>
-    <div class="hidden name"><code>bessel.Rd</code></div>
+    <div class="hidden name"><code>remove_average.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p><code>bessel</code> function takes a multi-channel signal and applies a bessel
-lowpass filter to the signal.</p>
+    <p><code>remove_average</code> function takes a multi-channel signal and removes the
+average value over a filtering window.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>bessel</span>(<span class='no'>df</span>, <span class='no'>sr</span>, <span class='no'>cutoff_freq</span>, <span class='kw'>order</span> <span class='kw'>=</span> <span class='fl'>8</span>)</pre>
+    <pre class="usage"><span class='fu'>remove_average</span>(<span class='no'>df</span>, <span class='no'>sr</span>, <span class='kw'>order</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -177,12 +177,9 @@ timestamps in POSXlct format. The rest columns are signal values.</p></td>
       <td><p>number. Sampling rate in Hz of the input signal.</p></td>
     </tr>
     <tr>
-      <th>cutoff_freq</th>
-      <td><p>number. The lowpass cutoff frequency in Hz.</p></td>
-    </tr>
-    <tr>
       <th>order</th>
-      <td><p>number. The order of the filter. Default is 8.</p></td>
+      <td><p>number. Window size (in seconds) of the filter. Default is 500
+ms.</p></td>
     </tr>
     </table>
     
@@ -192,10 +189,9 @@ timestamps in POSXlct format. The rest columns are signal values.</p></td>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function filters the input multi-channel signal by appling a bessel
-lowpass filter. See <a href='https://en.wikipedia.org/wiki/Bessel_filter'>wiki</a>
-for the explanation of the filter. The filter was implemented with the same
-implementation as in MATLAB.</p>
+    <p>This function filters the input multi-channel signal by removing the average
+value within each sliding window. The sliding window size is decided by
+\(w = sr * order\).</p>
     
     <h2 class="hasAnchor" id="how-is-it-used-in-mims-unit-algorithm-"><a class="anchor" href="#how-is-it-used-in-mims-unit-algorithm-"></a>How is it used in MIMS-unit algorithm?</h2>
 
@@ -207,7 +203,7 @@ implementation as in MATLAB.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other filtering functions: <code>bandlimited_interp</code>,
-  <code><a href='iir.html'>iir</a></code>, <code>remove_average</code></p></div>
+  <code><a href='bessel.html'>bessel</a></code>, <code><a href='iir.html'>iir</a></code></p></div>
     
 
   </div>

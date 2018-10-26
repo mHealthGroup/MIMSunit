@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Apply Bessel lowpass filter to the signal — bessel • MIMSunit</title>
+<title>Export accelerometer data in Actilife RAW CSV format — export_to_actilife • MIMSunit</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,10 +30,10 @@
 
 
 
-<meta property="og:title" content="Apply Bessel lowpass filter to the signal — bessel" />
+<meta property="og:title" content="Export accelerometer data in Actilife RAW CSV format — export_to_actilife" />
 
-<meta property="og:description" content="bessel function takes a multi-channel signal and applies a bessel
-lowpass filter to the signal." />
+<meta property="og:description" content="export_to_actilife exports the input dataframe as a csv file that is
+compatible with Actilife." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -150,64 +150,67 @@ lowpass filter to the signal." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Apply Bessel lowpass filter to the signal</h1>
-    <small class="dont-index">Source: <a href='https://github.com/qutang/mimsunit//blob/master/R/filter.R'><code>R/filter.R</code></a></small>
-    <div class="hidden name"><code>bessel.Rd</code></div>
+    <h1>Export accelerometer data in Actilife RAW CSV format</h1>
+    <small class="dont-index">Source: <a href='https://github.com/qutang/mimsunit//blob/master/R/export_data.R'><code>R/export_data.R</code></a></small>
+    <div class="hidden name"><code>export_to_actilife.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p><code>bessel</code> function takes a multi-channel signal and applies a bessel
-lowpass filter to the signal.</p>
+    <p><code>export_to_actilife</code> exports the input dataframe as a csv file that is
+compatible with Actilife.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>bessel</span>(<span class='no'>df</span>, <span class='no'>sr</span>, <span class='no'>cutoff_freq</span>, <span class='kw'>order</span> <span class='kw'>=</span> <span class='fl'>8</span>)</pre>
+    <pre class="usage"><span class='fu'>export_to_actilife</span>(<span class='no'>df</span>, <span class='no'>filepath</span>, <span class='kw'>actilife_version</span> <span class='kw'>=</span> <span class='st'>"6.13.3"</span>,
+  <span class='kw'>firmware_version</span> <span class='kw'>=</span> <span class='st'>"1.6.0"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>df</th>
-      <td><p>dataframe. The input multi-channel signal. The first column is
-timestamps in POSXlct format. The rest columns are signal values.</p></td>
+      <td><p>dataframe. Input accelerometer data. The first column is timestamp
+in POSXlct format, and the rest columns are accelerometer values in g
+(\(9.81m/s^2\)).</p></td>
     </tr>
     <tr>
-      <th>sr</th>
-      <td><p>number. Sampling rate in Hz of the input signal.</p></td>
+      <th>filepath</th>
+      <td><p>string. The output filepath.</p></td>
     </tr>
     <tr>
-      <th>cutoff_freq</th>
-      <td><p>number. The lowpass cutoff frequency in Hz.</p></td>
+      <th>actilife_version</th>
+      <td><p>string. The Actilife version number to be added to
+the header. Default is "6.13.3", that was used by the algorithm during
+development.</p></td>
     </tr>
     <tr>
-      <th>order</th>
-      <td><p>number. The order of the filter. Default is 8.</p></td>
+      <th>firmware_version</th>
+      <td><p>string. The firmware version number to be added to
+the header. This is supposed to be the firmware version of the Actigraph
+devices. We did not see any usage of the number during the computation of
+Actigraph counts by Actilife, so it may be set with an arbitrary version
+code seen in any Actigraph devices. We use default version code "1.6.0".</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>dataframe. Filtered signal.</p>
+    <p>No return value.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function filters the input multi-channel signal by appling a bessel
-lowpass filter. See <a href='https://en.wikipedia.org/wiki/Bessel_filter'>wiki</a>
-for the explanation of the filter. The filter was implemented with the same
-implementation as in MATLAB.</p>
+    <p>This function takes an input accelerometer dataframe and exports it in
+Actilife RAW CSV format with a prepended a madeup header. The exported file
+csv file has compatible header, column names, timestamp format with Actilife
+and can be imported directly into Actilife software.</p>
     
     <h2 class="hasAnchor" id="how-is-it-used-in-mims-unit-algorithm-"><a class="anchor" href="#how-is-it-used-in-mims-unit-algorithm-"></a>How is it used in MIMS-unit algorithm?</h2>
 
-    <p>This function has been
-  considered as one of filtering options during the development of MIMS-unit
-  algorithm. But the released version of MIMS-unit algorithm does not use
-  this function for filtering.</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>Other filtering functions: <code>bandlimited_interp</code>,
-  <code><a href='iir.html'>iir</a></code>, <code>remove_average</code></p></div>
+    <p>This function is an utility
+function that was used to convert validation data into Actilife RAW CSV
+format so that we can use Actilife to compute Actigraph counts values for
+these data.</p>
     
 
   </div>
@@ -221,8 +224,6 @@ implementation as in MATLAB.</p>
       <li><a href="#details">Details</a></li>
 
       <li><a href="#how-is-it-used-in-mims-unit-algorithm-">How is it used in MIMS-unit algorithm?</a></li>
-
-      <li><a href="#see-also">See also</a></li>
           </ul>
 
   </div>

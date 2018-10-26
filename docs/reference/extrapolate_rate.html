@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>compute extrapolation rate — extrapolate_rate • MIMSunit</title>
+<title>Get extrapolation rate. — extrapolate_rate • MIMSunit</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,11 @@
 
 
 
-<meta property="og:title" content="compute extrapolation rate — extrapolate_rate" />
+<meta property="og:title" content="Get extrapolation rate. — extrapolate_rate" />
 
-<meta property="og:description" content="compute extrapolation rate" />
+<meta property="og:description" content="extrapolate_rate computes the extrapolation rate given the test signal
+(maxed out), the true complete signal (no maxed out) and the extrapolated
+signal." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -149,25 +151,72 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>compute extrapolation rate</h1>
+    <h1>Get extrapolation rate.</h1>
     <small class="dont-index">Source: <a href='https://github.com/qutang/mimsunit//blob/master/R/extrapolate_rate.R'><code>R/extrapolate_rate.R</code></a></small>
     <div class="hidden name"><code>extrapolate_rate.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>compute extrapolation rate</p>
+    <p><code>extrapolate_rate</code> computes the extrapolation rate given the test signal
+(maxed out), the true complete signal (no maxed out) and the extrapolated
+signal.</p>
     
     </div>
 
     <pre class="usage"><span class='fu'>extrapolate_rate</span>(<span class='no'>test_df</span>, <span class='no'>true_df</span>, <span class='no'>extrap_df</span>)</pre>
-        
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>test_df</th>
+      <td><p>dataframe. See details for the input format.</p></td>
+    </tr>
+    <tr>
+      <th>true_df</th>
+      <td><p>dataframe. See details for the input format.</p></td>
+    </tr>
+    <tr>
+      <th>extrap_df</th>
+      <td><p>dataframe. See details for the input format.</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>number. The extrapolation rate value in double format. If
+  extrapolation rate is 1, it means the extrapolated signal recovers as the
+  true signal. If extrapolation rate is between 0 and 1, it means the
+  extrapolation helps reducing the errors caused by signal maxing out. If
+  extrapolation rate is smaller than 0, it means the extrapolation increases
+  the errors caused by signal maxing out (during over extrapolation).</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>All three input dataframes will have the same format, with the first column
+being timestamps in POSXlct format, and the following columns being
+acceleration values in g.</p>
+    
+    <h2 class="hasAnchor" id="how-is-it-used-in-mims-unit-algorithm-"><a class="anchor" href="#how-is-it-used-in-mims-unit-algorithm-"></a>How is it used in MIMS-unit algorithm?</h2>
+
+    <p>This function is used to
+  compute extrapolation rate during extrapolation parameter optimization. You
+  may see results in Figure 2 of the manuscript.</p>
+    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-                </ul>
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
+
+      <li><a href="#how-is-it-used-in-mims-unit-algorithm-">How is it used in MIMS-unit algorithm?</a></li>
+          </ul>
 
   </div>
 </div>

@@ -74,7 +74,7 @@ mims_unit_ <- function(df, breaks = "5 sec", range, noise_level = 0.03, k = 0.05
             filteredData <- iir(resampledData, sr = sr, cutoff_freq = cutoffs, order = 4, type = "pass", filter_type = "butter")
         } else if (filter_type == "bessel")
         {
-            filteredData <- average_removal(resampledData, sr = sr, order = 0.5)
+            filteredData <- remove_average(resampledData, sr = sr, order = 0.5)
             filteredData <- filteredData[[1]]
             filteredData <- bessel(filteredData, sr = sr, cutoff_freq = cutoffs[2] * 2, order = 8)
         } else if (filter_type == "ellip")

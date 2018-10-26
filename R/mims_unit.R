@@ -76,7 +76,7 @@ mims_unit <-
     if (FALSE)
     {
       resampled_data <-
-        change_sampling_rate(extrapolated_data, origSr = sr, newSr = resample)
+        bandlimited_interp(extrapolated_data, orig_sr = sr, new_sr = resample)
       # update to the new sampling rate
       sr <- resample
     } else
@@ -110,7 +110,7 @@ mims_unit <-
           )
       } else if (filter_type == "bessel")
       {
-        filtered_data <- average_removal(normal_data, sr = sr, order = 0.5)
+        filtered_data <- remove_average(normal_data, sr = sr, order = 0.5)
         filtered_data <- filtered_data[[1]]
         filtered_data <-
           bessel(

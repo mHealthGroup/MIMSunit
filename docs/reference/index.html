@@ -160,31 +160,25 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-io-for-biobank-data-analysis-tool-output" class="hasAnchor"><a href="#section-io-for-biobank-data-analysis-tool-output" class="anchor"></a>IO for Biobank data analysis tool output</h2>
-          <p class="section-desc"><p>Functions for importing data from the output of Biobank data analysis tool</p></p>
+          <h2 id="section-top-level-api-for-mims-unit" class="hasAnchor"><a href="#section-top-level-api-for-mims-unit" class="anchor"></a>Top-level API for MIMS-unit</h2>
+          <p class="section-desc"><p>Function to compute MIMS-unit value.</p></p>
         </th>
       </tr>
       <tr>
         
         <td>
-          <p><code><a href="import_biobank_enmo.html">import_biobank_enmo()</a></code> </p>
+          <p><code><a href="mims_unit.html">mims_unit()</a></code> </p>
         </td>
-        <td><p>Import and convert biobank epoch csv files and load into data frame as in mhealth format.</p></td>
+        <td><p>Compute activity counts using [citation] algorithm</p></td>
       </tr>
     </tbody><tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-io-for-actigraph-monitors" class="hasAnchor"><a href="#section-io-for-actigraph-monitors" class="anchor"></a>IO for Actigraph Monitors</h2>
-          <p class="section-desc"><p>Functions for importing and exporting data with Actigraph Monitors (e.g. GT3X, GT9X)</p></p>
+          <h2 id="section-file-io" class="hasAnchor"><a href="#section-file-io" class="anchor"></a>File IO</h2>
+          <p class="section-desc"><p>Functions for importing or exporting data for various data formats.</p></p>
         </th>
       </tr>
       <tr>
-        
-        <td>
-          <p><code><a href="export_actigraph_raw.html">export_actigraph_raw()</a></code> </p>
-        </td>
-        <td><p>Export to Actigraph raw csv files</p></td>
-      </tr><tr>
         
         <td>
           <p><code><a href="import_actigraph_count.html">import_actigraph_count()</a></code> <code><a href="import_actigraph_count.html">import_actigraph_count_vm()</a></code> </p>
@@ -202,40 +196,63 @@
           <p><code><a href="import_actigraph_raw.html">import_actigraph_raw()</a></code> </p>
         </td>
         <td><p>Import and convert Actigraph raw csv files and load into data frame as in mhealth format.</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-io-for-activpal-monitors" class="hasAnchor"><a href="#section-io-for-activpal-monitors" class="anchor"></a>IO for ActivPal Monitors</h2>
-          <p class="section-desc"><p>Functions for importing and exporting data with ActivPal Monitors (e.g. ActivPal 3)</p></p>
-        </th>
-      </tr>
-      <tr>
+      </tr><tr>
         
         <td>
           <p><code><a href="import_activpal.html">import_activpal_raw()</a></code> </p>
         </td>
         <td><p>Import ActivPal Raw data files and load into dataframe as mhealth format.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="import_biobank_enmo.html">import_biobank_enmo()</a></code> </p>
+        </td>
+        <td><p>Import and convert biobank epoch csv files and load into data frame as in mhealth format.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="export_to_actilife.html">export_to_actilife()</a></code> </p>
+        </td>
+        <td><p>Export accelerometer data in Actilife RAW CSV format</p></td>
       </tr>
     </tbody><tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-api-for-computing-mims-unit" class="hasAnchor"><a href="#section-api-for-computing-mims-unit" class="anchor"></a>API for computing MIMS-unit</h2>
-          <p class="section-desc"><p>Function to generate MIMS-unit value</p></p>
+          <h2 id="section-signal-filtering" class="hasAnchor"><a href="#section-signal-filtering" class="anchor"></a>Signal Filtering</h2>
+          <p class="section-desc"><p>Functions to filter multi-channel accelerometer signal.</p></p>
         </th>
       </tr>
       <tr>
         
         <td>
-          <p><code><a href="mims_unit.html">mims_unit()</a></code> </p>
+          <p><code><a href="iir.html">iir()</a></code> </p>
         </td>
-        <td><p>Compute activity counts using [citation] algorithm</p></td>
+        <td><p>Apply IIR filter to the signal</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="bessel.html">bessel()</a></code> </p>
+        </td>
+        <td><p>Apply Bessel lowpass filter to the signal</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="remove_average.html">remove_average()</a></code> </p>
+        </td>
+        <td><p>Remove constant component of the signal</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="bandlimited_interp.html">bandlimited_interp()</a></code> </p>
+        </td>
+        <td><p>Apply a bandlimited interpolation filter to the signal to change the sampling
+rate</p></td>
       </tr>
     </tbody><tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-apis-for-intermediate-step" class="hasAnchor"><a href="#section-apis-for-intermediate-step" class="anchor"></a>APIs for Intermediate step</h2>
-          <p class="section-desc"><p>Functions used in intermediate process when computing MIMS-unit</p></p>
+          <h2 id="section-signal-extrapolation" class="hasAnchor"><a href="#section-signal-extrapolation" class="anchor"></a>Signal extrapolation</h2>
+          <p class="section-desc"><p>Functions to extrapolate multi-channel accelerometer signal.</p></p>
         </th>
       </tr>
       <tr>
@@ -247,28 +264,24 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="average_removal.html">average_removal()</a></code> </p>
-        </td>
-        <td><p>Apply average removal FIR filter to the input sensor data frame each column over certain breaks (e.g. hour, sec, min and etc.)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="iir.html">iir()</a></code> </p>
-        </td>
-        <td><p>Apply iir filter to the input sensor data frame each column over a certain break (e.g. hour, sec, min and etc.).</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="bessel.html">bessel()</a></code> </p>
-        </td>
-        <td><p>Apply low pass bessel filter to the input sensor data frame each column over certain breaks (e.g. hour, sec, min and etc.)</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="extrapolate.html">extrapolate.data.frame()</a></code> <code><a href="extrapolate.html">extrapolate()</a></code> </p>
         </td>
         <td><p>Apply extrapolate algorithm to a single stream of data.</p></td>
       </tr><tr>
+        
+        <td>
+          <p><code><a href="extrapolate_rate.html">extrapolate_rate()</a></code> </p>
+        </td>
+        <td><p>Get extrapolation rate.</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-signal-aggregation" class="hasAnchor"><a href="#section-signal-aggregation" class="anchor"></a>Signal aggregation</h2>
+          <p class="section-desc"><p>Functions to aggregate over epochs of multi-channel accelerometer signal.</p></p>
+        </th>
+      </tr>
+      <tr>
         
         <td>
           <p><code><a href="aggregate_for_mims.html">aggregate_for_mims()</a></code> </p>
@@ -286,44 +299,6 @@
           <p><code><a href="compute_orientation.html">compute_orientation()</a></code> </p>
         </td>
         <td><p>Calculate orientation of a sensor in (X,Y,Z degrees) for each axis</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-util-functions" class="hasAnchor"><a href="#section-util-functions" class="anchor"></a>Util functions</h2>
-          <p class="section-desc"><p>Utility functions</p></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="sampling_rate.html">sampling_rate()</a></code> </p>
-        </td>
-        <td><p>Get sensor data's sampling rate from the time difference of adjacent samples</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="extrapolate_rate.html">extrapolate_rate()</a></code> </p>
-        </td>
-        <td><p>compute extrapolation rate</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="change_sampling_rate.html">change_sampling_rate()</a></code> </p>
-        </td>
-        <td><p>Apply bandlimited interpolation filter to the input sensor data frame each column over a certain break (e.g. hour, sec, min and etc.).</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="crop_grange.html">crop_grange()</a></code> </p>
-        </td>
-        <td><p>Crop grange for sensor data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="make_sensor_data.html">make_sensor_data()</a></code> </p>
-        </td>
-        <td><p>make sensor data given range and sampling rate and old sensor data</p></td>
       </tr><tr>
         
         <td>
@@ -337,6 +312,32 @@
         </td>
         <td><p>Vector magnitude of multi-channel signal.</p></td>
       </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-util-functions" class="hasAnchor"><a href="#section-util-functions" class="anchor"></a>Util functions</h2>
+          <p class="section-desc"><p>Utility functions.</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="sampling_rate.html">sampling_rate()</a></code> </p>
+        </td>
+        <td><p>Get sensor data's sampling rate from the time difference of adjacent samples</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="crop_grange.html">crop_grange()</a></code> </p>
+        </td>
+        <td><p>Crop grange for sensor data</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="make_sensor_data.html">make_sensor_data()</a></code> </p>
+        </td>
+        <td><p>make sensor data given range and sampling rate and old sensor data</p></td>
+      </tr>
     </tbody>
     </table>
   </div>
@@ -344,11 +345,11 @@
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-io-for-biobank-data-analysis-tool-output">IO for Biobank data analysis tool output</a></li>
-      <li><a href="#section-io-for-actigraph-monitors">IO for Actigraph Monitors</a></li>
-      <li><a href="#section-io-for-activpal-monitors">IO for ActivPal Monitors</a></li>
-      <li><a href="#section-api-for-computing-mims-unit">API for computing MIMS-unit</a></li>
-      <li><a href="#section-apis-for-intermediate-step">APIs for Intermediate step</a></li>
+      <li><a href="#section-top-level-api-for-mims-unit">Top-level API for MIMS-unit</a></li>
+      <li><a href="#section-file-io">File IO</a></li>
+      <li><a href="#section-signal-filtering">Signal Filtering</a></li>
+      <li><a href="#section-signal-extrapolation">Signal extrapolation</a></li>
+      <li><a href="#section-signal-aggregation">Signal aggregation</a></li>
       <li><a href="#section-util-functions">Util functions</a></li>
     </ul>
   </div>

@@ -1,10 +1,27 @@
-#' @name average_removal
-#' @title Apply average removal FIR filter to the input sensor data frame each column over certain breaks (e.g. hour, sec, min and etc.)
+#' Remove constant component of the signal
+#'
+#' \code{remove_average} function takes a multi-channel signal and removes the
+#' average value over a filtering window.
+#'
+#' This function filters the input multi-channel signal by removing the average
+#' value within each sliding window. The sliding window size is decided by
+#' \eqn{w = sr * order}.
+#'
+#' @section How is it used in MIMS-unit algorithm?: This function has been
+#'   considered as one of filtering options during the development of MIMS-unit
+#'   algorithm. But the released version of MIMS-unit algorithm does not use
+#'   this function for filtering.
+#'
+#' @param df dataframe. The input multi-channel signal. The first column is
+#'   timestamps in POSXlct format. The rest columns are signal values.
+#' @param sr number. Sampling rate in Hz of the input signal.
+#' @param order number. Window size (in seconds) of the filter. Default is 500
+#'   ms.
+#' @return dataframe. Filtered signal.
+#' @family filtering functions
 #' @export
-#' @param df the input dataframe that matches mhealth specification.
-#' @param sr sampling rate of the input signal
-#' @param order window size (in seconds) of filter
-average_removal <- function(df, sr, order)
+#'
+remove_average <- function(df, sr, order = 0.5)
 {
   n_cols <- ncol(df)
 
@@ -32,14 +49,30 @@ average_removal <- function(df, sr, order)
   return(filtered_value)
 }
 
-#' @name bessel
-#' @title Apply low pass bessel filter to the input sensor data frame each column over certain breaks (e.g. hour, sec, min and etc.)
+#' Apply Bessel lowpass filter to the signal
+#'
+#' \code{bessel} function takes a multi-channel signal and applies a bessel
+#' lowpass filter to the signal.
+#'
+#' This function filters the input multi-channel signal by appling a bessel
+#' lowpass filter. See \href{https://en.wikipedia.org/wiki/Bessel_filter}{wiki}
+#' for the explanation of the filter. The filter was implemented with the same
+#' implementation as in MATLAB.
+#'
+#' @section How is it used in MIMS-unit algorithm?: This function has been
+#'   considered as one of filtering options during the development of MIMS-unit
+#'   algorithm. But the released version of MIMS-unit algorithm does not use
+#'   this function for filtering.
+#'
+#' @param df dataframe. The input multi-channel signal. The first column is
+#'   timestamps in POSXlct format. The rest columns are signal values.
+#' @param sr number. Sampling rate in Hz of the input signal.
+#' @param cutoff_freq number. The lowpass cutoff frequency in Hz.
+#' @param order number. The order of the filter. Default is 8.
+#' @return dataframe. Filtered signal.
+#' @family filtering functions
 #' @export
-#' @param df the input dataframe that matches mhealth specification.
-#' @param sr sampling rate of the input signal
-#' @param cutoff_freq cut off frequency of bessel filter
-#' @param order formula order of bessel filter
-bessel <- function(df, sr, cutoff_freq, order)
+bessel <- function(df, sr, cutoff_freq, order = 8)
 {
   # real bessel filter design based on the implementation of matlab
   arma_coeffs <-
@@ -65,21 +98,48 @@ bessel <- function(df, sr, cutoff_freq, order)
   return(filtered_value)
 }
 
-#' @name iir
-#' @title Apply iir filter to the input sensor data frame each column over a certain break (e.g. hour, sec, min and etc.).
+#' Apply IIR filter to the signal
+#'
+#' \code{iir} function takes a multi-channel signal and applies an IIR filter to
+#' the signal.
+#'
+#' This function filters the input multi-channel signal by appling an IIR
+#' filter. See
+#' \href{https://en.wikipedia.org/wiki/Infinite_impulse_response}{wiki} for the
+#' explanation of the filter. The implementations of IIR filters can be found in
+#' \code{\link[signal]{butter}}, \code{\link[signal]{cheby1}},
+#' \code{\link[signal]{cheby2}}, and \code{\link[signal]{ellip}}.
+#'
+#' For Chebyshev Type I, Type II and Elliptic filter, the passband ripple is
+#' fixed to be 0.05 dB. For Elliptic filter, the stopband ripple is fixed to be
+#' -50dB.
+#'
+#' @section How is it used in MIMS-unit algorithm?: This function has been used
+#'   as the main filtering method in MIMS-unit algorithm. Specifically, it uses
+#'   a 0.5 - 5 Hz bandpass butterworth filter during filtering.
+#'
+#' @param df dataframe. The input multi-channel signal. The first column is
+#'   timestamps in POSXlct format. The rest columns are signal values.
+#' @param sr number. Sampling rate in Hz of the input signal.
+#' @param cutoff_freq number or numerical vector. The cutoff frequencies in Hz.
+#'   If the IIR filter is a bandpass or bandstop filter, it will be a 2-element
+#'   numerical vector specifing the low and high end cutoff frequencies
+#'   \code{c(low, high)}.
+#' @param order number. The order of the filter. Default is 4.
+#' @param type string. Filtering type, one of "low" for a low-pass filter,
+#'   "high" for a high-pass filter, "stop" for a stop-band (band-reject) filter,
+#'   or "pass" for a pass-band filter.
+#' @param filter_type string. IIR filter type, one of "butter" for butterworth
+#'   filter, "chebyI" for Chebyshev Type I filter, "chebyII" for Chebyshev Type
+#'   II filter, or "ellip" for Elliptic filter.
+#' @return dataframe. Filtered signal.
+#' @family filtering functions
 #' @export
-#' @param df the input dataframe that matches mhealth specification.
-#' @param sr sampling rate of the input signal
-#' @param cutoff_freq cut off frequencies of butterworth filter, if more than one store as c(low, high)
-#' @param order formula order of butterworth filter
-#' @param type 'low', 'high', 'stop', 'pass'
-#' @param filter_type 'butter', 'chebyI', 'chebyII', 'ellip'
-#' @return list of filtered dataframes.
 iir <-
   function(df,
            sr,
            cutoff_freq,
-           order,
+           order = 4,
            type = "high",
            filter_type = "butter")
   {
@@ -116,15 +176,31 @@ iir <-
     return(filtered_value)
   }
 
-#' @name change_sampling_rate
-#' @title Apply bandlimited interpolation filter to the input sensor data frame each column over a certain break (e.g. hour, sec, min and etc.).
+#' Apply a bandlimited interpolation filter to the signal to change the sampling
+#' rate
+#'
+#' \code{bandlimited_interp} function takes a multi-channel signal and applies a
+#' bandlimited interpolation filter to the signal to change its sampling rate.
+#'
+#' This function filters the input multi-channel signal by appling a bandlimited
+#' interpolation filter. See \code{\link[signal]{resample}} for the underlying
+#' implementation.
+#'
+#' @section How is it used in MIMS-unit algorithm?: This function is not used in
+#'   the released version of MIMS-unit algorithm, but has once been considered
+#'   to be used after extrapolation to harmonize sampling rate before filtering.
+#'   But in the end, we decided to use linear interpolation before extrapolation
+#'   to increase the sampling rate to 100Hz, so this method is no longer needed.
+#'
+#' @param df dataframe. The input multi-channel signal. The first column is
+#'   timestamps in POSXlct format. The rest columns are signal values.
+#' @param orig_sr number. Sampling rate in Hz of the input signal.
+#' @param new_sr number. The desired sampling rate in Hz of the output signal.
+#' @return dataframe. Filtered signal.
+#' @family filtering functions
 #' @export
-#' @importFrom magrittr %>%
-#' @param dft dataframe that matches mhealth specification.
-#' @param orig_sr original sampling rate of each column
-#' @param new_sr the desired sampling rate for each column
-#' @return list of filtered dataframes.
-change_sampling_rate <- function(df, orig_sr, new_sr)
+#'
+bandlimited_interp <- function(df, orig_sr, new_sr)
 {
   n_cols <- ncol(df)
 
@@ -132,7 +208,7 @@ change_sampling_rate <- function(df, orig_sr, new_sr)
     .fun = function(x)
     {
       resampled <-
-        x %>% signal::resample(p = new_sr, q = orig_sr) %>% as.numeric()
+        as.numeric(signal::resample(x, p = new_sr, q = orig_sr))
     }
   )
   resampled_value <- col_filter(df[2:n_cols])

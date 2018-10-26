@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Apply iir filter to the input sensor data frame each column over a certain break (e.g. hour, sec, min and etc.). — iir • MIMSunit</title>
+<title>Apply IIR filter to the signal — iir • MIMSunit</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,10 @@
 
 
 
-<meta property="og:title" content="Apply iir filter to the input sensor data frame each column over a certain break (e.g. hour, sec, min and etc.). — iir" />
+<meta property="og:title" content="Apply IIR filter to the signal — iir" />
 
-<meta property="og:description" content="Apply iir filter to the input sensor data frame each column over a certain break (e.g. hour, sec, min and etc.)." />
+<meta property="og:description" content="iir function takes a multi-channel signal and applies an IIR filter to
+the signal." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -149,51 +150,84 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Apply iir filter to the input sensor data frame each column over a certain break (e.g. hour, sec, min and etc.).</h1>
+    <h1>Apply IIR filter to the signal</h1>
     <small class="dont-index">Source: <a href='https://github.com/qutang/mimsunit//blob/master/R/filter.R'><code>R/filter.R</code></a></small>
     <div class="hidden name"><code>iir.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Apply iir filter to the input sensor data frame each column over a certain break (e.g. hour, sec, min and etc.).</p>
+    <p><code>iir</code> function takes a multi-channel signal and applies an IIR filter to
+the signal.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>iir</span>(<span class='no'>df</span>, <span class='no'>sr</span>, <span class='no'>cutoff_freq</span>, <span class='no'>order</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"high"</span>, <span class='kw'>filter_type</span> <span class='kw'>=</span> <span class='st'>"butter"</span>)</pre>
+    <pre class="usage"><span class='fu'>iir</span>(<span class='no'>df</span>, <span class='no'>sr</span>, <span class='no'>cutoff_freq</span>, <span class='kw'>order</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"high"</span>,
+  <span class='kw'>filter_type</span> <span class='kw'>=</span> <span class='st'>"butter"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>df</th>
-      <td><p>the input dataframe that matches mhealth specification.</p></td>
+      <td><p>dataframe. The input multi-channel signal. The first column is
+timestamps in POSXlct format. The rest columns are signal values.</p></td>
     </tr>
     <tr>
       <th>sr</th>
-      <td><p>sampling rate of the input signal</p></td>
+      <td><p>number. Sampling rate in Hz of the input signal.</p></td>
     </tr>
     <tr>
       <th>cutoff_freq</th>
-      <td><p>cut off frequencies of butterworth filter, if more than one store as c(low, high)</p></td>
+      <td><p>number or numerical vector. The cutoff frequencies in Hz.
+If the IIR filter is a bandpass or bandstop filter, it will be a 2-element
+numerical vector specifing the low and high end cutoff frequencies
+<code>c(low, high)</code>.</p></td>
     </tr>
     <tr>
       <th>order</th>
-      <td><p>formula order of butterworth filter</p></td>
+      <td><p>number. The order of the filter. Default is 4.</p></td>
     </tr>
     <tr>
       <th>type</th>
-      <td><p>'low', 'high', 'stop', 'pass'</p></td>
+      <td><p>string. Filtering type, one of "low" for a low-pass filter,
+"high" for a high-pass filter, "stop" for a stop-band (band-reject) filter,
+or "pass" for a pass-band filter.</p></td>
     </tr>
     <tr>
       <th>filter_type</th>
-      <td><p>'butter', 'chebyI', 'chebyII', 'ellip'</p></td>
+      <td><p>string. IIR filter type, one of "butter" for butterworth
+filter, "chebyI" for Chebyshev Type I filter, "chebyII" for Chebyshev Type
+II filter, or "ellip" for Elliptic filter.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>list of filtered dataframes.</p>
+    <p>dataframe. Filtered signal.</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This function filters the input multi-channel signal by appling an IIR
+filter. See
+<a href='https://en.wikipedia.org/wiki/Infinite_impulse_response'>wiki</a> for the
+explanation of the filter. The implementations of IIR filters can be found in
+<code><a href='http://www.rdocumentation.org/packages/signal/topics/butter'>butter</a></code>, <code><a href='http://www.rdocumentation.org/packages/signal/topics/cheby1'>cheby1</a></code>,
+<code><a href='http://www.rdocumentation.org/packages/signal/topics/cheby1'>cheby2</a></code>, and <code><a href='http://www.rdocumentation.org/packages/signal/topics/ellip'>ellip</a></code>.</p>
+<p>For Chebyshev Type I, Type II and Elliptic filter, the passband ripple is
+fixed to be 0.05 dB. For Elliptic filter, the stopband ripple is fixed to be
+-50dB.</p>
+    
+    <h2 class="hasAnchor" id="how-is-it-used-in-mims-unit-algorithm-"><a class="anchor" href="#how-is-it-used-in-mims-unit-algorithm-"></a>How is it used in MIMS-unit algorithm?</h2>
+
+    <p>This function has been used
+  as the main filtering method in MIMS-unit algorithm. Specifically, it uses
+  a 0.5 - 5 Hz bandpass butterworth filter during filtering.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other filtering functions: <code>bandlimited_interp</code>,
+  <code><a href='bessel.html'>bessel</a></code>, <code>remove_average</code></p></div>
     
 
   </div>
@@ -203,6 +237,12 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
+
+      <li><a href="#how-is-it-used-in-mims-unit-algorithm-">How is it used in MIMS-unit algorithm?</a></li>
+
+      <li><a href="#see-also">See also</a></li>
           </ul>
 
   </div>

@@ -1,46 +1,44 @@
 reference:
-  - title: "IO for Biobank data analysis tool output"
+  - title: "Top-level API for MIMS-unit"
     desc: >
-      Functions for importing data from the output of Biobank data analysis tool
-    contents:
-      - import_biobank_enmo
-  - title: "IO for Actigraph Monitors"
-    desc: >
-      Functions for importing and exporting data with Actigraph Monitors (e.g. GT3X, GT9X)
-    contents:
-      - matches(".*actigraph.*")
-  - title: "IO for ActivPal Monitors"
-    desc: >
-      Functions for importing and exporting data with ActivPal Monitors (e.g. ActivPal 3)
-    contents:
-      - matches(".*activpal.*")
-  - title: "API for computing MIMS-unit"
-    desc: >
-      Function to generate MIMS-unit value
+      Function to compute MIMS-unit value.
     contents:
       - mims_unit
-  - title: "APIs for Intermediate step"
-    desc: "Functions used in intermediate process when computing MIMS-unit"
+  - title: "File IO"
+    desc: >
+      Functions for importing or exporting data for various data formats.
     contents:
-      - interpolate_signal
-      - average_removal
+      - starts_with("import")
+      - starts_with("export")
+  - title: "Signal Filtering"
+    desc: "Functions to filter multi-channel accelerometer signal."
+    contents:
       - iir
       - bessel
+      - remove_average
+      - bandlimited_interp
+  - title: "Signal extrapolation"
+    desc: "Functions to extrapolate multi-channel accelerometer signal."
+    contents:
+      - interpolate_signal
       - extrapolate
+      - extrapolate_rate
+  - title: "Signal aggregation"
+    desc: "Functions to aggregate over epochs of multi-channel accelerometer signal."
+    contents:
       - aggregate_for_mims
       - aggregate_for_orientation
       - compute_orientation
-  - title: "Util functions"
-    desc: >
-      Utility functions
-    contents:
-      - sampling_rate
-      - extrapolate_rate
-      - change_sampling_rate
-      - crop_grange
-      - make_sensor_data
       - sum_up
       - vector_magnitude
+  - title: "Util functions"
+    desc: >
+      Utility functions.
+    contents:
+      - sampling_rate
+      - crop_grange
+      - make_sensor_data
+
 
 authors:
   Qu Tang:
