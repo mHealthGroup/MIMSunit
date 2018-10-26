@@ -1,3 +1,5 @@
+url: https://qutang.github.io/MIMSunit/
+
 reference:
   - title: "Top-level API for MIMS-unit"
     desc: >
@@ -39,24 +41,28 @@ reference:
       - crop_grange
       - make_sensor_data
 
+development:
+  mode: unreleased
 
 authors:
   Qu Tang:
     href: https://qutang.github.io
+    html: <img class='img-circle p-3' src="http://qutang.github.io/images/test-logo.jpg" height="40" /><span> Qu Tang</span>
   Dinesh John:
     href: "https://bouve.northeastern.edu/directory/dinesh-john/"
+    html: <img class='img-circle p-3' src="https://banner2.kisspng.com/20180410/bbw/kisspng-avatar-user-medicine-surgery-patient-avatar-5acc9f7a7cb983.0104600115233596105109.jpg" height="40" /><span> Dinesh John</span>
   Stephen Intille:
     href: "http://www.ccs.neu.edu/home/intille/"
+    html: <img class='img-circle p-3' src="http://www.ccs.neu.edu/home/intille/intille-headshot-sm2.jpg" height="40" /><span> Stephen Intille</span>
   mHealth Research Group:
     href: "https://mhealthgroup.org"
+    html: <img src="https://www.mhealthgroup.org/uploads/1/1/1/1/111147333/unnamed.gif" height="24" />
 
 template:
   params:
-    bootswatch: readable
     ganalytics: UA-38342303-3
 navbar:
   title: "MIMSunit"
-  type: inverse
   left:
     - text: "Get Started"
       href: articles/MIMSunit.html
@@ -81,5 +87,5 @@ navbar:
     - text: "API References"
       href: "reference/index.html"
   right:
-    - icon: fa-github
+    - icon: fa-lg fa-github
       href: https://github.com/qutang/mimsunit

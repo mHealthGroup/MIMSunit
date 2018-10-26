@@ -1,0 +1,11 @@
+citHeader("To cite the MIMSunit package in publications, use:")
+
+citEntry(
+  entry = "Article",
+  author = c(as.person('Dinesh John'), as.person('Qu Tang'), as.person('Albinali Fahd'), as.person('Stephen Intille')),
+  title = "A monitor-independent movement summary to harmonize accelerometer data processing",
+  journal = "Journal of Measuring Physical Behaviors",
+  year = 2018,
+  note = "Status: submitted",
+  textVersion = "D. John, Q. Tang, F. Albinali, and S.S. Intille. 2018. A monitor-independent movement summary to harmonize accelerometer data processing. Journal of Measuring Physical Behaviors. Status: Submitted."
+)

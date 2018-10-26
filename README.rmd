@@ -11,6 +11,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # MIMS-unit algorithm
 
+[![Travis-CI build status](https://travis-ci.org/qutang/MIMSunit.svg?branch=master)](https://travis-ci.org/qutang/MIMSunit)
+[![CRAN Status](https://www.r-pkg.org/badges/version/MIMSunit)](https://cran.r-project.org/package=MIMSunit)
+
 __This work is in submission. At the time of publication, this site will be updated with additional code/documentation. Before publication, the codes are subject to refactoring. Please create github [issues](https://github.com/qutang/mimsunit/issues/) if you have any question related to the package.__
 
 ## Short introduction
