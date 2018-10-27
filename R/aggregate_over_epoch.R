@@ -57,9 +57,7 @@ aggregate_for_mims <-
 
     # get the number of samples in each epoch
     n_threshold <-
-      break_str_to_sample_size(ts = df[, 1],
-                               breaks = epoch,
-                               sr = sampling_rate(df))
+      parse_epoch_string(epoch_str = epoch, sr = sampling_rate(df))
 
     # iterate over each value column
     result <- plyr::ddply(df, c("SEGMENT"), function(rows)
@@ -203,9 +201,7 @@ aggregate_for_orientation <-
 
     # get the desired number of samples in each epoch
     n_threshold <-
-      break_str_to_sample_size(ts = df[, 1],
-                               breaks = epoch,
-                               sr = sampling_rate(df))
+      parse_epoch_string(epoch_str = epoch, sr = sampling_rate(df))
 
     # iterate over each column
     result <- plyr::ddply(df, c("SEGMENT"), function(rows)

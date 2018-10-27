@@ -4,7 +4,7 @@
 \alias{import_actigraph_meta}
 \title{parse actigraph csv header to get related version and sampling rate information}
 \usage{
-import_actigraph_meta(filename, header = TRUE)
+import_actigraph_meta(filepath, header = TRUE)
 }
 \description{
 parse actigraph csv header to get related version and sampling rate information

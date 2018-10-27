@@ -4,36 +4,63 @@ numeric.equal <- function(x, y)
   return(abs(x - y) < .Machine$double.eps ^ 0.5)
 }
 
+#' Parse epoch string to the corresponding number of samples it represents.
+#'
+#' \code{parse_epoch_string} parses the epoch string (e.g. "1 min"), and outputs
+#' the corresponding number of samples it represents.
+#'
+#' This function parses the given epoch string (e.g. "5 secs") and outputs the
+#' corresponding number of samples represented by the epoch string.
+#'
+#' @section How is it used in MIMS-unit algorithm?: This function is used in
+#'   \code{\link{aggregate_for_mims}} function.
+#'
+#' @param epoch_str. string. The input epoch str as accepted by \code{breaks}
+#'   argument of \code{\link[base]{cut.POSIXt}}.
+#' @param sr. number. The sampling rate in Hz used to parse the epoch string.
+#' @return number. The number of samples represented by the epoch string.
+#' @family utility functions
 #' @export
-break_str_to_sample_size <- function(ts, breaks, sr)
+parse_epoch_string <- function(epoch_str, sr)
 {
-  if (missing(breaks) || is.null(breaks))
+  if (stringr::str_detect(epoch_str, "sec"))
   {
-    n <- length(ts)
-    return(n)
-  } else if (stringr::str_detect(breaks, "sec"))
-  {
-    tokens <- stringr::str_split(breaks, pattern = " ")[[1]]
+    tokens <- stringr::str_split(epoch_str, pattern = " ")[[1]]
     n <- as.numeric(tokens[1]) * sr
-  } else if (stringr::str_detect(breaks, "min"))
+  } else if (stringr::str_detect(epoch_str, "min"))
   {
-    tokens <- stringr::str_split(breaks, pattern = " ")[[1]]
+    tokens <- stringr::str_split(epoch_str, pattern = " ")[[1]]
     n <- as.numeric(tokens[1]) * sr * 60
-  } else if (stringr::str_detect(breaks, "hour"))
+  } else if (stringr::str_detect(epoch_str, "hour"))
   {
-    tokens <- stringr::str_split(breaks, pattern = " ")[[1]]
+    tokens <- stringr::str_split(epoch_str, pattern = " ")[[1]]
     n <- as.numeric(tokens[1]) * sr * 3600
-  } else if (stringr::str_detect(breaks, "day"))
+  } else if (stringr::str_detect(epoch_str, "day"))
   {
-    tokens <- stringr::str_split(breaks, pattern = " ")[[1]]
+    tokens <- stringr::str_split(epoch_str, pattern = " ")[[1]]
     n <- as.numeric(tokens[1]) * sr * 3600 * 24
   }
   return(n)
 }
 
-#' @name sampling_rate
-#' @title Get sensor data's sampling rate from the time difference of adjacent samples
-#' @importFrom magrittr %>%
+#' Estimate sampling rate for multi-channel signal
+#'
+#' \code{sampling_rate} estimates the sampling rate based on the average time
+#' intervals between adjacent samples for the input multi-channel singal.
+#'
+#' This function accepts a dataframe of multi-channel signal, computes the
+#' duration of the sequence, and gets the sampling rate by deviding the number
+#' of samples by it.
+#'
+#' @section How is it used in MIMS-unit algorithm?: This function is a utility
+#'   function that was used in various part in the algorithm whenever we need to
+#'   know the sampling rate.
+#'
+#' @param df dataframe. Input dataframe of the multi-channel signal. The first
+#'   column is the timestamps in POSXlct format and the following columns are
+#'   accelerometer values.
+#' @return number. The estimated sampling rate in Hz.
+#' @family utility functions
 #' @export
 sampling_rate <- function(df)
 {

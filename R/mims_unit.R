@@ -204,7 +204,7 @@ mims_unit <-
       truncate_indices <-
         mims_data[, 2:ncol(mims_data)] > 0 &
         (mims_data[, 2:ncol(mims_data)] <=
-           (1e-04 * break_str_to_sample_size(NULL, breaks, sr) / sr))
+           (1e-04 * parse_epoch_string(breaks, sr) / sr))
       truncate_indices <- data.frame(truncate_indices)
       mims_data[, 2:ncol(mims_data)] <-
         sapply(1:(ncol(mims_data) - 1), function(n)

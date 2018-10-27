@@ -43,13 +43,13 @@
     <loc>https://qutang.github.io/MIMSunit//reference/import_actigraph_count.html</loc>
   </url>
   <url>
+    <loc>https://qutang.github.io/MIMSunit//reference/import_actigraph_csv.html</loc>
+  </url>
+  <url>
     <loc>https://qutang.github.io/MIMSunit//reference/import_actigraph_meta.html</loc>
   </url>
   <url>
-    <loc>https://qutang.github.io/MIMSunit//reference/import_actigraph_raw.html</loc>
-  </url>
-  <url>
-    <loc>https://qutang.github.io/MIMSunit//reference/import_activpal.html</loc>
+    <loc>https://qutang.github.io/MIMSunit//reference/import_activpal3_csv.html</loc>
   </url>
   <url>
     <loc>https://qutang.github.io/MIMSunit//reference/import_biobank_enmo.html</loc>
@@ -65,6 +65,9 @@
   </url>
   <url>
     <loc>https://qutang.github.io/MIMSunit//reference/mims_unit_.html</loc>
+  </url>
+  <url>
+    <loc>https://qutang.github.io/MIMSunit//reference/parse_epoch_string.html</loc>
   </url>
   <url>
     <loc>https://qutang.github.io/MIMSunit//reference/remove_average.html</loc>

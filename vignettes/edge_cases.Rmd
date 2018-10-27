@@ -45,7 +45,7 @@ mims = MIMSunit::mims_unit(df, breaks = '5 sec', range = c(-6, 6))
 ```
 
 ```{r, message=FALSE, warning=FALSE, include=FALSE}
-mims = MIMSunit::mims_unit(df, breaks = '5 sec', range = c(-6, 6), output_per_axis=TRUE)
+mims = MIMSunit::mims_unit(df, breaks = '5 sec', range = c(-6, 6), output_per_axis = TRUE)
 ```
 
 #### Output: MIMS unit values

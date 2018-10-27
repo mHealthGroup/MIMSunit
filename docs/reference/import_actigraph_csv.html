@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Estimate sampling rate for multi-channel signal — sampling_rate • MIMSunit</title>
+<title>Import raw multi-channel accelerometer data stored in Actigraph raw csv
+format — import_actigraph_csv • MIMSunit</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,10 +31,12 @@
 
 
 
-<meta property="og:title" content="Estimate sampling rate for multi-channel signal — sampling_rate" />
+<meta property="og:title" content="Import raw multi-channel accelerometer data stored in Actigraph raw csv
+format — import_actigraph_csv" />
 
-<meta property="og:description" content="sampling_rate estimates the sampling rate based on the average time
-intervals between adjacent samples for the input multi-channel singal." />
+<meta property="og:description" content="import_actigraph_csv imports the raw multi-channel accelerometer data
+stored in Actigraph raw csv format. It supports files from the following
+devices: GT3X, GT3X+, GT3X+BT, GT9X, and GT9X-IMU." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -150,50 +153,72 @@ intervals between adjacent samples for the input multi-channel singal." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Estimate sampling rate for multi-channel signal</h1>
-    <small class="dont-index">Source: <a href='https://github.com/qutang/mimsunit//blob/master/R/helper.R'><code>R/helper.R</code></a></small>
-    <div class="hidden name"><code>sampling_rate.Rd</code></div>
+    <h1>Import raw multi-channel accelerometer data stored in Actigraph raw csv
+format</h1>
+    <small class="dont-index">Source: <a href='https://github.com/qutang/mimsunit//blob/master/R/import_data.R'><code>R/import_data.R</code></a></small>
+    <div class="hidden name"><code>import_actigraph_csv.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p><code>sampling_rate</code> estimates the sampling rate based on the average time
-intervals between adjacent samples for the input multi-channel singal.</p>
+    <p><code>import_actigraph_csv</code> imports the raw multi-channel accelerometer data
+stored in Actigraph raw csv format. It supports files from the following
+devices: GT3X, GT3X+, GT3X+BT, GT9X, and GT9X-IMU.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>sampling_rate</span>(<span class='no'>df</span>)</pre>
+    <pre class="usage"><span class='fu'>import_actigraph_csv</span>(<span class='no'>filepath</span>, <span class='kw'>in_voltage</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>has_ts</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>header</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>df</th>
-      <td><p>dataframe. Input dataframe of the multi-channel signal. The first
-column is the timestamps in POSXlct format and the following columns are
-accelerometer values.</p></td>
+      <th>filepath</th>
+      <td><p>string. The filepath of the input data.</p></td>
+    </tr>
+    <tr>
+      <th>in_voltage</th>
+      <td><p>set as TRUE only when the input Actigraph csv file is in
+analog quantized format and need to be converted into g value</p></td>
+    </tr>
+    <tr>
+      <th>has_ts</th>
+      <td><p>set as TRUE only when timestamp is provided as the first column</p></td>
+    </tr>
+    <tr>
+      <th>header</th>
+      <td><p>boolean. If TRUE, the input csv file will have column names in
+the first row.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>number. The estimated sampling rate in Hz.</p>
+    <p>dataframe. The imported multi-channel accelerometer signal, with the
+  first column being the timestamps in POSXlct format, and the rest columns
+  being accelerometer values in \(g\) unit.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function accepts a dataframe of multi-channel signal, computes the
-duration of the sequence, and gets the sampling rate by deviding the number
-of samples by it.</p>
+    <p>For old device (GT3X) that stores accelerometer values as digital voltage.
+The function will convert the values to \(g\) unit using the following
+equation.</p>
+<p>$$\frac{x_{voltage}r}{(2 ^ r) - \frac{v}{2}}$$</p>
+<p>Where \(v\) is the max voltage corresponding to the max accelerometer value
+that can be found in the meta section in the csv file; \(r\) is the
+resolution level which is the number of bits used to store the voltage
+values. \(r\) can also be found in the meta section in the csv file.</p>
     
     <h2 class="hasAnchor" id="how-is-it-used-in-mims-unit-algorithm-"><a class="anchor" href="#how-is-it-used-in-mims-unit-algorithm-"></a>How is it used in MIMS-unit algorithm?</h2>
 
-    <p>This function is a utility
-  function that was used in various part in the algorithm whenever we need to
-  know the sampling rate.</p>
+    <p>This function is a File IO
+  function that is used to import data from Actigraph devices during
+  algorithm validation.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other utility functions: <code><a href='parse_epoch_string.html'>parse_epoch_string</a></code></p></div>
+    <div class='dont-index'><p>Other Filo I/O functions: <code><a href='import_activpal3_csv.html'>import_activpal3_csv</a></code></p></div>
     
 
   </div>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Estimate sampling rate for multi-channel signal — sampling_rate • MIMSunit</title>
+<title>Import raw multi-channel accelerometer data stored in ActivPal3 csv format — import_activpal3_csv • MIMSunit</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,10 +30,11 @@
 
 
 
-<meta property="og:title" content="Estimate sampling rate for multi-channel signal — sampling_rate" />
+<meta property="og:title" content="Import raw multi-channel accelerometer data stored in ActivPal3 csv format — import_activpal3_csv" />
 
-<meta property="og:description" content="sampling_rate estimates the sampling rate based on the average time
-intervals between adjacent samples for the input multi-channel singal." />
+<meta property="og:description" content="import_activpal3_csv imports the raw multi-channel accelerometer data
+stored in ActivPal3 csv format by converting the accelerometer values (in
+digital voltage values) to \(g\) unit." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -150,50 +151,57 @@ intervals between adjacent samples for the input multi-channel singal." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Estimate sampling rate for multi-channel signal</h1>
-    <small class="dont-index">Source: <a href='https://github.com/qutang/mimsunit//blob/master/R/helper.R'><code>R/helper.R</code></a></small>
-    <div class="hidden name"><code>sampling_rate.Rd</code></div>
+    <h1>Import raw multi-channel accelerometer data stored in ActivPal3 csv format</h1>
+    <small class="dont-index">Source: <a href='https://github.com/qutang/mimsunit//blob/master/R/import_data.R'><code>R/import_data.R</code></a></small>
+    <div class="hidden name"><code>import_activpal3_csv.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p><code>sampling_rate</code> estimates the sampling rate based on the average time
-intervals between adjacent samples for the input multi-channel singal.</p>
+    <p><code>import_activpal3_csv</code> imports the raw multi-channel accelerometer data
+stored in ActivPal3 csv format by converting the accelerometer values (in
+digital voltage values) to \(g\) unit.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>sampling_rate</span>(<span class='no'>df</span>)</pre>
+    <pre class="usage"><span class='fu'>import_activpal3_csv</span>(<span class='no'>filepath</span>, <span class='kw'>header</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>df</th>
-      <td><p>dataframe. Input dataframe of the multi-channel signal. The first
-column is the timestamps in POSXlct format and the following columns are
-accelerometer values.</p></td>
+      <th>filepath</th>
+      <td><p>string. The filepath of the input data.</p></td>
+    </tr>
+    <tr>
+      <th>header</th>
+      <td><p>boolean. If TRUE, the input csv file will have column names in
+the first row.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>number. The estimated sampling rate in Hz.</p>
+    <p>dataframe. The imported multi-channel accelerometer signal, with the
+  first column being the timestamps in POSXlct format, and the rest columns
+  being accelerometer values in \(g\) unit.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function accepts a dataframe of multi-channel signal, computes the
-duration of the sequence, and gets the sampling rate by deviding the number
-of samples by it.</p>
+    <p>ActivPal 3 sensors have known dynamic range to be \((-2g, +2g)\). And the
+sensor stores values using 8-bit memory storage. So, the digital voltage
+values may be converted to \(g\) unit using following equation.</p>
+<p>$$x_g = \frac{x_{voltage} - 127}{2^8} * 4$$</p>
     
     <h2 class="hasAnchor" id="how-is-it-used-in-mims-unit-algorithm-"><a class="anchor" href="#how-is-it-used-in-mims-unit-algorithm-"></a>How is it used in MIMS-unit algorithm?</h2>
 
-    <p>This function is a utility
-  function that was used in various part in the algorithm whenever we need to
-  know the sampling rate.</p>
+    <p>This function is a File IO
+  function that is used to import data from ActivPal3 devices during
+  algorithm validation.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other utility functions: <code><a href='parse_epoch_string.html'>parse_epoch_string</a></code></p></div>
+    <div class='dont-index'><p>Other Filo I/O functions: <code><a href='import_actigraph_csv.html'>import_actigraph_csv</a></code></p></div>
     
 
   </div>

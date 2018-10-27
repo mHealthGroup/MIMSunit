@@ -38,6 +38,7 @@ reference:
       Utility functions.
     contents:
       - sampling_rate
+      - parse_epoch_string
       - crop_grange
       - make_sensor_data
 

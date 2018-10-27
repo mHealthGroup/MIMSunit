@@ -2,10 +2,34 @@
 % Please edit documentation in R/helper.R
 \name{sampling_rate}
 \alias{sampling_rate}
-\title{Get sensor data's sampling rate from the time difference of adjacent samples}
+\title{Estimate sampling rate for multi-channel signal}
 \usage{
 sampling_rate(df)
 }
-\description{
-Get sensor data's sampling rate from the time difference of adjacent samples
+\arguments{
+\item{df}{dataframe. Input dataframe of the multi-channel signal. The first
+column is the timestamps in POSXlct format and the following columns are
+accelerometer values.}
 }
+\value{
+number. The estimated sampling rate in Hz.
+}
+\description{
+\code{sampling_rate} estimates the sampling rate based on the average time
+intervals between adjacent samples for the input multi-channel singal.
+}
+\details{
+This function accepts a dataframe of multi-channel signal, computes the
+duration of the sequence, and gets the sampling rate by deviding the number
+of samples by it.
+}
+\section{How is it used in MIMS-unit algorithm?}{
+ This function is a utility
+  function that was used in various part in the algorithm whenever we need to
+  know the sampling rate.
+}
+
+\seealso{
+Other utility functions: \code{\link{parse_epoch_string}}
+}
+\concept{utility functions}

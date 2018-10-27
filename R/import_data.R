@@ -1,16 +1,39 @@
-#' @name import_activpal
-#' @title Import ActivPal Raw data files and load into dataframe as mhealth format.
+#' Import raw multi-channel accelerometer data stored in ActivPal3 csv format
+#'
+#' \code{import_activpal3_csv} imports the raw multi-channel accelerometer data
+#' stored in ActivPal3 csv format by converting the accelerometer values (in
+#' digital voltage values) to \eqn{g} unit.
+#'
+#' ActivPal 3 sensors have known dynamic range to be \eqn{(-2g, +2g)}. And the
+#' sensor stores values using 8-bit memory storage. So, the digital voltage
+#' values may be converted to \eqn{g} unit using following equation.
+#'
+#' \deqn{x_g = \frac{x_{voltage} - 127}{2^8} * 4}
+#'
+#' @section How is it used in MIMS-unit algorithm?: This function is a File IO
+#'   function that is used to import data from ActivPal3 devices during
+#'   algorithm validation.
+#'
+#' @param filepath string. The filepath of the input data.
+#' @param header boolean. If TRUE, the input csv file will have column names in
+#'   the first row.
+#' @return dataframe. The imported multi-channel accelerometer signal, with the
+#'   first column being the timestamps in POSXlct format, and the rest columns
+#'   being accelerometer values in \eqn{g} unit.
+#'
+#' @family Filo I/O functions
+#'
 #' @export
-import_activpal_raw <- function(filename, header_provided = FALSE)
+import_activpal3_csv <- function(filepath, header = FALSE)
 {
   ncols <-
-    readr::count_fields(filename, readr::tokenizer_csv(), n_max = 1)
+    readr::count_fields(filepath, readr::tokenizer_csv(), n_max = 1)
   col_types <- paste(rep("d", ncols), collapse = "")
-  if (header_provided)
+  if (header)
   {
     dat <-
       readr::read_csv(
-        filename,
+        filepath,
         col_names = TRUE,
         trim_ws = TRUE,
         col_types = col_types
@@ -19,7 +42,7 @@ import_activpal_raw <- function(filename, header_provided = FALSE)
   {
     dat <-
       readr::read_csv(
-        filename,
+        filepath,
         col_names = FALSE,
         trim_ws = TRUE,
         col_types = col_types
@@ -37,28 +60,54 @@ import_activpal_raw <- function(filename, header_provided = FALSE)
   return(dat)
 }
 
-#' @name import_actigraph_raw
-#' @title Import and convert Actigraph raw csv files and load into data frame as in mhealth format.
+#' Import raw multi-channel accelerometer data stored in Actigraph raw csv
+#' format
+#'
+#' \code{import_actigraph_csv} imports the raw multi-channel accelerometer data
+#' stored in Actigraph raw csv format. It supports files from the following
+#' devices: GT3X, GT3X+, GT3X+BT, GT9X, and GT9X-IMU.
+#'
+#' For old device (GT3X) that stores accelerometer values as digital voltage.
+#' The function will convert the values to \eqn{g} unit using the following
+#' equation.
+#'
+#' \deqn{\frac{x_{voltage}r}{(2 ^ r) - \frac{v}{2}}}
+#'
+#' Where \eqn{v} is the max voltage corresponding to the max accelerometer value
+#' that can be found in the meta section in the csv file; \eqn{r} is the
+#' resolution level which is the number of bits used to store the voltage
+#' values. \eqn{r} can also be found in the meta section in the csv file.
+#'
+#' @section How is it used in MIMS-unit algorithm?: This function is a File IO
+#'   function that is used to import data from Actigraph devices during
+#'   algorithm validation.
+#'
+#' @param filepath string. The filepath of the input data.
+#' @param in_voltage set as TRUE only when the input Actigraph csv file is in
+#'   analog quantized format and need to be converted into g value
+#' @param has_ts set as TRUE only when timestamp is provided as the first column
+#' @param header boolean. If TRUE, the input csv file will have column names in
+#'   the first row.
+#' @return dataframe. The imported multi-channel accelerometer signal, with the
+#'   first column being the timestamps in POSXlct format, and the rest columns
+#'   being accelerometer values in \eqn{g} unit.
+#'
+#' @family Filo I/O functions
 #' @export
-#' @note Also support GT9X IMU csv file
-#' @param filename full file path of input Actigraph raw csv file.
-#' @param ad_convert set as TRUE only when the input Actigraph csv file is in analog quantized format and need to be converted into g value
-#' @param ts_provided set as TRUE only when timestamp is provided as the first column
-#' @param header_provided set as TRUE only when column header is provided
-import_actigraph_raw <-
-  function(filename,
-           ad_convert = FALSE,
-           ts_provided = TRUE,
-           header_provided = TRUE)
+import_actigraph_csv <-
+  function(filepath,
+           in_voltage = FALSE,
+           has_ts = TRUE,
+           header = TRUE)
   {
-    actigraph_meta <- import_actigraph_meta(filename)
+    actigraph_meta <- import_actigraph_meta(filepath)
 
     ncols <-
-      readr::count_fields(filename,
+      readr::count_fields(filepath,
                           readr::tokenizer_csv(),
                           n_max = 1,
                           skip = 11)
-    if (ts_provided)
+    if (has_ts)
     {
       col_types <- paste(c("c", rep("d", ncols - 1)), collapse = "")
     } else
@@ -67,11 +116,11 @@ import_actigraph_raw <-
     }
 
 
-    if (header_provided)
+    if (header)
     {
       dat <-
         readr::read_csv(
-          filename,
+          filepath,
           col_names = FALSE,
           skip = 11,
           trim_ws = TRUE,
@@ -81,7 +130,7 @@ import_actigraph_raw <-
     {
       dat <-
         readr::read_csv(
-          filename,
+          filepath,
           col_names = FALSE,
           skip = 10,
           trim_ws = TRUE,
@@ -89,7 +138,7 @@ import_actigraph_raw <-
         )
     }
 
-    if (!ts_provided)
+    if (!has_ts)
     {
       ts_col <-
         seq(from = actigraph_meta$st,
@@ -102,7 +151,7 @@ import_actigraph_raw <-
 
     names(dat) <- c("HEADER_TIME_STAMP", "X", "Y", "Z")
 
-    if (ts_provided)
+    if (has_ts)
     {
       time_format <-
         ifelse(test = actigraph_meta$imu,
@@ -115,7 +164,7 @@ import_actigraph_raw <-
     options(digits.secs = 3)
     dat <- as.data.frame(dat)
 
-    if (ad_convert)
+    if (in_voltage)
     {
       vs <- actigraph_meta$vs
       res <- actigraph_meta$res
@@ -136,15 +185,15 @@ import_actigraph_raw <-
 #' @title Import and convert Actigraph count csv files and load into data frame as in mhealth format.
 #' @export
 #' @rdname import_actigraph_count
-#' @param filename full file path of input Actigraph count csv file.
+#' @param filepath full file path of input Actigraph count csv file.
 import_actigraph_count <-
-  function(filename,
+  function(filepath,
            col_name = "ACTIGRAPH_COUNT",
            axes = c(2, 3, 4))
   {
     dat <-
       readr::read_csv(
-        filename,
+        filepath,
         col_names = TRUE,
         col_types = readr::cols(
           timestamp = readr::col_character(),
@@ -175,13 +224,13 @@ import_actigraph_count <-
 #' @title Import and convert Actigraph count csv files and load into data frame as in mhealth format.
 #' @export
 #' @rdname import_actigraph_count
-#' @param filename full file path of input Actigraph count csv file.
+#' @param filepath full file path of input Actigraph count csv file.
 import_actigraph_count_vm <-
-  function(filename, col_name = "ACTIGRAPH_COUNT")
+  function(filepath, col_name = "ACTIGRAPH_COUNT")
   {
     dat <-
       readr::read_csv(
-        filename,
+        filepath,
         col_names = TRUE,
         col_types = readr::cols(
           timestamp = readr::col_character(),
@@ -201,10 +250,10 @@ import_actigraph_count_vm <-
 #' @name import_biobank_enmo
 #' @title Import and convert biobank epoch csv files and load into data frame as in mhealth format.
 #' @export
-#' @param filename full file path of input biobank epoch csv file.
-import_biobank_enmo <- function(filename, col_name = "biobank_enmo")
+#' @param filepath full file path of input biobank epoch csv file.
+import_biobank_enmo <- function(filepath, col_name = "biobank_enmo")
 {
-  dat <- readr::read_csv(filename, col_names = TRUE)
+  dat <- readr::read_csv(filepath, col_names = TRUE)
   dat <- data.frame(dat)
   dat <- dat[1:2]
   dat[, 1] <-
@@ -219,7 +268,7 @@ import_biobank_enmo <- function(filename, col_name = "biobank_enmo")
 #' @name import_actigraph_meta
 #' @title parse actigraph csv header to get related version and sampling rate information
 #' @export
-import_actigraph_meta <- function(filename, header = TRUE)
+import_actigraph_meta <- function(filepath, header = TRUE)
 {
   ACTIGRAPH_HEADER_SR_PATTERN <- "([0-9]+) Hz"
   ACTIGRAPH_FIRMWARE_PATTERN <- "Firmware v([0-9]+.[0-9]+.[0-9]+)"
@@ -227,7 +276,7 @@ import_actigraph_meta <- function(filename, header = TRUE)
   ACTIGRAPH_SERIALNUM_PATTERN <- "Serial Number: ([A-Za-z0-9]+)"
   ACTIGRAPH_TIMESTAMP <- "%m/%d/%Y %H:%M:%OS"
 
-  headlines <- readLines(filename, n = 10, encoding = "UTF-8")
+  headlines <- readLines(filepath, n = 10, encoding = "UTF-8")
 
   # Sampling rate
   sr_pattern <- ACTIGRAPH_HEADER_SR_PATTERN
@@ -308,10 +357,10 @@ import_actigraph_meta <- function(filename, header = TRUE)
     duration <- as.numeric(dt - st, units = "secs")
     if (header)
     {
-      nlines <- R.utils::countLines(filename) - 11
+      nlines <- R.utils::countLines(filepath) - 11
     } else
     {
-      nlines <- R.utils::countLines(filename) - 10
+      nlines <- R.utils::countLines(filepath) - 10
     }
     sr <- as.numeric(ceiling(nlines / duration))
   }
