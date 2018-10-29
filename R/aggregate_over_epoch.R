@@ -141,8 +141,8 @@ aggregate_for_mims <-
 #' \code{aggregate_for_orientation} returns a dataframe with accelerometer
 #' orientations estimated by
 #' \href{https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=1241424}{Mizell,
-#' 2003} over each epoch. The epoch start time will be used as timestamp in the
-#' first column.
+#' 2003} over each epoch (see \code{\link{compute_orientation}}). The epoch
+#' start time will be used as timestamp in the first column.
 #'
 #' This function accepts a dataframe (in mhealth accelerometer data format) and
 #' computes the estimated acclerometer orientations (in x, y, and z angles) over
@@ -158,14 +158,13 @@ aggregate_for_mims <-
 #'   extrapolated signal will be estimated to get orientation angles using this
 #'   function.
 #'
-#' @param df dataframe of accelerometer data in mhealth format. First column
+#' @param df dataframe. Input accelerometer data in mhealth format. First column
 #'   should be timestamps in POSIXt format.
 #' @param epoch string. Any format that is acceptable by argument \code{breaks}
 #'   in method \code{\link[base]{cut.POSIXt}}.For example, "1 sec", "1 min", "5
 #'   secs", "10 mins".
-#' @param estimation_duration numeric value. duration in seconds to be used to
-#'   estimate orientation within each epoch. Default is 2 (seconds), as
-#'   suggested by
+#' @param estimation_window number. Duration in seconds to be used to estimate
+#'   orientation within each epoch. Default is 2 (seconds), as suggested by
 #'   \href{https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=1241424}{Mizell,
 #'   2003}.
 #' @param unit string. The unit of orientation angles. Can be "deg" (degree) or
@@ -184,7 +183,7 @@ aggregate_for_mims <-
 aggregate_for_orientation <-
   function(df,
            epoch,
-           estimation_duration = 2,
+           estimation_window = 2,
            unit = "deg")
   {
     time_zone <- lubridate::tz(df[1, 1])
@@ -213,7 +212,7 @@ aggregate_for_orientation <-
       {
         ori_values <-
           compute_orientation(rows[, 1:n_cols],
-                              epoch = estimation_duration,
+                              estimation_window = estimation_window,
                               unit = unit)
       } else
       {

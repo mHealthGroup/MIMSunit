@@ -71,7 +71,7 @@ import_activpal3_csv <- function(filepath, header = FALSE)
 #' The function will convert the values to \eqn{g} unit using the following
 #' equation.
 #'
-#' \deqn{\frac{x_{voltage}r}{(2 ^ r) - \frac{v}{2}}}
+#' \deqn{x_g = \frac{x_{voltage}r}{(2 ^ r) - \frac{v}{2}}}
 #'
 #' Where \eqn{v} is the max voltage corresponding to the max accelerometer value
 #' that can be found in the meta section in the csv file; \eqn{r} is the
@@ -181,92 +181,131 @@ import_actigraph_csv <-
     return(dat)
   }
 
-#' @name import_actigraph_count
-#' @title Import and convert Actigraph count csv files and load into data frame as in mhealth format.
+#' Import Actigraph count data stored in Actigraph summary csv format
+#'
+#' \code{import_actigraph_count_csv} imports Actigraph count data stored in
+#' Actigraph summary csv format, which was exported by Actilife.
+#'
+#' @section How is it used in MIMS-unit algorithm?: This function is a File IO
+#'   function that is used to import Actigraph count data from Actigraph devices
+#'   during algorithm validation.
+#'
+#' @note If both \code{count_col} and \code{count_per_axis_cols} are
+#'   \code{NULL}, the function will raise an error.
+#'
+#' @param filepath string. The filepath of the input data.
+#' @param count_col number. The index of column of Actigraph count (combined
+#'   axes). If it is \code{NULL}, the function will use
+#'   \code{count_per_axis_cols} to get the combined Actigraph count values.
+#' @param count_per_axis_cols numerical vector. The indices of columns of
+#'   Actigraph count values per axis. If \code{count_col} is not \code{NULL},
+#'   the argument will be ignored. If it is \code{NULL}, the output dataframe
+#'   will only have two columns without Actigraph count values per axis.
+#' @return dataframe. The imported actigraph count data, with the first column
+#'   being the timestamps in POSIXct format, and the second column being the
+#'   combined Actigraph count values, and the rest of columns being the
+#'   Actigraph cont values per axis if available. Column names:
+#'   \code{HEADER_TIME_STAMP}, \code{ACTIGRAPH_COUNT},
+#'   \code{ACTIGRAPH_COUNT_X}....
+#'
+#' @family Filo I/O functions
 #' @export
-#' @rdname import_actigraph_count
-#' @param filepath full file path of input Actigraph count csv file.
-import_actigraph_count <-
+import_actigraph_count_csv <-
   function(filepath,
-           col_name = "ACTIGRAPH_COUNT",
-           axes = c(2, 3, 4))
+           count_col = 2,
+           count_per_axis_cols = c(2, 3, 4))
   {
     dat <-
-      readr::read_csv(
-        filepath,
-        col_names = TRUE,
-        col_types = readr::cols(
-          timestamp = readr::col_character(),
-          axis1 = readr::col_double(),
-          axis2 = readr::col_double(),
-          axis3 = readr::col_double()
-        )
-      )
-    dat <- data.frame(dat)
+      read.csv(file = filepath,
+               header = TRUE,
+               stringsAsFactors = FALSE)
     dat[, 1] <-
       as.POSIXct(dat[, 1],
                  format = mHealthR::mhealth$format$csv$TIMESTAMP,
                  tz = "UTC")
-    if (length(axes) > 1)
+
+    result = dat[, 1]
+    colnames(result) = c('HEADER_TIME_STAMP')
+
+    if ( ~ is.null(count_col))
     {
-      count_value <- sqrt(rowSums(dat[, axes] ^ 2))
-    } else
-    {
-      count_value <- dat[, axes]
+      count_value <- dat[, count_col]
+    } else if (is.null(count_col) & ~ is.null(count_per_axis_cols)) {
+      count_value <- sqrt(rowSums(dat[, count_per_axis_cols] ^ 2))
     }
-    dat[col_name] <- count_value
-    result <- dat[c(1, ncol(dat))]
-    colnames(result) <- c("HEADER_TIME_STAMP", col_name)
+
+    result["ACTIGRAPH_COUNT"] <- count_value
+    axes_names = c('X', 'Y', 'Z')
+    if ( ~ is.null(count_per_axis_cols)) {
+      for (i in count_per_axis_cols) {
+        result[paste("ACTIGRAPH_COUNT_", axes_names[i], sep = "")] = dat[, i]
+      }
+    }
     return(result)
   }
 
-#' @name import_actigraph_count_vm
-#' @title Import and convert Actigraph count csv files and load into data frame as in mhealth format.
+#' Import ENMO data stored in csv csv
+#'
+#' \code{import_enmo_csv} imports ENMO data stored in a summary csv format,
+#' which was exported by the
+#' \href{https://github.com/activityMonitoring/biobankAccelerometerAnalysis}{biobank
+#' data analysis tools}.
+#'
+#' @section How is it used in MIMS-unit algorithm?: This function is a File IO
+#'   function that is used to import ENMO data from activity monitor devices
+#'   during algorithm validation.
+#'
+#' @param filepath string. The filepath of the input data.
+#' @param enmo_col number. The index of column of ENMO values in the csv file.
+#' @return dataframe. The imported ENMO data, with the first column being the
+#'   timestamps in POSIXct format, and the second column being the ENMO values.
+#'   Column names: \code{HEADER_TIME_STAMP}, \code{ENMO}.
+#'
+#' @family Filo I/O functions
 #' @export
-#' @rdname import_actigraph_count
-#' @param filepath full file path of input Actigraph count csv file.
-import_actigraph_count_vm <-
-  function(filepath, col_name = "ACTIGRAPH_COUNT")
-  {
-    dat <-
-      readr::read_csv(
-        filepath,
-        col_names = TRUE,
-        col_types = readr::cols(
-          timestamp = readr::col_character(),
-          vectormagnitude = readr::col_double()
-        )
-      )
-    dat <- data.frame(dat)
-    dat[, 1] <-
-      as.POSIXct(dat[, 1],
-                 format = mHealthR::mhealth$format$csv$TIMESTAMP,
-                 tz = Sys.timezone())
-    result <- dat
-    colnames(result) <- c("HEADER_TIME_STAMP", col_name)
-    return(result)
-  }
-
-#' @name import_biobank_enmo
-#' @title Import and convert biobank epoch csv files and load into data frame as in mhealth format.
-#' @export
-#' @param filepath full file path of input biobank epoch csv file.
-import_biobank_enmo <- function(filepath, col_name = "biobank_enmo")
+import_enmo_csv <- function(filepath, enmo_col = 2)
 {
   dat <- readr::read_csv(filepath, col_names = TRUE)
   dat <- data.frame(dat)
-  dat <- dat[1:2]
+  dat <- dat[,c(1, enmo_col)]
   dat[, 1] <-
     as.POSIXct(dat[, 1],
                format = mHealthR::mhealth$format$csv$TIMESTAMP,
                tz = Sys.timezone())
   result <- dat
-  colnames(result) <- c("HEADER_TIME_STAMP", col_name)
+  colnames(result) <- c("HEADER_TIME_STAMP", 'ENMO')
   return(result)
 }
 
-#' @name import_actigraph_meta
-#' @title parse actigraph csv header to get related version and sampling rate information
+#' Import The meta information stored in Actigraph RAW or summary csv file.
+#'
+#' \code{import_actigraph_meta} imports meta information stored in the Actigraph
+#' summary csv file.
+#'
+#' The returned meta information includes following fields.
+#'
+#' \itemize{ \item sr: Sampling rate in Hz. \item fw: Firmware version. For
+#' example "1.7.0". \item sw: Sotware version of Actilife. For example "6.13.0".
+#' \item sn: Serial number of the device. \item st: Start time of the data, in
+#' POSIXct format. \item dt: Download time of the data, in POSIXct format. \item
+#' at: Type of the device. Could be "MAT","CLE", "MOS" or "TAS", corresponding
+#' to different Actigraph devices. \item imu: Whether the file is about
+#' Actigraph GT9X IMU data. \item gr: The dynamic range in \eqn{g} unit. \item
+#' vs: The voltage level of the device, may be used in AD conversion. See
+#' \code{\link{import_actigraph_csv}}. \item res: The resolution or the number of
+#' bits used to store quantized voltage values of the device, may be used in AD
+#' conversion. See \code{\link{import_actigraph_csv}}. }
+#'
+#'
+#' @section How is it used in MIMS-unit algorithm?: This function is a File IO
+#'   function that is used to get related meta information such as sampling
+#'   rate, firmware version from Actigraph devices.
+#'
+#' @param filepath string. The filepath of the input data.
+#' @param header logical. Whether the Actigraph RAW or summary csv file includes
+#'   column names. Default is TRUE.
+#' @return list. A list of Actigraph device meta information.
+#' @family Filo I/O functions
 #' @export
 import_actigraph_meta <- function(filepath, header = TRUE)
 {
@@ -377,20 +416,20 @@ import_actigraph_meta <- function(filepath, header = TRUE)
     as.numeric(stringr::str_match(resolution, res_reg)[2])
 
   # header object as output
-  header <- {
+  meta <- {
 
   }
-  header$sr <- sr
-  header$fw <- fw
-  header$sw <- sw
-  header$sn <- sn
-  header$st <- st
-  header$dt <- dt
-  header$at <- at
-  header$imu <- imu
-  header$gr <- gr
-  header$vs <- vs
-  header$res <- resolution
+  meta$sr <- sr
+  meta$fw <- fw
+  meta$sw <- sw
+  meta$sn <- sn
+  meta$st <- st
+  meta$dt <- dt
+  meta$at <- at
+  meta$imu <- imu
+  meta$gr <- gr
+  meta$vs <- vs
+  meta$res <- resolution
 
-  return(header)
+  return(meta)
 }

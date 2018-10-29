@@ -75,7 +75,7 @@ devices: GT3X, GT3X+, GT3X+BT, GT9X, and GT9X-IMU." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.5.4</span>
+        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.5.5</span>
       </span>
     </div>
 
@@ -131,6 +131,9 @@ devices: GT3X, GT3X+, GT3X+BT, GT9X, and GT9X-IMU." />
 </li>
 <li>
   <a href="../reference/index.html">API References</a>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -204,7 +207,7 @@ the first row.</p></td>
     <p>For old device (GT3X) that stores accelerometer values as digital voltage.
 The function will convert the values to \(g\) unit using the following
 equation.</p>
-<p>$$\frac{x_{voltage}r}{(2 ^ r) - \frac{v}{2}}$$</p>
+<p>$$x_g = \frac{x_{voltage}r}{(2 ^ r) - \frac{v}{2}}$$</p>
 <p>Where \(v\) is the max voltage corresponding to the max accelerometer value
 that can be found in the meta section in the csv file; \(r\) is the
 resolution level which is the number of bits used to store the voltage
@@ -218,7 +221,11 @@ values. \(r\) can also be found in the meta section in the csv file.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other Filo I/O functions: <code><a href='import_activpal3_csv.html'>import_activpal3_csv</a></code></p></div>
+    <div class='dont-index'><p>Other Filo I/O functions: <code><a href='export_to_actilife.html'>export_to_actilife</a></code>,
+  <code><a href='import_actigraph_count_csv.html'>import_actigraph_count_csv</a></code>,
+  <code><a href='import_actigraph_meta.html'>import_actigraph_meta</a></code>,
+  <code><a href='import_activpal3_csv.html'>import_activpal3_csv</a></code>,
+  <code><a href='import_enmo_csv.html'>import_enmo_csv</a></code></p></div>
     
 
   </div>

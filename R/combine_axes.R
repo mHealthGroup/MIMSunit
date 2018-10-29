@@ -23,7 +23,7 @@
 #'   timestamps and second being the vector magnitude values.
 #'
 #' @seealso \code{\link{sum_up}}
-#' @family combination functions
+#' @family transformation functions
 #' @export
 #'
 vector_magnitude <- function(df, axes = NULL)
@@ -73,7 +73,7 @@ vector_magnitude <- function(df, axes = NULL)
 #'   timestamps and second being the sum up values.
 #'
 #' @seealso \code{\link{vector_magnitude}}
-#' @family combination functions
+#' @family transformation functions
 #' @export
 #'
 sum_up <- function(df, axes = NULL)

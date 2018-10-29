@@ -19,6 +19,12 @@ reference:
       - bessel
       - remove_average
       - bandlimited_interp
+  - title: "Signal transformation"
+    desc: "Functions to transform the multi-channel accelerometer signal."
+    contents:
+      - compute_orientation
+      - sum_up
+      - vector_magnitude
   - title: "Signal extrapolation"
     desc: "Functions to extrapolate multi-channel accelerometer signal."
     contents:
@@ -30,9 +36,6 @@ reference:
     contents:
       - aggregate_for_mims
       - aggregate_for_orientation
-      - compute_orientation
-      - sum_up
-      - vector_magnitude
   - title: "Util functions"
     desc: >
       Utility functions.
@@ -87,6 +90,8 @@ navbar:
           href: articles/edge_cases.html
     - text: "API References"
       href: "reference/index.html"
+    - text: "Changelog"
+      href: "news/index.html"
   right:
     - icon: fa-lg fa-github
       href: https://github.com/qutang/mimsunit

@@ -14,8 +14,8 @@ enmoFiles = list.files(path = data_folder, pattern = "*.merged\\.sensorEpoch\\.c
 
 enmos = ldply(enmoFiles, function(enmoFile){
   print(paste('process', enmoFile))
-  enmo8g_values = import_biobank_enmo(filename = enmoFile, col_name = "ENMO8g")
-  enmo2g_values = import_biobank_enmo(filename = str_replace(enmoFile, '\\.sensorEpoch\\.csv', '_2g\\.sensorEpoch\\.csv'), col_name = 'ENMO2g')
+  enmo8g_values = import_enmo_csv(filename = enmoFile, col_name = "ENMO8g")
+  enmo2g_values = import_enmo_csv(filename = str_replace(enmoFile, '\\.sensorEpoch\\.csv', '_2g\\.sensorEpoch\\.csv'), col_name = 'ENMO2g')
   enmo_values = join(enmo8g_values, enmo2g_values, by="HEADER_TIME_STAMP")
   id = str_extract(enmoFile, 'SPADES_[0-9]+')
   location = strsplit(basename(enmoFile), "_")[[1]][2]

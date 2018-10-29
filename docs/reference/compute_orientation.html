@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate orientation of a sensor in (X,Y,Z degrees) for each axis — compute_orientation • MIMSunit</title>
+<title>Estimate the accelerometer orientation — compute_orientation • MIMSunit</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,12 @@
 
 
 
-<meta property="og:title" content="Calculate orientation of a sensor in (X,Y,Z degrees) for each axis — compute_orientation" />
+<meta property="og:title" content="Estimate the accelerometer orientation — compute_orientation" />
 
-<meta property="og:description" content="Calculate orientation of a sensor in (X,Y,Z degrees) for each axis" />
+<meta property="og:description" content="compute_orientation returns a dataframe with accelerometer
+orientations estimated by
+Mizell,
+2003 for the input dataframe." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -71,7 +74,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.5.4</span>
+        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.5.5</span>
       </span>
     </div>
 
@@ -128,6 +131,9 @@
 <li>
   <a href="../reference/index.html">API References</a>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
@@ -149,25 +155,86 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate orientation of a sensor in (X,Y,Z degrees) for each axis</h1>
+    <h1>Estimate the accelerometer orientation</h1>
     <small class="dont-index">Source: <a href='https://github.com/qutang/mimsunit//blob/master/R/orientation.R'><code>R/orientation.R</code></a></small>
     <div class="hidden name"><code>compute_orientation.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Calculate orientation of a sensor in (X,Y,Z degrees) for each axis</p>
+    <p><code>compute_orientation</code> returns a dataframe with accelerometer
+orientations estimated by
+<a href='https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=1241424'>Mizell,
+2003</a> for the input dataframe.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>compute_orientation</span>(<span class='no'>df</span>, <span class='kw'>epoch</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>unit</span> <span class='kw'>=</span> <span class='st'>"deg"</span>)</pre>
-        
+    <pre class="usage"><span class='fu'>compute_orientation</span>(<span class='no'>df</span>, <span class='kw'>estimation_window</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>unit</span> <span class='kw'>=</span> <span class='st'>"deg"</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>df</th>
+      <td><p>dataframe. Input multi-channel singal. First column should be
+timestamps in POSIXt format.</p></td>
+    </tr>
+    <tr>
+      <th>estimation_window</th>
+      <td><p>number. window size in seconds to be used to
+estimate orientations. Default is 2 (seconds), as suggested by
+<a href='https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=1241424'>Mizell,
+2003</a>.</p></td>
+    </tr>
+    <tr>
+      <th>unit</th>
+      <td><p>string. The unit of orientation angles. Can be "deg" (degree) or
+"rad" (radian). Default is "deg".</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>dataframe. The returned dataframe will have the same format as input
+  dataframe.</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This function accepts a dataframe (in mhealth accelerometer data format) and
+computes the estimated acclerometer orientations (in x, y, and z angles) for
+every <code>estimation_window</code> seconds of the entire sequence, and outputs
+the mean of these angles. The returned dataframe will have the same format as
+input dataframe, including four columns, and have the same datetime format as
+input dataframe in the timestamp column. The orientation estimation method
+used in the function is based on
+<a href='https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=1241424'>Mizell,
+2003</a>.</p>
+    
+    <h2 class="hasAnchor" id="how-is-it-used-in-mims-unit-algorithm-"><a class="anchor" href="#how-is-it-used-in-mims-unit-algorithm-"></a>How is it used in mims-unit algorithm?</h2>
+
+    <p>This function is used in
+  function (<code><a href='aggregate_for_orientation.html'>aggregate_for_orientation</a></code>).</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other transformation functions: <code><a href='sum_up.html'>sum_up</a></code>,
+  <code><a href='vector_magnitude.html'>vector_magnitude</a></code></p></div>
+    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-                </ul>
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
+
+      <li><a href="#how-is-it-used-in-mims-unit-algorithm-">How is it used in mims-unit algorithm?</a></li>
+
+      <li><a href="#see-also">See also</a></li>
+          </ul>
 
   </div>
 </div>

@@ -4,20 +4,19 @@
 \alias{aggregate_for_orientation}
 \title{Aggregate over epoch to get estimated accelerometer orientation.}
 \usage{
-aggregate_for_orientation(df, epoch, estimation_duration = 2,
+aggregate_for_orientation(df, epoch, estimation_window = 2,
   unit = "deg")
 }
 \arguments{
-\item{df}{dataframe of accelerometer data in mhealth format. First column
+\item{df}{dataframe. Input accelerometer data in mhealth format. First column
 should be timestamps in POSIXt format.}
 
 \item{epoch}{string. Any format that is acceptable by argument \code{breaks}
 in method \code{\link[base]{cut.POSIXt}}.For example, "1 sec", "1 min", "5
 secs", "10 mins".}
 
-\item{estimation_duration}{numeric value. duration in seconds to be used to
-estimate orientation within each epoch. Default is 2 (seconds), as
-suggested by
+\item{estimation_window}{number. Duration in seconds to be used to estimate
+orientation within each epoch. Default is 2 (seconds), as suggested by
 \href{https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=1241424}{Mizell,
 2003}.}
 
@@ -32,8 +31,8 @@ dataframe. The returned dataframe will have the same format as input
 \code{aggregate_for_orientation} returns a dataframe with accelerometer
 orientations estimated by
 \href{https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=1241424}{Mizell,
-2003} over each epoch. The epoch start time will be used as timestamp in the
-first column.
+2003} over each epoch (see \code{\link{compute_orientation}}). The epoch
+start time will be used as timestamp in the first column.
 }
 \details{
 This function accepts a dataframe (in mhealth accelerometer data format) and

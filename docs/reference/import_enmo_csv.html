@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Apply extrapolate algorithm to a single stream of data. — extrapolate.data.frame • MIMSunit</title>
+<title>Import ENMO data stored in csv csv — import_enmo_csv • MIMSunit</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,10 +30,12 @@
 
 
 
-<meta property="og:title" content="Apply extrapolate algorithm to a single stream of data. — extrapolate.data.frame" />
+<meta property="og:title" content="Import ENMO data stored in csv csv — import_enmo_csv" />
 
-<meta property="og:description" content="Apply extrapolate algorithm to a single stream of data.
-Apply extrapolate algorithm to a single stream of data." />
+<meta property="og:description" content="import_enmo_csv imports ENMO data stored in a summary csv format,
+which was exported by the
+biobank
+data analysis tools." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -153,56 +155,54 @@ Apply extrapolate algorithm to a single stream of data." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Apply extrapolate algorithm to a single stream of data.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/qutang/mimsunit//blob/master/R/extrapolate.R'><code>R/extrapolate.R</code></a></small>
-    <div class="hidden name"><code>extrapolate.Rd</code></div>
+    <h1>Import ENMO data stored in csv csv</h1>
+    <small class="dont-index">Source: <a href='https://github.com/qutang/mimsunit//blob/master/R/import_data.R'><code>R/import_data.R</code></a></small>
+    <div class="hidden name"><code>import_enmo_csv.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Apply extrapolate algorithm to a single stream of data.</p>
-<p>Apply extrapolate algorithm to a single stream of data.</p>
+    <p><code>import_enmo_csv</code> imports ENMO data stored in a summary csv format,
+which was exported by the
+<a href='https://github.com/activityMonitoring/biobankAccelerometerAnalysis'>biobank
+data analysis tools</a>.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>extrapolate.data.frame</span>(<span class='no'>df</span>, <span class='no'>...</span>)
-
-<span class='fu'>extrapolate</span>(<span class='no'>t</span>, <span class='no'>value</span>, <span class='no'>range</span>, <span class='kw'>noise_level</span> <span class='kw'>=</span> <span class='fl'>0.03</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>0.65</span>,
-  <span class='kw'>spar</span> <span class='kw'>=</span> <span class='fl'>0.4</span>)</pre>
+    <pre class="usage"><span class='fu'>import_enmo_csv</span>(<span class='no'>filepath</span>, <span class='kw'>enmo_col</span> <span class='kw'>=</span> <span class='fl'>2</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>t</th>
-      <td><p>input index or timestamp sequence</p></td>
+      <th>filepath</th>
+      <td><p>string. The filepath of the input data.</p></td>
     </tr>
     <tr>
-      <th>k</th>
-      <td><p>duration of neighborhood to be used in local spline regression for each side, in seconds</p></td>
-    </tr>
-    <tr>
-      <th>spar</th>
-      <td><p>between 0 and 1, to control how smooth we want to fit local spline regression, 0 is linear and 1 matches all local points. A good choice is 0.3 to penalize the maxed out points.</p></td>
-    </tr>
-    <tr>
-      <th>t</th>
-      <td><p>input index or timestamp sequence</p></td>
-    </tr>
-    <tr>
-      <th>k</th>
-      <td><p>duration of neighborhood to be used in local spline regression for each side, in seconds</p></td>
-    </tr>
-    <tr>
-      <th>spar</th>
-      <td><p>between 0 and 1, to control how smooth we want to fit local spline regression, 0 is linear and 1 matches all local points. A good choice is 0.3 to penalize the maxed out points.</p></td>
+      <th>enmo_col</th>
+      <td><p>number. The index of column of ENMO values in the csv file.</p></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>If wanting to obtain mediate results for plotting and debugging, please use this function.</p>
-<p>If wanting to obtain mediate results for plotting and debugging, please use this function.</p>
+    <p>dataframe. The imported ENMO data, with the first column being the
+  timestamps in POSIXct format, and the second column being the ENMO values.
+  Column names: <code>HEADER_TIME_STAMP</code>, <code>ENMO</code>.</p>
+    
+    <h2 class="hasAnchor" id="how-is-it-used-in-mims-unit-algorithm-"><a class="anchor" href="#how-is-it-used-in-mims-unit-algorithm-"></a>How is it used in MIMS-unit algorithm?</h2>
+
+    <p>This function is a File IO
+  function that is used to import ENMO data from activity monitor devices
+  during algorithm validation.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other Filo I/O functions: <code><a href='export_to_actilife.html'>export_to_actilife</a></code>,
+  <code><a href='import_actigraph_count_csv.html'>import_actigraph_count_csv</a></code>,
+  <code><a href='import_actigraph_csv.html'>import_actigraph_csv</a></code>,
+  <code><a href='import_actigraph_meta.html'>import_actigraph_meta</a></code>,
+  <code><a href='import_activpal3_csv.html'>import_activpal3_csv</a></code></p></div>
     
 
   </div>
@@ -211,14 +211,12 @@ Apply extrapolate algorithm to a single stream of data." />
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#note">Note</a></li>
+      <li><a href="#value">Value</a></li>
+
+      <li><a href="#how-is-it-used-in-mims-unit-algorithm-">How is it used in MIMS-unit algorithm?</a></li>
+
+      <li><a href="#see-also">See also</a></li>
           </ul>
-
-    <h2>Author</h2>
-    
-Qu Tang
-
-Qu Tang
 
   </div>
 </div>

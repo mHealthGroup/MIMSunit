@@ -20,7 +20,7 @@ shaker5_biobank = ldply(raw_files, function(file){
   id = tokens[[1]][1]
   gr = as.numeric(str_split(tokens[[1]][3], "gEpoch")[[1]][1])
   name = paste0("ENMO_", str_split(tokens[[1]][4], "\\.")[[1]][1])
-  enmo_data = SMARTcounts::import_biobank_enmo(file)
+  enmo_data = MIMSunit::import_enmo_csv(file)
   enmo_data[1] = force_tz(enmo_data[1], tzone = Sys.timezone())
   enmo_data = enmo_data[c(1,2)]
   enmo_data$name = name

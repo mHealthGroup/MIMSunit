@@ -1,6 +1,6 @@
 input_file = "C:\\Users\\tqshe\\Desktop\\SPIKE_TEST (2017-08-18)RAW.csv"
 
-spike_data = Counts::import_actigraph_raw(input_file)
+spike_data = Counts::import_actigraph_csv(input_file)
 
 selected_spike = spike_data[10100:10400,]
 

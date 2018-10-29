@@ -1,15 +1,45 @@
-#' @name compute_orientation
-#' @title Calculate orientation of a sensor in (X,Y,Z degrees) for each axis
+#' Estimate the accelerometer orientation
+#'
+#' \code{compute_orientation} returns a dataframe with accelerometer
+#' orientations estimated by
+#' \href{https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=1241424}{Mizell,
+#' 2003} for the input dataframe.
+#'
+#' This function accepts a dataframe (in mhealth accelerometer data format) and
+#' computes the estimated acclerometer orientations (in x, y, and z angles) for
+#' every \code{estimation_window} seconds of the entire sequence, and outputs
+#' the mean of these angles. The returned dataframe will have the same format as
+#' input dataframe, including four columns, and have the same datetime format as
+#' input dataframe in the timestamp column. The orientation estimation method
+#' used in the function is based on
+#' \href{https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=1241424}{Mizell,
+#' 2003}.
+#'
+#' @section How is it used in mims-unit algorithm?: This function is used in
+#'   function (\code{\link{aggregate_for_orientation}}).
+#'
+#' @param df dataframe. Input multi-channel singal. First column should be
+#'   timestamps in POSIXt format.
+#' @param estimation_window number. window size in seconds to be used to
+#'   estimate orientations. Default is 2 (seconds), as suggested by
+#'   \href{https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=1241424}{Mizell,
+#'   2003}.
+#' @param unit string. The unit of orientation angles. Can be "deg" (degree) or
+#'   "rad" (radian). Default is "deg".
+#' @return dataframe. The returned dataframe will have the same format as input
+#'   dataframe.
+#'
+#' @family transformation functions
 #' @export
-compute_orientation <- function(df, epoch = 2, unit = "deg")
+compute_orientation <- function(df, estimation_window = 2, unit = "deg")
 {
   sr <- sampling_rate(df)
   segmented_df <-
-    mHealthR::mhealth.segment(df, paste(epoch, "sec"), file_type = "sensor")
+    mHealthR::mhealth.segment(df, paste(estimation_window, "sec"), file_type = "sensor")
   angles_df <-
     plyr::ddply(segmented_df, c("SEGMENT"), function(rows)
     {
-      if (nrow(rows) < sr * epoch * 0.8)
+      if (nrow(rows) < sr * estimation_window * 0.8)
       {
         return(data.frame(
           ts = rows[1, 1],

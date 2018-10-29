@@ -37,6 +37,7 @@ columns.
 \seealso{
 \code{\link{vector_magnitude}}
 
-Other combination functions: \code{\link{vector_magnitude}}
+Other transformation functions: \code{\link{compute_orientation}},
+  \code{\link{vector_magnitude}}
 }
-\concept{combination functions}
+\concept{transformation functions}

@@ -32,7 +32,7 @@ actigraph_response = ldply(seq(30, 100, by = 10), function(sr){
   fs = c(seq(0, 1, by = 0.05), seq(1, 50, by = 0.5))
   fs = fs[-1]
   actigraph_spectrum = ldply(fs, function(f){
-    data = import_actigraph_count(paste0("offline_data/actigraph_spectrum/actigraph_counts/sr",sr, "_f", str_replace(f, "\\.", "o"),"30sec.csv"), axes = c(2))
+    data = import_actigraph_count_csv(paste0("offline_data/actigraph_spectrum/actigraph_counts/sr",sr, "_f", str_replace(f, "\\.", "o"),"30sec.csv"), count_col = 2, count_per_axis_cols = NULL)
     return(data.frame("FREQ" = f, "VALUE" = mean(data[,2])))
   }, .progress = progress_text())
   actigraph_spectrum["SR"] = sr

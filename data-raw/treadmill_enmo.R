@@ -51,16 +51,16 @@ csvData_enmo = ldply(files, function(sensor_file){
   }
 
   if(stringr::str_detect(sensor_file, "2017-03-16")){
-    enmo_data = import_biobank_enmo(sensor_file, col_name = 'ENMO')
+    enmo_data = import_enmo_csv(sensor_file, col_name = 'ENMO')
     use_sessions = sessions %>% dplyr::filter(PID %in% 1:2)
   }else if(stringr::str_detect(sensor_file, "2017-03-22")){
-    enmo_data = import_biobank_enmo(sensor_file, col_name = 'ENMO')
+    enmo_data = import_enmo_csv(sensor_file, col_name = 'ENMO')
     use_sessions = sessions %>% dplyr::filter(PID %in% 3:6)
   }else if(stringr::str_detect(sensor_file, "2016-03-25")){
-    enmo_data = import_biobank_enmo(sensor_file, col_name = 'ENMO')
+    enmo_data = import_enmo_csv(sensor_file, col_name = 'ENMO')
     use_sessions = sessions %>% dplyr::filter(PID %in% 7:8)
   }else if(stringr::str_detect(sensor_file, "2016-03-22")){
-    enmo_data = import_biobank_enmo(sensor_file, col_name = 'ENMO')
+    enmo_data = import_enmo_csv(sensor_file, col_name = 'ENMO')
     use_sessions = sessions %>% dplyr::filter(PID %in% 9:10)
   }
 

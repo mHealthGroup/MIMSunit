@@ -26,7 +26,8 @@ shaker5_actigraph = ldply(raw_files, function(file){
     gr = header$gr
   }
 
-  raw_data = import_actigraph_count(file.path(folder, "agd", basename(file)), col_name = "ACTIGRAPH", axes = c(2,3,4))
+  raw_data = import_actigraph_count_csv(file.path(folder, "agd", basename(file)), count_per_axis_cols = c(2,3,4), count_col = 2)
+  raw_data = raw_data[,1:2]
   raw_data[1] = force_tz(raw_data[1], Sys.timezone())
   # cut into segments
   sessions = read.csv(file.path(folder, "sessions.csv"), header = TRUE, stringsAsFactors = FALSE)

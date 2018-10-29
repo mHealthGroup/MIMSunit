@@ -38,6 +38,7 @@ dataframe with two columns.
 \seealso{
 \code{\link{sum_up}}
 
-Other combination functions: \code{\link{sum_up}}
+Other transformation functions: \code{\link{compute_orientation}},
+  \code{\link{sum_up}}
 }
-\concept{combination functions}
+\concept{transformation functions}

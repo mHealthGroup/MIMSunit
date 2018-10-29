@@ -40,17 +40,19 @@ csvData_actigraph = ldply(files, function(sensor_file){
   }
 
   if(stringr::str_detect(sensor_file, "2017-03-16")){
-    actigraph_count_data = import_actigraph_count(sensor_file)
+    actigraph_count_data = import_actigraph_count_csv(sensor_file, count_col = NULL, count_per_axis_cols = c(2,3,4))
+    actigraph_count_data = actigraph_count_data[,1:2]
     use_sessions = sessions %>% dplyr::filter(PID %in% 1:2)
   }else if(stringr::str_detect(sensor_file, "2017-03-22")){
-    actigraph_count_data = import_actigraph_count(sensor_file)
+    actigraph_count_data = import_actigraph_count_csv(sensor_file, count_col = NULL, count_per_axis_cols = c(2,3,4))
+    actigraph_count_data = actigraph_count_data[,1:2]
     use_sessions = sessions %>% dplyr::filter(PID %in% 3:6)
   }else if(stringr::str_detect(sensor_file, "2016-03-25")){
-    actigraph_count_data = import_actigraph_count_vm(sensor_file)
+    actigraph_count_data = import_actigraph_count_csv(sensor_file, count_col = 2, count_per_axis_cols = NULL)
     use_sessions = sessions %>% dplyr::filter(PID %in% 7:8)
     sr = 100
   }else if(stringr::str_detect(sensor_file, "2016-03-22")){
-    actigraph_count_data = import_actigraph_count_vm(sensor_file)
+    actigraph_count_data = import_actigraph_count_csv(sensor_file, count_col = 2, count_per_axis_cols = NULL)
     use_sessions = sessions %>% dplyr::filter(PID %in% 9:10)
     sr = 100
   }

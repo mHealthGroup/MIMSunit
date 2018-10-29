@@ -25,7 +25,7 @@ shaker5 = ldply(files, function(file){
     gr = header$gr
   }
 
-  raw_data = import_actigraph_raw(file, ad_convert = FALSE, ts_provided = TRUE, header_provided = TRUE)
+  raw_data = import_actigraph_csv(file, in_voltage = FALSE, has_ts = TRUE, header = TRUE)
   # write.csv(raw_data, file = file.path(folder, 'enmo', basename(file)), quote = FALSE, row.names = FALSE)
   # cut into segments
   sessions = read.csv(file.path(folder, "sessions.csv"), header = TRUE, stringsAsFactors = FALSE)

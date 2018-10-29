@@ -38,7 +38,7 @@ csvData_raw = ldply(files, function(file){
   sr = tokens[2]
   gr = str_split(tokens[3], pattern = "\\.")[[1]][1]
   id = "GT9X"
-  csvData = import_actigraph_raw(file)
+  csvData = import_actigraph_csv(file)
 
   # make extra versions for actigraph
   if(str_detect(file, "_100_")){

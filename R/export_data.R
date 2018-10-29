@@ -26,7 +26,7 @@
 #'   Actigraph counts by Actilife, so it may be set with an arbitrary version
 #'   code seen in any Actigraph devices. We use default version code "1.6.0".
 #' @return No return value.
-#' @family file io functions
+#' @family Filo I/O functions
 #' @export
 export_to_actilife <-
   function(df,

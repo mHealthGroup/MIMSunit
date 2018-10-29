@@ -48,16 +48,16 @@ Install depedency system packages for `devtools`: `build-essential`, `libcurl4-g
 2. Development version (source codes)
   - For Windows users
   
-  ```r
-  install.packages("devtools")
-  devtools::install_github("qutang/MIMSunit", type='win.binary')
-  ```
+```r
+install.packages("devtools")
+devtools::install_github("qutang/MIMSunit", type='win.binary')
+```
   - For mac or Linux users
   
-  ```r
-  install.packages("devtools")
-  devtools::install_github("qutang/MIMSunit")
-  ```
+```r
+install.packages("devtools")
+devtools::install_github("qutang/MIMSunit")
+```
   
 _Note: It is recommended to use Rstudio when installing the package, because `devtools` has some compatible issues with R command line interface._
 

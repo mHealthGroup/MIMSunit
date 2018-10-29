@@ -68,7 +68,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.5.4</span>
+        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.5.5</span>
       </span>
     </div>
 
@@ -124,6 +124,9 @@
 </li>
 <li>
   <a href="../reference/index.html">API References</a>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -181,9 +184,9 @@
       <tr>
         
         <td>
-          <p><code><a href="import_actigraph_count.html">import_actigraph_count()</a></code> <code><a href="import_actigraph_count.html">import_actigraph_count_vm()</a></code> </p>
+          <p><code><a href="import_actigraph_count_csv.html">import_actigraph_count_csv()</a></code> </p>
         </td>
-        <td><p>Import and convert Actigraph count csv files and load into data frame as in mhealth format.</p></td>
+        <td><p>Import Actigraph count data stored in Actigraph summary csv format</p></td>
       </tr><tr>
         
         <td>
@@ -196,7 +199,7 @@ format</p></td>
         <td>
           <p><code><a href="import_actigraph_meta.html">import_actigraph_meta()</a></code> </p>
         </td>
-        <td><p>parse actigraph csv header to get related version and sampling rate information</p></td>
+        <td><p>Import The meta information stored in Actigraph RAW or summary csv file.</p></td>
       </tr><tr>
         
         <td>
@@ -206,9 +209,9 @@ format</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="import_biobank_enmo.html">import_biobank_enmo()</a></code> </p>
+          <p><code><a href="import_enmo_csv.html">import_enmo_csv()</a></code> </p>
         </td>
-        <td><p>Import and convert biobank epoch csv files and load into data frame as in mhealth format.</p></td>
+        <td><p>Import ENMO data stored in csv csv</p></td>
       </tr><tr>
         
         <td>
@@ -248,6 +251,32 @@ format</p></td>
         </td>
         <td><p>Apply a bandlimited interpolation filter to the signal to change the sampling
 rate</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-signal-transformation" class="hasAnchor"><a href="#section-signal-transformation" class="anchor"></a>Signal transformation</h2>
+          <p class="section-desc"><p>Functions to transform the multi-channel accelerometer signal.</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="compute_orientation.html">compute_orientation()</a></code> </p>
+        </td>
+        <td><p>Estimate the accelerometer orientation</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="sum_up.html">sum_up()</a></code> </p>
+        </td>
+        <td><p>Sum of multi-channel signal.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="vector_magnitude.html">vector_magnitude()</a></code> </p>
+        </td>
+        <td><p>Vector magnitude of multi-channel signal.</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -294,24 +323,6 @@ rate</p></td>
           <p><code><a href="aggregate_for_orientation.html">aggregate_for_orientation()</a></code> </p>
         </td>
         <td><p>Aggregate over epoch to get estimated accelerometer orientation.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="compute_orientation.html">compute_orientation()</a></code> </p>
-        </td>
-        <td><p>Calculate orientation of a sensor in (X,Y,Z degrees) for each axis</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="sum_up.html">sum_up()</a></code> </p>
-        </td>
-        <td><p>Sum of multi-channel signal.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="vector_magnitude.html">vector_magnitude()</a></code> </p>
-        </td>
-        <td><p>Vector magnitude of multi-channel signal.</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -355,6 +366,7 @@ rate</p></td>
       <li><a href="#section-top-level-api-for-mims-unit">Top-level API for MIMS-unit</a></li>
       <li><a href="#section-file-io">File IO</a></li>
       <li><a href="#section-signal-filtering">Signal Filtering</a></li>
+      <li><a href="#section-signal-transformation">Signal transformation</a></li>
       <li><a href="#section-signal-extrapolation">Signal extrapolation</a></li>
       <li><a href="#section-signal-aggregation">Signal aggregation</a></li>
       <li><a href="#section-util-functions">Util functions</a></li>

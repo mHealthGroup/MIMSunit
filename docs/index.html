@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">MIMSunit</a>
-        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.5.4</span>
+        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.5.5</span>
       </span>
     </div>
 
@@ -95,6 +95,9 @@
 </li>
 <li>
   <a href="reference/index.html">API References</a>
+</li>
+<li>
+  <a href="news/index.html">Changelog</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -168,8 +171,13 @@
 <ul>
 <li>For Windows users</li>
 </ul>
-<p><code>r   install.packages("devtools")   devtools::install_github("qutang/MIMSunit", type='win.binary')</code> - For mac or Linux users</p>
-<p><code>r   install.packages("devtools")   devtools::install_github("qutang/MIMSunit")</code></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">"devtools"</span>)
+devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"qutang/MIMSunit"</span>, <span class="dt">type=</span><span class="st">'win.binary'</span>)</code></pre></div>
+<ul>
+<li>For mac or Linux users</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">"devtools"</span>)
+devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"qutang/MIMSunit"</span>)</code></pre></div>
 <p><em>Note: It is recommended to use Rstudio when installing the package, because <code>devtools</code> has some compatible issues with R command line interface.</em></p>
 </div>
 <div id="usage" class="section level2">

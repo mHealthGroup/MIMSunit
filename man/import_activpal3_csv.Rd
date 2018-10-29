@@ -36,6 +36,10 @@ values may be converted to \eqn{g} unit using following equation.
 }
 
 \seealso{
-Other Filo I/O functions: \code{\link{import_actigraph_csv}}
+Other Filo I/O functions: \code{\link{export_to_actilife}},
+  \code{\link{import_actigraph_count_csv}},
+  \code{\link{import_actigraph_csv}},
+  \code{\link{import_actigraph_meta}},
+  \code{\link{import_enmo_csv}}
 }
 \concept{Filo I/O functions}

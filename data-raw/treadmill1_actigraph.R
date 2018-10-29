@@ -27,7 +27,7 @@ treadmill1_count_actigraph = ldply(files, function(file){
   if(str_detect(id, "LG")) gr = 2
   location = tokens[2]
   count_filename = paste0(str_split(basename(file), "\\.")[[1]][1], "5sec.csv")
-  data = import_actigraph_count(file.path(dirname(file), "counts", count_filename))
+  data = import_actigraph_count_csv(file.path(dirname(file), "counts", count_filename), count_col = 2, count_per_axis_cols = NULL)
   data[1] = force_tz(data[1], tzone = Sys.timezone())
   # cut into segments
   sessions = read.csv(file.path(dirname(dirname(file)), raw_folder, "segments.csv"), header = TRUE, stringsAsFactors = FALSE)

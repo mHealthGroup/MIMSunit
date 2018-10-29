@@ -40,7 +40,7 @@
     <loc>https://qutang.github.io/MIMSunit//reference/iir.html</loc>
   </url>
   <url>
-    <loc>https://qutang.github.io/MIMSunit//reference/import_actigraph_count.html</loc>
+    <loc>https://qutang.github.io/MIMSunit//reference/import_actigraph_count_csv.html</loc>
   </url>
   <url>
     <loc>https://qutang.github.io/MIMSunit//reference/import_actigraph_csv.html</loc>
@@ -52,7 +52,7 @@
     <loc>https://qutang.github.io/MIMSunit//reference/import_activpal3_csv.html</loc>
   </url>
   <url>
-    <loc>https://qutang.github.io/MIMSunit//reference/import_biobank_enmo.html</loc>
+    <loc>https://qutang.github.io/MIMSunit//reference/import_enmo_csv.html</loc>
   </url>
   <url>
     <loc>https://qutang.github.io/MIMSunit//reference/interpolate_signal.html</loc>

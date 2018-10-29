@@ -16,7 +16,7 @@ count_folder = "D:/data/spades_lab_counts_analysis/Actigraph_raw/agd"
 countFiles = list.files(path = count_folder, pattern = "*.csv", full.names = TRUE, recursive = TRUE)
 
 actigraphCounts = ldply(countFiles, function(countFile){
-  actigraphCounts = import_actigraph_count(filename = countFile)
+  actigraphCounts = import_actigraph_count_csv(filepath = countFile, count_col = 2, count_per_axis_cols = NULL)
   id = paste(strsplit(basename(countFile), "_")[[1]][1], strsplit(basename(countFile), "_")[[1]][2], sep="_")
   location = strsplit(basename(countFile), "_")[[1]][3]
   # import annotation data

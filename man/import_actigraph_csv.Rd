@@ -34,7 +34,7 @@ For old device (GT3X) that stores accelerometer values as digital voltage.
 The function will convert the values to \eqn{g} unit using the following
 equation.
 
-\deqn{\frac{x_{voltage}r}{(2 ^ r) - \frac{v}{2}}}
+\deqn{x_g = \frac{x_{voltage}r}{(2 ^ r) - \frac{v}{2}}}
 
 Where \eqn{v} is the max voltage corresponding to the max accelerometer value
 that can be found in the meta section in the csv file; \eqn{r} is the
@@ -48,6 +48,10 @@ values. \eqn{r} can also be found in the meta section in the csv file.
 }
 
 \seealso{
-Other Filo I/O functions: \code{\link{import_activpal3_csv}}
+Other Filo I/O functions: \code{\link{export_to_actilife}},
+  \code{\link{import_actigraph_count_csv}},
+  \code{\link{import_actigraph_meta}},
+  \code{\link{import_activpal3_csv}},
+  \code{\link{import_enmo_csv}}
 }
 \concept{Filo I/O functions}

@@ -35,8 +35,8 @@
 <meta property="og:description" content="aggregate_for_orientation returns a dataframe with accelerometer
 orientations estimated by
 Mizell,
-2003 over each epoch. The epoch start time will be used as timestamp in the
-first column." />
+2003 over each epoch (see compute_orientation). The epoch
+start time will be used as timestamp in the first column." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -75,7 +75,7 @@ first column." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.5.4</span>
+        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.5.5</span>
       </span>
     </div>
 
@@ -132,6 +132,9 @@ first column." />
 <li>
   <a href="../reference/index.html">API References</a>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
@@ -163,12 +166,12 @@ first column." />
     <p><code>aggregate_for_orientation</code> returns a dataframe with accelerometer
 orientations estimated by
 <a href='https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=1241424'>Mizell,
-2003</a> over each epoch. The epoch start time will be used as timestamp in the
-first column.</p>
+2003</a> over each epoch (see <code><a href='compute_orientation.html'>compute_orientation</a></code>). The epoch
+start time will be used as timestamp in the first column.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>aggregate_for_orientation</span>(<span class='no'>df</span>, <span class='no'>epoch</span>, <span class='kw'>estimation_duration</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+    <pre class="usage"><span class='fu'>aggregate_for_orientation</span>(<span class='no'>df</span>, <span class='no'>epoch</span>, <span class='kw'>estimation_window</span> <span class='kw'>=</span> <span class='fl'>2</span>,
   <span class='kw'>unit</span> <span class='kw'>=</span> <span class='st'>"deg"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -176,7 +179,7 @@ first column.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>df</th>
-      <td><p>dataframe of accelerometer data in mhealth format. First column
+      <td><p>dataframe. Input accelerometer data in mhealth format. First column
 should be timestamps in POSIXt format.</p></td>
     </tr>
     <tr>
@@ -186,10 +189,9 @@ in method <code><a href='http://www.rdocumentation.org/packages/base/topics/cut.
 secs", "10 mins".</p></td>
     </tr>
     <tr>
-      <th>estimation_duration</th>
-      <td><p>numeric value. duration in seconds to be used to
-estimate orientation within each epoch. Default is 2 (seconds), as
-suggested by
+      <th>estimation_window</th>
+      <td><p>number. Duration in seconds to be used to estimate
+orientation within each epoch. Default is 2 (seconds), as suggested by
 <a href='https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=1241424'>Mizell,
 2003</a>.</p></td>
     </tr>

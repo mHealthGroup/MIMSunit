@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>parse actigraph csv header to get related version and sampling rate information — import_actigraph_meta • MIMSunit</title>
+<title>Import The meta information stored in Actigraph RAW or summary csv file. — import_actigraph_meta • MIMSunit</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,10 @@
 
 
 
-<meta property="og:title" content="parse actigraph csv header to get related version and sampling rate information — import_actigraph_meta" />
+<meta property="og:title" content="Import The meta information stored in Actigraph RAW or summary csv file. — import_actigraph_meta" />
 
-<meta property="og:description" content="parse actigraph csv header to get related version and sampling rate information" />
+<meta property="og:description" content="import_actigraph_meta imports meta information stored in the Actigraph
+summary csv file." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -71,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.5.4</span>
+        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.5.5</span>
       </span>
     </div>
 
@@ -128,6 +129,9 @@
 <li>
   <a href="../reference/index.html">API References</a>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
@@ -149,25 +153,91 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>parse actigraph csv header to get related version and sampling rate information</h1>
+    <h1>Import The meta information stored in Actigraph RAW or summary csv file.</h1>
     <small class="dont-index">Source: <a href='https://github.com/qutang/mimsunit//blob/master/R/import_data.R'><code>R/import_data.R</code></a></small>
     <div class="hidden name"><code>import_actigraph_meta.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>parse actigraph csv header to get related version and sampling rate information</p>
+    <p><code>import_actigraph_meta</code> imports meta information stored in the Actigraph
+summary csv file.</p>
     
     </div>
 
     <pre class="usage"><span class='fu'>import_actigraph_meta</span>(<span class='no'>filepath</span>, <span class='kw'>header</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
-        
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>filepath</th>
+      <td><p>string. The filepath of the input data.</p></td>
+    </tr>
+    <tr>
+      <th>header</th>
+      <td><p>logical. Whether the Actigraph RAW or summary csv file includes
+column names. Default is TRUE.</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>list. A list of Actigraph device meta information.</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The returned meta information includes following fields.</p>
+<ul>
+<li><p>sr: Sampling rate in Hz.</p></li>
+<li><p>fw: Firmware version. For
+example "1.7.0".</p></li>
+<li><p>sw: Sotware version of Actilife. For example "6.13.0".</p></li>
+<li><p>sn: Serial number of the device.</p></li>
+<li><p>st: Start time of the data, in
+POSIXct format.</p></li>
+<li><p>dt: Download time of the data, in POSIXct format.</p></li>
+<li><p>at: Type of the device. Could be "MAT","CLE", "MOS" or "TAS", corresponding
+to different Actigraph devices.</p></li>
+<li><p>imu: Whether the file is about
+Actigraph GT9X IMU data.</p></li>
+<li><p>gr: The dynamic range in \(g\) unit.</p></li>
+<li><p>vs: The voltage level of the device, may be used in AD conversion. See
+<code><a href='import_actigraph_csv.html'>import_actigraph_csv</a></code>.</p></li>
+<li><p>res: The resolution or the number of
+bits used to store quantized voltage values of the device, may be used in AD
+conversion. See <code><a href='import_actigraph_csv.html'>import_actigraph_csv</a></code>.</p></li>
+</ul>
+    
+    <h2 class="hasAnchor" id="how-is-it-used-in-mims-unit-algorithm-"><a class="anchor" href="#how-is-it-used-in-mims-unit-algorithm-"></a>How is it used in MIMS-unit algorithm?</h2>
+
+    <p>This function is a File IO
+  function that is used to get related meta information such as sampling
+  rate, firmware version from Actigraph devices.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other Filo I/O functions: <code><a href='export_to_actilife.html'>export_to_actilife</a></code>,
+  <code><a href='import_actigraph_count_csv.html'>import_actigraph_count_csv</a></code>,
+  <code><a href='import_actigraph_csv.html'>import_actigraph_csv</a></code>,
+  <code><a href='import_activpal3_csv.html'>import_activpal3_csv</a></code>,
+  <code><a href='import_enmo_csv.html'>import_enmo_csv</a></code></p></div>
+    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-                </ul>
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
+
+      <li><a href="#how-is-it-used-in-mims-unit-algorithm-">How is it used in MIMS-unit algorithm?</a></li>
+
+      <li><a href="#see-also">See also</a></li>
+          </ul>
 
   </div>
 </div>

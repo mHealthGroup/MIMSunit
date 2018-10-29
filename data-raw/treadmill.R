@@ -38,7 +38,7 @@ csvData_raw = ldply(files, function(sensor_file){
     id = "GT9X"
     gr = 8
   }
-  csvData = import_actigraph_raw(sensor_file)
+  csvData = import_actigraph_csv(sensor_file)
   if(stringr::str_detect(sensor_file, "2017-03-16")){
     use_sessions = sessions %>% dplyr::filter(PID %in% 1:2)
   }else if(stringr::str_detect(sensor_file, "2017-03-22")){

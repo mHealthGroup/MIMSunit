@@ -20,7 +20,7 @@ shaker4_biobank = ldply(raw_files, function(file){
   id = tokens[[1]][1]
   gr = as.numeric(str_split(tokens[[1]][3], "gEpoch")[[1]][1])
   name = paste0("ENMO_", str_split(tokens[[1]][4], "\\.")[[1]][1])
-  data = import_biobank_enmo(file)
+  data = import_enmo_csv(file)
   data[1] = force_tz(data[1], tzone = Sys.timezone())
   if(str_detect(id, "LG")){
     data[1] = data[1]-60 * 22 + 20
