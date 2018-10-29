@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Interpolate missing points and unify sampling rate for multi-channel signal — interpolate_signal • MIMSunit</title>
+<title>Simulate new data based on the given multi-channel accelerometer data — simulate_new_data • MIMSunit</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,11 +30,10 @@
 
 
 
-<meta property="og:title" content="Interpolate missing points and unify sampling rate for multi-channel signal — interpolate_signal" />
+<meta property="og:title" content="Simulate new data based on the given multi-channel accelerometer data — simulate_new_data" />
 
-<meta property="og:description" content="interpolate_signal applies different interpolation algorithms to the
-input multi-channel signal to fill in the missing samples and harmonizes the
-sampling rate." />
+<meta property="og:description" content="simulate_new_data simulate new data based on the given multi-channel
+accelerometer data, a new dynamic range and a new sampling rate." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -154,69 +153,60 @@ sampling rate." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Interpolate missing points and unify sampling rate for multi-channel signal</h1>
-    <small class="dont-index">Source: <a href='https://github.com/qutang/mimsunit//blob/master/R/interpolate.R'><code>R/interpolate.R</code></a></small>
-    <div class="hidden name"><code>interpolate_signal.Rd</code></div>
+    <h1>Simulate new data based on the given multi-channel accelerometer data</h1>
+    <small class="dont-index">Source: <a href='https://github.com/qutang/mimsunit//blob/master/R/simulate_data.R'><code>R/simulate_data.R</code></a></small>
+    <div class="hidden name"><code>simulate_new_data.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p><code>interpolate_signal</code> applies different interpolation algorithms to the
-input multi-channel signal to fill in the missing samples and harmonizes the
-sampling rate.</p>
+    <p><code>simulate_new_data</code> simulate new data based on the given multi-channel
+accelerometer data, a new dynamic range and a new sampling rate.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>interpolate_signal</span>(<span class='no'>df</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"spline_natural"</span>, <span class='kw'>sr</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-  <span class='kw'>st</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>et</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>simulate_new_data</span>(<span class='no'>old_data</span>, <span class='no'>new_range</span>, <span class='no'>new_sr</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>new_range</th>
+      <td><p>numerical vector. The new dynamic ranges to cut off the signal.
+Should be a 2-element numerical vector. <code>c(low, high)</code>, where
+<code>low</code> is the negative max value the device can reach and <code>high</code>
+is the positive max value the device can reach. Default is <code>NULL</code>,
+meaning the function will do nothing but return the input data.</p></td>
+    </tr>
+    <tr>
+      <th>new_sr</th>
+      <td><p>number. New sampling rate in Hz.</p></td>
+    </tr>
+    <tr>
       <th>df</th>
-      <td><p>dataframe. Input multi-channel accelerometer signal.</p></td>
-    </tr>
-    <tr>
-      <th>method</th>
-      <td><p>string. Interpolation algorithms. Could be "spline_natural",
-"spline_improved" or "spline_fmm": see <code><a href='http://www.rdocumentation.org/packages/stats/topics/splinefun'>spline</a></code>;
-"aspline_original": see <code>spline</code>; and "linear": see
-<code><a href='http://www.rdocumentation.org/packages/stats/topics/approxfun'>approx</a></code>. Default is "spline_natural".</p></td>
-    </tr>
-    <tr>
-      <th>sr</th>
-      <td><p>number. Sampling rate in Hz of the input signal. Default is 100.</p></td>
-    </tr>
-    <tr>
-      <th>st</th>
-      <td><p>POSIXct date. The start time for interpolation. If it is
-<code>NULL</code>, it will use the start time of the input signal. Default is
-<code>NULL</code>.</p></td>
-    </tr>
-    <tr>
-      <th>et</th>
-      <td><p>POSIXct date. The end time for interpolation. If it is <code>NULL</code>,
-it will use the end time of the input signal. Default is <code>NULL</code>.</p></td>
+      <td><p>dataframe. Input multi-channel accelerometer data.</p></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>dataframe. Interpolated signal.</p>
+    <p>This function simulates the data from a new device based on the signal from a
+baseline device. It first changes the sampling rate using function
+<code><a href='interpolate_signal.html'>interpolate_signal</a></code>, and then changes the dynamic range using
+function <code><a href='cut_off_signal.html'>cut_off_signal</a></code>.</p>
     
     <h2 class="hasAnchor" id="how-is-it-used-in-mims-unit-algorithm-"><a class="anchor" href="#how-is-it-used-in-mims-unit-algorithm-"></a>How is it used in MIMS-unit algorithm?</h2>
 
     <p>This function is a utility
-  function that has been used in functions: <code><a href='extrapolate.html'>extrapolate</a></code>, and
-  <code><a href='simulate_new_data.html'>simulate_new_data</a></code>.</p>
+  function that is used to simulate new devices with different sampling rates
+  and dynamic ranges during algorithm validation.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other utility functions: <code><a href='cut_off_signal.html'>cut_off_signal</a></code>,
+  <code><a href='interpolate_signal.html'>interpolate_signal</a></code>,
   <code><a href='parse_epoch_string.html'>parse_epoch_string</a></code>,
-  <code><a href='sampling_rate.html'>sampling_rate</a></code>,
-  <code><a href='simulate_new_data.html'>simulate_new_data</a></code></p></div>
+  <code><a href='sampling_rate.html'>sampling_rate</a></code></p></div>
     
 
   </div>
@@ -225,7 +215,7 @@ it will use the end time of the input signal. Default is <code>NULL</code>.</p><
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#value">Value</a></li>
+      <li><a href="#details">Details</a></li>
 
       <li><a href="#how-is-it-used-in-mims-unit-algorithm-">How is it used in MIMS-unit algorithm?</a></li>
 

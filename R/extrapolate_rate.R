@@ -21,7 +21,7 @@
 #'   extrapolation helps reducing the errors caused by signal maxing out. If
 #'   extrapolation rate is smaller than 0, it means the extrapolation increases
 #'   the errors caused by signal maxing out (during over extrapolation).
-#' @family extrapolation related functions.
+#' @family extrapolation related functions
 #' @export
 extrapolate_rate <- function(test_df, true_df, extrap_df)
 {

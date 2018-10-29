@@ -27,7 +27,7 @@ example_shaker_3g = function(){
   g6Shaker = shaker2 %>% dplyr::filter(GRANGE == 6 & RPM == 5) %>% select(c(1, 2))
   g6Shaker = g6Shaker %>% mhealth.clip(start_time = g6Shaker[1, 1] + 74, stop_time = g6Shaker[1, 1] + 82, file_type = "sensor")
   g6Shaker[[1]] = g6Shaker[[1]] + 0.06
-  g3Shaker_extrap = extrapolate.data.frame(g3Shaker, range = c(-3, 3), noise_level = noise_level, k = k, spar = spar)
+  g3Shaker_extrap = extrapolate(g3Shaker, range = c(-3, 3), noise_level = noise_level, k = k, spar = spar)
   forPlot = rbind(cbind(g6Shaker, group = "gt"),
                 cbind(g3Shaker_extrap, group = "extrap"),
                 cbind(g3Shaker, group = "origin")
@@ -80,7 +80,7 @@ g8Shaker = g8Shaker %>% mHealthR::mhealth.clip(start_time = g8Shaker[1, 1] + 40,
 
 # shift
 
-g2Shaker_extrap = Counts::extrapolate.data.frame(
+g2Shaker_extrap = MIMSunit::extrapolate(
   g2Shaker,
   range = c(-2, 2),
   noise_level = noise_level,
@@ -152,7 +152,7 @@ running_maxed_out = readRDS(filename)
 maxed_out_running = running_maxed_out %>% dplyr::filter(TYPE == "GT3X")
 gt_running = running_maxed_out %>% dplyr::filter(TYPE == "GT9X")
 grange = unique(maxed_out_running$GRANGE)
-extrapolatedData = Counts::extrapolate.data.frame(
+extrapolatedData = MIMSunit::extrapolate(
   maxed_out_running[, 1:4],
   range = c(-grange, grange),
   noise_level = noise_level,
@@ -216,7 +216,7 @@ jumping_jack_maxed_out = readRDS(filename)
 
 maxed_out_jj = jumping_jack_maxed_out %>% dplyr::filter(GRANGE == 2)
 gt_jj = jumping_jack_maxed_out %>% dplyr::filter(GRANGE == 8)
-extrap_jj = extrapolate.data.frame(
+extrap_jj = extrapolate(
   maxed_out_jj[, 1:2],
   range = c(-2, 2),
   noise_level = noise_level,
@@ -285,7 +285,7 @@ st = maxed_out_fb[1, 1] + 22
 maxed_out_fb = maxed_out_fb %>% mHealthR::mhealth.clip(start_time = st, stop_time = st + 10, file_type = "sensor")
 gt_fb = gt_fb %>% mHealthR::mhealth.clip(start_time = st, stop_time = st + 10, file_type = "sensor")
 
-extrap_fb = extrapolate.data.frame(
+extrap_fb = extrapolate(
   maxed_out_fb[, 1:2],
   range = c(-2, 2),
   noise_level = noise_level,
@@ -355,7 +355,7 @@ st = maxed_out_r2[1, 1]
 maxed_out_r2 = maxed_out_r2 %>% mHealthR::mhealth.clip(start_time = st, stop_time = st + 8, file_type = "sensor")
 gt_r2 = gt_r2 %>% mHealthR::mhealth.clip(start_time = st, stop_time = st + 8, file_type = "sensor")
 
-extrap_r2 = extrapolate.data.frame(
+extrap_r2 = extrapolate(
   maxed_out_r2[, 1:4],
   range = c(-2, 2),
   noise_level = noise_level,
@@ -426,8 +426,8 @@ gt_running = walkrun1 %>% dplyr::filter(
     WEIGHTS == "0" &
     LOCATION == "NondominantWrist"
 )
-maxed_out_running = gt_running %>% Counts::crop_grange(range = c(-2, 2), noise_std = 0.01)
-extrap_running = extrapolate.data.frame(
+maxed_out_running = gt_running %>% MIMSunit::cut_off_signal(range = c(-2, 2), noise_std = 0.01)
+extrap_running = extrapolate(
   maxed_out_running[, 1:4],
   range = c(-2, 2),
   noise_level = noise_level,
@@ -498,8 +498,8 @@ example_running4 = function(){
       WEIGHTS == "0" &
       SUBJECT == "P1" & SESSION == "1" & LOCATION == "NondominantWrist"
   )
-  maxed_out_running = gt_running %>% Counts::crop_grange(range = c(-2, 2), noise_std = 0.01)
-  extrap_running = Counts::extrapolate.data.frame(
+  maxed_out_running = gt_running %>% MIMSunit::cut_off_signal(range = c(-2, 2), noise_std = 0.01)
+  extrap_running = MIMSunit::extrapolate(
     maxed_out_running[, 1:4],
     range = c(-2, 2),
     noise_level = noise_level,

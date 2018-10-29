@@ -51,7 +51,7 @@ walkrun1_merged = adply(device_settings, 1, function(device) {
 
     new_segment = segment %>%
       subset(select = 1:4) %>%
-      Counts::make_sensor_data(
+      Counts::simulate_new_data(
         new_range = c(-device$RANGE, device$RANGE),
         new_sr = device$SR
       )

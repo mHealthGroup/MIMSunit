@@ -29,6 +29,9 @@ corresponding number of samples represented by the epoch string.
 }
 
 \seealso{
-Other utility functions: \code{\link{sampling_rate}}
+Other utility functions: \code{\link{cut_off_signal}},
+  \code{\link{interpolate_signal}},
+  \code{\link{sampling_rate}},
+  \code{\link{simulate_new_data}}
 }
 \concept{utility functions}

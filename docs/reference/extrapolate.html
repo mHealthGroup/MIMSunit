@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Apply extrapolate algorithm to a single stream of data. — extrapolate.data.frame • MIMSunit</title>
+<title>Extrapolate input multi-channel accelerometer data — extrapolate • MIMSunit</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,10 +30,11 @@
 
 
 
-<meta property="og:title" content="Apply extrapolate algorithm to a single stream of data. — extrapolate.data.frame" />
+<meta property="og:title" content="Extrapolate input multi-channel accelerometer data — extrapolate" />
 
-<meta property="og:description" content="Apply extrapolate algorithm to a single stream of data.
-Apply extrapolate algorithm to a single stream of data." />
+<meta property="og:description" content="extrapolate applies the extrapolation algorithm to a multi-channel
+accelerometer data, trying to reconstruct the true movement from the
+maxed-out samples." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -153,56 +154,93 @@ Apply extrapolate algorithm to a single stream of data." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Apply extrapolate algorithm to a single stream of data.</h1>
+    <h1>Extrapolate input multi-channel accelerometer data</h1>
     <small class="dont-index">Source: <a href='https://github.com/qutang/mimsunit//blob/master/R/extrapolate.R'><code>R/extrapolate.R</code></a></small>
     <div class="hidden name"><code>extrapolate.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Apply extrapolate algorithm to a single stream of data.</p>
-<p>Apply extrapolate algorithm to a single stream of data.</p>
+    <p><code>extrapolate</code> applies the extrapolation algorithm to a multi-channel
+accelerometer data, trying to reconstruct the true movement from the
+maxed-out samples.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>extrapolate.data.frame</span>(<span class='no'>df</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>extrapolate</span>(<span class='no'>df</span>, <span class='no'>...</span>)
 
-<span class='fu'>extrapolate</span>(<span class='no'>t</span>, <span class='no'>value</span>, <span class='no'>range</span>, <span class='kw'>noise_level</span> <span class='kw'>=</span> <span class='fl'>0.03</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>0.65</span>,
-  <span class='kw'>spar</span> <span class='kw'>=</span> <span class='fl'>0.4</span>)</pre>
+<span class='fu'>extrapolate_single_col</span>(<span class='no'>t</span>, <span class='no'>value</span>, <span class='no'>range</span>, <span class='kw'>noise_level</span> <span class='kw'>=</span> <span class='fl'>0.03</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>0.05</span>,
+  <span class='kw'>spar</span> <span class='kw'>=</span> <span class='fl'>0.6</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>t</th>
-      <td><p>input index or timestamp sequence</p></td>
-    </tr>
-    <tr>
-      <th>k</th>
-      <td><p>duration of neighborhood to be used in local spline regression for each side, in seconds</p></td>
-    </tr>
-    <tr>
-      <th>spar</th>
-      <td><p>between 0 and 1, to control how smooth we want to fit local spline regression, 0 is linear and 1 matches all local points. A good choice is 0.3 to penalize the maxed out points.</p></td>
+      <th>df</th>
+      <td><p>dataframe. Input multi-channel accelerometer data. Used in
+<code>extrapolate</code>.</p></td>
     </tr>
     <tr>
       <th>t</th>
-      <td><p>input index or timestamp sequence</p></td>
+      <td><p>POSIXct or numeric vector. Input index or timestamp sequence Used in
+<code>extrapolate_single_col</code>.</p></td>
+    </tr>
+    <tr>
+      <th>value</th>
+      <td><p>numerica vector. Value vector used in
+<code>extrapolate_single_col</code>.</p></td>
+    </tr>
+    <tr>
+      <th>range</th>
+      <td><p>numerical vector. The dynamic ranges of the input signal. Should
+be a 2-element numerical vector. <code>c(low, high)</code>, where <code>low</code> is
+the negative max value the device can reach and <code>high</code> is the positive
+max value the device can reach.</p></td>
+    </tr>
+    <tr>
+      <th>noise_level</th>
+      <td><p>number. The tolerable noise level in \(g\) unit, should
+be between 0 and 1. Default is 0.03, which applies to most devices.</p></td>
     </tr>
     <tr>
       <th>k</th>
-      <td><p>duration of neighborhood to be used in local spline regression for each side, in seconds</p></td>
+      <td><p>number. Duration of neighborhood to be used in local spline
+regression for each side, in seconds. Default is 0.05, as optimized by
+MIMS-unit algorithm.</p></td>
     </tr>
     <tr>
       <th>spar</th>
-      <td><p>between 0 and 1, to control how smooth we want to fit local spline regression, 0 is linear and 1 matches all local points. A good choice is 0.3 to penalize the maxed out points.</p></td>
+      <td><p>number. Between 0 and 1, to control how smooth we want to fit
+local spline regression, 0 is linear and 1 matches all local points.
+Default is 0.6, as optimized by MIMS-unit algorithm.</p></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>If wanting to obtain mediate results for plotting and debugging, please use this function.</p>
-<p>If wanting to obtain mediate results for plotting and debugging, please use this function.</p>
+    <p><code>extraplate</code> returns a dataframe with extrapolated multi-channel
+  signal. <code>extrapolate_single_col</code> returns a dataframe with extrapolated
+  single-channel signal, the timestamp col is in numerical values instead of
+  POSIXct format.</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This function first linearly interpolates the input signal to 100Hz, and then
+applies the extrapolation algorithm (see the manuscript) to recover the
+maxed-out samples. Maxed-out samples are samples that are cut off because the
+intensity of the underlying movement exceeds the dynamic range of the device.</p>
+<p><code>extrapolate</code> processes a dataframe of a multi-channel accelerometer
+signal. <code>extrapolate_single_col</code> processes a single-channel signal with
+its timestamps and values specified in the first and second arguments.</p>
+    
+    <h2 class="hasAnchor" id="how-is-it-used-in-mims-unit-algorithm-"><a class="anchor" href="#how-is-it-used-in-mims-unit-algorithm-"></a>How is it used in MIMS-unit algorithm?</h2>
+
+    <p>This function is the first
+  step during MIMS-unit algorithm, applied before filtering.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other extrapolation related functions: <code><a href='extrapolate_rate.html'>extrapolate_rate</a></code></p></div>
     
 
   </div>
@@ -211,14 +249,14 @@ Apply extrapolate algorithm to a single stream of data." />
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#note">Note</a></li>
+      <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
+
+      <li><a href="#how-is-it-used-in-mims-unit-algorithm-">How is it used in MIMS-unit algorithm?</a></li>
+
+      <li><a href="#see-also">See also</a></li>
           </ul>
-
-    <h2>Author</h2>
-    
-Qu Tang
-
-Qu Tang
 
   </div>
 </div>

@@ -21,7 +21,7 @@ options(digits.secs=3)
 ldply(sensorFiles, function(sensorFile){
 
   sensorData = mhealth.read(sensorFile, filetype='sensor')
-  sensorData_2g = make_sensor_data(sensorData, c(-2,2), sampling_rate(sensorData))
+  sensorData_2g = simulate_new_data(sensorData, c(-2,2), sampling_rate(sensorData))
   sensorData_2g[,1] = strftime(sensorData_2g[,1], '%Y-%m-%d %H:%M:%OS')
   output = str_replace(sensorFile, pattern = '\\.sensor\\.csv', replacement = '_2g\\.sensor\\.csv')
 

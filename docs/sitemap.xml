@@ -19,7 +19,7 @@
     <loc>https://qutang.github.io/MIMSunit//reference/compute_orientation.html</loc>
   </url>
   <url>
-    <loc>https://qutang.github.io/MIMSunit//reference/crop_grange.html</loc>
+    <loc>https://qutang.github.io/MIMSunit//reference/cut_off_signal.html</loc>
   </url>
   <url>
     <loc>https://qutang.github.io/MIMSunit//reference/experiment_shaker_count.html</loc>
@@ -58,9 +58,6 @@
     <loc>https://qutang.github.io/MIMSunit//reference/interpolate_signal.html</loc>
   </url>
   <url>
-    <loc>https://qutang.github.io/MIMSunit//reference/make_sensor_data.html</loc>
-  </url>
-  <url>
     <loc>https://qutang.github.io/MIMSunit//reference/mims_unit.html</loc>
   </url>
   <url>
@@ -74,6 +71,9 @@
   </url>
   <url>
     <loc>https://qutang.github.io/MIMSunit//reference/sampling_rate.html</loc>
+  </url>
+  <url>
+    <loc>https://qutang.github.io/MIMSunit//reference/simulate_new_data.html</loc>
   </url>
   <url>
     <loc>https://qutang.github.io/MIMSunit//reference/sum_up.html</loc>

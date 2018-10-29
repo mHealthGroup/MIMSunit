@@ -55,7 +55,7 @@ mims_unit <-
     if (use_extrapolation)
     {
       extrapolated_data <-
-        extrapolate.data.frame(df, range, noise_level, k, spar)
+        extrapolate(df, range, noise_level, k, spar)
     } else if (use_interpolation)
     {
       extrapolated_data <-

@@ -30,6 +30,9 @@ of samples by it.
 }
 
 \seealso{
-Other utility functions: \code{\link{parse_epoch_string}}
+Other utility functions: \code{\link{cut_off_signal}},
+  \code{\link{interpolate_signal}},
+  \code{\link{parse_epoch_string}},
+  \code{\link{simulate_new_data}}
 }
 \concept{utility functions}

@@ -60,7 +60,7 @@ csvData_raw = ldply(files, function(sensor_file){
     return(segData)
   }, .progress = progress_text(), .parallel = TRUE)
 
-  csvData2g = make_sensor_data(csvData, new_range = c(-2,2), new_sr = sampling_rate(csvData))
+  csvData2g = simulate_new_data(csvData, new_range = c(-2,2), new_sr = sampling_rate(csvData))
 
   segmentedData2g = adply(use_sessions, 1, function(seg){
     segData = mHealthR::mhealth.clip(csvData2g, start_time = seg$START_TIME, stop_time = seg$STOP_TIME, file_type = "sensor")

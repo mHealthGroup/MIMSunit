@@ -21,7 +21,7 @@ optimize_extrapolation_parameters = function(test_set) {
       sr = test_case$sr[1]
       grange = test_case$grange[1]
 
-      extrapolated_signal = extrapolate(
+      extrapolated_signal = extrapolate_single_col(
         t = test_case$ts,
         value = test_case$test_signal,
         range = c(-grange, grange),

@@ -1,13 +1,50 @@
-#' @name extrapolate.data.frame
-#' @title Apply extrapolate algorithm to a single stream of data.
-#' @note If wanting to obtain mediate results for plotting and debugging, please use this function.
-#' @author Qu Tang
-#' @export
+#' Extrapolate input multi-channel accelerometer data
+#'
+#' \code{extrapolate} applies the extrapolation algorithm to a multi-channel
+#' accelerometer data, trying to reconstruct the true movement from the
+#' maxed-out samples.
+#'
+#' This function first linearly interpolates the input signal to 100Hz, and then
+#' applies the extrapolation algorithm (see the manuscript) to recover the
+#' maxed-out samples. Maxed-out samples are samples that are cut off because the
+#' intensity of the underlying movement exceeds the dynamic range of the device.
+#'
+#' \code{extrapolate} processes a dataframe of a multi-channel accelerometer
+#' signal. \code{extrapolate_single_col} processes a single-channel signal with
+#' its timestamps and values specified in the first and second arguments.
+#'
+#' @section How is it used in MIMS-unit algorithm?: This function is the first
+#'   step during MIMS-unit algorithm, applied before filtering.
+#'
+#' @param df dataframe. Input multi-channel accelerometer data. Used in
+#'   \code{\link{extrapolate}}.
+#' @param t POSIXct or numeric vector. Input index or timestamp sequence Used in
+#'   \code{\link{extrapolate_single_col}}.
+#' @param value numerica vector. Value vector used in
+#'   \code{\link{extrapolate_single_col}}.
+#' @param range numerical vector. The dynamic ranges of the input signal. Should
+#'   be a 2-element numerical vector. \code{c(low, high)}, where \code{low} is
+#'   the negative max value the device can reach and \code{high} is the positive
+#'   max value the device can reach.
+#' @param noise_level number. The tolerable noise level in \eqn{g} unit, should
+#'   be between 0 and 1. Default is 0.03, which applies to most devices.
+#' @param k number. Duration of neighborhood to be used in local spline
+#'   regression for each side, in seconds. Default is 0.05, as optimized by
+#'   MIMS-unit algorithm.
+#' @param spar number. Between 0 and 1, to control how smooth we want to fit
+#'   local spline regression, 0 is linear and 1 matches all local points.
+#'   Default is 0.6, as optimized by MIMS-unit algorithm.
+#' @return \code{extraplate} returns a dataframe with extrapolated multi-channel
+#'   signal. \code{extrapolate_single_col} returns a dataframe with extrapolated
+#'   single-channel signal, the timestamp col is in numerical values instead of
+#'   POSIXct format.
+#' @family extrapolation related functions
+#' @name extrapolate
+NULL
+
 #' @rdname extrapolate
-#' @param t input index or timestamp sequence
-#' @param k duration of neighborhood to be used in local spline regression for each side, in seconds
-#' @param spar between 0 and 1, to control how smooth we want to fit local spline regression, 0 is linear and 1 matches all local points. A good choice is 0.3 to penalize the maxed out points.
-extrapolate.data.frame <- function(df, ...)
+#' @export
+extrapolate <- function(df, ...)
 {
   time_zone <- lubridate::tz(df[1, 1])
   t <- df[[1]]
@@ -15,7 +52,7 @@ extrapolate.data.frame <- function(df, ...)
   result <- plyr::alply(values, .margins = 2, function(col_data)
   {
     col_name <- names(col_data)[1]
-    output <- extrapolate(t, col_data[[1]], ...)
+    output <- extrapolate_single_col(t, col_data[[1]], ...)
     colnames(output) <- c(colnames(df)[1], col_name)
     return(output)
   },
@@ -32,21 +69,15 @@ extrapolate.data.frame <- function(df, ...)
   return(result)
 }
 
-#' @name extrapolate
-#' @title Apply extrapolate algorithm to a single stream of data.
-#' @note If wanting to obtain mediate results for plotting and debugging, please use this function.
-#' @author Qu Tang
+#' @rdname extrapolate
 #' @export
-#' @param t input index or timestamp sequence
-#' @param k duration of neighborhood to be used in local spline regression for each side, in seconds
-#' @param spar between 0 and 1, to control how smooth we want to fit local spline regression, 0 is linear and 1 matches all local points. A good choice is 0.3 to penalize the maxed out points.
-extrapolate <-
+extrapolate_single_col <-
   function(t,
            value,
            range,
            noise_level = 0.03,
-           k = 0.65,
-           spar = 0.4)
+           k = 0.05,
+           spar = 0.6)
   {
     # over sampling to 100Hz
     t_over <- seq(t[1], t[length(t)], by = 1 / 100)

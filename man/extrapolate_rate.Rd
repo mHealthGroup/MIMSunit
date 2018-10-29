@@ -37,4 +37,7 @@ acceleration values in g.
   may see results in Figure 2 of the manuscript.
 }
 
-\concept{extrapolation related functions.}
+\seealso{
+Other extrapolation related functions: \code{\link{extrapolate}}
+}
+\concept{extrapolation related functions}

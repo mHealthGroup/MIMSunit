@@ -28,11 +28,11 @@ spike_values_80[9:10] = c(-0.823, -1.234)
 begin_value = device0[16, 2]
 device0[16:25,2] = spike_values_80
 # device 1: 40Hz, 2g
-device1 = make_sensor_data(device0, c(-2,2), 40)
+device1 = simulate_new_data(device0, c(-2,2), 40)
 # device 2: 30Hz, 4g
-device2 = make_sensor_data(device0, c(-4,4), 30)
+device2 = simulate_new_data(device0, c(-4,4), 30)
 # device 3: 20Hz, 2g
-device3 = make_sensor_data(device0, c(-2,2), 20)
+device3 = simulate_new_data(device0, c(-2,2), 20)
 
 start_time =  device0[[1,1]]
 stop_time = start_time + 1

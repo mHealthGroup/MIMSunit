@@ -27,8 +27,8 @@ gt3xbtData = mhealth.clip(gt3xbtData, start_time = clipStart, stop_time = clipEn
 gt3xplusData = mhealth.clip(gt3xplusData, start_time = clipStart, stop_time = clipEnd, file_type = "sensor")
 gt9xData = mhealth.clip(gt9xData, start_time = clipStart, stop_time = clipEnd, file_type = "sensor")
 
-gt3xbtData_cropped = Counts::crop_grange(gt3xbtData, range = c(-2,2))
-gt3xplusData_cropped = Counts::crop_grange(gt3xplusData, range = c(-2,2))
+gt3xbtData_cropped = MIMSunit::cut_off_signal(gt3xbtData, range = c(-2,2))
+gt3xplusData_cropped = MIMSunit::cut_off_signal(gt3xplusData, range = c(-2,2))
 
 # Save them as Actigraph CSV ----
 

@@ -33,7 +33,7 @@ mims_units = ldply(sensorFiles, function(sensorFile){
   }else{
     # import data
     sensorData = import_hdf5(sensorFile, "sensor")
-    maxedout_sensorData = make_sensor_data(sensorData, c(-2,2), sampling_rate(sensorData))
+    maxedout_sensorData = simulate_new_data(sensorData, c(-2,2), sampling_rate(sensorData))
     mims_units = activity_count(sensorData, breaks = paste(epoch, "sec"),
                            range = c(-8, 8),
                            noise_level = noise_level,

@@ -28,7 +28,6 @@ reference:
   - title: "Signal extrapolation"
     desc: "Functions to extrapolate multi-channel accelerometer signal."
     contents:
-      - interpolate_signal
       - extrapolate
       - extrapolate_rate
   - title: "Signal aggregation"
@@ -42,8 +41,9 @@ reference:
     contents:
       - sampling_rate
       - parse_epoch_string
-      - crop_grange
-      - make_sensor_data
+      - cut_off_signal
+      - interpolate_signal
+      - simulate_new_data
 
 development:
   mode: unreleased

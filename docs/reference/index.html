@@ -288,15 +288,9 @@ rate</p></td>
       <tr>
         
         <td>
-          <p><code><a href="interpolate_signal.html">interpolate_signal()</a></code> </p>
+          <p><code><a href="extrapolate.html">extrapolate()</a></code> <code><a href="extrapolate.html">extrapolate_single_col()</a></code> </p>
         </td>
-        <td><p>Interpolate the missing points and unify sampling interval for the input sensor data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="extrapolate.html">extrapolate.data.frame()</a></code> <code><a href="extrapolate.html">extrapolate()</a></code> </p>
-        </td>
-        <td><p>Apply extrapolate algorithm to a single stream of data.</p></td>
+        <td><p>Extrapolate input multi-channel accelerometer data</p></td>
       </tr><tr>
         
         <td>
@@ -346,15 +340,21 @@ rate</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="crop_grange.html">crop_grange()</a></code> </p>
+          <p><code><a href="cut_off_signal.html">cut_off_signal()</a></code> </p>
         </td>
-        <td><p>Crop grange for sensor data</p></td>
+        <td><p>Cut off input multi-channel signal according to a new dynamic range</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="make_sensor_data.html">make_sensor_data()</a></code> </p>
+          <p><code><a href="interpolate_signal.html">interpolate_signal()</a></code> </p>
         </td>
-        <td><p>make sensor data given range and sampling rate and old sensor data</p></td>
+        <td><p>Interpolate missing points and unify sampling rate for multi-channel signal</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="simulate_new_data.html">simulate_new_data()</a></code> </p>
+        </td>
+        <td><p>Simulate new data based on the given multi-channel accelerometer data</p></td>
       </tr>
     </tbody>
     </table>
