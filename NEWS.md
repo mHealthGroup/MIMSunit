@@ -1,3 +1,14 @@
+# MIMSunit 0.5.7
+
+* Refactor functions in `mims_unit.R`.
+
+## Breaking changes
+
+* API changes for the following functions. Please refer to the documentations for the details.
+  * `sensor_orientations()` is Added as an entry function to compute sensor orientations.
+  * `mims_unit()` is simplified to not allow customization on parameters.
+  * Old `mims_unit()` is now `custom_mims_unit()`, which allows full tuning of algorithm parameters.
+
 # MIMSunit 0.5.6
 
 * Refactor functions in `extrapolate.R`, `interpolate.R` and `simulate_data.R`.

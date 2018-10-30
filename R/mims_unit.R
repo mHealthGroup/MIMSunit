@@ -1,38 +1,257 @@
-#' @name mims_unit
-#' @title Compute activity counts using [citation] algorithm
-#' @return Will return NA if a segment break is too short to have enough samples to compute AUC
-#' @param df input sensor data frame that fits the mhealth specification
-#' @param breaks epoch to compute counts on
-#' @param range dynamic range of the device (two element vector)
-#' @param noise_level noise level should be between 0.01 and 0.1
-#' @param k neighborhood duration for extrapolation in seconds, default is 0.05 seconds
-#' @param spar smoothing parameter for extrapolation, default is 0.6
-#' @param resample set 0 to not use resampling, otherwise set to the desired sampling rate in numerical, e.g 40 for 40Hz. Default is 50.
-#' @param filter 'butter', 'ellip', 'bessel'
-#' @param cutoffs cut off frequencies to be used in filtering, default is 0.2Hz and 5Hz. If choosing bessel, the low pass cut off would be multipled by 2 when being used.
-#' @param integration the integration method to be used: 'trapz', 'absoluteMeanByPoints'.
-#' @param allow_truncation use zero truncation or not, default is TRUE
+#' Compute Monitor Independent Motion Summary unit (MIMS-unit)
+#'
+#' \code{mims_unit} computes the Monitor Independent Motion Summary unit for the
+#' input multi-channel accelerometer signal. The input signal can be from
+#' devices of any sampling rate and dynamic range. Please refer to the
+#' manuscript for detailed description of the algorithm. Please refer to
+#' functions for the intermediate steps: \code{\link{extrapolate}} for
+#' extrapolation, \code{\link{iir}} for filtering,
+#' \code{\link{aggregate_for_mims}} for aggregation.
+#'
+#' @note This function is a wrapper function for the low-level
+#'   \code{\link{custom_mims_unit}} function. It has set internal parameters as
+#'   described in the manuscript. If you want to run customized algorithm for
+#'   MIMSunit or if you want to develop better algorithms based on MIMS-unit
+#'   algorithm, please use function \code{\link{custom_mims_unit}} where all
+#'   parameters are tunable.
+#'
+#'   \code{before_df} and \code{after_df} are often set when the accelerometer
+#'   data are devided into files of smaller chunk.
+#'
+#' @section How is it used in MIMS-unit algorithm?: This is the main entry of
+#'   MIMS-unit algorithm.
+#'
+#' @param df dataframe. Input multi-channel accelerometer signal.
+#' @param before_df dataframe. The multi-channel accelerometer signal comes
+#'   before the input signal to be prepended to the input signal during
+#'   computation. This is used to eliminate the edge effect during extrapolation
+#'   and filtering. If it is \code{NULL}, algorithm will run directly on the
+#'   input signal. Default is NULL.
+#' @param after_df dataframe. The multi-channel accelerometer signal comes after
+#'   the input signal to be append to the input signal. This is used to
+#'   eliminate the edge effect during extrapolation and filtering. If it is
+#'   \code{NULL}, algorithm will run directly on the input signal. Default is
+#'   NULL.
+#' @param epoch string. Any format that is acceptable by argument \code{breaks}
+#'   in method \code{\link[base]{cut.POSIXt}}.For example, "1 sec", "1 min", "5
+#'   sec", "10 min". Default is "5 sec".
+#' @param dynamic_range numerical vector. The dynamic ranges of the input
+#'   signal. Should be a 2-element numerical vector. \code{c(low, high)}, where
+#'   \code{low} is the negative max value the device can reach and \code{high}
+#'   is the positive max value the device can reach.
+#' @param output_mims_per_axis logical. If it is TRUE, the output MIMS-unit
+#'   dataframe will have MIMS-unit values for each axis from the third column.
+#'   Default is FALSE.
+#' @return dataframe. The MIMS-unit dataframe. The first column is the start
+#'   time of each epoch in POSIXct format. The second column is the MIMS-unit
+#'   value for the input signal. If \code{output_mims_per_axis} is TRUE, the
+#'   third column and then are the MIMS-unit values for each axis of the input
+#'   signal.
+#'
+#' @family Top level API functions
 #' @export
 mims_unit <-
   function(df,
-           breaks = "5 sec",
-           range,
+           before_df = NULL,
+           after_df = NULL,
+           epoch = "5 sec",
+           dynamic_range,
+           output_mims_per_axis = FALSE) {
+    mims_df <- custom_mims_unit(
+      df = df,
+      epoch = epoch,
+      dynamic_range = dynamic_range,
+      noise_level = 0.03,
+      k = 0.05,
+      spar = 0.6,
+      filter_type = "butter",
+      cutoffs = c(0.2, 5),
+      axes = c(2, 3, 4),
+      use_extrapolation = TRUE,
+      use_filtering = TRUE,
+      combination = "sum",
+      allow_truncation = TRUE,
+      output_mims_per_axis = output_mims_per_axis,
+      output_orientation_estimation = FALSE,
+      before_df = before_df,
+      after_df = after_df
+    )
+    return(mims_df)
+  }
+
+#' Estimates sensor orientation
+#'
+#' \code{sensor_orientations} estimates the orientation angles for the input
+#' multi-channel accelerometer signal. The input signal can be from devices of
+#' any sampling rate and dynamic range. Please refer to function
+#' \code{\link{compute_orientation}} for the implementation of the estimation
+#' algorithm.
+#'
+#' @note This function interpolates and extrapolates the signal before
+#'   estimating the orientation angles.
+#'
+#'   \code{before_df} and \code{after_df} are often set when the accelerometer
+#'   data are devided into files of smaller chunk.
+#'
+#' @section How is it used in MIMS-unit algorithm?: This is not included in the
+#'   official MIMS-unit algorithm nor the manuscript, but we found it is useful
+#'   to know the sensor orientations in addition to the summary of movement.
+#'
+#' @param df dataframe. Input multi-channel accelerometer signal.
+#' @param before_df dataframe. The multi-channel accelerometer signal comes
+#'   before the input signal to be prepended to the input signal during
+#'   computation. This is used to eliminate the edge effect during extrapolation
+#'   and filtering. If it is \code{NULL}, algorithm will run directly on the
+#'   input signal. Default is NULL.
+#' @param after_df dataframe. The multi-channel accelerometer signal comes after
+#'   the input signal to be append to the input signal. This is used to
+#'   eliminate the edge effect during extrapolation and filtering. If it is
+#'   \code{NULL}, algorithm will run directly on the input signal. Default is
+#'   NULL.
+#' @param epoch string. Any format that is acceptable by argument \code{breaks}
+#'   in method \code{\link[base]{cut.POSIXt}}.For example, "1 sec", "1 min", "5
+#'   sec", "10 min". Default is "5 sec".
+#' @param dynamic_range numerical vector. The dynamic ranges of the input
+#'   signal. Should be a 2-element numerical vector. \code{c(low, high)}, where
+#'   \code{low} is the negative max value the device can reach and \code{high}
+#'   is the positive max value the device can reach.
+#' @return dataframe. The orientation dataframe. The first column is the start
+#'   time of each epoch in POSIXct format. The second to fourth columns are the
+#'   orientation angles.
+#'
+#' @family Top level API functions
+#' @export
+sensor_orientations <-
+  function(df,
+           before_df = NULL,
+           after_df = NULL,
+           epoch = "5 sec",
+           dynamic_range) {
+    ori_df <- custom_mims_unit(df = df,
+                               epoch = epoch,
+                               dynamic_range = dynamic_range,
+                               output_orientation_estimation = TRUE,
+                               epoch_for_orientation_estimation = epoch,
+                               before_df = before_df,
+                               after_df = after_df)[[2]]
+    return(ori_df)
+  }
+
+
+#' Compute both MIMS-unit and sensor orientations with custom settings
+#'
+#' \code{custom_mims_unit} computes the Monitor Independent Motion Summary unit
+#' and estimates the sensor orientations for the input multi-channel
+#' accelerometer signal with custom settings. The input signal can be from
+#' devices of any sampling rate and dynamic range. Please refer to the
+#' manuscript for detailed description of the algorithm. Please refer to
+#' functions for the intermediate steps: \code{\link{extrapolate}} for
+#' extrapolation, \code{\link{iir}} for filtering,
+#' \code{\link{aggregate_for_mims}} and \code{\link{aggregate_for_orientation}}
+#' for aggregation.
+#'
+#' @note This function allows you to run customized algorithm for MIMSunit and
+#'   sensor orientations.
+#'
+#'   \code{before_df} and \code{after_df} are often set when the accelerometer
+#'   data are devided into files of smaller chunk.
+#'
+#' @section How is it used in MIMS-unit algorithm?: This is the low-level entry
+#'   of MIMS-unit and orientation estimation algorithm. \code{\link{mims_unit}}
+#'   calls this function internally.
+#'
+#' @param df dataframe. Input multi-channel accelerometer signal.
+#' @param epoch string. Any format that is acceptable by argument \code{breaks}
+#'   in method \code{\link[base]{cut.POSIXt}}.For example, "1 sec", "1 min", "5
+#'   sec", "10 min". Default is "5 sec".
+#' @param dynamic_range numerical vector. The dynamic ranges of the input
+#'   signal. Should be a 2-element numerical vector. \code{c(low, high)}, where
+#'   \code{low} is the negative max value the device can reach and \code{high}
+#'   is the positive max value the device can reach.
+#' @param noise_level number. The tolerable noise level in \eqn{g} unit, should
+#'   be between 0 and 1. Default is 0.03, which applies to most devices.
+#' @param k number. Duration of neighborhood to be used in local spline
+#'   regression for each side, in seconds. Default is 0.05, as optimized by
+#'   MIMS-unit algorithm.
+#' @param spar number. Between 0 and 1, to control how smooth we want to fit
+#'   local spline regression, 0 is linear and 1 matches all local points.
+#'   Default is 0.6, as optimized by MIMS-unit algorithm.
+#' @param filter_type string. The type of filter to be applied. Could be
+#'   'butter' for butterworth bandpass filter, 'ellip' for elliptic bandpass
+#'   filter or 'bessel' for bessel lowpass filter + average removal highpass
+#'   filter. Default is "butter".
+#' @param cutoffs numerical vector. Cut off frequencies to be used in filtering.
+#'   If \code{filter_type} is "bessel", the cut off frequency for lowpass filter
+#'   would be multipled by 2 when being used. Default is 0.2Hz and 5Hz.
+#' @param axes numerical vector. Indices of columns that specifies the axis
+#'   values of the input signal. Default is \code{c(2,3,4)}.
+#' @param use_extrapolation logical. If it is TRUE, the function will apply
+#'   extrapolation algorithm to the input signal, otherwise it will skip
+#'   extrapolation but only linearly interpolate the signal to 100Hz. Default is
+#'   TRUE.
+#' @param use_filtering logical. If it is TRUE, the function will apply bandpass
+#'   filtering to the input signal, otherwise it will skip the filtering.
+#'   Default is TRUE.
+#' @param combination string. Method to combine MIMS-unit values for each axis.
+#'   Could be "sum" for \code{\link{sum_up}} or "vm" for
+#'   \code{\link{vector_magnitude}}.
+#' @param allow_truncation logical. If it is TRUE, the algorithm will truncate
+#'   very small MIMS-unit valus to zero. Default is TRUE.
+#' @param output_mims_per_axis logical. If it is TRUE, the output MIMS-unit
+#'   dataframe will have MIMS-unit values for each axis from the third column.
+#'   Default is FALSE.
+#' @param output_orientation_estimation logical. If it is TRUE, the function
+#'   will also estimate sensor orientations over each epoch. And the output will
+#'   be a list, with the first element being the MIMS-unit dataframe, and the
+#'   second element being the sensor orientation dataframe. Default is FALSE.
+#' @param epoch_for_orientation_estimation string. string. Any format that is
+#'   acceptable by argument \code{breaks} in method
+#'   \code{\link[base]{cut.POSIXt}}.For example, "1 sec", "1 min", "5 sec", "10
+#'   min". Default is "5 sec". It is independent from \code{epoch} for
+#'   MIMS-unit.
+#' @param before_df dataframe. The multi-channel accelerometer signal comes
+#'   before the input signal to be prepended to the input signal during
+#'   computation. This is used to eliminate the edge effect during extrapolation
+#'   and filtering. If it is \code{NULL}, algorithm will run directly on the
+#'   input signal. Default is NULL.
+#' @param after_df dataframe. The multi-channel accelerometer signal comes after
+#'   the input signal to be append to the input signal. This is used to
+#'   eliminate the edge effect during extrapolation and filtering. If it is
+#'   \code{NULL}, algorithm will run directly on the input signal. Default is
+#'   NULL.
+#' @return dataframe or list. If \code{output_orientation_estimation} is TRUE,
+#'   the output will be a list, otherwise the output will be the MIMS-unit
+#'   dataframe.
+#'
+#'   The first element will be the MIMS-unit dataframe, in which the first
+#'   column is the start time of each epoch in POSIXct format, and the second
+#'   column is the MIMS-unit value for the input signal, and the third column
+#'   and on are the MIMS-unit values for each axis of the input signal if
+#'   \code{output_mims_per_axis} is TRUE.
+#'
+#'   The second element will be the orientation dataframe, in which the first
+#'   column is the start time of each epoch in POSIXct format, and the second to
+#'   fourth column is the estimated orientations for the input signal.
+#'
+#' @family Top level API functions
+#' @export
+custom_mims_unit <-
+  function(df,
+           epoch = "5 sec",
+           dynamic_range,
            noise_level = 0.03,
            k = 0.05,
            spar = 0.6,
            filter_type = "butter",
            cutoffs = c(0.2, 5),
-           integration = "trapz",
            axes = c(2, 3, 4),
            use_extrapolation = TRUE,
-           use_interpolation = TRUE,
            use_filtering = TRUE,
            combination = "sum",
-           vm_after_extrapolation = FALSE,
            allow_truncation = TRUE,
-           output_per_axis = FALSE,
-           output_orientation = FALSE,
-           breaks_for_orientation = NULL,
+           output_mims_per_axis = FALSE,
+           output_orientation_estimation = FALSE,
+           epoch_for_orientation_estimation = NULL,
            before_df = NULL,
            after_df = NULL)
   {
@@ -55,34 +274,15 @@ mims_unit <-
     if (use_extrapolation)
     {
       extrapolated_data <-
-        extrapolate(df, range, noise_level, k, spar)
-    } else if (use_interpolation)
-    {
-      extrapolated_data <-
-        interpolate_signal(df, sr = 100, method = "spline_natural")
+        extrapolate(df, dynamic_range, noise_level, k, spar)
     } else
     {
-      extrapolated_data <- df
-    }
-
-    if (vm_after_extrapolation)
-    {
       extrapolated_data <-
-        vector_magnitude(extrapolated_data, axes = axes)
+        interpolate_signal(df, sr = 100, method = "linear")
     }
-
     sr <- sampling_rate(extrapolated_data)
-    # Resample to a consistent sampling rate
-    if (FALSE)
-    {
-      resampled_data <-
-        bandlimited_interp(extrapolated_data, orig_sr = sr, new_sr = resample)
-      # update to the new sampling rate
-      sr <- resample
-    } else
-    {
-      resampled_data <- extrapolated_data
-    }
+    resampled_data <- extrapolated_data
+
 
     # store -1 values separately
     row_abnormal <- rep(FALSE, nrow(resampled_data))
@@ -143,15 +343,15 @@ mims_unit <-
       filtered_data[order(filtered_data$HEADER_TIME_STAMP), ]
 
     # Compute orientations
-    if (output_orientation)
+    if (output_orientation_estimation)
     {
-      if (is.null(breaks_for_orientation))
+      if (is.null(epoch_for_orientation_estimation))
       {
-        breaks_for_orientation <- breaks
+        epoch_for_orientation_estimation <- epoch
       }
       orientation_data <-
         aggregate_for_orientation(resampled_data,
-                                  epoch = breaks_for_orientation)
+                                  epoch = epoch_for_orientation_estimation)
     } else
     {
       orientation_data <- NULL
@@ -159,15 +359,13 @@ mims_unit <-
 
     # Compute the AUC
     integrated_data <-
-      aggregate_for_mims(filtered_data,
-                         epoch = breaks,
-                         method = integration,
-                         rectify = TRUE)
+      aggregate_for_mims(
+        filtered_data,
+        epoch = epoch,
+        method = "trapz",
+        rectify = TRUE
+      )
 
-    if (vm_after_extrapolation)
-    {
-      return(integrated_data)
-    }
     # Compute vector magnitude
     row_abnormal <- rep(FALSE, nrow(integrated_data))
     for (i in 2:ncol(integrated_data))
@@ -185,7 +383,7 @@ mims_unit <-
       mims_data <- sum_up(integrated_data, axes = axes)
     }
 
-    if (output_per_axis)
+    if (output_mims_per_axis)
     {
       mims_data <-
         cbind(mims_data, integrated_data[, 2:ncol(integrated_data)])
@@ -204,7 +402,7 @@ mims_unit <-
       truncate_indices <-
         mims_data[, 2:ncol(mims_data)] > 0 &
         (mims_data[, 2:ncol(mims_data)] <=
-           (1e-04 * parse_epoch_string(breaks, sr) / sr))
+           (1e-04 * parse_epoch_string(epoch, sr) / sr))
       truncate_indices <- data.frame(truncate_indices)
       mims_data[, 2:ncol(mims_data)] <-
         sapply(1:(ncol(mims_data) - 1), function(n)
@@ -219,7 +417,7 @@ mims_unit <-
       mims_data[[1]] >= start_time & mims_data[[1]] < stop_time
     mims_data <- mims_data[keep_mask, ]
 
-    if (output_orientation)
+    if (output_orientation_estimation)
     {
       return(list(mims = mims_data, orientation = orientation_data))
     } else

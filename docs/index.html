@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">MIMSunit</a>
-        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.5.6</span>
+        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.5.7</span>
       </span>
     </div>
 
@@ -171,19 +171,19 @@
 <ul>
 <li>For Windows users</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">"devtools"</span>)
-devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"qutang/MIMSunit"</span>, <span class="dt">type=</span><span class="st">'win.binary'</span>)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">"devtools"</span>)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"qutang/MIMSunit"</span>, <span class="dt">type=</span><span class="st">'win.binary'</span>)</a></code></pre></div>
 <ul>
 <li>For mac or Linux users</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">"devtools"</span>)
-devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"qutang/MIMSunit"</span>)</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">"devtools"</span>)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"qutang/MIMSunit"</span>)</a></code></pre></div>
 <p><em>Note: It is recommended to use Rstudio when installing the package, because <code>devtools</code> has some compatible issues with R command line interface.</em></p>
 </div>
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">MIMSunit<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/MIMSunit/topics/mims_unit">mims_unit</a></span>(input_dataframe, <span class="dt">range=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">3</span>,<span class="dv">3</span>), <span class="dt">breaks=</span><span class="st">'1 min'</span>)</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">MIMSunit<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/MIMSunit/topics/mims_unit">mims_unit</a></span>(input_dataframe, <span class="dt">dynamic_range=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">3</span>,<span class="dv">3</span>), <span class="dt">epoch=</span><span class="st">'1 min'</span>)</a></code></pre></div>
 <p>Assume the input dataframe is in following format, with the first column (timestamp) in <code>POSXlct</code> objects and the device used to collect this data has dynamic range being -3g to 3g. You may set the epoch length to be <code>1 min</code>, <code>1 sec</code>, <code>5 sec</code>, <code>10 sec</code> and so on.</p>
 <pre><code>HEADER_TIME_STAMP,X,Y,Z
 2016-10-03 14:51:14.236,0.007,-0.005,0.984

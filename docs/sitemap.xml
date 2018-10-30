@@ -19,6 +19,9 @@
     <loc>https://qutang.github.io/MIMSunit//reference/compute_orientation.html</loc>
   </url>
   <url>
+    <loc>https://qutang.github.io/MIMSunit//reference/custom_mims_unit.html</loc>
+  </url>
+  <url>
     <loc>https://qutang.github.io/MIMSunit//reference/cut_off_signal.html</loc>
   </url>
   <url>
@@ -71,6 +74,9 @@
   </url>
   <url>
     <loc>https://qutang.github.io/MIMSunit//reference/sampling_rate.html</loc>
+  </url>
+  <url>
+    <loc>https://qutang.github.io/MIMSunit//reference/sensor_orientations.html</loc>
   </url>
   <url>
     <loc>https://qutang.github.io/MIMSunit//reference/simulate_new_data.html</loc>

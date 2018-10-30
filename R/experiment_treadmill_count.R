@@ -36,17 +36,15 @@ experiment_treadmill_count <-
                   {
                     gr <- as.numeric(segment$GRANGE[1])
                     count <-
-                      segment %>% subset(select = 1:4) %>% mims_unit(
-                        breaks = para$EPOCH,
-                        range = c(-gr, gr),
+                      segment %>% subset(select = 1:4) %>% custom_mims_unit(
+                        epoch = para$EPOCH,
+                        dynamic_range = c(-gr, gr),
                         noise_level = noise_level,
                         k = para$NEIGHBOR,
                         spar = para$SMOOTHING,
                         cutoffs = c(para$LOW_BW, para$HIGH_BW),
-                        integration = para$INTEGRATION,
                         combination = para$COMBINATION,
                         use_extrapolation = use_extrapolate,
-                        use_interpolation = use_interpolate,
                         use_filtering = use_filtering
                       ) %>% stats::na.omit()
                     result <-

@@ -1,11 +1,13 @@
 url: https://qutang.github.io/MIMSunit/
 
 reference:
-  - title: "Top-level API for MIMS-unit"
+  - title: "Top-level API for MIMS-unit algorithm"
     desc: >
-      Function to compute MIMS-unit value.
+      Function to compute MIMS-unit value and estimate sensor orientation.
     contents:
       - mims_unit
+      - sensor_orientations
+      - custom_mims_unit
   - title: "File IO"
     desc: >
       Functions for importing or exporting data for various data formats.

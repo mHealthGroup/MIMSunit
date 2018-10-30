@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Compute Monitor Independent Motion Summary unit (MIMS-unit) — mims_unit • MIMSunit</title>
+<title>Estimates sensor orientation — sensor_orientations • MIMSunit</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,15 +30,13 @@
 
 
 
-<meta property="og:title" content="Compute Monitor Independent Motion Summary unit (MIMS-unit) — mims_unit" />
+<meta property="og:title" content="Estimates sensor orientation — sensor_orientations" />
 
-<meta property="og:description" content="mims_unit computes the Monitor Independent Motion Summary unit for the
-input multi-channel accelerometer signal. The input signal can be from
-devices of any sampling rate and dynamic range. Please refer to the
-manuscript for detailed description of the algorithm. Please refer to
-functions for the intermediate steps: extrapolate for
-extrapolation, iir for filtering,
-aggregate_for_mims for aggregation." />
+<meta property="og:description" content="sensor_orientations estimates the orientation angles for the input
+multi-channel accelerometer signal. The input signal can be from devices of
+any sampling rate and dynamic range. Please refer to function
+compute_orientation for the implementation of the estimation
+algorithm." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -158,25 +156,23 @@ aggregate_for_mims for aggregation." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Compute Monitor Independent Motion Summary unit (MIMS-unit)</h1>
+    <h1>Estimates sensor orientation</h1>
     <small class="dont-index">Source: <a href='https://github.com/qutang/mimsunit//blob/master/R/mims_unit.R'><code>R/mims_unit.R</code></a></small>
-    <div class="hidden name"><code>mims_unit.Rd</code></div>
+    <div class="hidden name"><code>sensor_orientations.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p><code>mims_unit</code> computes the Monitor Independent Motion Summary unit for the
-input multi-channel accelerometer signal. The input signal can be from
-devices of any sampling rate and dynamic range. Please refer to the
-manuscript for detailed description of the algorithm. Please refer to
-functions for the intermediate steps: <code><a href='extrapolate.html'>extrapolate</a></code> for
-extrapolation, <code><a href='iir.html'>iir</a></code> for filtering,
-<code><a href='aggregate_for_mims.html'>aggregate_for_mims</a></code> for aggregation.</p>
+    <p><code>sensor_orientations</code> estimates the orientation angles for the input
+multi-channel accelerometer signal. The input signal can be from devices of
+any sampling rate and dynamic range. Please refer to function
+<code><a href='compute_orientation.html'>compute_orientation</a></code> for the implementation of the estimation
+algorithm.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>mims_unit</span>(<span class='no'>df</span>, <span class='kw'>before_df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>after_df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>epoch</span> <span class='kw'>=</span> <span class='st'>"5 sec"</span>,
-  <span class='no'>dynamic_range</span>, <span class='kw'>output_mims_per_axis</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>sensor_orientations</span>(<span class='no'>df</span>, <span class='kw'>before_df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>after_df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>epoch</span> <span class='kw'>=</span> <span class='st'>"5 sec"</span>, <span class='no'>dynamic_range</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -214,42 +210,31 @@ signal. Should be a 2-element numerical vector. <code>c(low, high)</code>, where
 <code>low</code> is the negative max value the device can reach and <code>high</code>
 is the positive max value the device can reach.</p></td>
     </tr>
-    <tr>
-      <th>output_mims_per_axis</th>
-      <td><p>logical. If it is TRUE, the output MIMS-unit
-dataframe will have MIMS-unit values for each axis from the third column.
-Default is FALSE.</p></td>
-    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>dataframe. The MIMS-unit dataframe. The first column is the start
-  time of each epoch in POSIXct format. The second column is the MIMS-unit
-  value for the input signal. If <code>output_mims_per_axis</code> is TRUE, the
-  third column and then are the MIMS-unit values for each axis of the input
-  signal.</p>
+    <p>dataframe. The orientation dataframe. The first column is the start
+  time of each epoch in POSIXct format. The second to fourth columns are the
+  orientation angles.</p>
     
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>This function is a wrapper function for the low-level
-  <code><a href='custom_mims_unit.html'>custom_mims_unit</a></code> function. It has set internal parameters as
-  described in the manuscript. If you want to run customized algorithm for
-  MIMSunit or if you want to develop better algorithms based on MIMS-unit
-  algorithm, please use function <code><a href='custom_mims_unit.html'>custom_mims_unit</a></code> where all
-  parameters are tunable.</p>
+    <p>This function interpolates and extrapolates the signal before
+  estimating the orientation angles.</p>
 <p><code>before_df</code> and <code>after_df</code> are often set when the accelerometer
   data are devided into files of smaller chunk.</p>
     
     <h2 class="hasAnchor" id="how-is-it-used-in-mims-unit-algorithm-"><a class="anchor" href="#how-is-it-used-in-mims-unit-algorithm-"></a>How is it used in MIMS-unit algorithm?</h2>
 
-    <p>This is the main entry of
-  MIMS-unit algorithm.</p>
+    <p>This is not included in the
+  official MIMS-unit algorithm nor the manuscript, but we found it is useful
+  to know the sensor orientations in addition to the summary of movement.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other Top level API functions: <code><a href='custom_mims_unit.html'>custom_mims_unit</a></code>,
-  <code><a href='sensor_orientations.html'>sensor_orientations</a></code></p></div>
+  <code><a href='mims_unit.html'>mims_unit</a></code></p></div>
     
 
   </div>

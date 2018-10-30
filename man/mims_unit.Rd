@@ -2,43 +2,73 @@
 % Please edit documentation in R/mims_unit.R
 \name{mims_unit}
 \alias{mims_unit}
-\title{Compute activity counts using [citation] algorithm}
+\title{Compute Monitor Independent Motion Summary unit (MIMS-unit)}
 \usage{
-mims_unit(df, breaks = "5 sec", range, noise_level = 0.03, k = 0.05,
-  spar = 0.6, filter_type = "butter", cutoffs = c(0.2, 5),
-  integration = "trapz", axes = c(2, 3, 4), use_extrapolation = TRUE,
-  use_interpolation = TRUE, use_filtering = TRUE,
-  combination = "sum", vm_after_extrapolation = FALSE,
-  allow_truncation = TRUE, output_per_axis = FALSE,
-  output_orientation = FALSE, breaks_for_orientation = NULL,
-  before_df = NULL, after_df = NULL)
+mims_unit(df, before_df = NULL, after_df = NULL, epoch = "5 sec",
+  dynamic_range, output_mims_per_axis = FALSE)
 }
 \arguments{
-\item{df}{input sensor data frame that fits the mhealth specification}
+\item{df}{dataframe. Input multi-channel accelerometer signal.}
 
-\item{breaks}{epoch to compute counts on}
+\item{before_df}{dataframe. The multi-channel accelerometer signal comes
+before the input signal to be prepended to the input signal during
+computation. This is used to eliminate the edge effect during extrapolation
+and filtering. If it is \code{NULL}, algorithm will run directly on the
+input signal. Default is NULL.}
 
-\item{range}{dynamic range of the device (two element vector)}
+\item{after_df}{dataframe. The multi-channel accelerometer signal comes after
+the input signal to be append to the input signal. This is used to
+eliminate the edge effect during extrapolation and filtering. If it is
+\code{NULL}, algorithm will run directly on the input signal. Default is
+NULL.}
 
-\item{noise_level}{noise level should be between 0.01 and 0.1}
+\item{epoch}{string. Any format that is acceptable by argument \code{breaks}
+in method \code{\link[base]{cut.POSIXt}}.For example, "1 sec", "1 min", "5
+sec", "10 min". Default is "5 sec".}
 
-\item{k}{neighborhood duration for extrapolation in seconds, default is 0.05 seconds}
+\item{dynamic_range}{numerical vector. The dynamic ranges of the input
+signal. Should be a 2-element numerical vector. \code{c(low, high)}, where
+\code{low} is the negative max value the device can reach and \code{high}
+is the positive max value the device can reach.}
 
-\item{spar}{smoothing parameter for extrapolation, default is 0.6}
-
-\item{cutoffs}{cut off frequencies to be used in filtering, default is 0.2Hz and 5Hz. If choosing bessel, the low pass cut off would be multipled by 2 when being used.}
-
-\item{integration}{the integration method to be used: 'trapz', 'absoluteMeanByPoints'.}
-
-\item{allow_truncation}{use zero truncation or not, default is TRUE}
-
-\item{resample}{set 0 to not use resampling, otherwise set to the desired sampling rate in numerical, e.g 40 for 40Hz. Default is 50.}
-
-\item{filter}{'butter', 'ellip', 'bessel'}
+\item{output_mims_per_axis}{logical. If it is TRUE, the output MIMS-unit
+dataframe will have MIMS-unit values for each axis from the third column.
+Default is FALSE.}
 }
 \value{
-Will return NA if a segment break is too short to have enough samples to compute AUC
+dataframe. The MIMS-unit dataframe. The first column is the start
+  time of each epoch in POSIXct format. The second column is the MIMS-unit
+  value for the input signal. If \code{output_mims_per_axis} is TRUE, the
+  third column and then are the MIMS-unit values for each axis of the input
+  signal.
 }
 \description{
-Compute activity counts using [citation] algorithm
+\code{mims_unit} computes the Monitor Independent Motion Summary unit for the
+input multi-channel accelerometer signal. The input signal can be from
+devices of any sampling rate and dynamic range. Please refer to the
+manuscript for detailed description of the algorithm. Please refer to
+functions for the intermediate steps: \code{\link{extrapolate}} for
+extrapolation, \code{\link{iir}} for filtering,
+\code{\link{aggregate_for_mims}} for aggregation.
 }
+\note{
+This function is a wrapper function for the low-level
+  \code{\link{custom_mims_unit}} function. It has set internal parameters as
+  described in the manuscript. If you want to run customized algorithm for
+  MIMSunit or if you want to develop better algorithms based on MIMS-unit
+  algorithm, please use function \code{\link{custom_mims_unit}} where all
+  parameters are tunable.
+
+  \code{before_df} and \code{after_df} are often set when the accelerometer
+  data are devided into files of smaller chunk.
+}
+\section{How is it used in MIMS-unit algorithm?}{
+ This is the main entry of
+  MIMS-unit algorithm.
+}
+
+\seealso{
+Other Top level API functions: \code{\link{custom_mims_unit}},
+  \code{\link{sensor_orientations}}
+}
+\concept{Top level API functions}

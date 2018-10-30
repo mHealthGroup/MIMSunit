@@ -68,7 +68,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.5.6</span>
+        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.5.7</span>
       </span>
     </div>
 
@@ -163,8 +163,8 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-top-level-api-for-mims-unit" class="hasAnchor"><a href="#section-top-level-api-for-mims-unit" class="anchor"></a>Top-level API for MIMS-unit</h2>
-          <p class="section-desc"><p>Function to compute MIMS-unit value.</p></p>
+          <h2 id="section-top-level-api-for-mims-unit-algorithm" class="hasAnchor"><a href="#section-top-level-api-for-mims-unit-algorithm" class="anchor"></a>Top-level API for MIMS-unit algorithm</h2>
+          <p class="section-desc"><p>Function to compute MIMS-unit value and estimate sensor orientation.</p></p>
         </th>
       </tr>
       <tr>
@@ -172,7 +172,19 @@
         <td>
           <p><code><a href="mims_unit.html">mims_unit()</a></code> </p>
         </td>
-        <td><p>Compute activity counts using [citation] algorithm</p></td>
+        <td><p>Compute Monitor Independent Motion Summary unit (MIMS-unit)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="sensor_orientations.html">sensor_orientations()</a></code> </p>
+        </td>
+        <td><p>Estimates sensor orientation</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="custom_mims_unit.html">custom_mims_unit()</a></code> </p>
+        </td>
+        <td><p>Compute both MIMS-unit and sensor orientations with custom settings</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -363,7 +375,7 @@ rate</p></td>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-top-level-api-for-mims-unit">Top-level API for MIMS-unit</a></li>
+      <li><a href="#section-top-level-api-for-mims-unit-algorithm">Top-level API for MIMS-unit algorithm</a></li>
       <li><a href="#section-file-io">File IO</a></li>
       <li><a href="#section-signal-filtering">Signal Filtering</a></li>
       <li><a href="#section-signal-transformation">Signal transformation</a></li>
