@@ -1,0 +1,105 @@
+url: https://qutang.github.io/MIMSunit/
+destination: ../docs/
+reference:
+  - title: "Top-level API for MIMS-unit algorithm"
+    desc: >
+      Function to compute MIMS-unit value and estimate sensor orientation.
+    contents:
+      - mims_unit
+      - sensor_orientations
+      - custom_mims_unit
+  - title: "File IO"
+    desc: >
+      Functions for importing or exporting data for various data formats.
+    contents:
+      - starts_with("import")
+      - starts_with("export")
+  - title: "Datasets"
+    desc: >
+      Processed datasets that store the results in the manuscript and supplementary material.
+    contents:
+      - cv_different_algorithms
+      - measurements_different_devices
+  - title: "Signal Filtering"
+    desc: "Functions to filter multi-channel accelerometer signal."
+    contents:
+      - iir
+      - bessel
+      - remove_average
+      - bandlimited_interp
+  - title: "Signal transformation"
+    desc: "Functions to transform the multi-channel accelerometer signal."
+    contents:
+      - compute_orientation
+      - sum_up
+      - vector_magnitude
+  - title: "Signal extrapolation"
+    desc: "Functions to extrapolate multi-channel accelerometer signal."
+    contents:
+      - extrapolate
+      - extrapolate_rate
+  - title: "Signal aggregation"
+    desc: "Functions to aggregate over epochs of multi-channel accelerometer signal."
+    contents:
+      - aggregate_for_mims
+      - aggregate_for_orientation
+  - title: "Util functions"
+    desc: >
+      Utility functions.
+    contents:
+      - sampling_rate
+      - parse_epoch_string
+      - cut_off_signal
+      - interpolate_signal
+      - simulate_new_data
+
+development:
+  mode: unreleased
+
+authors:
+  Qu Tang:
+    href: https://qutang.github.io
+    html: <img class='img-circle p-3' src="https://d33wubrfki0l68.cloudfront.net/8af2089476f179254b3bc9628e13f7d143acab42/8309e/images/avatar.jpg" height="40" /><span> Qu Tang</span>
+  Dinesh John:
+    href: "https://bouve.northeastern.edu/directory/dinesh-john/"
+    html: <img class='img-circle p-3' src="https://banner2.kisspng.com/20180410/bbw/kisspng-avatar-user-medicine-surgery-patient-avatar-5acc9f7a7cb983.0104600115233596105109.jpg" height="40" /><span> Dinesh John</span>
+  Stephen Intille:
+    href: "http://www.ccs.neu.edu/home/intille/"
+    html: <img class='img-circle p-3' src="http://www.ccs.neu.edu/home/intille/intille-headshot-sm2.jpg" height="40" /><span> Stephen Intille</span>
+  mHealth Research Group:
+    href: "https://mhealthgroup.org"
+    html: <img src="https://www.mhealthgroup.org/uploads/1/1/1/1/111147333/unnamed.gif" height="24" />
+
+template:
+  params:
+    ganalytics: UA-38342303-3
+navbar:
+  title: "MIMSunit"
+  left:
+    - text: "Get Started"
+      href: articles/MIMSunit.html
+    - text: "Algorithm Walkthrough"
+      menu:
+        - text: "Deciding truncation threshold"
+          href: articles/truncation_threshold.html
+    - text: "Advance Guidance"
+      menu:
+        - text: "Import Data"
+          href: articles/import_data.html
+        - text: "Generate Intermediate Output"
+          href: articles/generate_intermediate.html
+        - text: "Customize MIMS unit algorithm"
+          href: articles/customize.html
+    - text: "Performances"
+      menu:
+        - text: "Cross device consistency"
+          href: articles/cross_device_consistency.html
+        - text: "Performance under edge conditions"
+          href: articles/edge_cases.html
+    - text: "API References"
+      href: "reference/index.html"
+    - text: "Changelog"
+      href: "news/index.html"
+  right:
+    - icon: fa-lg fa-github
+      href: https://github.com/qutang/mimsunit

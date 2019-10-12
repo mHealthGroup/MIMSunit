@@ -1,7 +1,3 @@
-.Rproj.user
-.Rhistory
-.RData
-.Ruserdata
-offline_data/
-.DS_Store
-dists/*
+data-raw-archive
+*.Rcheck
+*.tar.gz

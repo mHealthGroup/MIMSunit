@@ -25,6 +25,9 @@
     <loc>https://qutang.github.io/MIMSunit//reference/cut_off_signal.html</loc>
   </url>
   <url>
+    <loc>https://qutang.github.io/MIMSunit//reference/cv_different_algorithms.html</loc>
+  </url>
+  <url>
     <loc>https://qutang.github.io/MIMSunit//reference/export_to_actilife.html</loc>
   </url>
   <url>
@@ -53,6 +56,9 @@
   </url>
   <url>
     <loc>https://qutang.github.io/MIMSunit//reference/interpolate_signal.html</loc>
+  </url>
+  <url>
+    <loc>https://qutang.github.io/MIMSunit//reference/measurements_different_devices.html</loc>
   </url>
   <url>
     <loc>https://qutang.github.io/MIMSunit//reference/mims_unit.html</loc>
