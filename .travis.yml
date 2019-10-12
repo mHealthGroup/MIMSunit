@@ -2,10 +2,17 @@
 
 language: R
 sudo: false
-cache: packages
+cache:
+  directories:
+  - $HOME/.local/share/renv
+  - $TRAVIS_BUILD_DIR/renv/library
+  packages: true
 warnings_are_errors: false
 r_packages:
   - covr
+
+install:
+  - Rscript -e "renv::restore()"
 
 after_success:
   - Rscript -e 'library(covr); codecov()'
