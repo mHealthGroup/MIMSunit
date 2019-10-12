@@ -5,4 +5,3 @@
 offline_data/
 .DS_Store
 dists/*
-renv
