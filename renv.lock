@@ -79,6 +79,13 @@
       "Repository": "CRAN",
       "Hash": "79945e74782c66c4c95b9e4ffcfd950d"
     },
+    "askpass": {
+      "Package": "askpass",
+      "Version": "1.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "46678e19f261db289be40292d8e5d5bf"
+    },
     "assertthat": {
       "Package": "assertthat",
       "Version": "0.2.1",
@@ -128,12 +135,26 @@
       "Repository": "CRAN",
       "Hash": "c25d49739abb6ebf4b3d0c3565574226"
     },
+    "covr": {
+      "Package": "covr",
+      "Version": "3.3.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "885360370767478f19b92ee900b1f8f6"
+    },
     "crayon": {
       "Package": "crayon",
       "Version": "1.3.4",
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "d308ead32010b8e4d76c4690427da50b"
+    },
+    "curl": {
+      "Package": "curl",
+      "Version": "4.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "63410438360944341b6bba487340a466"
     },
     "digest": {
       "Package": "digest",
@@ -233,6 +254,13 @@
       "Repository": "CRAN",
       "Hash": "f2ea129162a975cc3828d56d5270616d"
     },
+    "httr": {
+      "Package": "httr",
+      "Version": "1.4.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "5dbd937df2ed15043fd4b49e1e217030"
+    },
     "jsonlite": {
       "Package": "jsonlite",
       "Version": "1.6",
@@ -301,6 +329,13 @@
       "Repository": "CRAN",
       "Hash": "6ac256e4fdcf33c11f9ed987927cc614"
     },
+    "mime": {
+      "Package": "mime",
+      "Version": "0.7",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "908d95ccbfd1dd274073ef07a7c93934"
+    },
     "moments": {
       "Package": "moments",
       "Version": "0.14",
@@ -321,6 +356,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "ad3b02c6f154deac3584133e6e015cd3"
+    },
+    "openssl": {
+      "Package": "openssl",
+      "Version": "1.4.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "6c438de366d5693238d1c400deb66cb6"
     },
     "pillar": {
       "Package": "pillar",
@@ -378,6 +420,13 @@
       "Repository": "CRAN",
       "Hash": "ac685130d1a25e3f6470960fd29c5693"
     },
+    "rex": {
+      "Package": "rex",
+      "Version": "1.1.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "6a374bfb33486a98af825be15b6b87bb"
+    },
     "rlang": {
       "Package": "rlang",
       "Version": "0.4.0",
@@ -419,6 +468,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "41d6310ad18bd019a203d7adc496a28b"
+    },
+    "sys": {
+      "Package": "sys",
+      "Version": "3.3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "9ecf6bee5958b8977bd1db3131978a71"
     },
     "testthat": {
       "Package": "testthat",
