@@ -12,6 +12,6 @@ vignettes
 mims-unit.R
 *.Rproj
 release.R
-README.Rmd
+README.rmd
 tests
 renv.lock
