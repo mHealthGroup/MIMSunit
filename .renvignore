@@ -1,0 +1,15 @@
+.github
+.gitignore
+.Rbuildignore
+*.yml
+data
+data-raw
+docs
+inst
+man
+R
+vignettes
+mims-unit.R
+*.Rproj
+release.R
+README.rmd
