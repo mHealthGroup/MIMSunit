@@ -35,3 +35,26 @@
 #' }
 #' @source \url{https://github.com/qutang/MIMSunit-dataset-shaker}
 "measurements_different_devices"
+
+
+#' The input accelerometer data used to generate the conceptual diagram
+#' (Figure 1) in the manuscript.
+#'
+#' The dataset includes accelerometer data from four devices. Device 0 is a real
+#'  Actigraph GT9X device configured at 80Hz and 8g. Device 1 to 3 are simulated
+#'  data from the data of device 0 using function \code{\link{simulate_new_data}}.
+#'  Data for device 0 is a random selected nondominant wrist data from a
+#'  participant doing Jumping jack. The data is manipulated to insert an
+#'  artificial impulse to demonstrate the effect of the MIMS-unit algorithm when
+#'  dealing on it.
+#'
+#' @format A data frame with 1704 rows and 5 variables:
+#' \describe{
+#'   \item{HEADER_TIME_STAMP}{The timestamp of raw accelerometer data, in POSIXct}
+#'   \item{X}{The x axis value of raw accelerometer data, in number}
+#'   \item{GRANGE}{The dynamic range of the simulated device in g, in number}
+#'   \item{SR}{The sampling rate in Hz of the simulated device, in number}
+#'   \item{NAME}{An alternative name that is friendly for plotting for different devices, in character}
+#' }
+#' @source \url{https://github.com/qutang/MIMSunit}
+"conceptual_diagram_data"
