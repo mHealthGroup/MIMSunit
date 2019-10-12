@@ -26,3 +26,4 @@
 ^data$
 ^vignettes$
 ^codecov\.yml$
+^MIMSunit-dataset-shaker$

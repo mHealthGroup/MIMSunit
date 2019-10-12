@@ -15,3 +15,4 @@ release.R
 README.rmd
 tests
 renv.lock
+MIMSunit-dataset-shaker
