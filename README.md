@@ -5,6 +5,7 @@
 
 [![Travis-CI build
 status](https://travis-ci.org/qutang/MIMSunit.svg?branch=master)](https://travis-ci.org/qutang/MIMSunit)
+[![codecov](https://codecov.io/gh/qutang/MIMSunit/branch/master/graph/badge.svg)](https://codecov.io/gh/qutang/MIMSunit)
 [![CRAN
 Status](https://www.r-pkg.org/badges/version/MIMSunit)](https://cran.r-project.org/package=MIMSunit)
 
