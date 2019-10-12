@@ -163,6 +163,13 @@
       "Repository": "CRAN",
       "Hash": "d9e858795a1a4ebfe6960e4514449d40"
     },
+    "evaluate": {
+      "Package": "evaluate",
+      "Version": "0.14",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "5a6c1949963e0785dbcbb0556337d61e"
+    },
     "fansi": {
       "Package": "fansi",
       "Version": "0.4.0",
@@ -343,6 +350,13 @@
       "Repository": "CRAN",
       "Hash": "37dd0f3aadee2ac99e47168f4bffddb7"
     },
+    "praise": {
+      "Package": "praise",
+      "Version": "1.0.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "3940f2f321d5fa9fb72b8887b0454660"
+    },
     "purrr": {
       "Package": "purrr",
       "Version": "0.3.2",
@@ -356,18 +370,6 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "60167b7ec3de99e76ff406aaf0f83bb4"
-    },
-    "renv": {
-      "Package": "renv",
-      "Version": "0.7.1-15",
-      "Source": "GitHub",
-      "RemoteType": "github",
-      "RemoteHost": "api.github.com",
-      "RemoteRepo": "renv",
-      "RemoteUsername": "rstudio",
-      "RemoteRef": "master",
-      "RemoteSha": "426d690b1f1c8c668f3f04971969c9183706d273",
-      "Hash": "92d91b57c47689f18fed260573f7def4"
     },
     "reshape2": {
       "Package": "reshape2",
@@ -417,6 +419,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "41d6310ad18bd019a203d7adc496a28b"
+    },
+    "testthat": {
+      "Package": "testthat",
+      "Version": "2.2.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "3e86adb988cb96c5b30b01ec56719ac4"
     },
     "tibble": {
       "Package": "tibble",
