@@ -16,94 +16,69 @@ require(dplyr)
 require(ggplot2)
 ```
 
-```{r, include=FALSE}
-wd = getwd()
-if(stringr::str_detect(wd, "articles")){
-  file_path = normalizePath(file.path(wd, "../../inst/extdata/cross_device_consistency.rds"))
-}else{
-  file_path = normalizePath(file.path(wd, "../inst/extdata/cross_device_consistency.rds"))
-}
-df = readRDS(file_path)
-```
-
 ### Introduction
 
-This is a replication of Figure ? in the published MIMS-Unit [paper](). The cross device consistency test is run with following devices on a orbital shaker with FREQ_IN_HZ from 60 (approx. 1 Hz) to 480 (approx. 8Hz).
+This is a replication of Figure 3 in the published MIMS-Unit [paper](). The consistency test is run with the following devices on an orbital shaker with RPM ranging from 60 (approx. 1 Hz) to 480 (approx. 8Hz).
 
 ```{r, include=FALSE}
-device_table = df %>% ddply(c('NAME'), summarise, 
-             SR = head(SR, 1),
-             GRANGE = head(GRANGE, 1),
-             DEVICE = head(DEVICE ,1))
+df = MIMSunit::measurements_different_devices
+device_table = df %>% ddply(
+  c('NAME'),
+  summarise,
+  SR = head(.data$SR, 1),
+  GRANGE = head(.data$GRANGE, 1),
+  DEVICE = head(.data$DEVICE , 1)
+)
 device_table = device_table[c('DEVICE', 'SR', 'GRANGE')]
 colnames(device_table) = c('DEVICE', 'SAMPLING RATE (Hz)', 'DYNAMIC RANGE (g)')
 ```
-```{r, echo=FALSE}
+```{r, echo = FALSE}
 knitr::kable(device_table)
 ```
 
-The collected dataset is then processed by three accelerometer data summarization algorithms for comparison.
+The collected dataset is then processed by three accelerometer data summary algorithms for comparison.
 
 1. Actigraph counts (processed using Actilife software)
-2. [ENMO]() (used by UK Biobank project)
-3. MIMS-Unit
+2. [ENMO](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0164045) (used by UK Biobank project)
+3. [MIMS-Unit](https://qutang.github.io/MIMSunit/) (used by NHANES project)
 
-The collected data is calibrated using at least 24h wearing data when applying ENMO algorithm as suggested in the paper. The other two algorithms do not require specific calibration unless the calibration is suggested by device manufacturers.
+_The collected data is calibrated using at least 24h wearing data when applying ENMO algorithm as suggested in the paper. The other two algorithms do not require specific calibration unless the calibration is suggested by device manufacturers._
 
 ### Coefficient of variety of three accelerometer data summarizations cross different devices
 
-```{r, include=FALSE}
-acc_factor = 60 / 5
-filtered_df = df %>% dplyr::filter(DEVICE != "Activpal")
-summary_df = filtered_df %>% ddply(
-  c("TYPE", "HZ"),
-  summarise,
-  N = length(VALUE),
-  mean = mean(VALUE),
-  sd   = sd(VALUE),
-  se   = sd / sqrt(N),
-  cv = sd / mean
-)
-summary_df_melted = summary_df[c('TYPE','HZ','cv')] %>% reshape2::melt(c("HZ", "TYPE"))
-current_run = format(Sys.time(), "%Y%m%d%H")
-if(stringr::str_detect(wd, "articles")){
-  write.csv(summary_df_melted, file = paste0("../../inst/table/shaker_consistency_cv", current_run ,".csv"), quote = FALSE, row.names = FALSE)
-}else{
-  write.csv(summary_df_melted, file = paste0("../inst/table/shaker_consistency_cv", current_run ,".csv"), quote = FALSE, row.names = FALSE)
-}
-
-```
-
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, out.width = "100%", fig.width=10,fig.height=8}
-p1 = ggplot(summary_df,
-           aes(
-             x = HZ,
-             y = cv,
-             linetype = TYPE,
-             shape = TYPE,
-             colour = TYPE
-           )) +
-
-  geom_line(size=1.2) +
-  geom_point(size = 3) + 
+p1 = ggplot(
+  MIMSunit::cv_different_algorithms,
+  aes(
+    x = .data$HZ,
+    y = .data$COEFF_OF_VARIATION,
+    linetype = .data$TYPE,
+    shape = .data$TYPE,
+    colour = .data$TYPE
+  )
+) +
+  
+  geom_line(size = 1.2) +
+  geom_point(size = 3) +
   ylim(0, 1) +
   theme_bw() +
   theme(
     legend.position = "bottom",
     legend.margin = unit(10 ^ -3, 'inch'),
     panel.margin = unit(0.1, 'inch'),
-    axis.text = element_text(margin = margin(0, 0, 0, 0), size=16),
-    text = element_text(size=16),
+    axis.text = element_text(margin = margin(0, 0, 0, 0), size = 16),
+    text = element_text(size = 16),
     plot.margin = margin(0, 0, 0, 0, 'inch'),
     strip.background = element_blank(),
     legend.key = element_blank()
   ) +
-  # facet_wrap(~ variable, scales = "free_y") +
   scale_colour_discrete(name = "Device") +
   scale_shape_discrete(name = "Device") +
-  guides(shape = guide_legend(ncol = 2, title = NULL),
-         linetype = guide_legend(ncol = 2, title = NULL),
-         colour = guide_legend(ncol = 2, title = NULL)) +
+  guides(
+    shape = guide_legend(ncol = 2, title = NULL),
+    linetype = guide_legend(ncol = 2, title = NULL),
+    colour = guide_legend(ncol = 2, title = NULL)
+  ) +
   ylab("Coefficient of variance (CV)") +
   xlab("Frequency (Hz)")
 
@@ -114,49 +89,36 @@ p1
 
 ### Accelerometer data summarizations for different devices
 
-```{r, include=FALSE}
-acc_factor = 60 / 5
-summary_df = df %>% ddply(
-  c("DEVICE", "GRANGE", "SR", "TYPE", "HZ", "NAME"),
-  summarise,
-  N = length(VALUE),
-  mean = mean(VALUE * acc_factor),
-  sd   = sd(VALUE * acc_factor),
-  se   = sd / sqrt(N),
-  cv = sd / mean
-)
-current_run = format(Sys.time(), "%Y%m%d%H")
-if(stringr::str_detect(wd, "articles")){
-  write.csv(summary_df, file = paste0("../../inst/table/shaker_consistency_detail_", current_run,".csv"), quote = FALSE, row.names = FALSE)
-}else{
-  write.csv(summary_df, file = paste0("../inst/table/shaker_consistency_detail_", current_run,".csv"), quote = FALSE, row.names = FALSE)
-}
-
-```
-
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, out.width = "100%", fig.width=10,fig.height=24}
-p2 = ggplot(data = summary_df, aes(
-  x = HZ,
-  y = mean,
-  color = NAME,
-  linetype = NAME
-)) +
-  geom_line(size=1.2) + geom_point(aes(shape = NAME), size = 3) +
+p2 = ggplot(
+  data = MIMSunit::measurements_different_devices,
+  aes(
+    x = .data$HZ,
+    y = .data$mean,
+    color = .data$NAME,
+    linetype = .data$NAME
+  )
+) +
+  geom_line(size = 1.2) + geom_point(aes(shape = .data$NAME), size = 3) +
   scale_colour_discrete(name = "Device") +
   scale_shape_discrete(name = "Device") +
-  facet_wrap(~TYPE, ncol = 1, scales = "free_y") +
-  guides(shape = guide_legend(ncol = 3, title = NULL),
-         linetype = guide_legend(ncol = 3, title = NULL),
-         colour = guide_legend(ncol = 3, title = NULL)) +
+  facet_wrap( ~ TYPE, ncol = 1, scales = "free_y") +
+  guides(
+    shape = guide_legend(ncol = 3, title = NULL),
+    linetype = guide_legend(ncol = 3, title = NULL),
+    colour = guide_legend(ncol = 3, title = NULL)
+  ) +
   ylab("Activity Counts") + xlab("Frequency (Hz)") +
   theme_bw() +
-  theme(legend.position = "bottom",
-        legend.margin = unit(10 ^ -3, 'inch'),
-        panel.margin = unit(0.1, 'inch'),
-        axis.text = element_text(margin = margin(0, 0, 0, 0), size=16),
-        text = element_text(size=16),
-        plot.margin = margin(0, 0, 0, 0, 'inch'),
-        strip.background = element_blank(),
-        legend.key = element_blank())
+  theme(
+    legend.position = "bottom",
+    legend.margin = unit(10 ^ -3, 'inch'),
+    panel.margin = unit(0.1, 'inch'),
+    axis.text = element_text(margin = margin(0, 0, 0, 0), size = 16),
+    text = element_text(size = 16),
+    plot.margin = margin(0, 0, 0, 0, 'inch'),
+    strip.background = element_blank(),
+    legend.key = element_blank()
+  )
 p2
 ```
