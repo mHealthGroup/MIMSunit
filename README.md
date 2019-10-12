@@ -1,7 +1,5 @@
-README
-================
-Qu Tang
-December 24, 2018
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
 
 # MIMS-unit algorithm
 

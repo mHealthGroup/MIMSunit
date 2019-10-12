@@ -16,3 +16,6 @@
 ^NEWS\.md$          # A news file written in Markdown
 ^renv$
 ^renv\.lock$
+.renvignore
+^LICENSE\.md$
+^README\.Rmd$

@@ -1,7 +1,7 @@
 Package: MIMSunit
 Type: Package
 Title: Algorithm to Compute Monitor Independent Movement Summary Unit (MIMS-unit)
-Version: 0.5.8
+Version: 0.5.9
 Date: 2018-10-24
 Author: Qu Tang <tang.q@husky.neu.edu>
 Authors@R: c(person("Qu", "Tang", email = "tang.q@husky.neu.edu",
@@ -17,9 +17,8 @@ Maintainer: Qu Tang <tang.q@husky.neu.edu>
 Description: This package includes the algorithm to compute Monitor Independent
     Movement Summary Unit, a measurement to summarize raw accelerometer data 
     while ensuring harmonized results across different devices. It also includes
-    scripts to reproduce results in publication: An Open-Source 
-    Monitor-Independent Movement Summary for Accelerometer Data Processing.
-License: MIT + LICENSE
+    scripts to reproduce results in the related publication.
+License: MIT + file LICENSE
 Depends: R (>= 3.5.0)
 Encoding: UTF-8
 LazyData: true
@@ -41,7 +40,8 @@ Imports:
     stringr (>= 1.3.1)
 Suggests:
     ggplot2 (>= 3.0.0),
-    dygraphs (>= 1.1.1.6)
+    dygraphs (>= 1.1.1.6),
+    testthat (>= 2.1.0)
 Remotes:
     qutang/mHealthR
 SystemRequirements:

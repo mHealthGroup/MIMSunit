@@ -1,4 +1,4 @@
-MIT License
+# MIT License
 
 Copyright (c) 2019 Northeastern University (mHealth Research Group: http://mhealthgroup.org)
 
