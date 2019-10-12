@@ -1,3 +1,15 @@
+# MIMSunit 0.5.10
+
+* Exclude data from package building.
+* Exclude inst scripts, figures, tables and data from package building.
+* Remove unused files in R folder.
+
+## Breaking changes
+
+* Use `renv` for dependency management.
+* CRAN ready.
+
+
 # MIMSunit 0.5.7
 
 * Refactor functions in `mims_unit.R`.

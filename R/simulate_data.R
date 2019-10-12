@@ -61,7 +61,7 @@ cut_off_signal <- function(df,
 #'   function that is used to simulate new devices with different sampling rates
 #'   and dynamic ranges during algorithm validation.
 #'
-#' @param df dataframe. Input multi-channel accelerometer data.
+#' @param old_data dataframe. Input multi-channel accelerometer data.
 #' @param new_range numerical vector. The new dynamic ranges to cut off the signal.
 #'   Should be a 2-element numerical vector. \code{c(low, high)}, where
 #'   \code{low} is the negative max value the device can reach and \code{high}

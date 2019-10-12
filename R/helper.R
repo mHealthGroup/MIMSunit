@@ -1,9 +1,3 @@
-#' @export
-numeric.equal <- function(x, y)
-{
-  return(abs(x - y) < .Machine$double.eps ^ 0.5)
-}
-
 #' Parse epoch string to the corresponding number of samples it represents.
 #'
 #' \code{parse_epoch_string} parses the epoch string (e.g. "1 min"), and outputs
@@ -13,11 +7,11 @@ numeric.equal <- function(x, y)
 #' corresponding number of samples represented by the epoch string.
 #'
 #' @section How is it used in MIMS-unit algorithm?: This function is used in
-#'   \code{\link{aggregate_for_mims}} function.
+#'   \code{\link{aggregate_for_mims}} function and \code{\link{mims_unit}} function.
 #'
-#' @param epoch_str. string. The input epoch str as accepted by \code{breaks}
+#' @param epoch_str string. The input epoch str as accepted by \code{breaks}
 #'   argument of \code{\link[base]{cut.POSIXt}}.
-#' @param sr. number. The sampling rate in Hz used to parse the epoch string.
+#' @param sr number. The sampling rate in Hz used to parse the epoch string.
 #' @return number. The number of samples represented by the epoch string.
 #' @family utility functions
 #' @export

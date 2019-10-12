@@ -216,7 +216,7 @@ import_actigraph_count_csv <-
            count_per_axis_cols = c(2, 3, 4))
   {
     dat <-
-      read.csv(file = filepath,
+      utils::read.csv(file = filepath,
                header = TRUE,
                stringsAsFactors = FALSE)
     dat[, 1] <-

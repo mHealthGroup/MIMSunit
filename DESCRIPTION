@@ -1,7 +1,7 @@
 Package: MIMSunit
 Type: Package
 Title: Algorithm to Compute Monitor Independent Movement Summary Unit (MIMS-unit)
-Version: 0.5.9
+Version: 0.5.10
 Date: 2018-10-24
 Author: Qu Tang <tang.q@husky.neu.edu>
 Authors@R: c(person("Qu", "Tang", email = "tang.q@husky.neu.edu",

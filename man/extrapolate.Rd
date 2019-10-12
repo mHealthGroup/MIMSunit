@@ -14,6 +14,8 @@ extrapolate_single_col(t, value, range, noise_level = 0.03, k = 0.05,
 \item{df}{dataframe. Input multi-channel accelerometer data. Used in
 \code{\link{extrapolate}}.}
 
+\item{...}{see following parameter list.}
+
 \item{t}{POSIXct or numeric vector. Input index or timestamp sequence Used in
 \code{\link{extrapolate_single_col}}.}
 

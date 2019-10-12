@@ -6,7 +6,7 @@ date: "November 21, 2017"
 vignette: >
   %\VignetteIndexEntry{pkgdown}
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+  %\usepackage[utf8]{inputenc}
 ---
 
 ```{r setup, include=FALSE}

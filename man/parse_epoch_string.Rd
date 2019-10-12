@@ -7,10 +7,10 @@
 parse_epoch_string(epoch_str, sr)
 }
 \arguments{
-\item{epoch_str.}{string. The input epoch str as accepted by \code{breaks}
+\item{epoch_str}{string. The input epoch str as accepted by \code{breaks}
 argument of \code{\link[base]{cut.POSIXt}}.}
 
-\item{sr.}{number. The sampling rate in Hz used to parse the epoch string.}
+\item{sr}{number. The sampling rate in Hz used to parse the epoch string.}
 }
 \value{
 number. The number of samples represented by the epoch string.
@@ -25,7 +25,7 @@ corresponding number of samples represented by the epoch string.
 }
 \section{How is it used in MIMS-unit algorithm?}{
  This function is used in
-  \code{\link{aggregate_for_mims}} function.
+  \code{\link{aggregate_for_mims}} function and \code{\link{mims_unit}} function.
 }
 
 \seealso{

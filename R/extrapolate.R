@@ -18,6 +18,7 @@
 #'
 #' @param df dataframe. Input multi-channel accelerometer data. Used in
 #'   \code{\link{extrapolate}}.
+#' @param ... see following parameter list.
 #' @param t POSIXct or numeric vector. Input index or timestamp sequence Used in
 #'   \code{\link{extrapolate_single_col}}.
 #' @param value numerica vector. Value vector used in
@@ -132,7 +133,7 @@ extrapolate_single_col <-
       method = "natural"
     )
   dat_over <- data.frame(dat_over)
-  if (is.POSIXct(t[1]))
+  if (lubridate::is.POSIXct(t[1]))
   {
     dat_over[1] <- as.POSIXct(dat_over[[1]], origin = "1970-01-01")
   }
@@ -374,8 +375,8 @@ extrapolate_single_col <-
   {
     neighbors <-
       edges %>% dplyr::tbl_df() %>%
-      dplyr::mutate(left_start = left_end - n_neighbor + 1,
-                    right_end = right_start + n_neighbor - 1) %>%
+      dplyr::mutate(left_start = edges$left_end - n_neighbor + 1,
+                    right_end = edges$right_start + n_neighbor - 1) %>%
       as.data.frame
     neighbors$left_start <- pmax(neighbors$left_start, 1)
     neighbors$right_end <-
@@ -591,7 +592,7 @@ extrapolate_single_col <-
     n_over <- k * sr
     sub_t <- t[start:end]
     sub_value <- value[start:end]
-    sp <- approx(x = sub_t, y = sub_value, n = n_over)
+    sp <- stats::approx(x = sub_t, y = sub_value, n = n_over)
     over_t <- sp$x[-n_over]
     over_value <- sp$y[-n_over]
 
@@ -630,8 +631,8 @@ extrapolate_single_col <-
       sub_t <- t[start:end]
       sub_value <- value[start:end]
       weight <- 1 - marker[start:end]
-      sp <- approx(x = sub_t, y = sub_value, n = n_over)
-      weight <- approx(x = sub_t, y = weight, n = n_over)
+      sp <- stats::approx(x = sub_t, y = sub_value, n = n_over)
+      weight <- stats::approx(x = sub_t, y = weight, n = n_over)
       over_t <- sp$x
       over_value <- sp$y
       weight <- weight$y

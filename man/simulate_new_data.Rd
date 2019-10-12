@@ -7,6 +7,8 @@
 simulate_new_data(old_data, new_range, new_sr)
 }
 \arguments{
+\item{old_data}{dataframe. Input multi-channel accelerometer data.}
+
 \item{new_range}{numerical vector. The new dynamic ranges to cut off the signal.
 Should be a 2-element numerical vector. \code{c(low, high)}, where
 \code{low} is the negative max value the device can reach and \code{high}
@@ -14,8 +16,6 @@ is the positive max value the device can reach. Default is \code{NULL},
 meaning the function will do nothing but return the input data.}
 
 \item{new_sr}{number. New sampling rate in Hz.}
-
-\item{df}{dataframe. Input multi-channel accelerometer data.}
 }
 \description{
 \code{simulate_new_data} simulate new data based on the given multi-channel

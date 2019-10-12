@@ -25,12 +25,6 @@
     <loc>https://qutang.github.io/MIMSunit//reference/cut_off_signal.html</loc>
   </url>
   <url>
-    <loc>https://qutang.github.io/MIMSunit//reference/experiment_shaker_count.html</loc>
-  </url>
-  <url>
-    <loc>https://qutang.github.io/MIMSunit//reference/experiment_treadmill_count.html</loc>
-  </url>
-  <url>
     <loc>https://qutang.github.io/MIMSunit//reference/export_to_actilife.html</loc>
   </url>
   <url>
@@ -62,9 +56,6 @@
   </url>
   <url>
     <loc>https://qutang.github.io/MIMSunit//reference/mims_unit.html</loc>
-  </url>
-  <url>
-    <loc>https://qutang.github.io/MIMSunit//reference/mims_unit_.html</loc>
   </url>
   <url>
     <loc>https://qutang.github.io/MIMSunit//reference/parse_epoch_string.html</loc>

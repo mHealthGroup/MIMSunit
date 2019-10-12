@@ -6,7 +6,7 @@ date: "Jul 03, 2018"
 vignette: >
   %\VignetteIndexEntry{pkgdown}
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+  %\usepackage[utf8]{inputenc}
 ---
 
 ```{r setup, include=FALSE}
@@ -44,7 +44,7 @@ dygraphs::dygraph(df_xts) %>% dygraphs::dyRangeSelector() %>% dyOptions(colors =
 mims = MIMSunit::mims_unit(df, epoch = '5 sec', dynamic_range = c(-6, 6), output_mims_per_axis = TRUE)
 ```
 
-```{r, message=FALSE, warning=FALSE, include=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 mims = MIMSunit::mims_unit(df, epoch = '5 sec', dynamic_range = c(-6, 6), output_mims_per_axis = TRUE)
 ```
 

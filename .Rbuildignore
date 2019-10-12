@@ -19,3 +19,9 @@
 .renvignore
 ^LICENSE\.md$
 ^README\.Rmd$
+^inst/extdata$
+^inst/figure$
+^inst/src$
+^inst/table$
+^data$
+^vignettes$
