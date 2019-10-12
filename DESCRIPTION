@@ -41,7 +41,8 @@ Imports:
 Suggests:
     ggplot2 (>= 3.0.0),
     dygraphs (>= 1.1.1.6),
-    testthat (>= 2.1.0)
+    testthat (>= 2.1.0),
+    covr
 Remotes:
     qutang/mHealthR
 SystemRequirements:
