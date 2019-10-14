@@ -1,3 +1,4 @@
 data-raw-archive
 *.Rcheck
 *.tar.gz
+.Rproj.user

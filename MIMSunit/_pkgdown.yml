@@ -52,6 +52,11 @@ reference:
       - cut_off_signal
       - interpolate_signal
       - simulate_new_data
+  - title: "Visualization helper functions"
+    desc: >
+      Functions to help visualizing signals, intermediate results and MIMS-unit results.
+    contents:
+      - illustrate_signal
 
 development:
   mode: unreleased
@@ -80,6 +85,8 @@ navbar:
       href: articles/MIMSunit.html
     - text: "Algorithm Walkthrough"
       menu:
+        - text: "Step-by-step illustration"
+          href: articles/conceptual_diagram.html
         - text: "Deciding truncation threshold"
           href: articles/truncation_threshold.html
     - text: "Advance Guidance"

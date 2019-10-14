@@ -60,6 +60,6 @@ start_time =  device0[[1, 1]]
 stop_time = start_time + 1 # one second
 
 conceptual_diagram_data = rbind(device0, device1, device2, device3)
-colnames(conceptual_diagram_data) = c('HEADER_TIME_STAMP', 'X', 'NAME', 'SR', 'GRANGE')
+colnames(conceptual_diagram_data) = c('HEADER_TIME_STAMP', 'X', 'SR', 'GRANGE', 'NAME')
 
-usethis::use_data(conceptual_diagram_data)
+usethis::use_data(conceptual_diagram_data, overwrite = TRUE)

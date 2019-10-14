@@ -1,0 +1,32 @@
+---
+title: "Step-by-step illustration of MIMS-unit algorithm"
+output: rmarkdown::html_vignette
+author: "Qu Tang"
+date: "Oct 12, 2019"
+vignette: >
+  %\VignetteIndexEntry{pkgdown}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\usepackage[utf8]{inputenc}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+require(plyr)
+require(dplyr)
+require(ggplot2)
+```
+
+### Introduction
+
+
+```{r, include=FALSE}
+df = MIMSunit::conceptual_diagram_data
+```
+
+
+```{r echo=FALSE, fig.height=2, fig.width=10, message=FALSE, warning=FALSE, out.width="100%"}
+test = df %>% 
+  group_by(.data$NAME) %>%
+  group_map(~ MIMSunit::illustrate_signal(.x, title = .y) + theme(plot.margin = unit(c(0, 0.01,-0.2,-0.2), "line")))
+gridExtra::grid.arrange(grobs=test, nrow=1)
+```
