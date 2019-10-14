@@ -122,6 +122,7 @@ extrapolate_single_col <-
 #' @export
 .extrapolate_oversampling <- function(t, value)
 {
+  time_zone = lubridate::tz(t[1])
   t_over <- seq(t[1], t[length(t)], by = 1 / 100)
 
   # over sampling to 100Hz with spline interpolation
@@ -135,7 +136,7 @@ extrapolate_single_col <-
   dat_over <- data.frame(dat_over)
   if (lubridate::is.POSIXct(t[1]))
   {
-    dat_over[1] <- as.POSIXct(dat_over[[1]], origin = "1970-01-01")
+    dat_over[1] <- as.POSIXct(dat_over[[1]], origin = "1970-01-01", tz = time_zone)
   }
   dat_over <- dat_over[order(dat_over$x),]
   not_dups <- !duplicated(dat_over$x)
@@ -144,6 +145,7 @@ extrapolate_single_col <-
   return(list(t = t, value = value))
 }
 
+#' @export
 .extrapolate_mark <- function(method = "gamma")
 {
   return(switch(method, gamma = .mark_gamma, threshold = .mark_threshold))

@@ -35,4 +35,7 @@ ggplot2 graph object. The graph to be shown.
 \code{illustrate_signal} plots the given uniaxial signal in illustration diagram style.
 Illustration diagram style hides axes markers, uncessary guidelines.
 }
+\seealso{
+Other visualization functions.: \code{\link{illustrate_extrapolation}}
+}
 \concept{visualization functions.}

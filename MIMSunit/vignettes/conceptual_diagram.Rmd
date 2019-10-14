@@ -16,17 +16,214 @@ require(dplyr)
 require(ggplot2)
 ```
 
-### Introduction
 
 
-```{r, include=FALSE}
+Here we demonstrate the scripts used to reproduce the diagram.
+
+### Origial data
+
+We use a one-second segment of raw accelerometer signal (80 Hz, 8g) from a random subject doing jumping jack as test data. The other signals with different sampling rates and dynamic ranges are simulated via the `simulated_new_data` function. The step-by-step illustration has been presented as Figure 1 in the manuscript.
+
+
+```{r, echo=TRUE}
 df = MIMSunit::conceptual_diagram_data
+start_time = df[[1,1]]
+stop_time = start_time + 1
 ```
 
+#### Illustration of the original signals
 
-```{r echo=FALSE, fig.height=2, fig.width=10, message=FALSE, warning=FALSE, out.width="100%"}
-test = df %>% 
+```{r echo=TRUE, fig.height=2, fig.width=10, message=FALSE, warning=FALSE, out.width="100%"}
+figs = df %>% 
   group_by(.data$NAME) %>%
-  group_map(~ MIMSunit::illustrate_signal(.x, title = .y) + theme(plot.margin = unit(c(0, 0.01,-0.2,-0.2), "line")))
-gridExtra::grid.arrange(grobs=test, nrow=1)
+  mHealthR::mhealth.clip(start_time = start_time, stop_time = stop_time, file_type = 'sensor') %>%
+  group_map(
+    ~ MIMSunit::illustrate_signal(
+      .x,
+      title = .y,
+      line_size = 1,
+      point_size = 1,
+      range = c(-.x$GRANGE[1], .x$GRANGE[1])
+    ) + theme(plot.margin = unit(c(0, 0.01, -0.2, -0.2), "line"))
+  )
+gridExtra::grid.arrange(grobs = figs, nrow = 1)
 ```
+
+1. Dashed lines represent the dynamic range region. Beyond this line, signals will be maxed out as shown in Device 1-3.
+
+### Interpolation: Upsampling to 100Hz
+
+The second step is to regularize the sampling rates of the signals and upsample the signal to __100 Hz__, because we have shown extrapolation (see next section) works better and more robustly at __100 Hz__ than lower sampling rates. 
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+oversampling = function(df, name) {
+  out_df = data.frame(MIMSunit::.extrapolate_oversampling(df$HEADER_TIME_STAMP, df$X))
+  out_df$SR = df$SR[1]
+  out_df$GRANGE = df$GRANGE[1]
+  out_df$NAME = name[[1]]
+  out_df = as.data.frame(out_df)
+  return(out_df)
+}
+interp_df = df %>% group_by(.data$NAME) %>%
+  group_map(
+    ~ oversampling(.x, name = .y)
+  ) %>% rbind_list
+colnames(interp_df) = c('HEADER_TIME_STAMP', 'X', 'SR', 'GRANGE', 'NAME')
+```
+
+#### Illustration of the interpolated signals
+
+```{r echo=TRUE, fig.height=2, fig.width=10, message=FALSE, warning=FALSE, out.width="100%"}
+figs = interp_df %>%
+  group_by(.data$NAME) %>%
+  mHealthR::mhealth.clip(start_time = start_time,
+                         stop_time = stop_time,
+                         file_type = 'sensor') %>%
+  group_map(
+    ~ MIMSunit::illustrate_signal(
+      .x,
+      title = .y[[1]],
+      line_size = 1,
+      point_size = 1,
+      range = c(-.x$GRANGE[1], .x$GRANGE[1])
+    ) + theme(plot.margin = unit(c(0, 0.01, -0.2, -0.2), "line"))
+  )
+gridExtra::grid.arrange(grobs = figs, nrow = 1)
+```
+
+### Extrapolation: Restoring "maxed-out" samples
+
+The third step is to restore the samples that are maxed out due to low dynamic range for signals of intensive movement. Please check the manuscript for the details of the extrapolation algorithm.
+
+<summary>
+<details>
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+extrapolation = function(df, name, start_time, stop_time) {
+  markers = MIMSunit::.extrapolate_mark("gamma")(df$HEADER_TIME_STAMP, 
+                                                 df$X, -df$GRANGE[1], 
+                                                 df$GRANGE[1], 
+                                                 0.03)
+  markers_df = data.frame(HEADER_TIME_STAMP = df$HEADER_TIME_STAMP,
+                          X = abs(markers))
+  neighbors = MIMSunit::.extrapolate_neighbor(markers, 100, 0.05)
+  if (nrow(neighbors) > 0) {
+    left_indices = c()
+    right_indices = c()
+    mo_indices = c()
+    for (i in 1:nrow(neighbors)) {
+      left_indices = c(left_indices,
+                       neighbors$left_start[i]:neighbors$left_end[i])
+      right_indices = c(right_indices,
+                        neighbors$right_start[i]:neighbors$right_end[i])
+      mo_indices = c(mo_indices,
+                     neighbors$left_end[i]:neighbors$right_start[i])
+    }
+    fitted_line_df = MIMSunit::.extrapolate_fitline(
+      df[[1]],
+      df[[2]],
+      neighbors,
+      markers,
+      0.6,
+      100,
+      0.05
+    )
+    colnames(fitted_line_df) = c('HEADER_TIME_STAMP', 'X', 'type', 'index')
+    left_neighbors_df = df[left_indices, ] %>% 
+      mHealthR::mhealth.clip(start_time = start_time, 
+                             stop_time = stop_time, 
+                             "sensor") %>% data.frame
+    right_neighbors_df = df[right_indices, ] %>% 
+      mHealthR::mhealth.clip(start_time = start_time, 
+                             stop_time = stop_time, 
+                             "sensor") %>% data.frame
+    between_neighbor_df = df[c(-left_indices, -right_indices), ] %>% 
+      mHealthR::mhealth.clip(start_time = start_time, 
+                             stop_time = stop_time, 
+                             "sensor")%>% data.frame
+    between_neighbor_without_maxed_out_df = df[c(-left_indices, -right_indices, -mo_indices), ] %>% 
+      mHealthR::mhealth.clip(start_time = start_time, 
+                             stop_time = stop_time, 
+                             "sensor") %>% data.frame
+    maxed_out_df = df[mo_indices, ] %>% 
+      mHealthR::mhealth.clip(start_time = start_time, 
+                             stop_time = stop_time, 
+                             "sensor") %>% data.frame
+    maxed_out_df$weight = markers_df[mo_indices, 'value'] %>% 
+      mHealthR::mhealth.clip(start_time = start_time, 
+                             stop_time = stop_time, 
+                             "sensor")
+    fitted_line_df = fitted_line_df %>%
+      mHealthR::mhealth.clip(start_time = start_time, 
+                             stop_time = stop_time,
+                             "sensor") %>% data.frame
+    points_ex_df = fitted_line_df[fitted_line_df$type == 'point', c(1, 2)]
+  } else {
+    marks_df = NULL
+    left_neighbors_df = NULL
+    right_neighbors_df = NULL
+    maxed_out_df = NULL
+    between_neighbor_df = NULL
+    between_neighbor_without_maxed_out_df = NULL
+    fitted_line_df = NULL
+    points_ex_df = NULL
+  }
+  df = df %>% 
+      mHealthR::mhealth.clip(start_time = start_time, 
+                             stop_time = stop_time, 
+                             "sensor") %>% data.frame
+  return(
+    list(
+      data.frame(df),
+      between_neighbor_df,
+      left_neighbors_df,
+      right_neighbors_df,
+      maxed_out_df,
+      between_neighbor_without_maxed_out_df,
+      markers_df,
+      fitted_line_df,
+      points_ex_df,
+      name[[1]]
+    )
+  )
+}
+```
+</details>
+</summary>
+
+```{r echo=TRUE}
+extrap_illustration_list = interp_df %>% group_by(.data$NAME) %>%
+  group_map( ~ extrapolation(
+    .x,
+    name = .y,
+    start_time = start_time,
+    stop_time = stop_time
+  ))
+```
+
+#### Illustration of extrapolation algorithm
+
+```{r echo=TRUE, fig.height=2, fig.width=10, message=FALSE, warning=FALSE, out.width="100%"}
+draw_extrapolation = function(extrap_illustration) {
+  df = extrap_illustration[[1]]
+  between_neighbors_df = extrap_illustration[[2]]
+  left_neighbors_df = extrap_illustration[[3]]
+  right_neighbors_df = extrap_illustration[[4]]
+  extrap_points_df = extrap_illustration[[9]]
+  fitted_line_df = extrap_illustration[[8]]
+  p = MIMSunit::illustrate_extrapolation(
+    df = df,
+    between_neighbor_df = between_neighbors_df,
+    title = extrap_illustration[[10]],
+    left_neighbors_df = left_neighbors_df,
+    right_neighbors_df = right_neighbors_df,
+    show_neighbors = TRUE,
+    extrap_points_df = extrap_points_df,
+    fitted_line_df = fitted_line_df,
+    show_extrapolated_points_and_lines = TRUE
+  ) + theme(plot.margin = unit(c(0, 0.01, -0.2, -0.2), "line"))
+  return(p)
+}
+figs = lapply(extrap_illustration_list, draw_extrapolation)
+gridExtra::grid.arrange(grobs = figs, nrow = 1)
+```
+
