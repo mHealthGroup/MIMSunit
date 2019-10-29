@@ -32,23 +32,19 @@ df = data.frame(HEADER_TIME_STAMP = ts, X=x, Y=y, Z=z)
 ```
 
 #### Input data
-```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2.5, fig.width=8.5}
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2.5, out.width='100%'}
 require(dygraphs)
 df_xts = xts::xts(df[,2:4], df[,1])
 dygraphs::dygraph(df_xts) %>% dygraphs::dyRangeSelector() %>% dyOptions(colors = RColorBrewer::brewer.pal(3, "Set2")) %>% dyLegend(width = 400) %>% dyAxis("y", label = "Acceleration (g)", valueRange = c(-2, 2))
 ```
 
-```r
-mims = MIMSunit::custom_mims_unit(df, epoch = '1 sec', dynamic_range = c(-6, 6), allow_truncation=FALSE)
-```
-
-```{r, message=FALSE, warning=FALSE, include=FALSE}
-mims = MIMSunit::custom_mims_unit(df, epoch = '1 sec', dynamic_range = c(-6, 6), allow_truncation = FALSE)
+```{r echo=TRUE, message=FALSE, warning=FALSE, results = 'hide'}
+mims = MIMSunit::custom_mims_unit(df, epoch = '1 sec', dynamic_range = c(-6, 6), allow_truncation = FALSE, output_mims_per_axis = TRUE)
 ```
 
 #### Output: MIMS unit values
-```{r, echo=FALSE, fig.height=2.5, fig.width=8.5, message=FALSE, warning=FALSE}
-mims_xts = xts::xts(mims[,2], mims[,1])
+```{r echo=FALSE, fig.height=2.5, message=TRUE, warning=FALSE, out.width='100%'}
+mims_xts = xts::xts(mims[,2:5], mims[,1])
 dygraphs::dygraph(mims_xts) %>% dygraphs::dyRangeSelector() %>% dyOptions(colors = RColorBrewer::brewer.pal(1, "Set2"), drawPoints=TRUE, pointSize=2) %>% dyLegend(width = 400) %>% dyAxis("y", label = "MIMS unit")
 ```
 
@@ -88,23 +84,19 @@ print(sprintf('Z axis variance: %e', sd(df[,4])))
 ```
 
 #### Input data
-```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2.5, fig.width=8.5}
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2.5, out.width='100%'}
 require(dygraphs)
 df_xts = xts::xts(df[,2:4], df[,1])
 dygraphs::dygraph(df_xts) %>% dygraphs::dyRangeSelector() %>% dyOptions(colors = RColorBrewer::brewer.pal(3, "Set2")) %>% dyLegend(width = 400) %>% dyAxis("y", label = "Acceleration (g)", valueRange = c(-2, 2))
 ```
 
-```r
-mims = MIMSunit::custom_mims_unit(df, epoch = '1 sec', dynamic_range = c(-6, 6), allow_truncation=FALSE)
-```
-
-```{r, message=FALSE, warning=FALSE, include=FALSE}
-mims = MIMSunit::custom_mims_unit(df, epoch = '1 sec', dynamic_range = c(-6, 6), allow_truncation=FALSE)
+```{r echo=TRUE, message=FALSE, warning=FALSE, results='hide'}
+mims = MIMSunit::custom_mims_unit(df, epoch = '1 sec', dynamic_range = c(-6, 6), allow_truncation=FALSE, output_mims_per_axis = TRUE)
 ```
 
 #### Output: MIMS unit values
-```{r, echo=FALSE, fig.height=2.5, fig.width=8.5, message=FALSE, warning=FALSE}
-mims_xts = xts::xts(mims[,2], mims[,1])
+```{r, echo=FALSE, fig.height=2.5, out.width='100%', message=FALSE, warning=FALSE}
+mims_xts = xts::xts(mims[,2:5], mims[,1])
 dygraphs::dygraph(mims_xts) %>% dygraphs::dyRangeSelector() %>% dyOptions(colors = RColorBrewer::brewer.pal(1, "Set2"), drawPoints=TRUE, pointSize=2) %>% dyLegend(width = 400) %>% dyAxis("y", label = "MIMS unit")
 ```
 
@@ -121,4 +113,8 @@ print(sprintf('%e', sd(mims[61:nrow(mims),2])))
 ```
 
 ### Conclusion
-According to the analysis, a proper truncation threshold for MIMS unit value (1 second bout) can be one numerical magnitude above the larger value of the two cases above, which may be set at `1e-3`.
+According to the analysis, a proper truncation threshold for MIMS unit value (1 second bout) can be one numerical magnitude above the larger value of the two cases above, which may be set at `1e-4`.
+
+Therefore, the truncation threshold for a given MIMS unit at `t` epoch length will be,
+
+$$0.0001 \times t$$

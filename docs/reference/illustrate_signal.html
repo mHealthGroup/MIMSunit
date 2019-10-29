@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>License • MIMSunit</title>
+<title>Plot given raw signal in illustration diagram style. — illustrate_signal • MIMSunit</title>
 
 
 <!-- jquery -->
@@ -29,13 +29,16 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
-<link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script>
+<link href="../pkgdown.css" rel="stylesheet">
+<script src="../pkgdown.js"></script>
 
 
 
 
-<meta property="og:title" content="License" />
+<meta property="og:title" content="Plot given raw signal in illustration diagram style. — illustrate_signal" />
+<meta property="og:description" content="illustrate_signal plots the given uniaxial signal in illustration diagram style.
+Illustration diagram style hides axes markers, uncessary guidelines." />
+<meta name="twitter:card" content="summary" />
 
 
 
@@ -64,7 +67,7 @@
   </head>
 
   <body>
-    <div class="container template-title-body">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -76,7 +79,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">MIMSunit</a>
+        <a class="navbar-link" href="../index.html">MIMSunit</a>
         <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.6.1</span>
       </span>
     </div>
@@ -84,7 +87,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="articles/MIMSunit.html">Get Started</a>
+  <a href="../articles/MIMSunit.html">Get Started</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -94,10 +97,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="articles/conceptual_diagram.html">Step-by-step illustration</a>
+      <a href="../articles/conceptual_diagram.html">Step-by-step illustration</a>
     </li>
     <li>
-      <a href="articles/truncation_threshold.html">Deciding truncation threshold</a>
+      <a href="../articles/truncation_threshold.html">Deciding truncation threshold</a>
     </li>
   </ul>
 </li>
@@ -109,13 +112,13 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="articles/import_data.html">Import Data</a>
+      <a href="../articles/import_data.html">Import Data</a>
     </li>
     <li>
-      <a href="articles/generate_intermediate.html">Generate Intermediate Output</a>
+      <a href="../articles/generate_intermediate.html">Generate Intermediate Output</a>
     </li>
     <li>
-      <a href="articles/customize.html">Customize MIMS unit algorithm</a>
+      <a href="../articles/customize.html">Customize MIMS unit algorithm</a>
     </li>
   </ul>
 </li>
@@ -127,18 +130,18 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="articles/cross_device_consistency.html">Cross device consistency</a>
+      <a href="../articles/cross_device_consistency.html">Cross device consistency</a>
     </li>
     <li>
-      <a href="articles/edge_cases.html">Performance under edge conditions</a>
+      <a href="../articles/edge_cases.html">Performance under edge conditions</a>
     </li>
   </ul>
 </li>
 <li>
-  <a href="reference/index.html">API References</a>
+  <a href="../reference/index.html">API References</a>
 </li>
 <li>
-  <a href="news/index.html">Changelog</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -159,38 +162,86 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>License</h1>
+    <h1>Plot given raw signal in illustration diagram style.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/qutang/MIMSunit/blob/master/R/plotting.R'><code>R/plotting.R</code></a></small>
+    <div class="hidden name"><code>illustrate_signal.Rd</code></div>
     </div>
 
-<pre>MIT License
+    <div class="ref-description">
+    <p><code>illustrate_signal</code> plots the given uniaxial signal in illustration diagram style.
+Illustration diagram style hides axes markers, uncessary guidelines.</p>
+    </div>
 
-Copyright (c) 2019 Northeastern University (mHealth Research Group: http://mhealthgroup.org)
+    <pre class="usage"><span class='fu'>illustrate_signal</span>(<span class='no'>data</span>, <span class='kw'>point_size</span> <span class='kw'>=</span> <span class='fl'>0.3</span>, <span class='kw'>plot_point</span> <span class='kw'>=</span> <span class='no'>T</span>,
+  <span class='kw'>line_size</span> <span class='kw'>=</span> <span class='fl'>0.3</span>, <span class='kw'>plot_line</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>2</span>, <span class='fl'>2</span>),
+  <span class='kw'>plot_maxed_out_line</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>plot_origin</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>plot_title</span> <span class='kw'>=</span> <span class='no'>T</span>)</pre>
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>data</th>
+      <td><p>data.frame. The input uniaxial signal. First column should be timestamp.</p></td>
+    </tr>
+    <tr>
+      <th>point_size</th>
+      <td><p>number. The size of the plotted data point.</p></td>
+    </tr>
+    <tr>
+      <th>plot_point</th>
+      <td><p>Bool. Plot signal as points if TRUE.</p></td>
+    </tr>
+    <tr>
+      <th>line_size</th>
+      <td><p>number. The line width of the plotted signal curve.</p></td>
+    </tr>
+    <tr>
+      <th>plot_line</th>
+      <td><p>Bool. Plot signal with curve if TRUE.</p></td>
+    </tr>
+    <tr>
+      <th>range</th>
+      <td><p>vector. Dynamic range of the signal.</p></td>
+    </tr>
+    <tr>
+      <th>plot_maxed_out_line</th>
+      <td><p>Bool. Plot dynamic range lines if TRUE. Dynamic range is set by `range`.</p></td>
+    </tr>
+    <tr>
+      <th>plot_origin</th>
+      <td><p>Bool. Plot the 0 horizontal line if TRUE.</p></td>
+    </tr>
+    <tr>
+      <th>title</th>
+      <td><p>Char. The title of the plot.</p></td>
+    </tr>
+    <tr>
+      <th>plot_title</th>
+      <td><p>Bool. Plot title if TRUE.</p></td>
+    </tr>
+    </table>
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-</pre>
+    <p>ggplot2 graph object. The graph to be shown.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other visualization functions.: <code><a href='illustrate_extrapolation.html'>illustrate_extrapolation</a></code></p></div>
 
   </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+    <h2>Contents</h2>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
+      <li><a href="#see-also">See also</a></li>
+    </ul>
 
+  </div>
 </div>
-
 
 
       <footer>

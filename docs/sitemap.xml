@@ -19,6 +19,9 @@
     <loc>https://qutang.github.io/MIMSunit//reference/compute_orientation.html</loc>
   </url>
   <url>
+    <loc>https://qutang.github.io/MIMSunit//reference/conceptual_diagram_data.html</loc>
+  </url>
+  <url>
     <loc>https://qutang.github.io/MIMSunit//reference/custom_mims_unit.html</loc>
   </url>
   <url>
@@ -38,6 +41,12 @@
   </url>
   <url>
     <loc>https://qutang.github.io/MIMSunit//reference/iir.html</loc>
+  </url>
+  <url>
+    <loc>https://qutang.github.io/MIMSunit//reference/illustrate_extrapolation.html</loc>
+  </url>
+  <url>
+    <loc>https://qutang.github.io/MIMSunit//reference/illustrate_signal.html</loc>
   </url>
   <url>
     <loc>https://qutang.github.io/MIMSunit//reference/import_actigraph_count_csv.html</loc>
@@ -83,6 +92,9 @@
   </url>
   <url>
     <loc>https://qutang.github.io/MIMSunit//reference/vector_magnitude.html</loc>
+  </url>
+  <url>
+    <loc>https://qutang.github.io/MIMSunit//articles/conceptual_diagram.html</loc>
   </url>
   <url>
     <loc>https://qutang.github.io/MIMSunit//articles/cross_device_consistency.html</loc>

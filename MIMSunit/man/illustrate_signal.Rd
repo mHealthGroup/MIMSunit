@@ -26,6 +26,8 @@ illustrate_signal(data, point_size = 0.3, plot_point = T,
 
 \item{plot_origin}{Bool. Plot the 0 horizontal line if TRUE.}
 
+\item{title}{Char. The title of the plot.}
+
 \item{plot_title}{Bool. Plot title if TRUE.}
 }
 \value{

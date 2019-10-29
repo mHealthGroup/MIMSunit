@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>License • MIMSunit</title>
+<title>The input accelerometer data used to generate the conceptual diagram
+(Figure 1) in the manuscript. — conceptual_diagram_data • MIMSunit</title>
 
 
 <!-- jquery -->
@@ -29,13 +30,22 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
-<link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script>
+<link href="../pkgdown.css" rel="stylesheet">
+<script src="../pkgdown.js"></script>
 
 
 
 
-<meta property="og:title" content="License" />
+<meta property="og:title" content="The input accelerometer data used to generate the conceptual diagram
+(Figure 1) in the manuscript. — conceptual_diagram_data" />
+<meta property="og:description" content="The dataset includes accelerometer data from four devices. Device 0 is a real
+ Actigraph GT9X device configured at 80Hz and 8g. Device 1 to 3 are simulated
+ data from the data of device 0 using function simulate_new_data.
+ Data for device 0 is a random selected nondominant wrist data from a
+ participant doing Jumping jack. The data is manipulated to insert an
+ artificial impulse to demonstrate the effect of the MIMS-unit algorithm when
+ dealing on it." />
+<meta name="twitter:card" content="summary" />
 
 
 
@@ -64,7 +74,7 @@
   </head>
 
   <body>
-    <div class="container template-title-body">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -76,7 +86,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">MIMSunit</a>
+        <a class="navbar-link" href="../index.html">MIMSunit</a>
         <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.6.1</span>
       </span>
     </div>
@@ -84,7 +94,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="articles/MIMSunit.html">Get Started</a>
+  <a href="../articles/MIMSunit.html">Get Started</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -94,10 +104,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="articles/conceptual_diagram.html">Step-by-step illustration</a>
+      <a href="../articles/conceptual_diagram.html">Step-by-step illustration</a>
     </li>
     <li>
-      <a href="articles/truncation_threshold.html">Deciding truncation threshold</a>
+      <a href="../articles/truncation_threshold.html">Deciding truncation threshold</a>
     </li>
   </ul>
 </li>
@@ -109,13 +119,13 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="articles/import_data.html">Import Data</a>
+      <a href="../articles/import_data.html">Import Data</a>
     </li>
     <li>
-      <a href="articles/generate_intermediate.html">Generate Intermediate Output</a>
+      <a href="../articles/generate_intermediate.html">Generate Intermediate Output</a>
     </li>
     <li>
-      <a href="articles/customize.html">Customize MIMS unit algorithm</a>
+      <a href="../articles/customize.html">Customize MIMS unit algorithm</a>
     </li>
   </ul>
 </li>
@@ -127,18 +137,18 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="articles/cross_device_consistency.html">Cross device consistency</a>
+      <a href="../articles/cross_device_consistency.html">Cross device consistency</a>
     </li>
     <li>
-      <a href="articles/edge_cases.html">Performance under edge conditions</a>
+      <a href="../articles/edge_cases.html">Performance under edge conditions</a>
     </li>
   </ul>
 </li>
 <li>
-  <a href="reference/index.html">API References</a>
+  <a href="../reference/index.html">API References</a>
 </li>
 <li>
-  <a href="news/index.html">Changelog</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -159,38 +169,51 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>License</h1>
+    <h1>The input accelerometer data used to generate the conceptual diagram
+(Figure 1) in the manuscript.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/qutang/MIMSunit/blob/master/R/data.R'><code>R/data.R</code></a></small>
+    <div class="hidden name"><code>conceptual_diagram_data.Rd</code></div>
     </div>
 
-<pre>MIT License
+    <div class="ref-description">
+    <p>The dataset includes accelerometer data from four devices. Device 0 is a real
+ Actigraph GT9X device configured at 80Hz and 8g. Device 1 to 3 are simulated
+ data from the data of device 0 using function <code><a href='simulate_new_data.html'>simulate_new_data</a></code>.
+ Data for device 0 is a random selected nondominant wrist data from a
+ participant doing Jumping jack. The data is manipulated to insert an
+ artificial impulse to demonstrate the effect of the MIMS-unit algorithm when
+ dealing on it.</p>
+    </div>
 
-Copyright (c) 2019 Northeastern University (mHealth Research Group: http://mhealthgroup.org)
+    <pre class="usage"><span class='no'>conceptual_diagram_data</span></pre>
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-</pre>
+    <p>A data frame with 1704 rows and 5 variables:</p><dl class='dl-horizontal'>
+  <dt>HEADER_TIME_STAMP</dt><dd><p>The timestamp of raw accelerometer data, in POSIXct</p></dd>
+  <dt>X</dt><dd><p>The x axis value of raw accelerometer data, in number</p></dd>
+  <dt>GRANGE</dt><dd><p>The dynamic range of the simulated device in g, in number</p></dd>
+  <dt>SR</dt><dd><p>The sampling rate in Hz of the simulated device, in number</p></dd>
+  <dt>NAME</dt><dd><p>An alternative name that is friendly for plotting for different devices, in character</p></dd>
+
+</dl>
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+
+    <p><a href='https://github.com/qutang/MIMSunit'>https://github.com/qutang/MIMSunit</a></p>
 
   </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+    <h2>Contents</h2>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="#format">Format</a></li>
+      <li><a href="#source">Source</a></li>
+    </ul>
 
+  </div>
 </div>
-
 
 
       <footer>

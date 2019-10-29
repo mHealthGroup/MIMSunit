@@ -11,6 +11,7 @@
 #' @param range vector. Dynamic range of the signal.
 #' @param plot_maxed_out_line Bool. Plot dynamic range lines if TRUE. Dynamic range is set by `range`.
 #' @param plot_origin Bool. Plot the 0 horizontal line if TRUE.
+#' @param title Char. The title of the plot.
 #' @param plot_title Bool. Plot title if TRUE.
 #'
 #' @return ggplot2 graph object. The graph to be shown.
@@ -29,7 +30,7 @@ illustrate_signal <- function(data,
                               plot_title = T) {
   colnames(data) = c('HEADER_TIME_STAMP', 'value')
   p = ggplot2::ggplot(data = data,
-                      ggplot2::aes(x = .data$HEADER_TIME_STAMP, y = .data$value))
+                      ggplot2::aes(x = ggplot2::.data$HEADER_TIME_STAMP, y = ggplot2::.data$value))
   if (plot_line) {
     p = p + ggplot2::geom_line(size = line_size)
   }
@@ -69,6 +70,7 @@ illustrate_signal <- function(data,
 #' \code{\link{illustrate_signal}}.
 #'
 #' @param df data.frame.The original data before extrapolation.
+#' @param title Char. The title of the plot.
 #' @param between_neighbor_df data.frame. Dataframe containing points between the points used for extrapolation.
 #' @param left_neighbors_df data.frame. Dataframe containing the points of left side used for extrapolation.
 #' @param right_neighbors_df data.frame. Dataframe containing the points of right side used for extrapolation.
@@ -159,12 +161,12 @@ illustrate_extrapolation <-
             colnames(right_fit_line_df) = c('HEADER_TIME_STAMP', 'value')
             p = p + ggplot2::geom_line(
               data = left_fit_line_df,
-              ggplot2::aes(x = .data$HEADER_TIME_STAMP, y = .data$value),
+              ggplot2::aes(x = ggplot2::.data$HEADER_TIME_STAMP, y = ggplot2::.data$value),
               size = 0.5
             ) +
               ggplot2::geom_line(
                 data = right_fit_line_df,
-                ggplot2::aes(x = .data$HEADER_TIME_STAMP, y = .data$value),
+                ggplot2::aes(x = ggplot2::.data$HEADER_TIME_STAMP, y = ggplot2::.data$value),
                 size = 0.5
               )
           }

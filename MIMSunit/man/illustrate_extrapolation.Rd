@@ -14,6 +14,8 @@ illustrate_extrapolation(df, between_neighbor_df = NULL, title = NULL,
 
 \item{between_neighbor_df}{data.frame. Dataframe containing points between the points used for extrapolation.}
 
+\item{title}{Char. The title of the plot.}
+
 \item{left_neighbors_df}{data.frame. Dataframe containing the points of left side used for extrapolation.}
 
 \item{right_neighbors_df}{data.frame. Dataframe containing the points of right side used for extrapolation.}

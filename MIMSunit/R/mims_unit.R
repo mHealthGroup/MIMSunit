@@ -366,6 +366,21 @@ custom_mims_unit <-
         rectify = TRUE
       )
 
+    if (allow_truncation)
+    {
+      truncate_indices <-
+        integrated_data[, 2:ncol(integrated_data)] > 0 &
+        (integrated_data[, 2:ncol(integrated_data)] <=
+           (1e-04 * parse_epoch_string(epoch, sr)))
+      truncate_indices <- data.frame(truncate_indices)
+      integrated_data[, 2:ncol(integrated_data)] <-
+        sapply(1:(ncol(integrated_data) - 1), function(n)
+        {
+          integrated_data[truncate_indices[, n], n + 1] <- 0
+          return(integrated_data[, n + 1])
+        })
+    }
+
     # Compute vector magnitude
     row_abnormal <- rep(FALSE, nrow(integrated_data))
     for (i in 2:ncol(integrated_data))
@@ -396,21 +411,6 @@ custom_mims_unit <-
       mims_data[row_abnormal, 2] <- -0.01
     }
 
-
-    if (allow_truncation)
-    {
-      truncate_indices <-
-        mims_data[, 2:ncol(mims_data)] > 0 &
-        (mims_data[, 2:ncol(mims_data)] <=
-           (1e-04 * parse_epoch_string(epoch, sr) / sr))
-      truncate_indices <- data.frame(truncate_indices)
-      mims_data[, 2:ncol(mims_data)] <-
-        sapply(1:(ncol(mims_data) - 1), function(n)
-        {
-          mims_data[truncate_indices[, n], n + 1] <- 0
-          return(mims_data[, n + 1])
-        })
-    }
 
     # only keep data between start and end time
     keep_mask <-
