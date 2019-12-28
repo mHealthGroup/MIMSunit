@@ -1,6 +1,6 @@
 pandoc: 2.7.2
-pkgdown: 1.4.1
-pkgdown_sha: ~
+pkgdown: 1.4.1.9000
+pkgdown_sha: 03fa5022ff360a6f87586145e45f71fe090c64a2
 articles:
   conceptual_diagram: conceptual_diagram.html
   cross_device_consistency: cross_device_consistency.html
@@ -12,6 +12,6 @@ articles:
   replicate: replicate.html
   truncation_threshold: truncation_threshold.html
 urls:
-  reference: https://qutang.github.io/MIMSunit//reference
-  article: https://qutang.github.io/MIMSunit//articles
+  reference: https://mhealthgroup.github.io/MIMSunit//reference
+  article: https://mhealthgroup.github.io/MIMSunit//articles
 

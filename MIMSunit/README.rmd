@@ -2,7 +2,7 @@
 output: github_document
 ---
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
+<!-- README.md is generated from README.Rmd. Please don't edit that file -->
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -14,17 +14,15 @@ knitr::opts_chunk$set(echo = TRUE)
 [![codecov](https://codecov.io/gh/qutang/MIMSunit/branch/master/graph/badge.svg)](https://codecov.io/gh/qutang/MIMSunit)
 [![CRAN Status](https://www.r-pkg.org/badges/version/MIMSunit)](https://cran.r-project.org/package=MIMSunit)
 
-__This work is in submission/revision. Before the time of publication, the manuscript will not be available. At the time of publication, this site will be updated with additional code/documentation. Before publication, the codes are subject to refactoring. Please create github [issues](https://github.com/qutang/mimsunit/issues/) if you have any question related to the package.__
+__Please create github [issues](https://github.com/mhealthgroup/MIMSunit/issues/) if you have any question related to the package.__
 
 ## Short introduction
 
-MIMS-unit is abbreviated for _Monitor Independent Movement Summary_ unit. This measurement is developed to harmonize the processing of accelerometer data from different devices. You may refer to the in publishing manuscript for the detail description of the algorithm. If you would like to get access to the manuscript, please contact [Qu Tang](mailto: tang.q@husky.neu.edu) or [Dinesh John](mailto: d.john@northeastern.edu).
+MIMS-unit is abbreviated for _Monitor Independent Movement Summary_ unit. This measurement is developed to harmonize the processing of accelerometer data from different devices. You may refer to the [manuscript](https://journals.humankinetics.com/view/journals/jmpb/2/4/article-p268.xml) for the detail description of the algorithm.
 
 ## Copyright and citation
 
-The copyright of the work belongs to Northeastern University, [mHealth Research Group](https://mhealthgroup.org). Please kindly cite the manuscript if you have used the package in your work.
-
-> D. John, Q. Tang, F. Albinali, and S.S. Intille. 2018. _A monitor-independent movement summary to harmonize accelerometer data processing_. Journal of Measuring Physical Behaviors. Status: Submitted.
+The copyright of the work belongs to Northeastern University, [mHealth Research Group](https://mhealthgroup.org). Please kindly [cite the manuscript](authors.html) if you have used the package or referred to the algorithm in your work.
 
 ## System Requirements
 
@@ -46,14 +44,12 @@ Install depedency system packages for `devtools`: `build-essential`, `libcurl4-g
   _Coming soon..._
 
 2. Development version (source codes)
-  - For Windows users
-  
+  - For Windows users  
 ```r
 install.packages("devtools")
 devtools::install_github("qutang/MIMSunit", type='win.binary')
 ```
-  - For mac or Linux users
-  
+  - For mac or Linux users  
 ```r
 install.packages("devtools")
 devtools::install_github("qutang/MIMSunit")

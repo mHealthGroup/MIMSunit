@@ -1,5 +1,5 @@
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
+<!-- README.md is generated from README.Rmd. Please don't edit that file -->
 
 # MIMS-unit algorithm
 
@@ -9,33 +9,24 @@ status](https://travis-ci.org/qutang/MIMSunit.svg?branch=master)](https://travis
 [![CRAN
 Status](https://www.r-pkg.org/badges/version/MIMSunit)](https://cran.r-project.org/package=MIMSunit)
 
-**This work is in submission/revision. Before the time of publication,
-the manuscript will not be available. At the time of publication, this
-site will be updated with additional code/documentation. Before
-publication, the codes are subject to refactoring. Please create github
-[issues](https://github.com/qutang/mimsunit/issues/) if you have any
-question related to the package.**
+**Please create github
+[issues](https://github.com/mhealthgroup/MIMSunit/issues/) if you have
+any question related to the package.**
 
 ## Short introduction
 
 MIMS-unit is abbreviated for *Monitor Independent Movement Summary*
 unit. This measurement is developed to harmonize the processing of
-accelerometer data from different devices. You may refer to the in
-publishing manuscript for the detail description of the algorithm. If
-you would like to get access to the manuscript, please contact [Qu
-Tang](mailto:%20tang.q@husky.neu.edu) or [Dinesh
-John](mailto:%20d.john@northeastern.edu).
+accelerometer data from different devices. You may refer to the
+[manuscript](https://journals.humankinetics.com/view/journals/jmpb/2/4/article-p268.xml)
+for the detail description of the algorithm.
 
 ## Copyright and citation
 
 The copyright of the work belongs to Northeastern University, [mHealth
-Research Group](https://mhealthgroup.org). Please kindly cite the
-manuscript if you have used the package in your work.
-
-> D. John, Q. Tang, F. Albinali, and S.S. Intille. 2018. *A
-> monitor-independent movement summary to harmonize accelerometer data
-> processing*. Journal of Measuring Physical Behaviors. Status:
-> Submitted.
+Research Group](https://mhealthgroup.org). Please kindly [cite the
+manuscript](authors.html) if you have used the package or referred to
+the algorithm in your work.
 
 ## System Requirements
 
@@ -61,7 +52,7 @@ Install depedency system packages for `devtools`: `build-essential`,
 
 <!-- end list -->
 
-  - For Windows users
+  - For Windows users  
 
 <!-- end list -->
 
@@ -70,7 +61,7 @@ install.packages("devtools")
 devtools::install_github("qutang/MIMSunit", type='win.binary')
 ```
 
-  - For mac or Linux users
+  - For mac or Linux users  
 
 <!-- end list -->
 

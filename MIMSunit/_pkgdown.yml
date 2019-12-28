@@ -1,4 +1,4 @@
-url: https://qutang.github.io/MIMSunit/
+url: https://mhealthgroup.github.io/MIMSunit/
 destination: ../docs/
 reference:
   - title: "Top-level API for MIMS-unit algorithm"
@@ -63,7 +63,7 @@ development:
 
 authors:
   Qu Tang:
-    href: https://qutang.github.io
+    href: https://qutang.dev
     html: <img class='img-circle p-3' src="https://d33wubrfki0l68.cloudfront.net/8af2089476f179254b3bc9628e13f7d143acab42/8309e/images/avatar.jpg" height="40" /><span> Qu Tang</span>
   Dinesh John:
     href: "https://bouve.northeastern.edu/directory/dinesh-john/"
@@ -109,4 +109,4 @@ navbar:
       href: "news/index.html"
   right:
     - icon: fa-lg fa-github
-      href: https://github.com/qutang/mimsunit
+      href: https://github.com/mhealthgroup/mimsunit
