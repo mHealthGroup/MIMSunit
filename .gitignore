@@ -1,4 +1,8 @@
-data-raw-archive
-*.Rcheck
-*.tar.gz
 .Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+.DS_Store
+dists/*
+data-raw-archive
+.vscode

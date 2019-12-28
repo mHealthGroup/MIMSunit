@@ -1,6 +1,6 @@
 pandoc: 2.7.2
-pkgdown: 1.4.1.9000
-pkgdown_sha: 03fa5022ff360a6f87586145e45f71fe090c64a2
+pkgdown: 1.4.1
+pkgdown_sha: ~
 articles:
   conceptual_diagram: conceptual_diagram.html
   cross_device_consistency: cross_device_consistency.html

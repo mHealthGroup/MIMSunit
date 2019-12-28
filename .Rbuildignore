@@ -1,0 +1,33 @@
+^release\.R$
+^README\.rmd$
+^.*\.Rproj$
+^\.RData$
+^\.Rhistory$
+^dists$
+^data-raw$
+^data-raw-archive$
+^mims-unit.R$
+^mims-unit.zip$
+^docs$
+^README_data$
+^_pkgdown\.yml$
+^\.Rproj\.user$     # used for temporary files.
+^cran-comments\.md$ # Comments for CRAN submission
+^NEWS\.md$          # A news file written in Markdown
+^renv$
+^renv\.lock$
+.renvignore
+build_website.R
+build_package.R
+dev.R
+^LICENSE\.md$
+^README\.Rmd$
+^reproduce\/extdata$
+^reproduce\/figure$
+^reproduce\/src$
+^reproduce\/table$
+^vignettes$
+^data/spades_lab_counts\.rda$
+^data/spades_lab_stats\.rda$
+^\.github$
+^\.vscode$
