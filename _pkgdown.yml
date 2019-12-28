@@ -1,5 +1,5 @@
 url: https://mhealthgroup.github.io/MIMSunit/
-destination: ../docs/
+destination: docs/
 reference:
   - title: "Top-level API for MIMS-unit algorithm"
     desc: >

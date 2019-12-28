@@ -80,7 +80,7 @@ the signal." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.6.1</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.6.2.9000</span>
       </span>
     </div>
 
@@ -174,8 +174,7 @@ the signal." />
 the signal.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>iir</span>(<span class='no'>df</span>, <span class='no'>sr</span>, <span class='no'>cutoff_freq</span>, <span class='kw'>order</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"high"</span>,
-  <span class='kw'>filter_type</span> <span class='kw'>=</span> <span class='st'>"butter"</span>)</pre>
+    <pre class="usage"><span class='fu'>iir</span>(<span class='no'>df</span>, <span class='no'>sr</span>, <span class='no'>cutoff_freq</span>, <span class='kw'>order</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"high"</span>, <span class='kw'>filter_type</span> <span class='kw'>=</span> <span class='st'>"butter"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -235,8 +234,10 @@ fixed to be 0.05 dB. For Elliptic filter, the stopband ripple is fixed to be
   a 0.5 - 5 Hz bandpass butterworth filter during filtering.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other filtering functions: <code><a href='bandlimited_interp.html'>bandlimited_interp</a></code>,
-  <code><a href='bessel.html'>bessel</a></code>, <code><a href='remove_average.html'>remove_average</a></code></p></div>
+    <div class='dont-index'><p>Other filtering functions: 
+<code>bandlimited_interp()</code>,
+<code><a href='https://rdrr.io/r/base/Bessel.html'>bessel</a>()</code>,
+<code>remove_average()</code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

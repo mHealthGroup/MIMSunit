@@ -83,7 +83,7 @@ algorithm." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.6.1</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.6.2.9000</span>
       </span>
     </div>
 
@@ -176,12 +176,17 @@ algorithm." />
     <p><code>sensor_orientations</code> estimates the orientation angles for the input
 multi-channel accelerometer signal. The input signal can be from devices of
 any sampling rate and dynamic range. Please refer to function
-<code><a href='compute_orientation.html'>compute_orientation</a></code> for the implementation of the estimation
+<code>compute_orientation</code> for the implementation of the estimation
 algorithm.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sensor_orientations</span>(<span class='no'>df</span>, <span class='kw'>before_df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>after_df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>epoch</span> <span class='kw'>=</span> <span class='st'>"5 sec"</span>, <span class='no'>dynamic_range</span>)</pre>
+    <pre class="usage"><span class='fu'>sensor_orientations</span>(
+  <span class='no'>df</span>,
+  <span class='kw'>before_df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>after_df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>epoch</span> <span class='kw'>=</span> <span class='st'>"5 sec"</span>,
+  <span class='no'>dynamic_range</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -239,8 +244,9 @@ is the positive max value the device can reach.</p></td>
   to know the sensor orientations in addition to the summary of movement.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other Top level API functions: <code><a href='custom_mims_unit.html'>custom_mims_unit</a></code>,
-  <code><a href='mims_unit.html'>mims_unit</a></code></p></div>
+    <div class='dont-index'><p>Other Top level API functions: 
+<code>custom_mims_unit()</code>,
+<code>mims_unit()</code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

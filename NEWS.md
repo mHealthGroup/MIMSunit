@@ -1,3 +1,9 @@
+# MIMSunit 0.6.2
+
+## Bug fixes
+
+* Fix crashing error in plotting functions when running vignettes.
+
 # MIMSunit 0.6.1
 
 ## Bug fixes

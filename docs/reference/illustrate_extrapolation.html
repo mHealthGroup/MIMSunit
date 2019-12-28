@@ -81,7 +81,7 @@ illustrate_signal." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.6.1</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.6.2.9000</span>
       </span>
     </div>
 
@@ -173,13 +173,20 @@ illustrate_signal." />
     <div class="ref-description">
     <p><code>illustrate_extrapolation</code> plots elements of extrapolations
 (e.g., marked points, reference lines) in the same style as
-<code><a href='illustrate_signal.html'>illustrate_signal</a></code>.</p>
+<code>illustrate_signal</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>illustrate_extrapolation</span>(<span class='no'>df</span>, <span class='kw'>between_neighbor_df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>left_neighbors_df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>right_neighbors_df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>show_neighbors</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>extrap_points_df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>fitted_line_df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>show_extrapolated_points_and_lines</span> <span class='kw'>=</span> <span class='no'>T</span>)</pre>
+    <pre class="usage"><span class='fu'>illustrate_extrapolation</span>(
+  <span class='no'>df</span>,
+  <span class='kw'>between_neighbor_df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>left_neighbors_df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>right_neighbors_df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>show_neighbors</span> <span class='kw'>=</span> <span class='no'>T</span>,
+  <span class='kw'>extrap_points_df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>fitted_line_df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>show_extrapolated_points_and_lines</span> <span class='kw'>=</span> <span class='no'>T</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -227,7 +234,8 @@ illustrate_signal." />
     <p>ggplot2 graph object. The graph to be shown.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other visualization functions.: <code><a href='illustrate_signal.html'>illustrate_signal</a></code></p></div>
+    <div class='dont-index'><p>Other visualization functions.: 
+<code>illustrate_signal()</code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

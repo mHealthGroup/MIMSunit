@@ -81,7 +81,7 @@ maxed-out samples." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.6.1</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.6.2.9000</span>
       </span>
     </div>
 
@@ -178,8 +178,14 @@ maxed-out samples.</p>
 
     <pre class="usage"><span class='fu'>extrapolate</span>(<span class='no'>df</span>, <span class='no'>...</span>)
 
-<span class='fu'>extrapolate_single_col</span>(<span class='no'>t</span>, <span class='no'>value</span>, <span class='no'>range</span>, <span class='kw'>noise_level</span> <span class='kw'>=</span> <span class='fl'>0.03</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>0.05</span>,
-  <span class='kw'>spar</span> <span class='kw'>=</span> <span class='fl'>0.6</span>)</pre>
+<span class='fu'>extrapolate_single_col</span>(
+  <span class='no'>t</span>,
+  <span class='no'>value</span>,
+  <span class='no'>range</span>,
+  <span class='kw'>noise_level</span> <span class='kw'>=</span> <span class='fl'>0.03</span>,
+  <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>0.05</span>,
+  <span class='kw'>spar</span> <span class='kw'>=</span> <span class='fl'>0.6</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -250,7 +256,8 @@ its timestamps and values specified in the first and second arguments.</p>
   step during MIMS-unit algorithm, applied before filtering.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other extrapolation related functions: <code><a href='extrapolate_rate.html'>extrapolate_rate</a></code></p></div>
+    <div class='dont-index'><p>Other extrapolation related functions: 
+<code>extrapolate_rate()</code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
