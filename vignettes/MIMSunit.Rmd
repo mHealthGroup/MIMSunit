@@ -27,7 +27,7 @@ HEADER_TIME_STAMP,X,Y,Z
 2016-10-03 14:51:14.337,0.011,-0.010,0.982
 ```
 
-### Load into memory using [`mHealthR`](https://qutang.github.io/mHealthR/) package
+### Load input data file into memory
 
 ```{r, include=FALSE, warning=FALSE}
 wd = getwd()

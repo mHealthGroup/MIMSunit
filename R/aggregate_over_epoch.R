@@ -52,7 +52,7 @@ aggregate_for_mims <-
       df$SEGMENT <- 1
     } else
     {
-      df <- mHealthR::mhealth.segment(df, epoch, file_type = "sensor")
+      df <- MIMSunit::segment_data(df, breaks=epoch)
     }
 
     # get the number of samples in each epoch
@@ -195,7 +195,7 @@ aggregate_for_orientation <-
       df$SEGMENT <- 1
     } else
     {
-      df <- mHealthR::mhealth.segment(df, epoch, file_type = "sensor")
+      df <- MIMSunit::segment_data(df, breaks=epoch)
     }
 
     # get the desired number of samples in each epoch

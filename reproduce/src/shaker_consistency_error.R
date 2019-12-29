@@ -4,7 +4,6 @@ require(dplyr)
 require(ggplot2)
 require(reshape2)
 require(ggthemes)
-require(mHealthR)
 require(SMARTcounts)
 
 filename1 = "reproduce/extdata/shaker2.rds"

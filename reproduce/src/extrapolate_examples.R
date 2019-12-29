@@ -2,7 +2,6 @@ require(reshape2)
 require(plyr)
 require(dplyr)
 require(ggplot2)
-require(mHealthR)
 require(Counts)
 
 # extrapolation parameters ----
@@ -23,9 +22,9 @@ example_shaker_3g = function(){
   filename = "reproduce/extdata/shaker2.rds"
   shaker2 = readRDS(filename)
   g3Shaker = shaker2 %>% dplyr::filter(GRANGE == 3 & RPM == 5) %>% select(c(1, 2))
-  g3Shaker = g3Shaker %>% mhealth.clip(start_time = g3Shaker[1, 1] + 74, stop_time = g3Shaker[1, 1] + 82, file_type = "sensor")
+  g3Shaker = g3Shaker %>% MIMSunit::clip_data(start_time = g3Shaker[1, 1] + 74, stop_time = g3Shaker[1, 1] + 82)
   g6Shaker = shaker2 %>% dplyr::filter(GRANGE == 6 & RPM == 5) %>% select(c(1, 2))
-  g6Shaker = g6Shaker %>% mhealth.clip(start_time = g6Shaker[1, 1] + 74, stop_time = g6Shaker[1, 1] + 82, file_type = "sensor")
+  g6Shaker = g6Shaker %>% MIMSunit::clip_data(start_time = g6Shaker[1, 1] + 74, stop_time = g6Shaker[1, 1] + 82)
   g6Shaker[[1]] = g6Shaker[[1]] + 0.06
   g3Shaker_extrap = extrapolate(g3Shaker, range = c(-3, 3), noise_level = noise_level, k = k, spar = spar)
   forPlot = rbind(cbind(g6Shaker, group = "gt"),
@@ -72,11 +71,11 @@ shaker4 = readRDS(filename)
 
 g2Shaker = shaker4 %>% dplyr::filter(GRANGE == 2 &
                                        RPM == 6) %>% select(c(1, 2))
-g2Shaker = g2Shaker %>% mHealthR::mhealth.clip(start_time = g2Shaker[1, 1] + 40, stop_time = g2Shaker[1, 1] + 50, file_type = "sensor")
+g2Shaker = g2Shaker %>% MIMSunit::clip_data(start_time = g2Shaker[1, 1] + 40, stop_time = g2Shaker[1, 1] + 50)
 
 g8Shaker = shaker3 %>% dplyr::filter(GRANGE == 8 &
                                        RPM == 6) %>% select(c(1, 2))
-g8Shaker = g8Shaker %>% mHealthR::mhealth.clip(start_time = g8Shaker[1, 1] + 40, stop_time = g8Shaker[1, 1] + 50, file_type = "sensor")
+g8Shaker = g8Shaker %>% MIMSunit::clip_data(start_time = g8Shaker[1, 1] + 40, stop_time = g8Shaker[1, 1] + 50)
 
 # shift
 
@@ -88,11 +87,11 @@ g2Shaker_extrap = MIMSunit::extrapolate(
   spar = spar
 )
 
-g2Shaker_extrap = mHealthR::mhealth.clip(g2Shaker_extrap, start_time = g2Shaker_extrap[1,1] + 0.5, stop_time = g2Shaker_extrap[nrow(g2Shaker_extrap),1] - 0.5, file_type = "sensor")
+g2Shaker_extrap = MIMSunit::clip_data(g2Shaker_extrap, start_time = g2Shaker_extrap[1,1] + 0.5, stop_time = g2Shaker_extrap[nrow(g2Shaker_extrap),1] - 0.5)
 
-g2Shaker = mHealthR::mhealth.clip(g2Shaker, start_time = g2Shaker[1,1] + 0.5, stop_time = g2Shaker[nrow(g2Shaker),1] - 0.5, file_type = "sensor")
+g2Shaker = MIMSunit::clip_data(g2Shaker, start_time = g2Shaker[1,1] + 0.5, stop_time = g2Shaker[nrow(g2Shaker),1] - 0.5)
 
-g8Shaker = mHealthR::mhealth.clip(g8Shaker, start_time = g8Shaker[1,1] + 0.5, stop_time = g8Shaker[nrow(g8Shaker),1] - 0.5, file_type = "sensor")
+g8Shaker = MIMSunit::clip_data(g8Shaker, start_time = g8Shaker[1,1] + 0.5, stop_time = g8Shaker[nrow(g8Shaker),1] - 0.5)
 
 g2Shaker[[1]] = g2Shaker[[1]] - g2Shaker[1,1]
 g2Shaker_extrap[[1]] = g2Shaker_extrap[[1]] - g2Shaker_extrap[1,1]
@@ -162,9 +161,9 @@ extrapolatedData = MIMSunit::extrapolate(
 
 running_rate = Counts::extrapolate_rate(maxed_out_running, gt_running, extrapolatedData)
 
-extrapolated_clip = extrapolatedData[, 1:2] %>% mHealthR::mhealth.clip(start_time = extrapolatedData[1, 1] + 20, stop_time = extrapolatedData[1, 1] + 30, file_type = "sensor")
-maxedout_clip = maxed_out_running[, 1:2] %>% mHealthR::mhealth.clip(start_time = extrapolatedData[1, 1] + 20, stop_time = extrapolatedData[1, 1] + 30, file_type = "sensor")
-gt_clip = gt_running[, 1:2] %>% mHealthR::mhealth.clip(start_time = extrapolatedData[1, 1] + 20, stop_time = extrapolatedData[1, 1] +  30, file_type = "sensor")
+extrapolated_clip = extrapolatedData[, 1:2] %>% MIMSunit::clip_data(start_time = extrapolatedData[1, 1] + 20, stop_time = extrapolatedData[1, 1] + 30)
+maxedout_clip = maxed_out_running[, 1:2] %>% MIMSunit::clip_data(start_time = extrapolatedData[1, 1] + 20, stop_time = extrapolatedData[1, 1] + 30)
+gt_clip = gt_running[, 1:2] %>% MIMSunit::clip_data(start_time = extrapolatedData[1, 1] + 20, stop_time = extrapolatedData[1, 1] +  30)
 
 # plot
 #
@@ -282,8 +281,8 @@ gt_fb = frisbee_maxed_out %>% dplyr::filter(GRANGE == 8)
 
 # clip
 st = maxed_out_fb[1, 1] + 22
-maxed_out_fb = maxed_out_fb %>% mHealthR::mhealth.clip(start_time = st, stop_time = st + 10, file_type = "sensor")
-gt_fb = gt_fb %>% mHealthR::mhealth.clip(start_time = st, stop_time = st + 10, file_type = "sensor")
+maxed_out_fb = maxed_out_fb %>% MIMSunit::clip_data(start_time = st, stop_time = st + 10)
+gt_fb = gt_fb %>% MIMSunit::clip_data(start_time = st, stop_time = st + 10)
 
 extrap_fb = extrapolate(
   maxed_out_fb[, 1:2],
@@ -352,8 +351,8 @@ gt_r2 = running2_maxed_out %>% dplyr::filter(GRANGE == 8)
 
 # clip
 st = maxed_out_r2[1, 1]
-maxed_out_r2 = maxed_out_r2 %>% mHealthR::mhealth.clip(start_time = st, stop_time = st + 8, file_type = "sensor")
-gt_r2 = gt_r2 %>% mHealthR::mhealth.clip(start_time = st, stop_time = st + 8, file_type = "sensor")
+maxed_out_r2 = maxed_out_r2 %>% MIMSunit::clip_data(start_time = st, stop_time = st + 8)
+gt_r2 = gt_r2 %>% MIMSunit::clip_data(start_time = st, stop_time = st + 8)
 
 extrap_r2 = extrapolate(
   maxed_out_r2[, 1:4],
@@ -363,9 +362,9 @@ extrap_r2 = extrapolate(
   spar = spar
 )
 
-extrap_r2 = mhealth.clip(extrap_r2, start_time = extrap_r2[1,1], stop_time = extrap_r2[nrow(extrap_r2),1] - 0.5, file_type = "sensor")
-gt_r2 = mhealth.clip(gt_r2, start_time = gt_r2[1,1], stop_time = gt_r2[nrow(gt_r2),1] - 0.5, file_type = "sensor")
-maxed_out_r2 = mhealth.clip(maxed_out_r2, start_time = maxed_out_r2[1,1], stop_time = maxed_out_r2[nrow(maxed_out_r2),1] - 0.5, file_type = "sensor")
+extrap_r2 = MIMSunit::clip_data(extrap_r2, start_time = extrap_r2[1,1], stop_time = extrap_r2[nrow(extrap_r2),1] - 0.5)
+gt_r2 = MIMSunit::clip_data(gt_r2, start_time = gt_r2[1,1], stop_time = gt_r2[nrow(gt_r2),1] - 0.5)
+maxed_out_r2 = MIMSunit::clip_data(maxed_out_r2, start_time = maxed_out_r2[1,1], stop_time = maxed_out_r2[nrow(maxed_out_r2),1] - 0.5)
 
 running2_rate = Counts::extrapolate_rate(maxed_out_r2[c(1,3)], gt_r2[c(1,3)], extrap_r2[c(1,3)])
 
@@ -438,9 +437,9 @@ extrap_running = extrapolate(
 running3_rate = Counts::extrapolate_rate(maxed_out_running[c(1,3)], gt_running[c(1,3)], extrap_running[c(1,3)])
 
 startTime = extrap_running[1, 1]
-extrap_clip = extrap_running[, c(1, 3)] %>% mHealthR::mhealth.clip(start_time = startTime, stop_time = startTime + 8, file_type = "sensor")
-maxedout_clip = maxed_out_running[, c(1, 3)] %>% mHealthR::mhealth.clip(start_time = startTime, stop_time = startTime + 8, file_type = "sensor")
-gt_clip = gt_running[, c(1, 3)] %>% mHealthR::mhealth.clip(start_time = startTime, stop_time = startTime + 8, file_type = "sensor")
+extrap_clip = extrap_running[, c(1, 3)] %>% MIMSunit::clip_data(start_time = startTime, stop_time = startTime + 8)
+maxedout_clip = maxed_out_running[, c(1, 3)] %>% MIMSunit::clip_data(start_time = startTime, stop_time = startTime + 8)
+gt_clip = gt_running[, c(1, 3)] %>% MIMSunit::clip_data(start_time = startTime, stop_time = startTime + 8)
 
 # plot
 #
@@ -510,9 +509,9 @@ example_running4 = function(){
   running4_rate = Counts::extrapolate_rate(maxed_out_running[c(1,3)], gt_running[c(1,3)], extrap_running[c(1,3)])
 
   startTime = extrap_running[1, 1]
-  extrap_clip = extrap_running[, c(1, 3)] %>% mHealthR::mhealth.clip(start_time = startTime, stop_time = startTime + 10, file_type = "sensor")
-  maxedout_clip = maxed_out_running[, c(1, 3)] %>% mHealthR::mhealth.clip(start_time = startTime, stop_time = startTime + 10, file_type = "sensor")
-  gt_clip = gt_running[, c(1, 3)] %>% mHealthR::mhealth.clip(start_time = startTime, stop_time = startTime + 10, file_type = "sensor")
+  extrap_clip = extrap_running[, c(1, 3)] %>% MIMSunit::clip_data(start_time = startTime, stop_time = startTime + 10)
+  maxedout_clip = maxed_out_running[, c(1, 3)] %>% MIMSunit::clip_data(start_time = startTime, stop_time = startTime + 10)
+  gt_clip = gt_running[, c(1, 3)] %>% MIMSunit::clip_data(start_time = startTime, stop_time = startTime + 10)
 
   # plot
   #

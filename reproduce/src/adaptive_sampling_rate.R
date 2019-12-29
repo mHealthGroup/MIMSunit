@@ -6,9 +6,8 @@ require(ggplot2)
 filename = "reproduce/extdata/adaptive_sampling_rate.rds"
 adaptive_sr = readRDS(filename)
 
-plotData = mHealthR::mhealth.clip(
+plotData = MIMSunit::clip_data(
   adaptive_sr,
-  file_type = "sensor",
   start_time = adaptive_sr[1, 1] + 400,
   stop_time = adaptive_sr[1, 1] + 800
 )

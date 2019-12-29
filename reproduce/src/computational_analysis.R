@@ -2,10 +2,8 @@ require(plyr)
 require(dplyr)
 require(ggplot2)
 require(reshape2)
-require(mHealthR)
-require(Counts)
 filename = "F:\\data\\spades_lab\\SPADES_3\\MasterSynced\\2015\\10\\16\\11\\ActigraphGT9X-AccelerationCalibrated-NA.TAS1E23150139-AccelerationCalibrated.2015-10-16-11-00-00-000-M0400.sensor.csv"
-treadmill_data = mhealth.read(filename, "sensor")
+treadmill_data = MIMSunit::import_mhealth_csv(filename)
 treadmill_data1 = treadmill_data
 
 result = c(0, 0, 0)

@@ -63,3 +63,103 @@ sampling_rate <- function(df)
   sr <- round(nrow(df) / duration / 10) * 10
   return(sr)
 }
+
+#' Clip dataframe to the given start and stop time
+#'
+#' \code{clip_data} clips the input sensor dataframe according to the given
+#' start and stop time
+#'
+#' This function accepts a dataframe of multi-channel signal, clips it
+#' according to the start_time and stop_time.
+#'
+#' @section How is it used in MIMS-unit algorithm?: This function is a utility
+#'   function that was used in various part in the algorithm whenever we need to
+#'   clip a dataframe.
+#'
+#' @param df dataframe. Input dataframe of the multi-channel signal. The first
+#'   column is the timestamps in POSXlct format and the following columns are
+#'   accelerometer values.
+#' @param start_time POSXlct format or character. Start time for clipping.
+#' If it is a character, it should be recognizable by as.POSXlct function.
+#' @param stop_time POSXlct format or character. Stop time for clipping.
+#' If it is a character, it should be recognizable by as.POSXlct function.
+#' @return dataframe. The same format as the input dataframe.
+#' @family utility functions
+#' @export
+clip_data = function(df, start_time, stop_time) {
+  tzone = lubridate::tz(df[["HEADER_TIME_STAMP"]][1])
+  if (is.character(start_time)) {
+    start_time = as.POSIXct(start_time, tz = tzone)
+  }
+  start_time = lubridate::force_tz(start_time, tz = tzone)
+  if (is.character(stop_time)) {
+    stop_time = as.POSIXct(stop_time, tz = tzone)
+  }
+  stop_time = lubridate::force_tz(stop_time, tz = tzone)
+
+  mask = df[["HEADER_TIME_STAMP"]] >= start_time &
+    df[["HEADER_TIME_STAMP"]] <= stop_time
+  sub_df = df[mask,]
+
+  return(sub_df)
+}
+
+#' Segment input dataframe into windows as specified by breaks.
+#' \code{segment_data} segments the input sensor dataframe into
+#'  epoch windows with length specified in breaks.
+#'
+#' This function accepts a dataframe of multi-channel signal, segments it
+#' into epoch windows with length specified in breaks.
+#'
+#' @section How is it used in MIMS-unit algorithm?: This function is a utility
+#'   function that was used in various part in the algorithm whenever we need to
+#'   segment a dataframe, e.g., before aggregating values over epoch windows.
+#'
+#' @param df dataframe. Input dataframe of the multi-channel signal. The first
+#'   column is the timestamps in POSXlct format and the following columns are
+#'   accelerometer values.
+#' @param breaks character. An epoch length character that can be accepted by
+#' cut.breaks function.
+#' @return dataframe. The same format as the input dataframe, but with an extra
+#' column "SEGMENT" in the end specifies the epoch window a sample belongs to.
+#' @family utility functions
+#' @export
+segment_data = function(df, breaks){
+  ts = df[['HEADER_TIME_STAMP']]
+  if(missing(breaks) || is.null(breaks)){
+    segments = ts[1]
+  }else{
+    ts[1] = .segment.floor_date(ts[1], breaks)
+    segments = cut(ts, breaks = breaks)
+  }
+  segments = as.numeric(segments)
+  df["SEGMENT"] = segments
+  return(df)
+}
+
+.segment.floor_date = function(ts, breaks){
+  if(stringr::str_detect(breaks, "sec")){
+    ts = lubridate::floor_date(ts, unit = c("second"))
+  }else if(str_detect(breaks, "min")){
+    ts = lubridate::floor_date(ts, unit = c("minute"))
+  }else if(str_detect(breaks, "hour")){
+    ts = lubridate::floor_date(ts, unit = c("hour"))
+  }else if(str_detect(breaks, "day")){
+    ts = lubridate::floor_date(ts, unit = c("day"))
+  }
+  return(ts)
+}
+
+.segment.ceil_date = function(ts, breaks){
+  if(stringr::str_detect(breaks, "sec")){
+    ts = lubridate::ceiling_date(ts, unit = c("second"))
+  }else if(str_detect(breaks, "min")){
+    ts = lubridate::ceiling_date(ts, unit = c("minute"))
+  }else if(str_detect(breaks, "hour")){
+    ts = lubridate::ceiling_date(ts, unit = c("hour"))
+  }else if(str_detect(breaks, "day")){
+    ts = lubridate::ceiling_date(ts, unit = c("day"))
+  }
+  return(ts)
+}
+

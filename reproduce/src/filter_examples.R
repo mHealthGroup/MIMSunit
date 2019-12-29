@@ -143,12 +143,12 @@ names(butter_running) = names(running)
 names(butter_narrow_running) = names(running)
 
 st = running[1, 1] + 20
-running = mHealthR::mhealth.clip(running, start_time = running[1, 1], stop_time = running[1, 1] + 15, file_type = "sensor")
-butter_running = mHealthR::mhealth.clip(butter_running,
+running = MIMSunit::clip_data(running, start_time = running[1, 1], stop_time = running[1, 1] + 15)
+butter_running = MIMSunit::clip_data(butter_running,
                                  start_time = running[1, 1],
                                  stop_time = running[1, 1] + 15,
                                  file_type = "sensor")
-butter_narrow_running = mHealthR::mhealth.clip(butter_narrow_running,
+butter_narrow_running = MIMSunit::clip_data(butter_narrow_running,
                                         start_time = running[1, 1],
                                         stop_time = running[1, 1] + 15,
                                         file_type = "sensor")
@@ -262,12 +262,12 @@ names(butter_walking) = names(walking)
 names(butter_high_walking) = names(walking)
 
 st = walking[1, 1] + 20
-walking = mHealthR::mhealth.clip(walking, start_time = walking[1, 1], stop_time = walking[1, 1] + 15, file_type = "sensor")
-butter_walking = mHealthR::mhealth.clip(butter_walking,
+walking = MIMSunit::clip_data(walking, start_time = walking[1, 1], stop_time = walking[1, 1] + 15)
+butter_walking = MIMSunit::clip_data(butter_walking,
                                  start_time = walking[1, 1],
                                  stop_time = walking[1, 1] + 15,
                                  file_type = "sensor")
-butter_high_walking = mHealthR::mhealth.clip(butter_high_walking,
+butter_high_walking = MIMSunit::clip_data(butter_high_walking,
                                       start_time = walking[1, 1],
                                       stop_time = walking[1, 1] + 15,
                                       file_type = "sensor")

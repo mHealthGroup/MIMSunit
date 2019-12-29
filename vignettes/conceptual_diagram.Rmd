@@ -36,7 +36,7 @@ stop_time = start_time + 1
 ```{r echo=TRUE, fig.height=2, fig.width=10, message=FALSE, warning=FALSE, out.width="100%"}
 figs = df %>% 
   group_by(.data$NAME) %>%
-  mHealthR::mhealth.clip(start_time = start_time, stop_time = stop_time, file_type = 'sensor') %>%
+  MIMSunit::clip_data(start_time = start_time, stop_time = stop_time) %>%
   group_map(
     ~ MIMSunit::illustrate_signal(
       .x,
@@ -76,9 +76,8 @@ colnames(interp_df) = c('HEADER_TIME_STAMP', 'X', 'SR', 'GRANGE', 'NAME')
 ```{r echo=TRUE, fig.height=2, fig.width=10, message=FALSE, warning=FALSE, out.width="100%"}
 figs = interp_df %>%
   group_by(.data$NAME) %>%
-  mHealthR::mhealth.clip(start_time = start_time,
-                         stop_time = stop_time,
-                         file_type = 'sensor') %>%
+  MIMSunit::clip_data(start_time = start_time,
+                         stop_time = stop_time) %>%
   group_map(
     ~ MIMSunit::illustrate_signal(
       .x,
@@ -129,33 +128,26 @@ extrapolation = function(df, name, start_time, stop_time) {
     )
     colnames(fitted_line_df) = c('HEADER_TIME_STAMP', 'X', 'type', 'index')
     left_neighbors_df = df[left_indices, ] %>% 
-      mHealthR::mhealth.clip(start_time = start_time, 
-                             stop_time = stop_time, 
-                             "sensor") %>% data.frame
+      MIMSunit::clip_data(start_time = start_time, 
+                             stop_time = stop_time) %>% data.frame
     right_neighbors_df = df[right_indices, ] %>% 
-      mHealthR::mhealth.clip(start_time = start_time, 
-                             stop_time = stop_time, 
-                             "sensor") %>% data.frame
+      MIMSunit::clip_data(start_time = start_time, 
+                             stop_time = stop_time) %>% data.frame
     between_neighbor_df = df[c(-left_indices, -right_indices), ] %>% 
-      mHealthR::mhealth.clip(start_time = start_time, 
-                             stop_time = stop_time, 
-                             "sensor")%>% data.frame
+      MIMSunit::clip_data(start_time = start_time, 
+                             stop_time = stop_time)%>% data.frame
     between_neighbor_without_maxed_out_df = df[c(-left_indices, -right_indices, -mo_indices), ] %>% 
-      mHealthR::mhealth.clip(start_time = start_time, 
-                             stop_time = stop_time, 
-                             "sensor") %>% data.frame
+      MIMSunit::clip_data(start_time = start_time, 
+                             stop_time = stop_time) %>% data.frame
     maxed_out_df = df[mo_indices, ] %>% 
-      mHealthR::mhealth.clip(start_time = start_time, 
-                             stop_time = stop_time, 
-                             "sensor") %>% data.frame
+      MIMSunit::clip_data(start_time = start_time, 
+                             stop_time = stop_time) %>% data.frame
     maxed_out_df$weight = markers_df[mo_indices, 'value'] %>% 
-      mHealthR::mhealth.clip(start_time = start_time, 
-                             stop_time = stop_time, 
-                             "sensor")
+      MIMSunit::clip_data(start_time = start_time, 
+                             stop_time = stop_time)
     fitted_line_df = fitted_line_df %>%
-      mHealthR::mhealth.clip(start_time = start_time, 
-                             stop_time = stop_time,
-                             "sensor") %>% data.frame
+      MIMSunit::clip_data(start_time = start_time, 
+                             stop_time = stop_time) %>% data.frame
     points_ex_df = fitted_line_df[fitted_line_df$type == 'point', c(1, 2)]
   } else {
     marks_df = NULL
@@ -168,9 +160,8 @@ extrapolation = function(df, name, start_time, stop_time) {
     points_ex_df = NULL
   }
   df = df %>% 
-      mHealthR::mhealth.clip(start_time = start_time, 
-                             stop_time = stop_time, 
-                             "sensor") %>% data.frame
+      MIMSunit::clip_data(start_time = start_time, 
+                             stop_time = stop_time) %>% data.frame
   return(
     list(
       data.frame(df),

@@ -16,6 +16,9 @@
     <loc>https://mhealthgroup.github.io/MIMSunit//reference/bessel.html</loc>
   </url>
   <url>
+    <loc>https://mhealthgroup.github.io/MIMSunit//reference/clip_data.html</loc>
+  </url>
+  <url>
     <loc>https://mhealthgroup.github.io/MIMSunit//reference/compute_orientation.html</loc>
   </url>
   <url>
@@ -83,6 +86,9 @@
   </url>
   <url>
     <loc>https://mhealthgroup.github.io/MIMSunit//reference/sampling_rate.html</loc>
+  </url>
+  <url>
+    <loc>https://mhealthgroup.github.io/MIMSunit//reference/segment_data.html</loc>
   </url>
   <url>
     <loc>https://mhealthgroup.github.io/MIMSunit//reference/sensor_orientations.html</loc>

@@ -31,9 +31,11 @@ of samples by it.
 
 \seealso{
 Other utility functions: 
+\code{\link{clip_data}()},
 \code{\link{cut_off_signal}()},
 \code{\link{interpolate_signal}()},
 \code{\link{parse_epoch_string}()},
+\code{\link{segment_data}()},
 \code{\link{simulate_new_data}()}
 }
 \concept{utility functions}

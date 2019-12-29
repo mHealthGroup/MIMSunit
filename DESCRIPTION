@@ -32,7 +32,6 @@ Imports:
     lubridate (>= 1.7.4),
     magrittr (>= 1.5),
     matlab (>= 1.0.2),
-    mHealthR (>= 0.8.13),
     plyr (>= 1.8.4),
     readr (>= 1.1.1),
     R.utils (>= 2.7.0),
@@ -42,8 +41,6 @@ Suggests:
     xts,
     dygraphs,
     testthat
-Remotes:
-    qutang/mHealthR
 SystemRequirements:
     memory (>= 4GB)
     Ubuntu: build-essential, libcurl4-gnutls-dev, libxml2-dev, libssl-dev

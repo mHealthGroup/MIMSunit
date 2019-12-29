@@ -24,14 +24,14 @@ if(length(args) < 3){
   if(!is.null(before_file)){
     print("Get the last 2 minutes data for before file")
     before_dat = MIMSunit::import_mhealth_csv(filepath = before_file)
-    before_dat = mHealthR::mhealth.clip(before_dat, start_time = dat[1,1] - 120, stop_time = dat[1,1], file_type = "sensor")
+    before_dat = MIMSunit::clip_data(before_dat, start_time = dat[1,1] - 120, stop_time = dat[1,1])
   }else{
     before_dat = NULL
   }
   if(!is.null(after_file)){
     print("Get the first 2 minutes data for after file")
     after_dat = MIMSunit::import_mhealth_csv(filepath = after_file)
-    after_dat = mHealthR::mhealth.clip(after_dat, start_time = dat[nrow(dat),1], stop_time = dat[nrow(dat),1] + 120, file_type = "sensor")
+    after_dat = MIMSunit::clip_data(after_dat, start_time = dat[nrow(dat),1], stop_time = dat[nrow(dat),1] + 120)
   }else{
     after_dat = NULL
   }

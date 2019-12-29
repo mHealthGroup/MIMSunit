@@ -1,8 +1,6 @@
 require(ggplot2)
 require(plyr)
 require(dplyr)
-require(mHealthR)
-require(Counts)
 require(extrafont)
 font_import()
 loadfonts(device='postscript')
@@ -69,7 +67,7 @@ plotting = function(data, point_size=0.3,
 
 generate_diagram = function(data, device_name, range, sr, start_time, stop_time, extrapolation_detail=F){
   colnames(data) = c('HEADER_TIME_STAMP', 'value')
-  plot_data = mhealth.clip(data, start_time = start_time, stop_time = stop_time, file_type = "sensor")
+  plot_data = MIMSunit::clip_data(data, start_time = start_time, stop_time = stop_time)
   # original signal
   p0 = plotting(plot_data, range=range)
   ggsave(filename = paste0('reproduce/figure/conceptual_diagram/',current_run, '/',device_name,'_0.eps'), plot = p0, dpi = 1500, width = 2, height = 1, scale=1)
@@ -77,7 +75,7 @@ generate_diagram = function(data, device_name, range, sr, start_time, stop_time,
   # oversampled signal
   oversampled = data.frame(.extrapolate.oversampling(data$HEADER_TIME_STAMP, data$value))
   colnames(oversampled) = c('HEADER_TIME_STAMP', 'value')
-  plot_data = mhealth.clip(oversampled, start_time = start_time, stop_time = stop_time, file_type = "sensor")
+  plot_data = MIMSunit::clip_data(oversampled, start_time = start_time, stop_time = stop_time)
   p1 = plotting(plot_data, range=range)
   ggsave(filename = paste0('reproduce/figure/conceptual_diagram/',current_run, '/', device_name,'_1.eps'), plot = p1, dpi = 1500, width = 2, height = 1, scale=1)
   ggsave(filename = paste0('reproduce/figure/conceptual_diagram/',current_run, '/', device_name,'_1.png'), plot = p1, dpi = 100, width = 2, height = 1, scale=1)
@@ -85,7 +83,7 @@ generate_diagram = function(data, device_name, range, sr, start_time, stop_time,
   # markers
   markers = .extrapolate.markregion(oversampled$HEADER_TIME_STAMP, oversampled$value, range = range)
   markers_df = data.frame(HEADER_TIME_STAMP=oversampled$HEADER_TIME_STAMP, value=abs(markers))
-  plot_markers_data = mhealth.clip(markers_df, start_time = start_time, stop_time = stop_time, file_type = "sensor")
+  plot_markers_data = MIMSunit::clip_data(markers_df, start_time = start_time, stop_time = stop_time)
   p2_1 = p1 +
     geom_line(data = plot_markers_data, aes(x=HEADER_TIME_STAMP, y=value+4.3), size=0.3) +
     geom_hline(yintercept = 4, size=0.3)
@@ -109,9 +107,9 @@ generate_diagram = function(data, device_name, range, sr, start_time, stop_time,
     oversampled_nn_nm = oversampled[c(-left_indices,-right_indices, -mo_indices),]
     mo_points = oversampled[mo_indices,]
     mo_points$weight = markers_df[mo_indices,'value']
-    left_neighbors = mhealth.clip(left_neighbors, start_time = start_time, stop_time = stop_time, file_type = "sensor")
-    right_neighbors = mhealth.clip(right_neighbors, start_time = start_time, stop_time = stop_time, file_type = "sensor")
-    plot_data = mhealth.clip(oversampled_nn, start_time = start_time, stop_time = stop_time, file_type = "sensor")
+    left_neighbors = MIMSunit::clip_data(left_neighbors, start_time = start_time, stop_time = stop_time)
+    right_neighbors = MIMSunit::clip_data(right_neighbors, start_time = start_time, stop_time = stop_time)
+    plot_data = MIMSunit::clip_data(oversampled_nn, start_time = start_time, stop_time = stop_time)
     p2_2 = plotting(plot_data,plot_line=F, range=range) +
       geom_line(data = plot_markers_data, aes(x=HEADER_TIME_STAMP, y=value+4.3), size=0.3) +
       geom_hline(yintercept = 4, size=0.3) +
@@ -122,7 +120,7 @@ generate_diagram = function(data, device_name, range, sr, start_time, stop_time,
     # fitted lines
     fitted_result = .extrapolate.fitline(oversampled$HEADER_TIME_STAMP, oversampled$value, neighbors, markers, spar, 100, k)
     colnames(fitted_result) = c('HEADER_TIME_STAMP', 'value', 'type', 'index')
-    plot_fitted_data = mhealth.clip(fitted_result, start_time = start_time, stop_time = stop_time, file_type = "sensor")
+    plot_fitted_data = MIMSunit::clip_data(fitted_result, start_time = start_time, stop_time = stop_time)
     points_ex = plot_fitted_data[plot_fitted_data$type == 'point',c(1,2)]
 
     p2 = plotting(plot_data,plot_line=F, range=range) +
@@ -141,12 +139,12 @@ generate_diagram = function(data, device_name, range, sr, start_time, stop_time,
     ggsave(filename = paste0('reproduce/figure/conceptual_diagram/',current_run, '/', device_name,'_2.eps'), plot = p2, dpi = 1500, width = 2, height = 1, scale=1)
     ggsave(filename = paste0('reproduce/figure/conceptual_diagram/',current_run, '/', device_name,'_2.png'), plot = p2, dpi = 100, width = 2, height = 1, scale=1)
     # zoomed
-    plot_data_zoomed = mhealth.clip(oversampled_nn_nm, start_time = start_time + 0.5, stop_time = start_time + 0.8, file_type = "sensor")
-    plot_markers_data_zoomed = mhealth.clip(markers_df, start_time = start_time + 0.5, stop_time = start_time + 0.8, file_type = "sensor")
-    mo_points_zoomed = mhealth.clip(mo_points, start_time = start_time + 0.5, stop_time = start_time + 0.8, file_type = "sensor")
-    left_neighbors_zoomed = mhealth.clip(left_neighbors, start_time = start_time + 0.5, stop_time = start_time + 0.8, file_type = "sensor")
-    right_neighbors_zoomed = mhealth.clip(right_neighbors, start_time = start_time + 0.5, stop_time = start_time + 0.8, file_type = "sensor")
-    plot_fitted_data_zoomed = mhealth.clip(fitted_result, start_time = start_time + 0.5, stop_time = start_time + 0.8, file_type = "sensor")
+    plot_data_zoomed = MIMSunit::clip_data(oversampled_nn_nm, start_time = start_time + 0.5, stop_time = start_time + 0.8)
+    plot_markers_data_zoomed = MIMSunit::clip_data(markers_df, start_time = start_time + 0.5, stop_time = start_time + 0.8)
+    mo_points_zoomed = MIMSunit::clip_data(mo_points, start_time = start_time + 0.5, stop_time = start_time + 0.8)
+    left_neighbors_zoomed = MIMSunit::clip_data(left_neighbors, start_time = start_time + 0.5, stop_time = start_time + 0.8)
+    right_neighbors_zoomed = MIMSunit::clip_data(right_neighbors, start_time = start_time + 0.5, stop_time = start_time + 0.8)
+    plot_fitted_data_zoomed = MIMSunit::clip_data(fitted_result, start_time = start_time + 0.5, stop_time = start_time + 0.8)
     points_ex_zoomed = plot_fitted_data_zoomed[plot_fitted_data_zoomed$type == 'point',c(1,2)]
     p2_zoomed = plotting(plot_data_zoomed,plot_line=F, range=range) + ylim(-5.5, 0) +
       geom_point(data=mo_points_zoomed, aes(x=HEADER_TIME_STAMP, y=value, color=weight), size=2) + scale_colour_continuous(low = '#cccccc', high='#333333', na.value = "white", guide=FALSE) +
@@ -168,7 +166,7 @@ generate_diagram = function(data, device_name, range, sr, start_time, stop_time,
     t_mark = oversampled$HEADER_TIME_STAMP[abs(markers) < 0.5]
     value_mark = oversampled$value[abs(markers) < 0.5]
     to_extrapolate_data = data.frame(HEADER_TIME_STAMP=t_mark, value=value_mark)
-    plot_to_extrapolate_data = mhealth.clip(to_extrapolate_data, start_time, stop_time, 'sensor')
+    plot_to_extrapolate_data = MIMSunit::clip_data(to_extrapolate_data, start_time, stop_time, 'sensor')
     p2_3 = plotting(plot_to_extrapolate_data, plot_line = FALSE, range=range) +
       geom_point(data = points_ex, aes(x=t_ex, y=value_ex), shape=17, size=1)
     ggsave(filename = paste0('reproduce/figure/conceptual_diagram/', current_run, '/', device_name,'_2_3.eps'), plot = p2_3, dpi = 1500, width = 2, height = 1, scale=1)
@@ -176,7 +174,7 @@ generate_diagram = function(data, device_name, range, sr, start_time, stop_time,
     # extrapolated and interpolated
     extrapolated = .extrapolate.interpolate(oversampled$HEADER_TIME_STAMP,oversampled$value, markers, points_ex, 100)
     colnames(extrapolated) = c('HEADER_TIME_STAMP', 'value')
-    plot_extrapolated = mhealth.clip(extrapolated, start_time, stop_time, "sensor")
+    plot_extrapolated = MIMSunit::clip_data(extrapolated, start_time, stop_time, "sensor")
 
     p3 = plotting(plot_extrapolated, range=range) + geom_point(data = points_ex, aes(x=as.numeric(t_ex), y=value_ex), shape=17, size=2)
     ggsave(filename = paste0('reproduce/figure/conceptual_diagram/', current_run, '/', device_name,'_3.eps'), plot = p3, dpi = 1500, width = 2, height = 1, scale=1)
@@ -195,7 +193,7 @@ generate_diagram = function(data, device_name, range, sr, start_time, stop_time,
     type = "pass",
     filter_type = "butter"
   )
-  plot_filtered = mhealth.clip(filtered, start_time, stop_time, "sensor")
+  plot_filtered = MIMSunit::clip_data(filtered, start_time, stop_time, "sensor")
   colnames(plot_filtered) = c('HEADER_TIME_STAMP', 'value')
   p4 = plotting(plot_filtered, plot_maxed_out_line = F)
   ggsave(filename = paste0('reproduce/figure/conceptual_diagram/', current_run, '/', device_name,'_4.eps'), plot = p4, dpi = 1500, width = 2, height = 1, scale=1)
@@ -213,7 +211,7 @@ generate_diagram = function(data, device_name, range, sr, start_time, stop_time,
   )
   second_count_value = counts[1,2]
   minute_count_value = second_count_value * 60
-  plot_agg =  mhealth.clip(agg, start_time, stop_time, "sensor")
+  plot_agg =  MIMSunit::clip_data(agg, start_time, stop_time, "sensor")
   label1 = paste0("Area under curve: ", round(second_count_value, 2))
   label2 = paste0("Equiv. to ", round(minute_count_value, 1), ' MIMS-unit/min')
   p5 = plotting(plot_agg, plot_maxed_out_line = F, plot_point = F) +
@@ -279,11 +277,10 @@ generate_diagram = function(data,
                             stop_time,
                             extrapolation_detail = F) {
   colnames(data) = c('HEADER_TIME_STAMP', 'value')
-  plot_data = mHealthR::mhealth.clip(
+  plot_data = MIMSunit::clip_data(
     data,
     start_time = start_time,
     stop_time = stop_time,
-    file_type = "sensor"
   )
   # original signal
   p0 = plotting(plot_data, range = range)
@@ -318,11 +315,10 @@ generate_diagram = function(data,
   # oversampled signal
   oversampled = data.frame(.extrapolate.oversampling(data$HEADER_TIME_STAMP, data$value))
   colnames(oversampled) = c('HEADER_TIME_STAMP', 'value')
-  plot_data = mHealthR::mhealth.clip(
+  plot_data = MIMSunit::clip_data(
     oversampled,
     start_time = start_time,
     stop_time = stop_time,
-    file_type = "sensor"
   )
   p1 = plotting(plot_data, range = range)
   ggsave(
@@ -358,11 +354,10 @@ generate_diagram = function(data,
   markers = MIMSunit::.extrapolate.markregion(oversampled$HEADER_TIME_STAMP, oversampled$value, range = range)
   markers_df = data.frame(HEADER_TIME_STAMP = oversampled$HEADER_TIME_STAMP,
                           value = abs(markers))
-  plot_markers_data = mHealthR::mhealth.clip(
+  plot_markers_data = MIMSunit::clip_data(
     markers_df,
     start_time = start_time,
     stop_time = stop_time,
-    file_type = "sensor"
   )
   p2_1 = p1 +
     geom_line(data = plot_markers_data,
@@ -418,23 +413,20 @@ generate_diagram = function(data,
     oversampled_nn_nm = oversampled[c(-left_indices, -right_indices, -mo_indices), ]
     mo_points = oversampled[mo_indices, ]
     mo_points$weight = markers_df[mo_indices, 'value']
-    left_neighbors = mHealthR::mhealth.clip(
+    left_neighbors = MIMSunit::clip_data(
       left_neighbors,
       start_time = start_time,
       stop_time = stop_time,
-      file_type = "sensor"
     )
-    right_neighbors = mHealthR::mhealth.clip(
+    right_neighbors = MIMSunit::clip_data(
       right_neighbors,
       start_time = start_time,
       stop_time = stop_time,
-      file_type = "sensor"
     )
-    plot_data = mHealthR::mhealth.clip(
+    plot_data = MIMSunit::clip_data(
       oversampled_nn,
       start_time = start_time,
       stop_time = stop_time,
-      file_type = "sensor"
     )
     p2_2 = plotting(plot_data, plot_line = F, range = range) +
       geom_line(data = plot_markers_data,
@@ -492,11 +484,10 @@ generate_diagram = function(data,
       k
     )
     colnames(fitted_result) = c('HEADER_TIME_STAMP', 'value', 'type', 'index')
-    plot_fitted_data = mHealthR::mhealth.clip(
+    plot_fitted_data = MIMSunit::clip_data(
       fitted_result,
       start_time = start_time,
       stop_time = stop_time,
-      file_type = "sensor"
     )
     points_ex = plot_fitted_data[plot_fitted_data$type == 'point', c(1, 2)]
 
@@ -567,37 +558,36 @@ generate_diagram = function(data,
       scale = 1
     )
     # zoomed
-    plot_data_zoomed = mHealthR::mhealth.clip(
+    plot_data_zoomed = MIMSunit::clip_data(
       oversampled_nn_nm,
       start_time = start_time + 0.5,
       stop_time = start_time + 0.8,
-      file_type = "sensor"
     )
-    plot_markers_data_zoomed = mHealthR::mhealth.clip(
+    plot_markers_data_zoomed = MIMSunit::clip_data(
       markers_df,
       start_time = start_time + 0.5,
       stop_time = start_time + 0.8,
       file_type = "sensor"
     )
-    mo_points_zoomed = mHealthR::mhealth.clip(
+    mo_points_zoomed = MIMSunit::clip_data(
       mo_points,
       start_time = start_time + 0.5,
       stop_time = start_time + 0.8,
       file_type = "sensor"
     )
-    left_neighbors_zoomed = mHealthR::mhealth.clip(
+    left_neighbors_zoomed = MIMSunit::clip_data(
       left_neighbors,
       start_time = start_time + 0.5,
       stop_time = start_time + 0.8,
       file_type = "sensor"
     )
-    right_neighbors_zoomed = mHealthR::mhealth.clip(
+    right_neighbors_zoomed = MIMSunit::clip_data(
       right_neighbors,
       start_time = start_time + 0.5,
       stop_time = start_time + 0.8,
       file_type = "sensor"
     )
-    plot_fitted_data_zoomed = mHealthR::mhealth.clip(
+    plot_fitted_data_zoomed = MIMSunit::clip_data(
       fitted_result,
       start_time = start_time + 0.5,
       stop_time = start_time + 0.8,
@@ -685,7 +675,7 @@ generate_diagram = function(data,
     value_mark = oversampled$value[abs(markers) < 0.5]
     to_extrapolate_data = data.frame(HEADER_TIME_STAMP = t_mark, value =
                                        value_mark)
-    plot_to_extrapolate_data = mHealthR::mhealth.clip(to_extrapolate_data, start_time, stop_time, 'sensor')
+    plot_to_extrapolate_data = MIMSunit::clip_data(to_extrapolate_data, start_time, stop_time, 'sensor')
     p2_3 = plotting(plot_to_extrapolate_data,
                     plot_line = FALSE,
                     range = range) +
@@ -730,7 +720,7 @@ generate_diagram = function(data,
                                                       points_ex,
                                                       100)
     colnames(extrapolated) = c('HEADER_TIME_STAMP', 'value')
-    plot_extrapolated = mHealthR::mhealth.clip(extrapolated, start_time, stop_time, "sensor")
+    plot_extrapolated = MIMSunit::clip_data(extrapolated, start_time, stop_time, "sensor")
 
     p3 = plotting(plot_extrapolated, range = range) + geom_point(
       data = points_ex,
@@ -780,7 +770,7 @@ generate_diagram = function(data,
     type = "pass",
     filter_type = "butter"
   )
-  plot_filtered = mhealth.clip(filtered, start_time, stop_time, "sensor")
+  plot_filtered = MIMSunit::clip_data(filtered, start_time, stop_time, "sensor")
   colnames(plot_filtered) = c('HEADER_TIME_STAMP', 'value')
   p4 = plotting(plot_filtered, plot_maxed_out_line = F)
   ggsave(
@@ -823,7 +813,7 @@ generate_diagram = function(data,
                              rectify = TRUE)
   second_count_value = counts[1, 2]
   minute_count_value = second_count_value * 60
-  plot_agg =  mhealth.clip(agg, start_time, stop_time, "sensor")
+  plot_agg =  MIMSunit::clip_data(agg, start_time, stop_time, "sensor")
   label1 = paste0("Area under curve: ", round(second_count_value, 2))
   label2 = paste0("Equiv. to ", round(minute_count_value, 1), ' MIMS-unit/min')
   p5 = plotting(plot_agg,

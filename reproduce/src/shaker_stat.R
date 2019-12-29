@@ -1,7 +1,5 @@
 require(plyr)
 require(dplyr)
-require(mhealthformatsupportr)
-require(mHealthR)
 
 shaker2 = readRDS("reproduce/extdata/shaker2.rds")
 shaker3 = readRDS("reproduce/extdata/shaker3.rds")

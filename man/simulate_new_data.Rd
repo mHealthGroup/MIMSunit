@@ -35,9 +35,11 @@ function \code{\link{cut_off_signal}}.
 
 \seealso{
 Other utility functions: 
+\code{\link{clip_data}()},
 \code{\link{cut_off_signal}()},
 \code{\link{interpolate_signal}()},
 \code{\link{parse_epoch_string}()},
-\code{\link{sampling_rate}()}
+\code{\link{sampling_rate}()},
+\code{\link{segment_data}()}
 }
 \concept{utility functions}

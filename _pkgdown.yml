@@ -52,11 +52,14 @@ reference:
       - cut_off_signal
       - interpolate_signal
       - simulate_new_data
+      - clip_data
+      - segment_data
   - title: "Visualization helper functions"
     desc: >
       Functions to help visualizing signals, intermediate results and MIMS-unit results.
     contents:
       - illustrate_signal
+      - illustrate_extrapolation
 
 development:
   mode: unreleased

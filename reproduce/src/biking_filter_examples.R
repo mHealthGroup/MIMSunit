@@ -20,7 +20,7 @@ filtered_biking_examples = biking_examples %>% ddply(.(ACTIVITY, LOCATION), func
   colnames(filtered_df) = c('HEADER_TIME_STAMP', 'X', 'Y', 'Z')
   st = filtered_df[1,1] + 30
   et = st + 15
-  filtered_df = mHealthR::mhealth.clip(filtered_df, start_time = st, stop_time = et, file_type = 'sensor')
+  filtered_df = MIMSunit::clip_data(filtered_df, start_time = st, stop_time = et)
   filtered_df$SR = sr
   filtered_df$GRANGE = rows$GRANGE[1]
   filtered_df$TYPE = rows$TYPE[1]
@@ -33,7 +33,7 @@ original_biking_examples = biking_examples %>% ddply(.(ACTIVITY, LOCATION), func
   st = df[1,1] + 30
   et = st + 15
   colnames(df) = c('HEADER_TIME_STAMP', 'X', 'Y', 'Z')
-  selected_df = mHealthR::mhealth.clip(df, start_time = st, stop_time = et, file_type = 'sensor')
+  selected_df = MIMSunit::clip_data(df, start_time = st, stop_time = et)
   selected_df$SR = sr
   selected_df$GRANGE = rows$GRANGE[1]
   selected_df$TYPE = rows$TYPE[1]

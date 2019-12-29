@@ -35,7 +35,7 @@ compute_orientation <- function(df, estimation_window = 2, unit = "deg")
 {
   sr <- sampling_rate(df)
   segmented_df <-
-    mHealthR::mhealth.segment(df, paste(estimation_window, "sec"), file_type = "sensor")
+    MIMSunit::segment_data(df, breaks=paste(estimation_window, "sec"))
   angles_df <-
     plyr::ddply(segmented_df, c("SEGMENT"), function(rows)
     {

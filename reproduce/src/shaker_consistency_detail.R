@@ -4,7 +4,6 @@ require(ggplot2)
 require(reshape2)
 require(doSNOW)
 require(SMARTcounts)
-require(mHealthR)
 
 shaker_experiments_clean = readRDS("reproduce/extdata/shakers_mims_algorithms.rds")
 acc_factor = 60 / 5;

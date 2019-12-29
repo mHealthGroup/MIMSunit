@@ -42,9 +42,11 @@ situation.
 
 \seealso{
 Other utility functions: 
+\code{\link{clip_data}()},
 \code{\link{interpolate_signal}()},
 \code{\link{parse_epoch_string}()},
 \code{\link{sampling_rate}()},
+\code{\link{segment_data}()},
 \code{\link{simulate_new_data}()}
 }
 \concept{utility functions}

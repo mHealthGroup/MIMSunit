@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Parse epoch string to the corresponding number of samples it represents. — parse_epoch_string • MIMSunit</title>
+<title>Clip dataframe to the given start and stop time — clip_data • MIMSunit</title>
 
 
 <!-- jquery -->
@@ -35,9 +35,9 @@
 
 
 
-<meta property="og:title" content="Parse epoch string to the corresponding number of samples it represents. — parse_epoch_string" />
-<meta property="og:description" content="parse_epoch_string parses the epoch string (e.g. &quot;1 min&quot;), and outputs
-the corresponding number of samples it represents." />
+<meta property="og:title" content="Clip dataframe to the given start and stop time — clip_data" />
+<meta property="og:description" content="clip_data clips the input sensor dataframe according to the given
+start and stop time" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -164,49 +164,57 @@ the corresponding number of samples it represents." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Parse epoch string to the corresponding number of samples it represents.</h1>
+    <h1>Clip dataframe to the given start and stop time</h1>
     <small class="dont-index">Source: <a href='https://github.com/mhealthgroup/MIMSunit/blob/master/R/helper.R'><code>R/helper.R</code></a></small>
-    <div class="hidden name"><code>parse_epoch_string.Rd</code></div>
+    <div class="hidden name"><code>clip_data.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>parse_epoch_string</code> parses the epoch string (e.g. "1 min"), and outputs
-the corresponding number of samples it represents.</p>
+    <p><code>clip_data</code> clips the input sensor dataframe according to the given
+start and stop time</p>
     </div>
 
-    <pre class="usage"><span class='fu'>parse_epoch_string</span>(<span class='no'>epoch_str</span>, <span class='no'>sr</span>)</pre>
+    <pre class="usage"><span class='fu'>clip_data</span>(<span class='no'>df</span>, <span class='no'>start_time</span>, <span class='no'>stop_time</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>epoch_str</th>
-      <td><p>string. The input epoch str as accepted by <code>breaks</code>
-argument of <code><a href='https://rdrr.io/r/base/cut.POSIXt.html'>cut.POSIXt</a></code>.</p></td>
+      <th>df</th>
+      <td><p>dataframe. Input dataframe of the multi-channel signal. The first
+column is the timestamps in POSXlct format and the following columns are
+accelerometer values.</p></td>
     </tr>
     <tr>
-      <th>sr</th>
-      <td><p>number. The sampling rate in Hz used to parse the epoch string.</p></td>
+      <th>start_time</th>
+      <td><p>POSXlct format or character. Start time for clipping.
+If it is a character, it should be recognizable by as.POSXlct function.</p></td>
+    </tr>
+    <tr>
+      <th>stop_time</th>
+      <td><p>POSXlct format or character. Stop time for clipping.
+If it is a character, it should be recognizable by as.POSXlct function.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>number. The number of samples represented by the epoch string.</p>
+    <p>dataframe. The same format as the input dataframe.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function parses the given epoch string (e.g. "5 secs") and outputs the
-corresponding number of samples represented by the epoch string.</p>
+    <p>This function accepts a dataframe of multi-channel signal, clips it
+according to the start_time and stop_time.</p>
     <h2 class="hasAnchor" id="how-is-it-used-in-mims-unit-algorithm-"><a class="anchor" href="#how-is-it-used-in-mims-unit-algorithm-"></a>How is it used in MIMS-unit algorithm?</h2>
 
-    <p>This function is used in
-  <code><a href='aggregate_for_mims.html'>aggregate_for_mims</a></code> function and <code><a href='mims_unit.html'>mims_unit</a></code> function.</p>
+    <p>This function is a utility
+  function that was used in various part in the algorithm whenever we need to
+  clip a dataframe.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other utility functions: 
-<code><a href='clip_data.html'>clip_data</a>()</code>,
 <code><a href='cut_off_signal.html'>cut_off_signal</a>()</code>,
 <code><a href='interpolate_signal.html'>interpolate_signal</a>()</code>,
+<code><a href='parse_epoch_string.html'>parse_epoch_string</a>()</code>,
 <code><a href='sampling_rate.html'>sampling_rate</a>()</code>,
 <code><a href='segment_data.html'>segment_data</a>()</code>,
 <code><a href='simulate_new_data.html'>simulate_new_data</a>()</code></p></div>

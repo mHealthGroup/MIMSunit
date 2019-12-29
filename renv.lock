@@ -443,18 +443,6 @@
       "Repository": "CRAN",
       "Hash": "796afeea047cda6bdb308d374a33eeb6"
     },
-    "mHealthR": {
-      "Package": "mHealthR",
-      "Version": "0.8.13",
-      "Source": "GitHub",
-      "RemoteType": "github",
-      "RemoteHost": "api.github.com",
-      "RemoteUsername": "qutang",
-      "RemoteRepo": "mHealthR",
-      "RemoteRef": "master",
-      "RemoteSha": "4b3fef1fa24249a1c3c09d9721cd1148ae5c98a4",
-      "Hash": "1b5c571a5be7a6d7a3854ee43865206a"
-    },
     "magrittr": {
       "Package": "magrittr",
       "Version": "1.5",
