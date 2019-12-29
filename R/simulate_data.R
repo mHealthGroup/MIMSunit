@@ -27,15 +27,12 @@
 #' @family utility functions
 #' @export
 cut_off_signal <- function(df,
-                        range = NULL,
-                        noise_std = 0.03)
-{
-  if (!is.null(range))
-  {
+                           range = NULL,
+                           noise_std = 0.03) {
+  if (!is.null(range)) {
     upper <- range[2]
     lower <- range[1]
-    crop_fun <- plyr::colwise(function(col_data)
-    {
+    crop_fun <- plyr::colwise(function(col_data) {
       col_data[col_data > upper] <-
         upper + stats::rnorm(sum(col_data > upper), 0, noise_std)
       col_data[col_data < lower] <-
@@ -70,14 +67,11 @@ cut_off_signal <- function(df,
 #' @param new_sr number. New sampling rate in Hz.
 #' @family utility functions
 #' @export
-simulate_new_data <- function(old_data, new_range, new_sr)
-{
-  if (sampling_rate(old_data) != new_sr)
-  {
+simulate_new_data <- function(old_data, new_range, new_sr) {
+  if (sampling_rate(old_data) != new_sr) {
     new_data <-
       interpolate_signal(old_data, method = "spline_natural", sr = new_sr)
-  } else
-  {
+  } else {
     new_data <- old_data
   }
   new_data <- cut_off_signal(new_data, range = new_range)

@@ -31,16 +31,13 @@
 #'
 #' @family transformation functions
 #' @export
-compute_orientation <- function(df, estimation_window = 2, unit = "deg")
-{
+compute_orientation <- function(df, estimation_window = 2, unit = "deg") {
   sr <- sampling_rate(df)
   segmented_df <-
-    MIMSunit::segment_data(df, breaks=paste(estimation_window, "sec"))
+    MIMSunit::segment_data(df, breaks = paste(estimation_window, "sec"))
   angles_df <-
-    plyr::ddply(segmented_df, c("SEGMENT"), function(rows)
-    {
-      if (nrow(rows) < sr * estimation_window * 0.8)
-      {
+    plyr::ddply(segmented_df, c("SEGMENT"), function(rows) {
+      if (nrow(rows) < sr * estimation_window * 0.8) {
         return(data.frame(
           ts = rows[1, 1],
           x = NaN,
@@ -49,10 +46,9 @@ compute_orientation <- function(df, estimation_window = 2, unit = "deg")
         ))
       }
       axis_means <- colMeans(rows[, 2:4])
-      gravity <- sqrt(sum(axis_means ^ 2))
+      gravity <- sqrt(sum(axis_means^2))
       angles <- acos(axis_means / gravity)
-      if (unit == "deg")
-      {
+      if (unit == "deg") {
         angles <- angles * 180 / pi
       }
       return(data.frame(
@@ -64,10 +60,12 @@ compute_orientation <- function(df, estimation_window = 2, unit = "deg")
     })
   mean_angles <- colMeans(angles_df[, 3:5], na.rm = TRUE)
   mean_angles_df <-
-    data.frame(ts = df[1, 1],
-               x = mean_angles[[1]],
-               y = mean_angles[[2]],
-               z = mean_angles[[3]])
+    data.frame(
+      ts = df[1, 1],
+      x = mean_angles[[1]],
+      y = mean_angles[[2]],
+      z = mean_angles[[3]]
+    )
   colnames(mean_angles_df) <-
     c("HEADER_TIME_STAMP", "X_ANGLE", "Y_ANGLE", "Z_ANGLE")
   return(mean_angles_df)

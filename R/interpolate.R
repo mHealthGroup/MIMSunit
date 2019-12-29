@@ -27,65 +27,64 @@ interpolate_signal <-
            method = "spline_natural",
            sr = 100,
            st = NULL,
-           et = NULL)
-  {
+           et = NULL) {
     time_zone <- lubridate::tz(df[1, 1])
     n_rows <- nrow(df)
-    if (is.null(st))
-    {
+    if (is.null(st)) {
       st <- df[[1]][1]
     }
-    if (is.null(et))
-    {
+    if (is.null(et)) {
       et <- df[[1]][n_rows]
     }
     n_cols <- ncol(df)
     x_out <- seq(from = st, to = et, by = 1 / sr)
     ts <- df[, 1]
     values <- df[2:n_cols]
-    result <- plyr::alply(values, .margins = 2, function(col_data)
-    {
-      col_name <- names(col_data)[1]
-      col_data <- col_data[[1]]
-      output <-
-        switch(
-          method,
-          linear = stats::approx(x = ts, y = col_data, xout = x_out),
-          spline_fmm = stats::spline(
-            x = ts,
-            y = col_data,
-            xout = x_out,
-            method = "fmm"
-          ),
-          spline_natural = stats::spline(
-            x = ts,
-            y = col_data,
-            xout = x_out,
-            method = "natural"
-          ),
-          aspline_original = akima::aspline(
-            x = ts,
-            y = col_data,
-            xout = x_out,
-            method = "original"
-          ),
-          spline_improved = stats::spline(
-            x = ts,
-            y = col_data,
-            xout = x_out,
-            method = "improved"
+    result <- plyr::alply(values,
+      .margins = 2, function(col_data) {
+        col_name <- names(col_data)[1]
+        col_data <- col_data[[1]]
+        output <-
+          switch(
+            method,
+            linear = stats::approx(x = ts, y = col_data, xout = x_out),
+            spline_fmm = stats::spline(
+              x = ts,
+              y = col_data,
+              xout = x_out,
+              method = "fmm"
+            ),
+            spline_natural = stats::spline(
+              x = ts,
+              y = col_data,
+              xout = x_out,
+              method = "natural"
+            ),
+            aspline_original = akima::aspline(
+              x = ts,
+              y = col_data,
+              xout = x_out,
+              method = "original"
+            ),
+            spline_improved = stats::spline(
+              x = ts,
+              y = col_data,
+              xout = x_out,
+              method = "improved"
+            )
           )
-        )
-      output <- data.frame(output)
-      colnames(output) <- c(colnames(df)[1], col_name)
-      return(output)
-    },
-    .progress = plyr::progress_text())
-    result <- Reduce(function(x, y)
-    {
-      return(merge(x, y, by = colnames(x)[1]))
-    },
-    result)
+        output <- data.frame(output)
+        colnames(output) <- c(colnames(df)[1], col_name)
+        return(output)
+      },
+      .progress = plyr::progress_text()
+    )
+    result <- Reduce(
+      function(x, y) {
+        return(merge(x, y, by = colnames(x)[1]))
+      },
+      result
+    )
     names(result[2:ncol(result)]) <-
       paste("INTERPOLATED", names(result[2:ncol(result)]), sep = "_")
     result[, 1] <-

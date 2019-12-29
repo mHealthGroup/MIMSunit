@@ -15,32 +15,34 @@
 #' @family Filo I/O functions
 #'
 #' @export
-import_mhealth_csv = function(filepath) {
-  tz_str = "+0000"
+import_mhealth_csv <- function(filepath) {
+  tz_str <- "+0000"
 
-  ncols = readr::count_fields(filepath, readr::tokenizer_csv(), skip = 0, n_max = 1L)
-  date_format = readr::col_datetime(format = "%Y-%m-%d %H:%M:%OS")
-  coltypes = list(date_format)
-  colheaders = c("HEADER_TIME_STAMP")
+  ncols <- readr::count_fields(filepath, readr::tokenizer_csv(), skip = 0, n_max = 1L)
+  date_format <- readr::col_datetime(format = "%Y-%m-%d %H:%M:%OS")
+  coltypes <- list(date_format)
+  colheaders <- c("HEADER_TIME_STAMP")
   for (i in 2:ncols) {
-    coltypes = append(coltypes, list(readr::col_double()))
+    coltypes <- append(coltypes, list(readr::col_double()))
   }
 
-  df = readr::read_csv(file = filepath,
-                       quoted_na = TRUE,
-                       col_types = coltypes)
+  df <- readr::read_csv(
+    file = filepath,
+    quoted_na = TRUE,
+    col_types = coltypes
+  )
   # convert factors back to characters
-  col_classes = sapply(1:ncols, function(i) {
+  col_classes <- sapply(1:ncols, function(i) {
     return(class(df[1, i]))
   })
-  factor_cols = which(col_classes == "factor")
-  df[, factor_cols] = as.character(df[, factor_cols])
+  factor_cols <- which(col_classes == "factor")
+  df[, factor_cols] <- as.character(df[, factor_cols])
 
   # enhance column headers
-  colnames(df)[1:length(colheaders)] = colheaders
-  colnames(df) = toupper(colnames(df))
+  colnames(df)[1:length(colheaders)] <- colheaders
+  colnames(df) <- toupper(colnames(df))
   options(digits.secs = 3)
-  df = data.frame(df, stringsAsFactors = FALSE)
+  df <- data.frame(df, stringsAsFactors = FALSE)
 
   return(df)
 }
@@ -72,13 +74,11 @@ import_mhealth_csv = function(filepath) {
 #' @family Filo I/O functions
 #'
 #' @export
-import_activpal3_csv <- function(filepath, header = FALSE)
-{
+import_activpal3_csv <- function(filepath, header = FALSE) {
   ncols <-
     readr::count_fields(filepath, readr::tokenizer_csv(), n_max = 1)
   col_types <- paste(rep("d", ncols), collapse = "")
-  if (header)
-  {
+  if (header) {
     dat <-
       readr::read_csv(
         filepath,
@@ -86,8 +86,7 @@ import_activpal3_csv <- function(filepath, header = FALSE)
         trim_ws = TRUE,
         col_types = col_types
       )
-  } else
-  {
+  } else {
     dat <-
       readr::read_csv(
         filepath,
@@ -102,7 +101,7 @@ import_activpal3_csv <- function(filepath, header = FALSE)
     as.POSIXct(dat[["HEADER_TIME_STAMP"]] * 60 * 60 * 24, origin = "1899-12-30", tz = "GMT")
   dat["HEADER_TIME_STAMP"] <-
     lubridate::force_tz(dat["HEADER_TIME_STAMP"], tzone = Sys.timezone())
-  dat[2:4] <- (dat[2:4] - 127) / 2 ^ 8 * 4
+  dat[2:4] <- (dat[2:4] - 127) / 2^8 * 4
   options(digits.secs = 3)
   dat <- as.data.frame(dat)
   return(dat)
@@ -146,26 +145,23 @@ import_actigraph_csv <-
   function(filepath,
            in_voltage = FALSE,
            has_ts = TRUE,
-           header = TRUE)
-  {
+           header = TRUE) {
     actigraph_meta <- import_actigraph_meta(filepath)
 
     ncols <-
       readr::count_fields(filepath,
-                          readr::tokenizer_csv(),
-                          n_max = 1,
-                          skip = 11)
-    if (has_ts)
-    {
+        readr::tokenizer_csv(),
+        n_max = 1,
+        skip = 11
+      )
+    if (has_ts) {
       col_types <- paste(c("c", rep("d", ncols - 1)), collapse = "")
-    } else
-    {
+    } else {
       col_types <- paste(rep("d", ncols), collapse = "")
     }
 
 
-    if (header)
-    {
+    if (header) {
       dat <-
         readr::read_csv(
           filepath,
@@ -174,8 +170,7 @@ import_actigraph_csv <-
           trim_ws = TRUE,
           col_types = col_types
         )
-    } else
-    {
+    } else {
       dat <-
         readr::read_csv(
           filepath,
@@ -186,12 +181,13 @@ import_actigraph_csv <-
         )
     }
 
-    if (!has_ts)
-    {
+    if (!has_ts) {
       ts_col <-
-        seq(from = actigraph_meta$st,
-            to = actigraph_meta$dt,
-            length.out = nrow(dat))
+        seq(
+          from = actigraph_meta$st,
+          to = actigraph_meta$dt,
+          length.out = nrow(dat)
+        )
       dat <- cbind(ts_col, dat)
     }
 
@@ -199,12 +195,12 @@ import_actigraph_csv <-
 
     names(dat) <- c("HEADER_TIME_STAMP", "X", "Y", "Z")
 
-    if (has_ts)
-    {
+    if (has_ts) {
       time_format <-
         ifelse(test = actigraph_meta$imu,
-               yes = "%Y-%m-%dT%H:%M:%OS",
-               no = "%m/%d/%Y %H:%M:%OS")
+          yes = "%Y-%m-%dT%H:%M:%OS",
+          no = "%m/%d/%Y %H:%M:%OS"
+        )
       dat[["HEADER_TIME_STAMP"]] <-
         strptime(x = dat[["HEADER_TIME_STAMP"]], format = time_format) + 5e-04
     }
@@ -212,16 +208,14 @@ import_actigraph_csv <-
     options(digits.secs = 3)
     dat <- as.data.frame(dat)
 
-    if (in_voltage)
-    {
+    if (in_voltage) {
       vs <- actigraph_meta$vs
       res <- actigraph_meta$res
 
       dat[, 2:ncol(dat)] <-
-        (dat[, 2:ncol(dat)] * vs / (2 ^ res) - vs / 2) / (vs / res)
+        (dat[, 2:ncol(dat)] * vs / (2^res) - vs / 2) / (vs / res)
       dat[, 2:ncol(dat)] <-
-        as.data.frame(apply(dat[, 2:ncol(dat)], 2, function(col)
-        {
+        as.data.frame(apply(dat[, 2:ncol(dat)], 2, function(col) {
           col[col == -5] <- 0
           return(as.numeric(col))
         }))
@@ -261,32 +255,33 @@ import_actigraph_csv <-
 import_actigraph_count_csv <-
   function(filepath,
            count_col = 2,
-           count_per_axis_cols = c(2, 3, 4))
-  {
+           count_per_axis_cols = c(2, 3, 4)) {
     dat <-
-      utils::read.csv(file = filepath,
-               header = TRUE,
-               stringsAsFactors = FALSE)
+      utils::read.csv(
+        file = filepath,
+        header = TRUE,
+        stringsAsFactors = FALSE
+      )
     dat[, 1] <-
       as.POSIXct(dat[, 1],
-                 format = "%Y-%m-%d %H:%M:%OS",
-                 tz = "UTC")
+        format = "%Y-%m-%d %H:%M:%OS",
+        tz = "UTC"
+      )
 
-    result = dat[, 1]
-    colnames(result) = c('HEADER_TIME_STAMP')
+    result <- dat[, 1]
+    colnames(result) <- c("HEADER_TIME_STAMP")
 
-    if ( ~ is.null(count_col))
-    {
+    if (~ is.null(count_col)) {
       count_value <- dat[, count_col]
     } else if (is.null(count_col) & ~ is.null(count_per_axis_cols)) {
-      count_value <- sqrt(rowSums(dat[, count_per_axis_cols] ^ 2))
+      count_value <- sqrt(rowSums(dat[, count_per_axis_cols]^2))
     }
 
     result["ACTIGRAPH_COUNT"] <- count_value
-    axes_names = c('X', 'Y', 'Z')
-    if ( ~ is.null(count_per_axis_cols)) {
+    axes_names <- c("X", "Y", "Z")
+    if (~ is.null(count_per_axis_cols)) {
       for (i in count_per_axis_cols) {
-        result[paste("ACTIGRAPH_COUNT_", axes_names[i], sep = "")] = dat[, i]
+        result[paste("ACTIGRAPH_COUNT_", axes_names[i], sep = "")] <- dat[, i]
       }
     }
     return(result)
@@ -311,17 +306,17 @@ import_actigraph_count_csv <-
 #'
 #' @family Filo I/O functions
 #' @export
-import_enmo_csv <- function(filepath, enmo_col = 2)
-{
+import_enmo_csv <- function(filepath, enmo_col = 2) {
   dat <- readr::read_csv(filepath, col_names = TRUE)
   dat <- data.frame(dat)
-  dat <- dat[,c(1, enmo_col)]
+  dat <- dat[, c(1, enmo_col)]
   dat[, 1] <-
     as.POSIXct(dat[, 1],
-               format = "%Y-%m-%d %H:%M:%OS",
-               tz = Sys.timezone())
+      format = "%Y-%m-%d %H:%M:%OS",
+      tz = Sys.timezone()
+    )
   result <- dat
-  colnames(result) <- c("HEADER_TIME_STAMP", 'ENMO')
+  colnames(result) <- c("HEADER_TIME_STAMP", "ENMO")
   return(result)
 }
 
@@ -355,8 +350,7 @@ import_enmo_csv <- function(filepath, enmo_col = 2)
 #' @return list. A list of Actigraph device meta information.
 #' @family Filo I/O functions
 #' @export
-import_actigraph_meta <- function(filepath, header = TRUE)
-{
+import_actigraph_meta <- function(filepath, header = TRUE) {
   ACTIGRAPH_HEADER_SR_PATTERN <- "([0-9]+) Hz"
   ACTIGRAPH_FIRMWARE_PATTERN <- "Firmware v([0-9]+.[0-9]+.[0-9]+)"
   ACTIGRAPH_SOFTWARE_PATTERN <- "ActiLife v([0-9]+.[0-9]+.[0-9]+)"
@@ -402,16 +396,13 @@ import_actigraph_meta <- function(filepath, header = TRUE)
   )
 
   # IMU or not
-  if (stringr::str_detect(headlines[[1]], "IMU"))
-  {
+  if (stringr::str_detect(headlines[[1]], "IMU")) {
     imu <- TRUE
-  } else
-  {
+  } else {
     imu <- FALSE
   }
 
-  if (imu)
-  {
+  if (imu) {
     gr <- "16"
   }
 
@@ -438,15 +429,12 @@ import_actigraph_meta <- function(filepath, header = TRUE)
   time_format <- ACTIGRAPH_TIMESTAMP
   dt <- strptime(dt, time_format) + 5e-04
   options(digits.secs = 3)
-  if (is.na(sr))
-  {
+  if (is.na(sr)) {
     # determine sr by start and download time options(digits = 13)
     duration <- as.numeric(dt - st, units = "secs")
-    if (header)
-    {
+    if (header) {
       nlines <- R.utils::countLines(filepath) - 11
-    } else
-    {
+    } else {
       nlines <- R.utils::countLines(filepath) - 10
     }
     sr <- as.numeric(ceiling(nlines / duration))

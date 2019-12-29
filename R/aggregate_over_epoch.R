@@ -41,18 +41,15 @@ aggregate_for_mims <-
   function(df,
            epoch,
            method = "trapz",
-           rectify = TRUE)
-  {
+           rectify = TRUE) {
     time_zone <- lubridate::tz(df[1, 1])
     n_cols <- ncol(df)
 
     # parse input argument epoch
-    if (missing(epoch) || is.null(epoch))
-    {
+    if (missing(epoch) || is.null(epoch)) {
       df$SEGMENT <- 1
-    } else
-    {
-      df <- MIMSunit::segment_data(df, breaks=epoch)
+    } else {
+      df <- MIMSunit::segment_data(df, breaks = epoch)
     }
 
     # get the number of samples in each epoch
@@ -60,22 +57,17 @@ aggregate_for_mims <-
       parse_epoch_string(epoch_str = epoch, sr = sampling_rate(df))
 
     # iterate over each value column
-    result <- plyr::ddply(df, c("SEGMENT"), function(rows)
-    {
+    result <- plyr::ddply(df, c("SEGMENT"), function(rows) {
       rows[, 1] <- as.numeric(rows[, 1])
       rows <- stats::na.omit(rows)
 
       # do integration if there are enough (90%) number of samples
-      if (nrow(rows) >= 0.9 * n_threshold)
-      {
+      if (nrow(rows) >= 0.9 * n_threshold) {
         # do rectification if rectify is TRUE
-        if (rectify)
-        {
-          rows[2:n_cols] <- (plyr::numcolwise(function(col_data)
-          {
+        if (rectify) {
+          rows[2:n_cols] <- (plyr::numcolwise(function(col_data) {
             col_data[col_data > -150] <- abs(col_data[col_data > -150])
-            if (any(col_data < 0))
-            {
+            if (any(col_data < 0)) {
               col_data <- rep(-200, length(col_data))
             }
             return(col_data)
@@ -83,37 +75,33 @@ aggregate_for_mims <-
         }
 
         # select different methods for integration
-        if (method == "trapz")
-        {
+        if (method == "trapz") {
           auc_values <-
             (plyr::numcolwise(caTools::trapz, x = rows[, 1]))(rows[2:n_cols])
           max_values <- 16 * n_threshold
-        } else if (method == "power")
-        {
+        } else if (method == "power") {
           auc_values <-
             (plyr::numcolwise(caTools::trapz,
-                              x = rows[, 1]))(as.data.frame(rows[2:n_cols] ^ 2))
-          max_values <- 16 ^ 2 * n_threshold
-        } else if (method == "mean_by_time")
-        {
+              x = rows[, 1]
+            ))(as.data.frame(rows[2:n_cols]^2))
+          max_values <- 16^2 * n_threshold
+        } else if (method == "mean_by_time") {
           auc_values <-
             (plyr::numcolwise(sum))(rows[2:n_cols]) /
-            (max(rows[, 1]) - min(rows[, 1]))
+              (max(rows[, 1]) - min(rows[, 1]))
           max_values <- 16 * n_threshold / 32
-        } else if (method == "mean_by_size")
-        {
+        } else if (method == "mean_by_size") {
           auc_values <-
             (plyr::numcolwise(sum))(rows[2:n_cols]) / length(rows[, 1])
           max_values <- 16
-        } else if (method == "sum")
-        {
+        } else if (method == "sum") {
           auc_values <- (plyr::numcolwise(sum))(rows[2:n_cols])
           max_values <- 16 * nrow(rows)
         }
-      } else
-      {
-        auc_values <- as.data.frame(lapply(rows, function(x)
-          rep.int(-1, 1)))
+      } else {
+        auc_values <- as.data.frame(lapply(rows, function(x) {
+          rep.int(-1, 1)
+        }))
         auc_values <- auc_values[2:n_cols]
         max_values <- 0
       }
@@ -184,18 +172,15 @@ aggregate_for_orientation <-
   function(df,
            epoch,
            estimation_window = 2,
-           unit = "deg")
-  {
+           unit = "deg") {
     time_zone <- lubridate::tz(df[1, 1])
     n_cols <- ncol(df)
 
     # parse input argument epoch
-    if (missing(epoch) || is.null(epoch))
-    {
+    if (missing(epoch) || is.null(epoch)) {
       df$SEGMENT <- 1
-    } else
-    {
-      df <- MIMSunit::segment_data(df, breaks=epoch)
+    } else {
+      df <- MIMSunit::segment_data(df, breaks = epoch)
     }
 
     # get the desired number of samples in each epoch
@@ -203,19 +188,17 @@ aggregate_for_orientation <-
       parse_epoch_string(epoch_str = epoch, sr = sampling_rate(df))
 
     # iterate over each column
-    result <- plyr::ddply(df, c("SEGMENT"), function(rows)
-    {
+    result <- plyr::ddply(df, c("SEGMENT"), function(rows) {
       rows <- stats::na.omit(rows)
 
       # Do estimation if there are enough samples in the epoch
-      if (nrow(rows) >= 0.9 * n_threshold)
-      {
+      if (nrow(rows) >= 0.9 * n_threshold) {
         ori_values <-
           compute_orientation(rows[, 1:n_cols],
-                              estimation_window = estimation_window,
-                              unit = unit)
-      } else
-      {
+            estimation_window = estimation_window,
+            unit = unit
+          )
+      } else {
         ori_values <-
           data.frame(
             HEADER_TIME_STAMP = rows[1, 1],

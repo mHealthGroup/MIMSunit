@@ -3,6 +3,9 @@
 ## Bug fixes
 
 * Fix missing "testthat" dependency
+
+## Breaking changes
+
 * Remove dependency on "mHealthR" package
 
 # MIMSunit 0.6.2

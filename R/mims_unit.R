@@ -127,13 +127,15 @@ sensor_orientations <-
            after_df = NULL,
            epoch = "5 sec",
            dynamic_range) {
-    ori_df <- custom_mims_unit(df = df,
-                               epoch = epoch,
-                               dynamic_range = dynamic_range,
-                               output_orientation_estimation = TRUE,
-                               epoch_for_orientation_estimation = epoch,
-                               before_df = before_df,
-                               after_df = after_df)[[2]]
+    ori_df <- custom_mims_unit(
+      df = df,
+      epoch = epoch,
+      dynamic_range = dynamic_range,
+      output_orientation_estimation = TRUE,
+      epoch_for_orientation_estimation = epoch,
+      before_df = before_df,
+      after_df = after_df
+    )[[2]]
     return(ori_df)
   }
 
@@ -253,30 +255,25 @@ custom_mims_unit <-
            output_orientation_estimation = FALSE,
            epoch_for_orientation_estimation = NULL,
            before_df = NULL,
-           after_df = NULL)
-  {
+           after_df = NULL) {
     # save the start and stop time of original df
     start_time <- lubridate::floor_date(df[1, 1], unit = "seconds")
     stop_time <-
       lubridate::floor_date(df[nrow(df), 1], unit = "seconds")
 
     # concatenate with before and after df
-    if (is.data.frame(before_df))
-    {
+    if (is.data.frame(before_df)) {
       df <- rbind(before_df, df)
     }
-    if (is.data.frame(after_df))
-    {
+    if (is.data.frame(after_df)) {
       df <- rbind(df, after_df)
     }
 
     # apply extrapolation algorithm
-    if (use_extrapolation)
-    {
+    if (use_extrapolation) {
       extrapolated_data <-
         extrapolate(df, dynamic_range, noise_level, k, spar)
-    } else
-    {
+    } else {
       extrapolated_data <-
         interpolate_signal(df, sr = 100, method = "linear")
     }
@@ -291,14 +288,12 @@ custom_mims_unit <-
       row_abnormal <- row_abnormal | resampled_data[[i]] < -150
     }
 
-    abnormal_data <- resampled_data[row_abnormal,]
-    normal_data <- resampled_data[!row_abnormal,]
+    abnormal_data <- resampled_data[row_abnormal, ]
+    normal_data <- resampled_data[!row_abnormal, ]
 
     # Apply filter cascade
-    if (use_filtering)
-    {
-      if (filter_type == "butter")
-      {
+    if (use_filtering) {
+      if (filter_type == "butter") {
         filtered_data <-
           iir(
             normal_data,
@@ -308,8 +303,7 @@ custom_mims_unit <-
             type = "pass",
             filter_type = "butter"
           )
-      } else if (filter_type == "bessel")
-      {
+      } else if (filter_type == "bessel") {
         filtered_data <- remove_average(normal_data, sr = sr, order = 0.5)
         filtered_data <- filtered_data[[1]]
         filtered_data <-
@@ -319,8 +313,7 @@ custom_mims_unit <-
             cutoff_freq = cutoffs[2] * 2,
             order = 8
           )
-      } else if (filter_type == "ellip")
-      {
+      } else if (filter_type == "ellip") {
         filtered_data <-
           iir(
             normal_data,
@@ -331,8 +324,7 @@ custom_mims_unit <-
             filter_type = "ellip"
           )
       }
-    } else
-    {
+    } else {
       filtered_data <- normal_data
     }
 
@@ -343,17 +335,15 @@ custom_mims_unit <-
       filtered_data[order(filtered_data$HEADER_TIME_STAMP), ]
 
     # Compute orientations
-    if (output_orientation_estimation)
-    {
-      if (is.null(epoch_for_orientation_estimation))
-      {
+    if (output_orientation_estimation) {
+      if (is.null(epoch_for_orientation_estimation)) {
         epoch_for_orientation_estimation <- epoch
       }
       orientation_data <-
         aggregate_for_orientation(resampled_data,
-                                  epoch = epoch_for_orientation_estimation)
-    } else
-    {
+          epoch = epoch_for_orientation_estimation
+        )
+    } else {
       orientation_data <- NULL
     }
 
@@ -366,16 +356,14 @@ custom_mims_unit <-
         rectify = TRUE
       )
 
-    if (allow_truncation)
-    {
+    if (allow_truncation) {
       truncate_indices <-
         integrated_data[, 2:ncol(integrated_data)] > 0 &
-        (integrated_data[, 2:ncol(integrated_data)] <=
-           (1e-04 * parse_epoch_string(epoch, sr)))
+          (integrated_data[, 2:ncol(integrated_data)] <=
+            (1e-04 * parse_epoch_string(epoch, sr)))
       truncate_indices <- data.frame(truncate_indices)
       integrated_data[, 2:ncol(integrated_data)] <-
-        sapply(1:(ncol(integrated_data) - 1), function(n)
-        {
+        sapply(1:(ncol(integrated_data) - 1), function(n) {
           integrated_data[truncate_indices[, n], n + 1] <- 0
           return(integrated_data[, n + 1])
         })
@@ -387,26 +375,22 @@ custom_mims_unit <-
     {
       row_abnormal <- row_abnormal | integrated_data[[i]] < 0
     }
-    if (combination == "vm")
+    if (combination == "vm") {
       mims_data <-
-      vector_magnitude(integrated_data, axes = axes)
-    else if (combination == "sum")
-    {
+        vector_magnitude(integrated_data, axes = axes)
+    } else if (combination == "sum") {
       mims_data <- sum_up(integrated_data, axes = axes)
-    } else
-    {
+    } else {
       mims_data <- sum_up(integrated_data, axes = axes)
     }
 
-    if (output_mims_per_axis)
-    {
+    if (output_mims_per_axis) {
       mims_data <-
         cbind(mims_data, integrated_data[, 2:ncol(integrated_data)])
       colnames(mims_data)[2:ncol(mims_data)] <-
         c("MIMS_UNIT", "MIMS_UNIT_X", "MIMS_UNIT_Y", "MIMS_UNIT_Z")
       mims_data[row_abnormal, c(2, 3, 4, 5)] <- -0.01
-    } else
-    {
+    } else {
       colnames(mims_data)[2] <- "MIMS_UNIT"
       mims_data[row_abnormal, 2] <- -0.01
     }
@@ -417,11 +401,9 @@ custom_mims_unit <-
       mims_data[[1]] >= start_time & mims_data[[1]] < stop_time
     mims_data <- mims_data[keep_mask, ]
 
-    if (output_orientation_estimation)
-    {
+    if (output_orientation_estimation) {
       return(list(mims = mims_data, orientation = orientation_data))
-    } else
-    {
+    } else {
       return(mims_data)
     }
   }

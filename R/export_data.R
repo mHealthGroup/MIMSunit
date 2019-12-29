@@ -32,8 +32,7 @@ export_to_actilife <-
   function(df,
            filepath,
            actilife_version = "6.13.3",
-           firmware_version = "1.6.0")
-  {
+           firmware_version = "1.6.0") {
     sr <- sampling_rate(df)
     start_time <-
       strftime(df[1, 1], format = "%H:%M:%S", tz = "UTC")
@@ -70,11 +69,15 @@ export_to_actilife <-
     actigraph_meta <-
       c(actigraph_meta, paste0("Current Memory Address 0"))
     actigraph_meta <-
-      c(actigraph_meta,
-        paste0("Current Battery Voltage: 4.19     Mode = 12"))
+      c(
+        actigraph_meta,
+        paste0("Current Battery Voltage: 4.19     Mode = 12")
+      )
     actigraph_meta <-
-      c(actigraph_meta,
-        paste0("--------------------------------------------------"))
+      c(
+        actigraph_meta,
+        paste0("--------------------------------------------------")
+      )
     actigraph_meta <-
       c(
         actigraph_meta,

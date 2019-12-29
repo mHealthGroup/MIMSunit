@@ -4,13 +4,13 @@ library(plyr)
 library(dplyr)
 
 # load preprocessed dataset from the other dataset repository
-input_data = data.frame(
+input_data <- data.frame(
   readr::read_csv(
     "../MIMSunit-dataset-shaker/data/DerivedCrossParticipants/counts.feature.csv"
   )
 )
 
-cv_different_algorithms = input_data %>%
+cv_different_algorithms <- input_data %>%
   filter(.data$DEVICE != "Activpal") %>% # Do not count ActivPal as it does not work with Actigraph counts
   ddply(
     c("TYPE", "HZ"),

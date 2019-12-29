@@ -23,8 +23,7 @@
 #'   the errors caused by signal maxing out (during over extrapolation).
 #' @family extrapolation related functions
 #' @export
-extrapolate_rate <- function(test_df, true_df, extrap_df)
-{
+extrapolate_rate <- function(test_df, true_df, extrap_df) {
   true_auc <- caTools::trapz(true_df[[1]], abs(true_df[[2]]))
   test_auc <- caTools::trapz(test_df[[1]], abs(test_df[[2]]))
   extrapolated_auc <-

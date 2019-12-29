@@ -30,29 +30,36 @@ illustrate_signal <- function(data,
                               plot_title = T) {
   if (!requireNamespace("ggplot2", quietly = TRUE)) {
     stop("Package \"ggplot2\" needed for this function to work. Please install it.",
-         call. = FALSE)
+      call. = FALSE
+    )
   }
-  colnames(data) = c('HEADER_TIME_STAMP', 'value')
-  p = ggplot2::ggplot(data = data,
-                      ggplot2::aes(x = HEADER_TIME_STAMP, y = value))
+  colnames(data) <- c("HEADER_TIME_STAMP", "value")
+  p <- ggplot2::ggplot(
+    data = data,
+    ggplot2::aes(x = HEADER_TIME_STAMP, y = value)
+  )
   if (plot_line) {
-    p = p + ggplot2::geom_line(size = line_size)
+    p <- p + ggplot2::geom_line(size = line_size)
   }
   if (plot_point) {
-    p = p + ggplot2::geom_point(size = point_size)
+    p <- p + ggplot2::geom_point(size = point_size)
   }
   if (plot_maxed_out_line) {
-    p = p + ggplot2::geom_hline(yintercept = range[1],
-                                size = 0.3,
-                                linetype = 'dashed')
-    p = p + ggplot2::geom_hline(yintercept = range[2],
-                                size = 0.3,
-                                linetype = 'dashed')
+    p <- p + ggplot2::geom_hline(
+      yintercept = range[1],
+      size = 0.3,
+      linetype = "dashed"
+    )
+    p <- p + ggplot2::geom_hline(
+      yintercept = range[2],
+      size = 0.3,
+      linetype = "dashed"
+    )
   }
   if (plot_origin) {
-    p = p + ggplot2::geom_hline(yintercept = 0, size = 0.1)
+    p <- p + ggplot2::geom_hline(yintercept = 0, size = 0.1)
   }
-  p = p + ggplot2::theme_bw(base_size = 12) + ggplot2::theme(
+  p <- p + ggplot2::theme_bw(base_size = 12) + ggplot2::theme(
     panel.grid.major = ggplot2::element_blank(),
     panel.grid.minor = ggplot2::element_blank(),
     axis.title.x = ggplot2::element_blank(),
@@ -98,7 +105,7 @@ illustrate_extrapolation <-
            fitted_line_df = NULL,
            show_extrapolated_points_and_lines = T) {
     if (is.null(between_neighbor_df)) {
-      p = MIMSunit::illustrate_signal(
+      p <- MIMSunit::illustrate_signal(
         df[, 1:2],
         point_size = 1,
         plot_line = F,
@@ -107,7 +114,7 @@ illustrate_extrapolation <-
         plot_title = T
       )
     } else {
-      p = MIMSunit::illustrate_signal(
+      p <- MIMSunit::illustrate_signal(
         between_neighbor_df[, 1:2],
         point_size = 1,
         plot_line = F,
@@ -120,7 +127,7 @@ illustrate_extrapolation <-
       )
       if (show_neighbors) {
         if (!is.null(left_neighbors_df)) {
-          p = p +
+          p <- p +
             ggplot2::geom_point(
               data = left_neighbors_df,
               ggplot2::aes(x = left_neighbors_df[, 1], y = left_neighbors_df[, 2]),
@@ -129,7 +136,7 @@ illustrate_extrapolation <-
             )
         }
         if (!is.null(right_neighbors_df)) {
-          p = p +
+          p <- p +
             ggplot2::geom_point(
               data = right_neighbors_df,
               ggplot2::aes(x = right_neighbors_df[, 1], y = right_neighbors_df[, 2]),
@@ -140,7 +147,7 @@ illustrate_extrapolation <-
       }
       if (show_extrapolated_points_and_lines) {
         if (!is.null(extrap_points_df)) {
-          p = p +
+          p <- p +
             ggplot2::geom_point(
               data = extrap_points_df,
               ggplot2::aes(x = extrap_points_df[, 1], y = extrap_points_df[, 2]),
@@ -150,20 +157,20 @@ illustrate_extrapolation <-
             ggplot2::geom_vline(
               xintercept = as.numeric(extrap_points_df[, 1]),
               size = 0.3,
-              linetype = 'dotted'
+              linetype = "dotted"
             )
         }
 
         if (!is.null(fitted_line_df)) {
-          indices = unique(fitted_line_df$index)
+          indices <- unique(fitted_line_df$index)
           for (i in indices) {
-            left_fit_line_df = fitted_line_df[fitted_line_df$index == i &
-                                                fitted_line_df$type == 'left_line', c(1, 2)]
-            right_fit_line_df = fitted_line_df[fitted_line_df$index == i &
-                                                 fitted_line_df$type == 'right_line', c(1, 2)]
-            colnames(left_fit_line_df) = c('HEADER_TIME_STAMP', 'value')
-            colnames(right_fit_line_df) = c('HEADER_TIME_STAMP', 'value')
-            p = p + ggplot2::geom_line(
+            left_fit_line_df <- fitted_line_df[fitted_line_df$index == i &
+              fitted_line_df$type == "left_line", c(1, 2)]
+            right_fit_line_df <- fitted_line_df[fitted_line_df$index == i &
+              fitted_line_df$type == "right_line", c(1, 2)]
+            colnames(left_fit_line_df) <- c("HEADER_TIME_STAMP", "value")
+            colnames(right_fit_line_df) <- c("HEADER_TIME_STAMP", "value")
+            p <- p + ggplot2::geom_line(
               data = left_fit_line_df,
               ggplot2::aes(x = HEADER_TIME_STAMP, y = value),
               size = 0.5

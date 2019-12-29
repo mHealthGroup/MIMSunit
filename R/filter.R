@@ -21,8 +21,7 @@
 #' @family filtering functions
 #' @export
 #'
-remove_average <- function(df, sr, order = 0.5)
-{
+remove_average <- function(df, sr, order = 0.5) {
   n_cols <- ncol(df)
 
   window <- round(order * sr)
@@ -32,8 +31,7 @@ remove_average <- function(df, sr, order = 0.5)
   a <- 1
 
   col_filter <- plyr::colwise(
-    .fun = function(x, filt, a)
-    {
+    .fun = function(x, filt, a) {
       filtered <- signal::filter(filt, a, x)
       result <- as.numeric(filtered)
       return(result)
@@ -72,19 +70,19 @@ remove_average <- function(df, sr, order = 0.5)
 #' @return dataframe. Filtered signal.
 #' @family filtering functions
 #' @export
-bessel <- function(df, sr, cutoff_freq, order = 8)
-{
+bessel <- function(df, sr, cutoff_freq, order = 8) {
   # real bessel filter design based on the implementation of matlab
   arma_coeffs <-
-    .besself(sr = sr,
-             cutoff_freq = cutoff_freq,
-             order = order)
+    .besself(
+      sr = sr,
+      cutoff_freq = cutoff_freq,
+      order = order
+    )
 
   n_cols <- ncol(df)
 
   col_filter <- plyr::colwise(
-    .fun = function(x, filt)
-    {
+    .fun = function(x, filt) {
       filtered <- signal::filter(filt, x)
       return(as.numeric(filtered))
     },
@@ -141,27 +139,31 @@ iir <-
            cutoff_freq,
            order = 4,
            type = "high",
-           filter_type = "butter")
-  {
+           filter_type = "butter") {
     nyquist <- sr / 2
 
     coeffs <-
       switch(
         filter_type,
         butter = signal::butter(order, cutoff_freq / nyquist, type),
-        chebyI = signal::cheby1(order, 0.05, W = cutoff_freq / nyquist,
-                                type, plane = "z"),
-        chebyII = signal::cheby2(order, 0.05, W = cutoff_freq / nyquist,
-                                 type, plane = "z"),
+        chebyI = signal::cheby1(order, 0.05,
+          W = cutoff_freq / nyquist,
+          type, plane = "z"
+        ),
+        chebyII = signal::cheby2(order, 0.05,
+          W = cutoff_freq / nyquist,
+          type, plane = "z"
+        ),
         ellip = signal::ellip(order, 0.05,
-                              50, W = cutoff_freq / nyquist, type, plane = "z")
+          50,
+          W = cutoff_freq / nyquist, type, plane = "z"
+        )
       )
 
     n_cols <- ncol(df)
 
     col_filter <- plyr::colwise(
-      .fun = function(x, filt, a)
-      {
+      .fun = function(x, filt, a) {
         filtered <- signal::filter(filt, a, x)
         result <- as.numeric(filtered)
         return(result)
@@ -200,13 +202,11 @@ iir <-
 #' @family filtering functions
 #' @export
 #'
-bandlimited_interp <- function(df, orig_sr, new_sr)
-{
+bandlimited_interp <- function(df, orig_sr, new_sr) {
   n_cols <- ncol(df)
 
   col_filter <- plyr::colwise(
-    .fun = function(x)
-    {
+    .fun = function(x) {
       resampled <-
         as.numeric(signal::resample(x, p = new_sr, q = orig_sr))
     }
@@ -224,18 +224,14 @@ bandlimited_interp <- function(df, orig_sr, new_sr)
 }
 
 
-.besselap <- function(n)
-{
+.besselap <- function(n) {
   z <- c()
   k <- 1
-  if (n == 0)
-  {
+  if (n == 0) {
     p <- c()
-  } else if (n == 1)
-  {
+  } else if (n == 1) {
     p <- c(-1)
-  } else if (n == 2)
-  {
+  } else if (n == 2) {
     p <-
       c(
         complex(real = -0.866025403784439, imaginary = 0.5),
@@ -244,8 +240,7 @@ bandlimited_interp <- function(df, orig_sr, new_sr)
           imaginary = -0.5
         )
       )
-  } else if (n == 3)
-  {
+  } else if (n == 3) {
     p <-
       c(
         -0.941600026533207,
@@ -255,8 +250,7 @@ bandlimited_interp <- function(df, orig_sr, new_sr)
         ),
         complex(real = -0.745640385848077, imaginary = 0.711366624972835)
       )
-  } else if (n == 4)
-  {
+  } else if (n == 4) {
     p <-
       c(
         complex(
@@ -270,8 +264,7 @@ bandlimited_interp <- function(df, orig_sr, new_sr)
         ),
         complex(real = -0.904758796788245, imaginary = 0.270918733003875)
       )
-  } else if (n == 5)
-  {
+  } else if (n == 5) {
     p <-
       c(
         -0.92644207738776,
@@ -286,8 +279,7 @@ bandlimited_interp <- function(df, orig_sr, new_sr)
         ),
         complex(real = -0.590575944611919, imaginary = 0.907206756457455)
       )
-  } else if (n == 6)
-  {
+  } else if (n == 6) {
     p <-
       c(
         complex(
@@ -306,8 +298,7 @@ bandlimited_interp <- function(df, orig_sr, new_sr)
         ),
         complex(real = -0.538552681669311, imaginary = 0.961687688195428)
       )
-  } else if (n == 7)
-  {
+  } else if (n == 7) {
     p <-
       c(
         -0.919487155649029,
@@ -327,8 +318,7 @@ bandlimited_interp <- function(df, orig_sr, new_sr)
         ),
         complex(real = -0.496691725667232, imaginary = 1.00250850845442)
       )
-  } else if (n == 8)
-  {
+  } else if (n == 8) {
     p <-
       c(
         complex(
@@ -356,8 +346,7 @@ bandlimited_interp <- function(df, orig_sr, new_sr)
   return(list(z = z, p = p, k = k))
 }
 
-.bilinear <- function(z, p, k, sr)
-{
+.bilinear <- function(z, p, k, sr) {
   sr <- 2 * sr
   pd <- (1 + p / sr) / (1 - p / sr)
   zd <- (1 + z / sr) / (1 - z / sr)
@@ -366,22 +355,28 @@ bandlimited_interp <- function(df, orig_sr, new_sr)
   return(list(zd = zd, pd = pd, kd = kd))
 }
 
-.besself <- function(sr, cutoff_freq, order)
-{
+.besself <- function(sr, cutoff_freq, order) {
   zpk_prototype <- .besselap(order)
   zpk_prototype <-
-    signal::sftrans(signal::Zpg(zpk_prototype$z,
-                                zpk_prototype$p,
-                                zpk_prototype$k),
-                    W = cutoff_freq * 2 * pi)
+    signal::sftrans(signal::Zpg(
+      zpk_prototype$z,
+      zpk_prototype$p,
+      zpk_prototype$k
+    ),
+    W = cutoff_freq * 2 * pi
+    )
   zpk_prototype <-
-    .bilinear(zpk_prototype$zero,
-              zpk_prototype$pole,
-              zpk_prototype$gain,
-              sr)
+    .bilinear(
+      zpk_prototype$zero,
+      zpk_prototype$pole,
+      zpk_prototype$gain,
+      sr
+    )
   arma_coeffs <-
-    signal::as.Arma(signal::Zpg(zpk_prototype$z,
-                                zpk_prototype$p,
-                                zpk_prototype$k))
+    signal::as.Arma(signal::Zpg(
+      zpk_prototype$z,
+      zpk_prototype$p,
+      zpk_prototype$k
+    ))
   return(arma_coeffs)
 }

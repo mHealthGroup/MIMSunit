@@ -15,22 +15,17 @@
 #' @return number. The number of samples represented by the epoch string.
 #' @family utility functions
 #' @export
-parse_epoch_string <- function(epoch_str, sr)
-{
-  if (stringr::str_detect(epoch_str, "sec"))
-  {
+parse_epoch_string <- function(epoch_str, sr) {
+  if (stringr::str_detect(epoch_str, "sec")) {
     tokens <- stringr::str_split(epoch_str, pattern = " ")[[1]]
     n <- as.numeric(tokens[1]) * sr
-  } else if (stringr::str_detect(epoch_str, "min"))
-  {
+  } else if (stringr::str_detect(epoch_str, "min")) {
     tokens <- stringr::str_split(epoch_str, pattern = " ")[[1]]
     n <- as.numeric(tokens[1]) * sr * 60
-  } else if (stringr::str_detect(epoch_str, "hour"))
-  {
+  } else if (stringr::str_detect(epoch_str, "hour")) {
     tokens <- stringr::str_split(epoch_str, pattern = " ")[[1]]
     n <- as.numeric(tokens[1]) * sr * 3600
-  } else if (stringr::str_detect(epoch_str, "day"))
-  {
+  } else if (stringr::str_detect(epoch_str, "day")) {
     tokens <- stringr::str_split(epoch_str, pattern = " ")[[1]]
     n <- as.numeric(tokens[1]) * sr * 3600 * 24
   }
@@ -56,8 +51,7 @@ parse_epoch_string <- function(epoch_str, sr)
 #' @return number. The estimated sampling rate in Hz.
 #' @family utility functions
 #' @export
-sampling_rate <- function(df)
-{
+sampling_rate <- function(df) {
   duration <-
     as.numeric(dplyr::last(df[, 1]) - dplyr::first(df[, 1]), units = "secs")
   sr <- round(nrow(df) / duration / 10) * 10
@@ -86,20 +80,20 @@ sampling_rate <- function(df)
 #' @return dataframe. The same format as the input dataframe.
 #' @family utility functions
 #' @export
-clip_data = function(df, start_time, stop_time) {
-  tzone = lubridate::tz(df[["HEADER_TIME_STAMP"]][1])
+clip_data <- function(df, start_time, stop_time) {
+  tzone <- lubridate::tz(df[["HEADER_TIME_STAMP"]][1])
   if (is.character(start_time)) {
-    start_time = as.POSIXct(start_time, tz = tzone)
+    start_time <- as.POSIXct(start_time, tz = tzone)
   }
-  start_time = lubridate::force_tz(start_time, tz = tzone)
+  start_time <- lubridate::force_tz(start_time, tz = tzone)
   if (is.character(stop_time)) {
-    stop_time = as.POSIXct(stop_time, tz = tzone)
+    stop_time <- as.POSIXct(stop_time, tz = tzone)
   }
-  stop_time = lubridate::force_tz(stop_time, tz = tzone)
+  stop_time <- lubridate::force_tz(stop_time, tz = tzone)
 
-  mask = df[["HEADER_TIME_STAMP"]] >= start_time &
+  mask <- df[["HEADER_TIME_STAMP"]] >= start_time &
     df[["HEADER_TIME_STAMP"]] <= stop_time
-  sub_df = df[mask,]
+  sub_df <- df[mask, ]
 
   return(sub_df)
 }
@@ -124,42 +118,41 @@ clip_data = function(df, start_time, stop_time) {
 #' column "SEGMENT" in the end specifies the epoch window a sample belongs to.
 #' @family utility functions
 #' @export
-segment_data = function(df, breaks){
-  ts = df[['HEADER_TIME_STAMP']]
-  if(missing(breaks) || is.null(breaks)){
-    segments = ts[1]
-  }else{
-    ts[1] = .segment.floor_date(ts[1], breaks)
-    segments = cut(ts, breaks = breaks)
+segment_data <- function(df, breaks) {
+  ts <- df[["HEADER_TIME_STAMP"]]
+  if (missing(breaks) || is.null(breaks)) {
+    segments <- ts[1]
+  } else {
+    ts[1] <- .segment.floor_date(ts[1], breaks)
+    segments <- cut(ts, breaks = breaks)
   }
-  segments = as.numeric(segments)
-  df["SEGMENT"] = segments
+  segments <- as.numeric(segments)
+  df["SEGMENT"] <- segments
   return(df)
 }
 
-.segment.floor_date = function(ts, breaks){
-  if(stringr::str_detect(breaks, "sec")){
-    ts = lubridate::floor_date(ts, unit = c("second"))
-  }else if(str_detect(breaks, "min")){
-    ts = lubridate::floor_date(ts, unit = c("minute"))
-  }else if(str_detect(breaks, "hour")){
-    ts = lubridate::floor_date(ts, unit = c("hour"))
-  }else if(str_detect(breaks, "day")){
-    ts = lubridate::floor_date(ts, unit = c("day"))
+.segment.floor_date <- function(ts, breaks) {
+  if (stringr::str_detect(breaks, "sec")) {
+    ts <- lubridate::floor_date(ts, unit = c("second"))
+  } else if (str_detect(breaks, "min")) {
+    ts <- lubridate::floor_date(ts, unit = c("minute"))
+  } else if (str_detect(breaks, "hour")) {
+    ts <- lubridate::floor_date(ts, unit = c("hour"))
+  } else if (str_detect(breaks, "day")) {
+    ts <- lubridate::floor_date(ts, unit = c("day"))
   }
   return(ts)
 }
 
-.segment.ceil_date = function(ts, breaks){
-  if(stringr::str_detect(breaks, "sec")){
-    ts = lubridate::ceiling_date(ts, unit = c("second"))
-  }else if(str_detect(breaks, "min")){
-    ts = lubridate::ceiling_date(ts, unit = c("minute"))
-  }else if(str_detect(breaks, "hour")){
-    ts = lubridate::ceiling_date(ts, unit = c("hour"))
-  }else if(str_detect(breaks, "day")){
-    ts = lubridate::ceiling_date(ts, unit = c("day"))
+.segment.ceil_date <- function(ts, breaks) {
+  if (stringr::str_detect(breaks, "sec")) {
+    ts <- lubridate::ceiling_date(ts, unit = c("second"))
+  } else if (str_detect(breaks, "min")) {
+    ts <- lubridate::ceiling_date(ts, unit = c("minute"))
+  } else if (str_detect(breaks, "hour")) {
+    ts <- lubridate::ceiling_date(ts, unit = c("hour"))
+  } else if (str_detect(breaks, "day")) {
+    ts <- lubridate::ceiling_date(ts, unit = c("day"))
   }
   return(ts)
 }
-
