@@ -40,7 +40,7 @@ options(digits.secs=3)
 ```
 
 ```{r load_data, warning=FALSE, message=FALSE}
-df = mHealthR::mhealth.read(file_path, filetype='sensor')
+df = MIMSunit::import_mhealth_csv(filepath=file_path)
 ```
 
 ```{r, echo=FALSE}

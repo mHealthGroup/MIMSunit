@@ -41,6 +41,7 @@ Other Filo I/O functions:
 \code{\link{import_actigraph_count_csv}()},
 \code{\link{import_actigraph_csv}()},
 \code{\link{import_actigraph_meta}()},
-\code{\link{import_enmo_csv}()}
+\code{\link{import_enmo_csv}()},
+\code{\link{import_mhealth_csv}()}
 }
 \concept{Filo I/O functions}

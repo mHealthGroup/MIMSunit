@@ -1,3 +1,51 @@
+#' Import raw multi-channel accelerometer data stored in mHealth Specification
+#'
+#' \code{import_mhealth_csv} imports the raw multi-channel accelerometer data
+#' stored in mHealth Specification.
+#'
+#' @section How is it used in MIMS-unit algorithm?: This function is a File IO
+#'   function that is used to import data stored in mHealth Specification during
+#'   algorithm validation.
+#'
+#' @param filepath string. The filepath of the input data.
+#' @return dataframe. The imported multi-channel accelerometer signal, with the
+#'   first column being the timestamps in POSXlct format, and the rest columns
+#'   being accelerometer values in \eqn{g} unit.
+#'
+#' @family Filo I/O functions
+#'
+#' @export
+import_mhealth_csv = function(filepath) {
+  tz_str = "+0000"
+
+  ncols = readr::count_fields(filepath, readr::tokenizer_csv(), skip = 0, n_max = 1L)
+  date_format = readr::col_datetime(format = "%Y-%m-%d %H:%M:%OS")
+  coltypes = list(date_format)
+  colheaders = c("HEADER_TIME_STAMP")
+  for (i in 2:ncols) {
+    coltypes = append(coltypes, list(readr::col_double()))
+  }
+
+  df = readr::read_csv(file = filepath,
+                       quoted_na = TRUE,
+                       col_types = coltypes)
+  # convert factors back to characters
+  col_classes = sapply(1:ncols, function(i) {
+    return(class(df[1, i]))
+  })
+  factor_cols = which(col_classes == "factor")
+  df[, factor_cols] = as.character(df[, factor_cols])
+
+  # enhance column headers
+  colnames(df)[1:length(colheaders)] = colheaders
+  colnames(df) = toupper(colnames(df))
+  options(digits.secs = 3)
+  df = data.frame(df, stringsAsFactors = FALSE)
+
+  return(df)
+}
+
+
 #' Import raw multi-channel accelerometer data stored in ActivPal3 csv format
 #'
 #' \code{import_activpal3_csv} imports the raw multi-channel accelerometer data
@@ -221,7 +269,7 @@ import_actigraph_count_csv <-
                stringsAsFactors = FALSE)
     dat[, 1] <-
       as.POSIXct(dat[, 1],
-                 format = mHealthR::mhealth$format$csv$TIMESTAMP,
+                 format = "%Y-%m-%d %H:%M:%OS",
                  tz = "UTC")
 
     result = dat[, 1]
@@ -270,7 +318,7 @@ import_enmo_csv <- function(filepath, enmo_col = 2)
   dat <- dat[,c(1, enmo_col)]
   dat[, 1] <-
     as.POSIXct(dat[, 1],
-               format = mHealthR::mhealth$format$csv$TIMESTAMP,
+               format = "%Y-%m-%d %H:%M:%OS",
                tz = Sys.timezone())
   result <- dat
   colnames(result) <- c("HEADER_TIME_STAMP", 'ENMO')

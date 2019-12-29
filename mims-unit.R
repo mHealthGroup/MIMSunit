@@ -20,17 +20,17 @@ if(length(args) < 3){
   print(paste("Output file is:", output_file_mims))
   print(paste("Output file is:", output_file_orientation))
   print(paste("Loading file..."))
-  dat = mHealthR::mhealth.read(file = input_file, filetype = "sensor")
+  dat = MIMSunit::import_mhealth_csv(filepath = input_file)
   if(!is.null(before_file)){
     print("Get the last 2 minutes data for before file")
-    before_dat = mHealthR::mhealth.read(file = before_file, filetype = "sensor")
+    before_dat = MIMSunit::import_mhealth_csv(filepath = before_file)
     before_dat = mHealthR::mhealth.clip(before_dat, start_time = dat[1,1] - 120, stop_time = dat[1,1], file_type = "sensor")
   }else{
     before_dat = NULL
   }
   if(!is.null(after_file)){
     print("Get the first 2 minutes data for after file")
-    after_dat = mHealthR::mhealth.read(file = after_file, filetype = "sensor")
+    after_dat = MIMSunit::import_mhealth_csv(filepath = after_file)
     after_dat = mHealthR::mhealth.clip(after_dat, start_time = dat[nrow(dat),1], stop_time = dat[nrow(dat),1] + 120, file_type = "sensor")
   }else{
     after_dat = NULL

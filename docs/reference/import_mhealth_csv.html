@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Import raw multi-channel accelerometer data stored in ActivPal3 csv format — import_activpal3_csv • MIMSunit</title>
+<title>Import raw multi-channel accelerometer data stored in mHealth Specification — import_mhealth_csv • MIMSunit</title>
 
 
 <!-- jquery -->
@@ -35,10 +35,9 @@
 
 
 
-<meta property="og:title" content="Import raw multi-channel accelerometer data stored in ActivPal3 csv format — import_activpal3_csv" />
-<meta property="og:description" content="import_activpal3_csv imports the raw multi-channel accelerometer data
-stored in ActivPal3 csv format by converting the accelerometer values (in
-digital voltage values) to \(g\) unit." />
+<meta property="og:title" content="Import raw multi-channel accelerometer data stored in mHealth Specification — import_mhealth_csv" />
+<meta property="og:description" content="import_mhealth_csv imports the raw multi-channel accelerometer data
+stored in mHealth Specification." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -165,18 +164,17 @@ digital voltage values) to \(g\) unit." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Import raw multi-channel accelerometer data stored in ActivPal3 csv format</h1>
+    <h1>Import raw multi-channel accelerometer data stored in mHealth Specification</h1>
     <small class="dont-index">Source: <a href='https://github.com/mhealthgroup/MIMSunit/blob/master/R/import_data.R'><code>R/import_data.R</code></a></small>
-    <div class="hidden name"><code>import_activpal3_csv.Rd</code></div>
+    <div class="hidden name"><code>import_mhealth_csv.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>import_activpal3_csv</code> imports the raw multi-channel accelerometer data
-stored in ActivPal3 csv format by converting the accelerometer values (in
-digital voltage values) to \(g\) unit.</p>
+    <p><code>import_mhealth_csv</code> imports the raw multi-channel accelerometer data
+stored in mHealth Specification.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>import_activpal3_csv</span>(<span class='no'>filepath</span>, <span class='kw'>header</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>import_mhealth_csv</span>(<span class='no'>filepath</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -185,11 +183,6 @@ digital voltage values) to \(g\) unit.</p>
       <th>filepath</th>
       <td><p>string. The filepath of the input data.</p></td>
     </tr>
-    <tr>
-      <th>header</th>
-      <td><p>boolean. If TRUE, the input csv file will have column names in
-the first row.</p></td>
-    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -197,16 +190,10 @@ the first row.</p></td>
     <p>dataframe. The imported multi-channel accelerometer signal, with the
   first column being the timestamps in POSXlct format, and the rest columns
   being accelerometer values in \(g\) unit.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>ActivPal 3 sensors have known dynamic range to be \((-2g, +2g)\). And the
-sensor stores values using 8-bit memory storage. So, the digital voltage
-values may be converted to \(g\) unit using following equation.</p>
-<p>$$x_g = \frac{x_{voltage} - 127}{2^8} * 4$$</p>
     <h2 class="hasAnchor" id="how-is-it-used-in-mims-unit-algorithm-"><a class="anchor" href="#how-is-it-used-in-mims-unit-algorithm-"></a>How is it used in MIMS-unit algorithm?</h2>
 
     <p>This function is a File IO
-  function that is used to import data from ActivPal3 devices during
+  function that is used to import data stored in mHealth Specification during
   algorithm validation.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -215,8 +202,8 @@ values may be converted to \(g\) unit using following equation.</p>
 <code><a href='import_actigraph_count_csv.html'>import_actigraph_count_csv</a>()</code>,
 <code><a href='import_actigraph_csv.html'>import_actigraph_csv</a>()</code>,
 <code><a href='import_actigraph_meta.html'>import_actigraph_meta</a>()</code>,
-<code><a href='import_enmo_csv.html'>import_enmo_csv</a>()</code>,
-<code><a href='import_mhealth_csv.html'>import_mhealth_csv</a>()</code></p></div>
+<code><a href='import_activpal3_csv.html'>import_activpal3_csv</a>()</code>,
+<code><a href='import_enmo_csv.html'>import_enmo_csv</a>()</code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -224,7 +211,6 @@ values may be converted to \(g\) unit using following equation.</p>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
       <li><a href="#how-is-it-used-in-mims-unit-algorithm-">How is it used in MIMS-unit algorithm?</a></li>
       <li><a href="#see-also">See also</a></li>
     </ul>

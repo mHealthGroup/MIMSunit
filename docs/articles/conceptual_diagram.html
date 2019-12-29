@@ -148,7 +148,7 @@
 <a class="sourceLine" id="cb2-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(.data<span class="op">$</span>NAME) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb2-3" title="3"><span class="st">  </span>mHealthR<span class="op">::</span><span class="kw">mhealth.clip</span>(<span class="dt">start_time =</span> start_time, <span class="dt">stop_time =</span> stop_time, <span class="dt">file_type =</span> <span class="st">'sensor'</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb2-4" title="4"><span class="st">  </span><span class="kw">group_map</span>(</a>
-<a class="sourceLine" id="cb2-5" title="5">    <span class="op">~</span><span class="st"> </span>MIMSunit<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/MIMSunit/man/illustrate_signal.html">illustrate_signal</a></span>(</a>
+<a class="sourceLine" id="cb2-5" title="5">    <span class="op">~</span><span class="st"> </span>MIMSunit<span class="op">::</span><span class="kw"><a href="https://mhealthgroup.github.io/MIMSunit//reference/illustrate_signal.html">illustrate_signal</a></span>(</a>
 <a class="sourceLine" id="cb2-6" title="6">      .x,</a>
 <a class="sourceLine" id="cb2-7" title="7">      <span class="dt">title =</span> .y,</a>
 <a class="sourceLine" id="cb2-8" title="8">      <span class="dt">line_size =</span> <span class="dv">1</span>,</a>
@@ -176,7 +176,7 @@
 <a class="sourceLine" id="cb3-4" title="4">                         <span class="dt">stop_time =</span> stop_time,</a>
 <a class="sourceLine" id="cb3-5" title="5">                         <span class="dt">file_type =</span> <span class="st">'sensor'</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb3-6" title="6"><span class="st">  </span><span class="kw">group_map</span>(</a>
-<a class="sourceLine" id="cb3-7" title="7">    <span class="op">~</span><span class="st"> </span>MIMSunit<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/MIMSunit/man/illustrate_signal.html">illustrate_signal</a></span>(</a>
+<a class="sourceLine" id="cb3-7" title="7">    <span class="op">~</span><span class="st"> </span>MIMSunit<span class="op">::</span><span class="kw"><a href="https://mhealthgroup.github.io/MIMSunit//reference/illustrate_signal.html">illustrate_signal</a></span>(</a>
 <a class="sourceLine" id="cb3-8" title="8">      .x,</a>
 <a class="sourceLine" id="cb3-9" title="9">      <span class="dt">title =</span> .y[[<span class="dv">1</span>]],</a>
 <a class="sourceLine" id="cb3-10" title="10">      <span class="dt">line_size =</span> <span class="dv">1</span>,</a>
@@ -297,7 +297,7 @@
 <a class="sourceLine" id="cb6-5" title="5">  right_neighbors_df =<span class="st"> </span>extrap_illustration[[<span class="dv">4</span>]]</a>
 <a class="sourceLine" id="cb6-6" title="6">  extrap_points_df =<span class="st"> </span>extrap_illustration[[<span class="dv">9</span>]]</a>
 <a class="sourceLine" id="cb6-7" title="7">  fitted_line_df =<span class="st"> </span>extrap_illustration[[<span class="dv">8</span>]]</a>
-<a class="sourceLine" id="cb6-8" title="8">  p =<span class="st"> </span>MIMSunit<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/MIMSunit/man/illustrate_extrapolation.html">illustrate_extrapolation</a></span>(</a>
+<a class="sourceLine" id="cb6-8" title="8">  p =<span class="st"> </span>MIMSunit<span class="op">::</span><span class="kw"><a href="https://mhealthgroup.github.io/MIMSunit//reference/illustrate_extrapolation.html">illustrate_extrapolation</a></span>(</a>
 <a class="sourceLine" id="cb6-9" title="9">    <span class="dt">df =</span> df,</a>
 <a class="sourceLine" id="cb6-10" title="10">    <span class="dt">between_neighbor_df =</span> between_neighbors_df,</a>
 <a class="sourceLine" id="cb6-11" title="11">    <span class="dt">title =</span> extrap_illustration[[<span class="dv">10</span>]],</a>

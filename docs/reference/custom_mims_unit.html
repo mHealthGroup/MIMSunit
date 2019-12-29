@@ -182,9 +182,9 @@ and estimates the sensor orientations for the input multi-channel
 accelerometer signal with custom settings. The input signal can be from
 devices of any sampling rate and dynamic range. Please refer to the
 manuscript for detailed description of the algorithm. Please refer to
-functions for the intermediate steps: <code>extrapolate</code> for
-extrapolation, <code>iir</code> for filtering,
-<code>aggregate_for_mims</code> and <code>aggregate_for_orientation</code>
+functions for the intermediate steps: <code><a href='extrapolate.html'>extrapolate</a></code> for
+extrapolation, <code><a href='iir.html'>iir</a></code> for filtering,
+<code><a href='aggregate_for_mims.html'>aggregate_for_mims</a></code> and <code><a href='aggregate_for_orientation.html'>aggregate_for_orientation</a></code>
 for aggregation.</p>
     </div>
 
@@ -280,8 +280,8 @@ Default is TRUE.</p></td>
     <tr>
       <th>combination</th>
       <td><p>string. Method to combine MIMS-unit values for each axis.
-Could be "sum" for <code>sum_up</code> or "vm" for
-<code>vector_magnitude</code>.</p></td>
+Could be "sum" for <code><a href='sum_up.html'>sum_up</a></code> or "vm" for
+<code><a href='vector_magnitude.html'>vector_magnitude</a></code>.</p></td>
     </tr>
     <tr>
       <th>allow_truncation</th>
@@ -349,13 +349,13 @@ NULL.</p></td>
     <h2 class="hasAnchor" id="how-is-it-used-in-mims-unit-algorithm-"><a class="anchor" href="#how-is-it-used-in-mims-unit-algorithm-"></a>How is it used in MIMS-unit algorithm?</h2>
 
     <p>This is the low-level entry
-  of MIMS-unit and orientation estimation algorithm. <code>mims_unit</code>
+  of MIMS-unit and orientation estimation algorithm. <code><a href='mims_unit.html'>mims_unit</a></code>
   calls this function internally.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other Top level API functions: 
-<code>mims_unit()</code>,
-<code>sensor_orientations()</code></p></div>
+<code><a href='mims_unit.html'>mims_unit</a>()</code>,
+<code><a href='sensor_orientations.html'>sensor_orientations</a>()</code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
