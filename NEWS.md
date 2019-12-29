@@ -1,3 +1,9 @@
+# MIMSunit 0.6.3.9000
+
+## Bug fixes
+
+* Fix missing "testthat" dependency
+
 # MIMSunit 0.6.2
 
 ## Bug fixes
