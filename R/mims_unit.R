@@ -21,17 +21,6 @@
 #' @section How is it used in MIMS-unit algorithm?: This is the main entry of
 #'   MIMS-unit algorithm.
 #'
-#' @param df dataframe. Input multi-channel accelerometer signal.
-#' @param before_df dataframe. The multi-channel accelerometer signal comes
-#'   before the input signal to be prepended to the input signal during
-#'   computation. This is used to eliminate the edge effect during extrapolation
-#'   and filtering. If it is \code{NULL}, algorithm will run directly on the
-#'   input signal. Default is NULL.
-#' @param after_df dataframe. The multi-channel accelerometer signal comes after
-#'   the input signal to be append to the input signal. This is used to
-#'   eliminate the edge effect during extrapolation and filtering. If it is
-#'   \code{NULL}, algorithm will run directly on the input signal. Default is
-#'   NULL.
 #' @param epoch string. Any format that is acceptable by argument \code{breaks}
 #'   in method \code{\link[base]{cut.POSIXt}}.For example, "1 sec", "1 min", "5
 #'   sec", "10 min". Default is "5 sec".
@@ -49,6 +38,45 @@
 #'   signal.
 #'
 #' @family Top level API functions
+#' @name mims_unit
+
+#' @rdname mims_unit
+#' @param files character vector. A list of file paths for raw accelerometer
+#'   data organized in order to be processed.
+#' @param ... additional parameters passed to the import function when reading
+#'   in the data from the files.
+#' @export
+mims_unit_from_files <-
+  function(files,
+           epoch = "5 sec",
+           dynamic_range,
+           output_mims_per_axis = FALSE,
+           file_type = 'mhealth', ...) {
+    num_of_files = length(files)
+    if (file_type == 'mhealth') {
+      import_fun = import_mhealth_csv
+    } else if (file_type == 'actigraph') {
+      import_fun = import_actigraph_csv
+    } else {
+      stop('Only "mhealth" or "actigraph" file types are supported')
+    }
+    for (i in 1:num_of_files) {
+      df = import_fun(files[i], ...)
+    }
+  }
+
+#' @rdname mims_unit
+#' @param df dataframe. Input multi-channel accelerometer signal.
+#' @param before_df dataframe. The multi-channel accelerometer signal comes
+#'   before the input signal to be prepended to the input signal during
+#'   computation. This is used to eliminate the edge effect during extrapolation
+#'   and filtering. If it is \code{NULL}, algorithm will run directly on the
+#'   input signal. Default is NULL.
+#' @param after_df dataframe. The multi-channel accelerometer signal comes after
+#'   the input signal to be append to the input signal. This is used to
+#'   eliminate the edge effect during extrapolation and filtering. If it is
+#'   \code{NULL}, algorithm will run directly on the input signal. Default is
+#'   NULL.
 #' @export
 mims_unit <-
   function(df,
