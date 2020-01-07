@@ -184,7 +184,16 @@ extrapolation, <code><a href='iir.html'>iir</a></code> for filtering,
 <code><a href='aggregate_for_mims.html'>aggregate_for_mims</a></code> for aggregation.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>mims_unit</span>(
+    <pre class="usage"><span class='fu'>mims_unit_from_files</span>(
+  <span class='no'>files</span>,
+  <span class='kw'>epoch</span> <span class='kw'>=</span> <span class='st'>"5 sec"</span>,
+  <span class='no'>dynamic_range</span>,
+  <span class='kw'>output_mims_per_axis</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>file_type</span> <span class='kw'>=</span> <span class='st'>"mhealth"</span>,
+  <span class='no'>...</span>
+)
+
+<span class='fu'>mims_unit</span>(
   <span class='no'>df</span>,
   <span class='kw'>before_df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>after_df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -197,24 +206,11 @@ extrapolation, <code><a href='iir.html'>iir</a></code> for filtering,
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>df</th>
-      <td><p>dataframe. Input multi-channel accelerometer signal.</p></td>
-    </tr>
-    <tr>
-      <th>before_df</th>
-      <td><p>dataframe. The multi-channel accelerometer signal comes
-before the input signal to be prepended to the input signal during
-computation. This is used to eliminate the edge effect during extrapolation
-and filtering. If it is <code>NULL</code>, algorithm will run directly on the
-input signal. Default is NULL.</p></td>
-    </tr>
-    <tr>
-      <th>after_df</th>
-      <td><p>dataframe. The multi-channel accelerometer signal comes after
-the input signal to be append to the input signal. This is used to
-eliminate the edge effect during extrapolation and filtering. If it is
-<code>NULL</code>, algorithm will run directly on the input signal. Default is
-NULL.</p></td>
+      <th>files</th>
+      <td><p>character vector. A list of csv filepaths for raw accelerometer
+data organized in order to be processed. The data should be consecutive in
+timestamps. A typical case is a set of hourly or daily files for
+continuous accelerometer sampling.</p></td>
     </tr>
     <tr>
       <th>epoch</th>
@@ -234,6 +230,36 @@ is the positive max value the device can reach.</p></td>
       <td><p>logical. If it is TRUE, the output MIMS-unit
 dataframe will have MIMS-unit values for each axis from the third column.
 Default is FALSE.</p></td>
+    </tr>
+    <tr>
+      <th>file_type</th>
+      <td><p>character. "mhealth" or "actigraph". The type of the csv files
+that store the raw accelerometer data.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>additional parameters passed to the import function when reading
+in the data from the files.</p></td>
+    </tr>
+    <tr>
+      <th>df</th>
+      <td><p>dataframe. Input multi-channel accelerometer signal.</p></td>
+    </tr>
+    <tr>
+      <th>before_df</th>
+      <td><p>dataframe. The multi-channel accelerometer signal comes
+before the input signal to be prepended to the input signal during
+computation. This is used to eliminate the edge effect during extrapolation
+and filtering. If it is <code>NULL</code>, algorithm will run directly on the
+input signal. Default is NULL.</p></td>
+    </tr>
+    <tr>
+      <th>after_df</th>
+      <td><p>dataframe. The multi-channel accelerometer signal comes after
+the input signal to be append to the input signal. This is used to
+eliminate the edge effect during extrapolation and filtering. If it is
+<code>NULL</code>, algorithm will run directly on the input signal. Default is
+NULL.</p></td>
     </tr>
     </table>
 

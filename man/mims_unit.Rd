@@ -2,8 +2,18 @@
 % Please edit documentation in R/mims_unit.R
 \name{mims_unit}
 \alias{mims_unit}
+\alias{mims_unit_from_files}
 \title{Compute Monitor Independent Motion Summary unit (MIMS-unit)}
 \usage{
+mims_unit_from_files(
+  files,
+  epoch = "5 sec",
+  dynamic_range,
+  output_mims_per_axis = FALSE,
+  file_type = "mhealth",
+  ...
+)
+
 mims_unit(
   df,
   before_df = NULL,
@@ -14,19 +24,10 @@ mims_unit(
 )
 }
 \arguments{
-\item{df}{dataframe. Input multi-channel accelerometer signal.}
-
-\item{before_df}{dataframe. The multi-channel accelerometer signal comes
-before the input signal to be prepended to the input signal during
-computation. This is used to eliminate the edge effect during extrapolation
-and filtering. If it is \code{NULL}, algorithm will run directly on the
-input signal. Default is NULL.}
-
-\item{after_df}{dataframe. The multi-channel accelerometer signal comes after
-the input signal to be append to the input signal. This is used to
-eliminate the edge effect during extrapolation and filtering. If it is
-\code{NULL}, algorithm will run directly on the input signal. Default is
-NULL.}
+\item{files}{character vector. A list of csv filepaths for raw accelerometer
+data organized in order to be processed. The data should be consecutive in
+timestamps. A typical case is a set of hourly or daily files for
+continuous accelerometer sampling.}
 
 \item{epoch}{string. Any format that is acceptable by argument \code{breaks}
 in method \code{\link[base]{cut.POSIXt}}.For example, "1 sec", "1 min", "5
@@ -40,6 +41,26 @@ is the positive max value the device can reach.}
 \item{output_mims_per_axis}{logical. If it is TRUE, the output MIMS-unit
 dataframe will have MIMS-unit values for each axis from the third column.
 Default is FALSE.}
+
+\item{file_type}{character. "mhealth" or "actigraph". The type of the csv files
+that store the raw accelerometer data.}
+
+\item{...}{additional parameters passed to the import function when reading
+in the data from the files.}
+
+\item{df}{dataframe. Input multi-channel accelerometer signal.}
+
+\item{before_df}{dataframe. The multi-channel accelerometer signal comes
+before the input signal to be prepended to the input signal during
+computation. This is used to eliminate the edge effect during extrapolation
+and filtering. If it is \code{NULL}, algorithm will run directly on the
+input signal. Default is NULL.}
+
+\item{after_df}{dataframe. The multi-channel accelerometer signal comes after
+the input signal to be append to the input signal. This is used to
+eliminate the edge effect during extrapolation and filtering. If it is
+\code{NULL}, algorithm will run directly on the input signal. Default is
+NULL.}
 }
 \value{
 dataframe. The MIMS-unit dataframe. The first column is the start

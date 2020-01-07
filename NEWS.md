@@ -2,11 +2,12 @@
 
 ## Bug fixes
 
-* Fix missing "testthat" dependency
+* Fix missing "testthat" dependency.
 
 ## Breaking changes
 
-* Remove dependency on "mHealthR" package
+* Remove dependency on "mHealthR" package.
+* Add top-level API function `MIMSunit::mims_unit_from_files`.
 
 # MIMSunit 0.6.2
 
@@ -22,7 +23,7 @@
 
 # MIMSunit 0.6.0
 
-* Add dev dependencies to renv
+* Add dev dependencies to renv.
 
 ## Breaking changes
 

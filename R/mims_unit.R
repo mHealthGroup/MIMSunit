@@ -41,8 +41,12 @@
 #' @name mims_unit
 
 #' @rdname mims_unit
-#' @param files character vector. A list of file paths for raw accelerometer
-#'   data organized in order to be processed.
+#' @param files character vector. A list of csv filepaths for raw accelerometer
+#'   data organized in order to be processed. The data should be consecutive in
+#'   timestamps. A typical case is a set of hourly or daily files for
+#'   continuous accelerometer sampling.
+#' @param file_type character. "mhealth" or "actigraph". The type of the csv files
+#' that store the raw accelerometer data.
 #' @param ... additional parameters passed to the import function when reading
 #'   in the data from the files.
 #' @export
@@ -51,18 +55,44 @@ mims_unit_from_files <-
            epoch = "5 sec",
            dynamic_range,
            output_mims_per_axis = FALSE,
-           file_type = 'mhealth', ...) {
-    num_of_files = length(files)
-    if (file_type == 'mhealth') {
-      import_fun = import_mhealth_csv
-    } else if (file_type == 'actigraph') {
-      import_fun = import_actigraph_csv
+           file_type = "mhealth", ...) {
+    num_of_files <- length(files)
+    if (file_type == "mhealth") {
+      import_fun <- import_mhealth_csv
+    } else if (file_type == "actigraph") {
+      import_fun <- function(x) import_actigraph_csv(x, ...)
     } else {
       stop('Only "mhealth" or "actigraph" file types are supported')
     }
+    before_df <- NULL
+    after_df <- NULL
+    df <- NULL
+    results <- list()
     for (i in 1:num_of_files) {
-      df = import_fun(files[i], ...)
+      if (i == 1) {
+        before_df <- NULL
+        df <- import_fun(files[i])
+        if (num_of_files == 1) {
+          after_df <- NULL
+        } else {
+          after_df <- import_fun(files[i + 1])
+        }
+      } else if (i == num_of_files) {
+        before_df <- df
+        df <- after_df
+        after_df <- NULL
+      } else {
+        before_df <- df
+        df <- after_df
+        after_df <- import_fun(files[i + 1])
+      }
+      results[[i]] <- mims_unit(df,
+        before_df = before_df, after_df = after_df, epoch = epoch, dynamic_range = dynamic_range,
+        output_mims_per_axis = output_mims_per_axis
+      )
     }
+    result <- do.call(rbind, results)
+    return(result)
   }
 
 #' @rdname mims_unit
