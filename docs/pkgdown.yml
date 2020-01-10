@@ -8,7 +8,8 @@ articles:
   edge_cases: edge_cases.html
   generate_intermediate: generate_intermediate.html
   import_data: import_data.html
-  MIMSunit: MIMSunit.html
+  mims_unit_from_files: mims_unit_from_files.html
+  mims_unit_from_imported_data: mims_unit_from_imported_data.html
   replicate: replicate.html
   truncation_threshold: truncation_threshold.html
 urls:

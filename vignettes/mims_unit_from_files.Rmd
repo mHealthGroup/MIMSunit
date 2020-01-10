@@ -1,0 +1,212 @@
+---
+title: "Compute MIMS-unit from files"
+output: rmarkdown::html_vignette
+author: "Qu Tang"
+date: "January 10, 2020"
+vignette: >
+  %\VignetteIndexEntry{pkgdown}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\usepackage[utf8]{inputenc}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+require(magrittr)
+require(dygraphs)
+```
+
+### Run on a single file with mhealth specification
+
+#### File format
+
+```
+HEADER_TIME_STAMP,X,Y,Z
+2016-10-03 14:51:14.236,0.007,-0.005,0.984
+2016-10-03 14:51:14.256,0.008,-0.007,0.981
+2016-10-03 14:51:14.276,0.009,-0.006,0.978
+2016-10-03 14:51:14.297,0.009,-0.007,0.984
+2016-10-03 14:51:14.317,0.010,-0.010,0.982
+2016-10-03 14:51:14.337,0.011,-0.010,0.982
+```
+
+```{r, include=FALSE, warning=FALSE}
+wd = getwd()
+if(stringr::str_detect(wd, "articles")){
+  file_path = normalizePath(file.path(wd, "../../vignettes/data/shaker.csv"))
+}else{
+  file_path = normalizePath(file.path(wd, "../vignettes/data/shaker.csv"))
+}
+options(digits.secs=3)
+```
+
+#### Command
+
+Make sure `file_type` is set to 'mhealth' and `file_path` is put in a vector.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, results=FALSE}
+# file_path: shaker.csv
+mims = MIMSunit::mims_unit_from_files(c(file_path), 
+                                      epoch = '5 sec', 
+                                      dynamic_range = c(-2, 2), 
+                                      output_mims_per_axis = TRUE, 
+                                      file_type = 'mhealth')
+```
+
+```{r, echo=FALSE, fig.height=2.5, fig.width=8.5, message=FALSE, warning=FALSE}
+mims_xts = xts::xts(mims[,2:5], mims[,1])
+dygraphs::dygraph(mims_xts) %>% dygraphs::dyRangeSelector() %>% dyOptions(colors = RColorBrewer::brewer.pal(4, "Set2")) %>% dyLegend(width = 400) %>% dyAxis("y", valueRange = c(0, 2 * max(mims_xts)))
+```
+
+### Run on a list of files with mhealth specification
+
+```{r, include=FALSE, warning=FALSE}
+wd = getwd()
+file_paths = c()
+file_names = c('mhealth1.csv', 'mhealth2.csv', 'mhealth3.csv')
+for(name in file_names){
+  if(stringr::str_detect(wd, "articles")){
+    file_paths = append(file_paths, normalizePath(file.path(wd, paste0("../../vignettes/data/", name))))
+  }else{
+    file_paths = append(file_paths, normalizePath(file.path(wd, paste0("../vignettes/data/", name))))
+  }
+}
+
+options(digits.secs=3)
+```
+
+#### Command
+
+Make sure `file_type` is set to 'mhealth' and `file_paths` are sorted in time.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, results=FALSE}
+# file_paths: mhealth1.csv, mhealth2.csv, mhealth3.csv
+mims = MIMSunit::mims_unit_from_files(file_paths, 
+                                      epoch = '1 min', 
+                                      dynamic_range = c(-8, 8), 
+                                      output_mims_per_axis = TRUE, 
+                                      file_type = 'mhealth')
+```
+
+```{r, echo=FALSE, fig.height=2.5, fig.width=8.5, message=FALSE, warning=FALSE}
+mims_xts = xts::xts(mims[,2:5], mims[,1])
+dygraphs::dygraph(mims_xts) %>% dygraphs::dyRangeSelector() %>% dyOptions(colors = RColorBrewer::brewer.pal(4, "Set2")) %>% dyLegend(width = 400) %>% dyAxis("y", valueRange = c(0, 2 * max(mims_xts)))
+```
+
+### Run on a single actigraph csv file without timestamps
+
+```{r, include=FALSE, warning=FALSE}
+wd = getwd()
+if(stringr::str_detect(wd, "articles")){
+  file_path = normalizePath(file.path(wd, "../../vignettes/data/actigraph1.csv"))
+}else{
+  file_path = normalizePath(file.path(wd, "../vignettes/data/actigraph1.csv"))
+}
+
+options(digits.secs=3)
+```
+
+#### File format
+
+```
+------------ Data File Created By ActiGraph GT3X ActiLife v6.13.3 Firmware v4.4.0 date format M/d/yyyy at 30 Hz Filter Normal -----------
+Serial Number: MAT2A16099981
+Start Time 11:21:00
+Start Date 6/14/2018
+Epoch Period (hh:mm:ss) 00:00:00
+Download Time 15:17:47
+Download Date 6/14/2018
+Current Memory Address: 2545464
+Current Battery Voltage: 4.21     Mode = 12
+--------------------------------------------------
+Axis1,Axis2,Axis3
+-0.498,-0.483,-1.47
+0.004,-0.021,-1.073
+0.013,-0.008,-1.056
+0.013,-0.004,-1.06
+0.013,-0.004,-1.06
+0.013,-0.004,-1.056
+0.013,-0.004,-1.056
+0.017,-0.004,-1.056
+0.013,-0.004,-1.056
+0.017,-0.004,-1.06
+0.013,-0.004,-1.056
+0.013,-0.004,-1.056
+```
+
+#### Command
+
+Make sure `file_type` is set to 'actigraph' and `file_path` is put in a vector. Actigraph csv file may not include timestamps, so make sure set `has_ts` to `FALSE`.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, results=FALSE}
+# file_path: actigraph1.csv
+mims = MIMSunit::mims_unit_from_files(c(file_path), 
+                                      epoch = '1 min', 
+                                      dynamic_range = c(-3, 3), 
+                                      output_mims_per_axis = TRUE, 
+                                      file_type = 'actigraph', 
+                                      has_ts = FALSE)
+```
+
+```{r, echo=FALSE, fig.height=2.5, fig.width=8.5, message=FALSE, warning=FALSE}
+mims_xts = xts::xts(mims[,2:5], mims[,1])
+dygraphs::dygraph(mims_xts) %>% dygraphs::dyRangeSelector() %>% dyOptions(colors = RColorBrewer::brewer.pal(4, "Set2")) %>% dyLegend(width = 400) %>% dyAxis("y", valueRange = c(0, 2 * max(mims_xts)))
+```
+
+### Run on a single actigraph csv file with timestamps
+
+```{r, include=FALSE, warning=FALSE}
+wd = getwd()
+if(stringr::str_detect(wd, "articles")){
+  file_path = normalizePath(file.path(wd, "../../vignettes/data/actigraph2.csv"))
+}else{
+  file_path = normalizePath(file.path(wd, "../vignettes/data/actigraph2.csv"))
+}
+
+options(digits.secs=3)
+```
+
+#### File format
+
+```
+------------ Data File Created By ActiGraph GT3X+ ActiLife v6.13.3 Firmware v2.5.0 date format M/d/yyyy at 40 Hz  Filter Normal -----------
+Serial Number: CLE2B20130009
+Start Time 11:27:00
+Start Date 6/14/2018
+Epoch Period (hh:mm:ss) 00:00:00
+Download Time 15:16:42
+Download Date 6/14/2018
+Current Memory Address: 0
+Current Battery Voltage: 4.21     Mode = 12
+--------------------------------------------------
+Timestamp,Accelerometer X,Accelerometer Y,Accelerometer Z
+6/14/2018 11:27:00.000,0.026,-0.082,-0.979
+6/14/2018 11:27:00.025,0.029,-0.082,-0.982
+6/14/2018 11:27:00.050,0.023,-0.085,-0.979
+6/14/2018 11:27:00.075,0.029,-0.076,-0.979
+6/14/2018 11:27:00.100,0.032,-0.082,-0.982
+6/14/2018 11:27:00.125,0.029,-0.076,-0.979
+6/14/2018 11:27:00.150,0.029,-0.082,-0.979
+6/14/2018 11:27:00.175,0.029,-0.076,-0.977
+6/14/2018 11:27:00.200,0.029,-0.076,-0.979
+6/14/2018 11:27:00.225,0.029,-0.082,-0.979
+6/14/2018 11:27:00.250,0.029,-0.082,-0.982
+```
+
+#### Command
+
+Make sure `file_type` is set to 'actigraph' and `file_path` is put in a vector. Actigraph csv file may not include timestamps, so make sure set `has_ts` to `TRUE`.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, results=FALSE}
+# file_path: actigraph1.csv
+mims = MIMSunit::mims_unit_from_files(c(file_path), 
+                                      epoch = '1 min', 
+                                      dynamic_range = c(-6, 6), 
+                                      output_mims_per_axis = TRUE, 
+                                      file_type = 'actigraph', 
+                                      has_ts = TRUE)
+```
+
+```{r, echo=FALSE, fig.height=2.5, fig.width=8.5, message=FALSE, warning=FALSE}
+mims_xts = xts::xts(mims[,2:5], mims[,1])
+dygraphs::dygraph(mims_xts) %>% dygraphs::dyRangeSelector() %>% dyOptions(colors = RColorBrewer::brewer.pal(4, "Set2")) %>% dyLegend(width = 400) %>% dyAxis("y", valueRange = c(0, 2 * max(mims_xts)))
+```

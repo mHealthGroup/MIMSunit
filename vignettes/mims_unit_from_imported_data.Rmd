@@ -1,5 +1,5 @@
 ---
-title: "Quick start to use MIMSunit"
+title: "Compute MIMS-unit from imported data"
 output: rmarkdown::html_vignette
 author: "Qu Tang"
 date: "November 21, 2017"
@@ -15,19 +15,9 @@ require(magrittr)
 require(dygraphs)
 ```
 
-### Make sure you prepare your raw accelerometer data in following csv format
+### Make sure your imported data is in the following format
 
-```
-HEADER_TIME_STAMP,X,Y,Z
-2016-10-03 14:51:14.236,0.007,-0.005,0.984
-2016-10-03 14:51:14.256,0.008,-0.007,0.981
-2016-10-03 14:51:14.276,0.009,-0.006,0.978
-2016-10-03 14:51:14.297,0.009,-0.007,0.984
-2016-10-03 14:51:14.317,0.010,-0.010,0.982
-2016-10-03 14:51:14.337,0.011,-0.010,0.982
-```
-
-### Load input data file into memory
+The first timestamp column should be in `POSIXct` format.
 
 ```{r, include=FALSE, warning=FALSE}
 wd = getwd()
@@ -39,7 +29,7 @@ if(stringr::str_detect(wd, "articles")){
 options(digits.secs=3)
 ```
 
-```{r load_data, warning=FALSE, message=FALSE}
+```{r load_data, message=FALSE, warning=FALSE, include=FALSE}
 df = MIMSunit::import_mhealth_csv(filepath=file_path)
 ```
 

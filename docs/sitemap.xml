@@ -121,7 +121,10 @@
     <loc>https://mhealthgroup.github.io/MIMSunit//articles/import_data.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//articles/MIMSunit.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit//articles/mims_unit_from_files.html</loc>
+  </url>
+  <url>
+    <loc>https://mhealthgroup.github.io/MIMSunit//articles/mims_unit_from_imported_data.html</loc>
   </url>
   <url>
     <loc>https://mhealthgroup.github.io/MIMSunit//articles/replicate.html</loc>

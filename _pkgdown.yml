@@ -85,7 +85,11 @@ navbar:
   title: "MIMSunit"
   left:
     - text: "Get Started"
-      href: articles/MIMSunit.html
+      menu:
+        - text: "Compute MIMS-unit from files"
+          href: articles/mims_unit_from_files.html
+        - text: "Compute MIMS-unit from imported data"
+          href: articles/mims_unit_from_imported_data.html
     - text: "Algorithm Walkthrough"
       menu:
         - text: "Step-by-step illustration"
