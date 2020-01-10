@@ -134,11 +134,11 @@ segment_data <- function(df, breaks) {
 .segment.floor_date <- function(ts, breaks) {
   if (stringr::str_detect(breaks, "sec")) {
     ts <- lubridate::floor_date(ts, unit = c("second"))
-  } else if (str_detect(breaks, "min")) {
+  } else if (stringr::str_detect(breaks, "min")) {
     ts <- lubridate::floor_date(ts, unit = c("minute"))
-  } else if (str_detect(breaks, "hour")) {
+  } else if (stringr::str_detect(breaks, "hour")) {
     ts <- lubridate::floor_date(ts, unit = c("hour"))
-  } else if (str_detect(breaks, "day")) {
+  } else if (stringr::str_detect(breaks, "day")) {
     ts <- lubridate::floor_date(ts, unit = c("day"))
   }
   return(ts)
@@ -147,11 +147,11 @@ segment_data <- function(df, breaks) {
 .segment.ceil_date <- function(ts, breaks) {
   if (stringr::str_detect(breaks, "sec")) {
     ts <- lubridate::ceiling_date(ts, unit = c("second"))
-  } else if (str_detect(breaks, "min")) {
+  } else if (stringr::str_detect(breaks, "min")) {
     ts <- lubridate::ceiling_date(ts, unit = c("minute"))
-  } else if (str_detect(breaks, "hour")) {
+  } else if (stringr::str_detect(breaks, "hour")) {
     ts <- lubridate::ceiling_date(ts, unit = c("hour"))
-  } else if (str_detect(breaks, "day")) {
+  } else if (stringr::str_detect(breaks, "day")) {
     ts <- lubridate::ceiling_date(ts, unit = c("day"))
   }
   return(ts)

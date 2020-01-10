@@ -3,6 +3,7 @@
 ## Bug fixes
 
 * Fix missing "testthat" dependency.
+* Add `stringr` namespace before str_detect.
 
 ## Breaking changes
 
