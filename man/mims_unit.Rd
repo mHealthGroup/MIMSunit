@@ -10,6 +10,7 @@ mims_unit_from_files(
   epoch = "5 sec",
   dynamic_range,
   output_mims_per_axis = FALSE,
+  show_progress = T,
   file_type = "mhealth",
   ...
 )
@@ -20,7 +21,8 @@ mims_unit(
   after_df = NULL,
   epoch = "5 sec",
   dynamic_range,
-  output_mims_per_axis = FALSE
+  output_mims_per_axis = FALSE,
+  show_progress = T
 )
 }
 \arguments{
@@ -41,6 +43,9 @@ is the positive max value the device can reach.}
 \item{output_mims_per_axis}{logical. If it is TRUE, the output MIMS-unit
 dataframe will have MIMS-unit values for each axis from the third column.
 Default is FALSE.}
+
+\item{show_progress}{logical. If it is TRUE, show progress bar during
+computation. Default is TRUE.}
 
 \item{file_type}{character. "mhealth" or "actigraph". The type of the csv files
 that store the raw accelerometer data.}

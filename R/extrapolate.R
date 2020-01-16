@@ -55,8 +55,7 @@ extrapolate <- function(df, ...) {
       output <- extrapolate_single_col(t, col_data[[1]], ...)
       colnames(output) <- c(colnames(df)[1], col_name)
       return(output)
-    },
-    .progress = plyr::progress_text()
+    }
   )
   result <- Reduce(
     function(x, y) {

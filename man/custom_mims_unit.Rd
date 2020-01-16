@@ -22,7 +22,8 @@ custom_mims_unit(
   output_orientation_estimation = FALSE,
   epoch_for_orientation_estimation = NULL,
   before_df = NULL,
-  after_df = NULL
+  after_df = NULL,
+  show_progress = T
 )
 }
 \arguments{
@@ -102,6 +103,9 @@ the input signal to be append to the input signal. This is used to
 eliminate the edge effect during extrapolation and filtering. If it is
 \code{NULL}, algorithm will run directly on the input signal. Default is
 NULL.}
+
+\item{show_progress}{bool. If True, show a progress bar window indicating
+the computation progress. Default is TRUE.}
 }
 \value{
 dataframe or list. If \code{output_orientation_estimation} is TRUE,

@@ -31,6 +31,8 @@
 #' @param output_mims_per_axis logical. If it is TRUE, the output MIMS-unit
 #'   dataframe will have MIMS-unit values for each axis from the third column.
 #'   Default is FALSE.
+#' @param show_progress logical. If it is TRUE, show progress bar during
+#'  computation. Default is TRUE.
 #' @return dataframe. The MIMS-unit dataframe. The first column is the start
 #'   time of each epoch in POSIXct format. The second column is the MIMS-unit
 #'   value for the input signal. If \code{output_mims_per_axis} is TRUE, the
@@ -55,6 +57,7 @@ mims_unit_from_files <-
            epoch = "5 sec",
            dynamic_range,
            output_mims_per_axis = FALSE,
+           show_progress = T,
            file_type = "mhealth", ...) {
     num_of_files <- length(files)
     if (file_type == "mhealth") {
@@ -87,8 +90,12 @@ mims_unit_from_files <-
         after_df <- import_fun(files[i + 1])
       }
       results[[i]] <- mims_unit(df,
-        before_df = before_df, after_df = after_df, epoch = epoch, dynamic_range = dynamic_range,
-        output_mims_per_axis = output_mims_per_axis
+        before_df = before_df,
+        after_df = after_df,
+        epoch = epoch,
+        dynamic_range = dynamic_range,
+        output_mims_per_axis = output_mims_per_axis,
+        show_progress = show_progress
       )
     }
     result <- do.call(rbind, results)
@@ -114,7 +121,8 @@ mims_unit <-
            after_df = NULL,
            epoch = "5 sec",
            dynamic_range,
-           output_mims_per_axis = FALSE) {
+           output_mims_per_axis = FALSE,
+           show_progress = T) {
     mims_df <- custom_mims_unit(
       df = df,
       epoch = epoch,
@@ -132,7 +140,8 @@ mims_unit <-
       output_mims_per_axis = output_mims_per_axis,
       output_orientation_estimation = FALSE,
       before_df = before_df,
-      after_df = after_df
+      after_df = after_df,
+      show_progress = show_progress
     )
     return(mims_df)
   }
@@ -279,6 +288,8 @@ sensor_orientations <-
 #'   eliminate the edge effect during extrapolation and filtering. If it is
 #'   \code{NULL}, algorithm will run directly on the input signal. Default is
 #'   NULL.
+#' @param show_progress bool. If True, show a progress bar window indicating
+#' the computation progress. Default is TRUE.
 #' @return dataframe or list. If \code{output_orientation_estimation} is TRUE,
 #'   the output will be a list, otherwise the output will be the MIMS-unit
 #'   dataframe.
@@ -313,25 +324,49 @@ custom_mims_unit <-
            output_orientation_estimation = FALSE,
            epoch_for_orientation_estimation = NULL,
            before_df = NULL,
-           after_df = NULL) {
+           after_df = NULL,
+           show_progress = T) {
     # save the start and stop time of original df
+    if (.Platform$OS.type == 'windows') {
+      ProgressBar = utils::winProgressBar
+      setProgressBar = utils::setWinProgressBar
+    } else {
+      ProgressBar = utils::txtProgressBar
+      setProgressBar = utils::setTxtProgressBar
+    }
+    if (show_progress) {
+      pb = ProgressBar("Computing MIMS-unit values", label='Starting...')
+    }
+
     start_time <- lubridate::floor_date(df[1, 1], unit = "seconds")
     stop_time <-
       lubridate::floor_date(df[nrow(df), 1], unit = "seconds")
 
     # concatenate with before and after df
     if (is.data.frame(before_df)) {
+      if (show_progress) {
+        setProgressBar(pb, 0.2, label = 'Concatenating before_df...')
+      }
       df <- rbind(before_df, df)
     }
     if (is.data.frame(after_df)) {
+      if (show_progress) {
+        setProgressBar(pb, 0.3, label = 'Concatenating after_df...')
+      }
       df <- rbind(df, after_df)
     }
 
     # apply extrapolation algorithm
     if (use_extrapolation) {
+      if (show_progress) {
+        setProgressBar(pb, 0.4, label = 'Extrapolating signal...')
+      }
       extrapolated_data <-
         extrapolate(df, dynamic_range, noise_level, k, spar)
     } else {
+      if (show_progress) {
+        setProgressBar(pb, 0.4, label = 'Interpolating signal...')
+      }
       extrapolated_data <-
         interpolate_signal(df, sr = 100, method = "linear")
     }
@@ -339,7 +374,7 @@ custom_mims_unit <-
     resampled_data <- extrapolated_data
 
 
-    # store -1 values separately
+    # store -0.01 values separately
     row_abnormal <- rep(FALSE, nrow(resampled_data))
     for (i in 2:ncol(resampled_data))
     {
@@ -351,6 +386,9 @@ custom_mims_unit <-
 
     # Apply filter cascade
     if (use_filtering) {
+      if (show_progress) {
+        setProgressBar(pb, 0.6, label = 'Filtering signal...')
+      }
       if (filter_type == "butter") {
         filtered_data <-
           iir(
@@ -406,6 +444,9 @@ custom_mims_unit <-
     }
 
     # Compute the AUC
+    if (show_progress) {
+      setProgressBar(pb, 0.8, label = 'Computing AUC...')
+    }
     integrated_data <-
       aggregate_for_mims(
         filtered_data,
@@ -415,6 +456,9 @@ custom_mims_unit <-
       )
 
     if (allow_truncation) {
+      if (show_progress) {
+        setProgressBar(pb, 0.9, label = 'Truncating signal...')
+      }
       truncate_indices <-
         integrated_data[, 2:ncol(integrated_data)] > 0 &
           (integrated_data[, 2:ncol(integrated_data)] <=
@@ -428,6 +472,9 @@ custom_mims_unit <-
     }
 
     # Compute vector magnitude
+    if (show_progress) {
+      setProgressBar(pb, 1, label = 'Summing up axial values...')
+    }
     row_abnormal <- rep(FALSE, nrow(integrated_data))
     for (i in 2:ncol(integrated_data))
     {
@@ -459,6 +506,9 @@ custom_mims_unit <-
       mims_data[[1]] >= start_time & mims_data[[1]] < stop_time
     mims_data <- mims_data[keep_mask, ]
 
+    if (show_progress) {
+      close(pb)
+    }
     if (output_orientation_estimation) {
       return(list(mims = mims_data, orientation = orientation_data))
     } else {

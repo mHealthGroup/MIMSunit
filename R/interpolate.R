@@ -76,8 +76,7 @@ interpolate_signal <-
         output <- data.frame(output)
         colnames(output) <- c(colnames(df)[1], col_name)
         return(output)
-      },
-      .progress = plyr::progress_text()
+      }
     )
     result <- Reduce(
       function(x, y) {
