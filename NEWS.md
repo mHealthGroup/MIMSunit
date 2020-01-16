@@ -3,6 +3,7 @@
 ## Improved
 
 * Refine vignettes codes and texts.
+* Better progress bar support for `MIMSunit::mims_unit` functions. Use `show_progress` to control whether to show progress bar during computation.
 
 ## Bug fixes
 

@@ -201,6 +201,7 @@ extrapolation, <code><a href='iir.html'>iir</a></code> for filtering,
   <span class='kw'>epoch</span> <span class='kw'>=</span> <span class='st'>"5 sec"</span>,
   <span class='no'>dynamic_range</span>,
   <span class='kw'>output_mims_per_axis</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>show_progress</span> <span class='kw'>=</span> <span class='no'>T</span>,
   <span class='kw'>file_type</span> <span class='kw'>=</span> <span class='st'>"mhealth"</span>,
   <span class='no'>...</span>
 )
@@ -211,7 +212,8 @@ extrapolation, <code><a href='iir.html'>iir</a></code> for filtering,
   <span class='kw'>after_df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>epoch</span> <span class='kw'>=</span> <span class='st'>"5 sec"</span>,
   <span class='no'>dynamic_range</span>,
-  <span class='kw'>output_mims_per_axis</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+  <span class='kw'>output_mims_per_axis</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>show_progress</span> <span class='kw'>=</span> <span class='no'>T</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -242,6 +244,11 @@ is the positive max value the device can reach.</p></td>
       <td><p>logical. If it is TRUE, the output MIMS-unit
 dataframe will have MIMS-unit values for each axis from the third column.
 Default is FALSE.</p></td>
+    </tr>
+    <tr>
+      <th>show_progress</th>
+      <td><p>logical. If it is TRUE, show progress bar during
+computation. Default is TRUE.</p></td>
     </tr>
     <tr>
       <th>file_type</th>

@@ -40,6 +40,7 @@ Imports:
     xts (>= 0.11-2),
     dygraphs (>= 1.1.1.6),
     RColorBrewer (>= 1.1-2),
+    utils (>= 3.6.1)
 Suggests:
     testthat
 SystemRequirements:

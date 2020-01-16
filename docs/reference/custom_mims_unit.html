@@ -218,7 +218,8 @@ for aggregation.</p>
   <span class='kw'>output_orientation_estimation</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>epoch_for_orientation_estimation</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>before_df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>after_df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+  <span class='kw'>after_df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>show_progress</span> <span class='kw'>=</span> <span class='no'>T</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -336,6 +337,11 @@ the input signal to be append to the input signal. This is used to
 eliminate the edge effect during extrapolation and filtering. If it is
 <code>NULL</code>, algorithm will run directly on the input signal. Default is
 NULL.</p></td>
+    </tr>
+    <tr>
+      <th>show_progress</th>
+      <td><p>bool. If True, show a progress bar window indicating
+the computation progress. Default is TRUE.</p></td>
     </tr>
     </table>
 
