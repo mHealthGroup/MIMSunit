@@ -45,6 +45,7 @@ ggplot2 graph object. The graph to be shown.
 }
 \seealso{
 Other visualization functions.: 
+\code{\link{generate_interactive_plot}()},
 \code{\link{illustrate_signal}()}
 }
 \concept{visualization functions.}

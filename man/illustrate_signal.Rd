@@ -47,6 +47,7 @@ Illustration diagram style hides axes markers, uncessary guidelines.
 }
 \seealso{
 Other visualization functions.: 
+\code{\link{generate_interactive_plot}()},
 \code{\link{illustrate_extrapolation}()}
 }
 \concept{visualization functions.}

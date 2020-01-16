@@ -186,3 +186,34 @@ illustrate_extrapolation <-
     }
     return(p)
   }
+
+#' Plot MIMS unit values or raw signal using dygraphs interactive plotting library.
+#'
+#' \code{generate_interactive_plot} plots MIMS unit values or raw signal
+#' using dygraphs interactive plotting library.
+#'
+#' @param df data.frame.The dataframe storing MIMS unit values or raw
+#' accelerometer signal. The first column should be timestamps.
+#' @param y_label str. The label name to be put on the y axis.
+#' @param value_cols numerical vector. The indices of columns storing values,
+#'  typically starting from the second column. The default is `c(2,3,4)`.
+#'
+#' @importFrom magrittr %>%
+#' @return A dygraphs graph object. When showing, the graph will be plotted in
+#' a html widgets in an opened browser.
+#' @family visualization functions.
+#' @export
+#'
+generate_interactive_plot = function(df, y_label, value_cols=c(2,3,4)) {
+  xts_values = xts::xts(df[,value_cols], df[,1])
+  range = max(xts_values) - min(xts_values)
+  min_y = min(xts_values) - range * 1/2
+  max_y = max(xts_values) + range * 1/2
+  g = dygraphs::dygraph(xts_values) %>%
+    dygraphs::dyRangeSelector() %>%
+    dygraphs::dyOptions(colors = RColorBrewer::brewer.pal(4, "Set2")) %>%
+    dygraphs::dyLegend(width = 400) %>%
+    dygraphs::dyAxis("y", valueRange = c(min_y, max_y), label = y_label) %>%
+    dygraphs::dyAxis("x", label = 'Time')
+  return(g)
+}
