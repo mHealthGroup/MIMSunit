@@ -60,6 +60,7 @@ reference:
     contents:
       - illustrate_signal
       - illustrate_extrapolation
+      - generate_interactive_plot
 
 development:
   mode: unreleased

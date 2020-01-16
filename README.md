@@ -58,7 +58,7 @@ Install depedency system packages for `devtools`: `build-essential`,
 
 ``` r
 install.packages("devtools")
-devtools::install_github("qutang/MIMSunit", type='win.binary')
+devtools::install_github("mhealthgroup/MIMSunit", type='win.binary')
 ```
 
   - For mac or Linux users  
@@ -67,7 +67,7 @@ devtools::install_github("qutang/MIMSunit", type='win.binary')
 
 ``` r
 install.packages("devtools")
-devtools::install_github("qutang/MIMSunit")
+devtools::install_github("mhealthgroup/MIMSunit")
 ```
 
 *Note: It is recommended to use Rstudio when installing the package,

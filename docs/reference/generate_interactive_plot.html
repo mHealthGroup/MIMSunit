@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Plot illustrations about extrapolation in illustration style. — illustrate_extrapolation • MIMSunit</title>
+<title>Plot MIMS unit values or raw signal using dygraphs interactive plotting library. — generate_interactive_plot • MIMSunit</title>
 
 
 <!-- jquery -->
@@ -35,10 +35,9 @@
 
 
 
-<meta property="og:title" content="Plot illustrations about extrapolation in illustration style. — illustrate_extrapolation" />
-<meta property="og:description" content="illustrate_extrapolation plots elements of extrapolations
-(e.g., marked points, reference lines) in the same style as
-illustrate_signal." />
+<meta property="og:title" content="Plot MIMS unit values or raw signal using dygraphs interactive plotting library. — generate_interactive_plot" />
+<meta property="og:description" content="generate_interactive_plot plots MIMS unit values or raw signal
+using dygraphs interactive plotting library." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -177,77 +176,45 @@ illustrate_signal." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Plot illustrations about extrapolation in illustration style.</h1>
+    <h1>Plot MIMS unit values or raw signal using dygraphs interactive plotting library.</h1>
     <small class="dont-index">Source: <a href='https://github.com/mhealthgroup/MIMSunit/blob/master/R/plotting.R'><code>R/plotting.R</code></a></small>
-    <div class="hidden name"><code>illustrate_extrapolation.Rd</code></div>
+    <div class="hidden name"><code>generate_interactive_plot.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>illustrate_extrapolation</code> plots elements of extrapolations
-(e.g., marked points, reference lines) in the same style as
-<code><a href='illustrate_signal.html'>illustrate_signal</a></code>.</p>
+    <p><code>generate_interactive_plot</code> plots MIMS unit values or raw signal
+using dygraphs interactive plotting library.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>illustrate_extrapolation</span>(
-  <span class='no'>df</span>,
-  <span class='kw'>between_neighbor_df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>left_neighbors_df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>right_neighbors_df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>show_neighbors</span> <span class='kw'>=</span> <span class='no'>T</span>,
-  <span class='kw'>extrap_points_df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>fitted_line_df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>show_extrapolated_points_and_lines</span> <span class='kw'>=</span> <span class='no'>T</span>
-)</pre>
+    <pre class="usage"><span class='fu'>generate_interactive_plot</span>(<span class='no'>df</span>, <span class='no'>y_label</span>, <span class='kw'>value_cols</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>4</span>))</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>df</th>
-      <td><p>data.frame.The original data before extrapolation.</p></td>
+      <td><p>data.frame.The dataframe storing MIMS unit values or raw
+accelerometer signal. The first column should be timestamps.</p></td>
     </tr>
     <tr>
-      <th>between_neighbor_df</th>
-      <td><p>data.frame. Dataframe containing points between the points used for extrapolation.</p></td>
+      <th>y_label</th>
+      <td><p>str. The label name to be put on the y axis.</p></td>
     </tr>
     <tr>
-      <th>title</th>
-      <td><p>Char. The title of the plot.</p></td>
-    </tr>
-    <tr>
-      <th>left_neighbors_df</th>
-      <td><p>data.frame. Dataframe containing the points of left side used for extrapolation.</p></td>
-    </tr>
-    <tr>
-      <th>right_neighbors_df</th>
-      <td><p>data.frame. Dataframe containing the points of right side used for extrapolation.</p></td>
-    </tr>
-    <tr>
-      <th>show_neighbors</th>
-      <td><p>bool. Show the points used for extrapolation if TRUE.</p></td>
-    </tr>
-    <tr>
-      <th>extrap_points_df</th>
-      <td><p>data.frame. Dataframe containing the points got from extrapolation.</p></td>
-    </tr>
-    <tr>
-      <th>fitted_line_df</th>
-      <td><p>data.frame. Dataframe containing the spline curves used during extrapolation.</p></td>
-    </tr>
-    <tr>
-      <th>show_extrapolated_points_and_lines</th>
-      <td><p>bool. Show the extrapolated points and curves used for extrapolation.</p></td>
+      <th>value_cols</th>
+      <td><p>numerical vector. The indices of columns storing values,
+typically starting from the second column. The default is `c(2,3,4)`.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>ggplot2 graph object. The graph to be shown.</p>
+    <p>A dygraphs graph object. When showing, the graph will be plotted in
+a html widgets in an opened browser.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other visualization functions.: 
-<code><a href='generate_interactive_plot.html'>generate_interactive_plot</a>()</code>,
+<code><a href='illustrate_extrapolation.html'>illustrate_extrapolation</a>()</code>,
 <code><a href='illustrate_signal.html'>illustrate_signal</a>()</code></p></div>
 
   </div>
