@@ -1,5 +1,9 @@
 # MIMSunit 0.6.3.9000
 
+## Improved
+
+* Refine vignettes codes and texts.
+
 ## Bug fixes
 
 * Fix missing "testthat" dependency.
@@ -9,6 +13,7 @@
 
 * Remove dependency on "mHealthR" package.
 * Add top-level API function `MIMSunit::mims_unit_from_files`.
+* Add new plotting function `MIMSunit::generate_interactive_plot`.
 
 # MIMSunit 0.6.2
 
