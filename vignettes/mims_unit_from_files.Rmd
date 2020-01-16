@@ -11,13 +11,11 @@ vignette: >
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-require(magrittr)
-require(dygraphs)
 ```
 
-### Run on a single file with mhealth specification
+## Run on a single file with mhealth specification
 
-#### File format
+### File format
 
 ```
 HEADER_TIME_STAMP,X,Y,Z
@@ -39,10 +37,11 @@ if(stringr::str_detect(wd, "articles")){
 options(digits.secs=3)
 ```
 
-#### Command
+### Command
 
 Make sure `file_type` is set to 'mhealth' and `file_path` is put in a vector.
 
+Compute MIMS-unit values
 ```{r echo=TRUE, message=FALSE, warning=FALSE, results=FALSE}
 # file_path: shaker.csv
 mims = MIMSunit::mims_unit_from_files(c(file_path), 
@@ -52,12 +51,12 @@ mims = MIMSunit::mims_unit_from_files(c(file_path),
                                       file_type = 'mhealth')
 ```
 
-```{r, echo=FALSE, fig.height=2.5, fig.width=8.5, message=FALSE, warning=FALSE}
-mims_xts = xts::xts(mims[,2:5], mims[,1])
-dygraphs::dygraph(mims_xts) %>% dygraphs::dyRangeSelector() %>% dyOptions(colors = RColorBrewer::brewer.pal(4, "Set2")) %>% dyLegend(width = 400) %>% dyAxis("y", valueRange = c(0, 2 * max(mims_xts)))
+Plot MIMS-unit values
+```{r echo=TRUE, fig.height=2.5, message=FALSE, warning=FALSE, out.width='100%'}
+MIMSunit::generate_interactive_plot(mims, "MIMS-unit values", c(2,3,4,5))
 ```
 
-### Run on a list of files with mhealth specification
+## Run on a list of files with mhealth specification
 
 ```{r, include=FALSE, warning=FALSE}
 wd = getwd()
@@ -74,10 +73,11 @@ for(name in file_names){
 options(digits.secs=3)
 ```
 
-#### Command
+### Command
 
 Make sure `file_type` is set to 'mhealth' and `file_paths` are sorted in time.
 
+Compute MIMS-unit values
 ```{r echo=TRUE, message=FALSE, warning=FALSE, results=FALSE}
 # file_paths: mhealth1.csv, mhealth2.csv, mhealth3.csv
 mims = MIMSunit::mims_unit_from_files(file_paths, 
@@ -87,12 +87,12 @@ mims = MIMSunit::mims_unit_from_files(file_paths,
                                       file_type = 'mhealth')
 ```
 
-```{r, echo=FALSE, fig.height=2.5, fig.width=8.5, message=FALSE, warning=FALSE}
-mims_xts = xts::xts(mims[,2:5], mims[,1])
-dygraphs::dygraph(mims_xts) %>% dygraphs::dyRangeSelector() %>% dyOptions(colors = RColorBrewer::brewer.pal(4, "Set2")) %>% dyLegend(width = 400) %>% dyAxis("y", valueRange = c(0, 2 * max(mims_xts)))
+Plot MIMS-unit values
+```{r echo=TRUE, fig.height=2.5, message=FALSE, warning=FALSE, out.width='100%'}
+MIMSunit::generate_interactive_plot(mims, "MIMS-unit values", c(2,3,4,5))
 ```
 
-### Run on a single actigraph csv file without timestamps
+## Run on a single actigraph csv file without timestamps
 
 ```{r, include=FALSE, warning=FALSE}
 wd = getwd()
@@ -105,7 +105,7 @@ if(stringr::str_detect(wd, "articles")){
 options(digits.secs=3)
 ```
 
-#### File format
+### File format
 
 ```
 ------------ Data File Created By ActiGraph GT3X ActiLife v6.13.3 Firmware v4.4.0 date format M/d/yyyy at 30 Hz Filter Normal -----------
@@ -133,10 +133,11 @@ Axis1,Axis2,Axis3
 0.013,-0.004,-1.056
 ```
 
-#### Command
+### Command
 
 Make sure `file_type` is set to 'actigraph' and `file_path` is put in a vector. Actigraph csv file may not include timestamps, so make sure set `has_ts` to `FALSE`.
 
+Compute MIMS-unit values
 ```{r echo=TRUE, message=FALSE, warning=FALSE, results=FALSE}
 # file_path: actigraph1.csv
 mims = MIMSunit::mims_unit_from_files(c(file_path), 
@@ -147,12 +148,12 @@ mims = MIMSunit::mims_unit_from_files(c(file_path),
                                       has_ts = FALSE)
 ```
 
-```{r, echo=FALSE, fig.height=2.5, fig.width=8.5, message=FALSE, warning=FALSE}
-mims_xts = xts::xts(mims[,2:5], mims[,1])
-dygraphs::dygraph(mims_xts) %>% dygraphs::dyRangeSelector() %>% dyOptions(colors = RColorBrewer::brewer.pal(4, "Set2")) %>% dyLegend(width = 400) %>% dyAxis("y", valueRange = c(0, 2 * max(mims_xts)))
+Plot MIMS-unit values
+```{r echo=TRUE, fig.height=2.5, message=FALSE, warning=FALSE, out.width='100%'}
+MIMSunit::generate_interactive_plot(mims, "MIMS-unit values", c(2,3,4,5))
 ```
 
-### Run on a single actigraph csv file with timestamps
+## Run on a single actigraph csv file with timestamps
 
 ```{r, include=FALSE, warning=FALSE}
 wd = getwd()
@@ -165,7 +166,7 @@ if(stringr::str_detect(wd, "articles")){
 options(digits.secs=3)
 ```
 
-#### File format
+### File format
 
 ```
 ------------ Data File Created By ActiGraph GT3X+ ActiLife v6.13.3 Firmware v2.5.0 date format M/d/yyyy at 40 Hz  Filter Normal -----------
@@ -192,10 +193,11 @@ Timestamp,Accelerometer X,Accelerometer Y,Accelerometer Z
 6/14/2018 11:27:00.250,0.029,-0.082,-0.982
 ```
 
-#### Command
+### Command
 
 Make sure `file_type` is set to 'actigraph' and `file_path` is put in a vector. Actigraph csv file may not include timestamps, so make sure set `has_ts` to `TRUE`.
 
+Compute MIMS-unit values
 ```{r echo=TRUE, message=FALSE, warning=FALSE, results=FALSE}
 # file_path: actigraph1.csv
 mims = MIMSunit::mims_unit_from_files(c(file_path), 
@@ -206,7 +208,7 @@ mims = MIMSunit::mims_unit_from_files(c(file_path),
                                       has_ts = TRUE)
 ```
 
-```{r, echo=FALSE, fig.height=2.5, fig.width=8.5, message=FALSE, warning=FALSE}
-mims_xts = xts::xts(mims[,2:5], mims[,1])
-dygraphs::dygraph(mims_xts) %>% dygraphs::dyRangeSelector() %>% dyOptions(colors = RColorBrewer::brewer.pal(4, "Set2")) %>% dyLegend(width = 400) %>% dyAxis("y", valueRange = c(0, 2 * max(mims_xts)))
+Plot MIMS-unit values
+```{r echo=TRUE, fig.height=2.5, message=FALSE, warning=FALSE, out.width='100%'}
+MIMSunit::generate_interactive_plot(mims, "MIMS-unit values", c(2,3,4,5))
 ```

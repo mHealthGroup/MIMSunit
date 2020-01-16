@@ -11,11 +11,9 @@ vignette: >
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-require(magrittr)
-require(dygraphs)
 ```
 
-### Make sure your imported data is in the following format
+## Make sure your imported data is in the following format
 
 The first timestamp column should be in `POSIXct` format.
 
@@ -29,7 +27,7 @@ if(stringr::str_detect(wd, "articles")){
 options(digits.secs=3)
 ```
 
-```{r load_data, message=FALSE, warning=FALSE, include=FALSE}
+```{r load_data, message=FALSE, warning=FALSE, include=T, echo=T, results=FALSE}
 df = MIMSunit::import_mhealth_csv(filepath=file_path)
 ```
 
@@ -37,19 +35,15 @@ df = MIMSunit::import_mhealth_csv(filepath=file_path)
 knitr::kable(head(df, 5))
 ```
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2.5, fig.width=8.5}
-require(dygraphs)
-df_xts = xts::xts(df[,2:4], df[,1])
-dygraphs::dygraph(df_xts) %>% dygraphs::dyRangeSelector() %>% dyOptions(colors = RColorBrewer::brewer.pal(3, "Set2")) %>% dyLegend(width = 400)
+Plot accelerometer's raw signal
+```{r echo=TRUE, fig.height=2.5, message=FALSE, warning=FALSE, out.width='100%'}
+MIMSunit::generate_interactive_plot(df, "Acceleration (g)", c(2,3,4))
 ```
 
-### Run MIMS-unit algorithm on input data
+## Run MIMS-unit algorithm on input data
 
-```r
-mims = MIMSunit::mims_unit(df, epoch = '1 min', dynamic_range = c(-2, 2), output_mims_per_axis = TRUE)
-```
-
-```{r, message=FALSE, warning=FALSE, include=FALSE}
+Compute MIMS-unit values
+```{r, message=FALSE, warning=FALSE, include=T, echo=T, results=FALSE}
 mims = MIMSunit::mims_unit(df, epoch = '5 sec', dynamic_range = c(-2, 2), output_mims_per_axis = TRUE)
 ```
 
@@ -57,7 +51,7 @@ mims = MIMSunit::mims_unit(df, epoch = '5 sec', dynamic_range = c(-2, 2), output
 knitr::kable(head(mims, 5))
 ```
 
-```{r, echo=FALSE, fig.height=2.5, fig.width=8.5, message=FALSE, warning=FALSE}
-mims_xts = xts::xts(mims[,2:5], mims[,1])
-dygraphs::dygraph(mims_xts) %>% dygraphs::dyRangeSelector() %>% dyOptions(colors = RColorBrewer::brewer.pal(4, "Set2")) %>% dyLegend(width = 400) %>% dyAxis("y", valueRange = c(0, 2 * max(mims_xts)))
+Plot MIMS-unit values
+```{r echo=TRUE, fig.height=2.5, message=FALSE, warning=FALSE, out.width='100%'}
+MIMSunit::generate_interactive_plot(mims, "MIMS-unit values", c(2,3,4,5))
 ```

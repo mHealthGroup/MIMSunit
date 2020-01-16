@@ -11,13 +11,11 @@ vignette: >
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-require(magrittr)
-require(dygraphs)
 ```
 
-### When maxed-out region lasts to the end of time
+## When maxed-out region lasts to the end of time
 
-Bouts at the edge region (unable to do extrapolation) will be marked with __-1__.
+Bouts at the edge region (unable to do extrapolation) will be marked with __-0.01__.
 
 ```{r, include=FALSE, warning=FALSE}
 wd = getwd()
@@ -33,23 +31,19 @@ options(digits.secs=3)
 df = MIMSunit::import_mhealth_csv(filepath=file_path)
 ```
 
-#### Input data
-```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=2.5, fig.width=8.5}
-require(dygraphs)
-df_xts = xts::xts(df[,2:4], df[,1])
-dygraphs::dygraph(df_xts) %>% dygraphs::dyRangeSelector() %>% dyOptions(colors = RColorBrewer::brewer.pal(3, "Set2")) %>% dyLegend(width = 400) %>% dyAxis("y", label = "Acceleration (g)", valueRange = c(-10, 10))
+### Input data
+```{r echo=TRUE, fig.height=2.5, message=FALSE, warning=FALSE, out.width='100%'}
+MIMSunit::generate_interactive_plot(df, "Acceleration (g)", c(2,3,4))
 ```
 
-```r
+### Output: MIMS unit values
+
+Compute MIMS-unit values
+```{r message=FALSE, warning=FALSE, include=TRUE, echo=T, results='hide'}
 mims = MIMSunit::mims_unit(df, epoch = '5 sec', dynamic_range = c(-6, 6), output_mims_per_axis = TRUE)
 ```
 
-```{r message=FALSE, warning=FALSE, include=FALSE}
-mims = MIMSunit::mims_unit(df, epoch = '5 sec', dynamic_range = c(-6, 6), output_mims_per_axis = TRUE)
-```
-
-#### Output: MIMS unit values
-```{r, echo=FALSE, fig.height=2.5, fig.width=8.5, message=FALSE, warning=FALSE}
-mims_xts = xts::xts(mims[,2:5], mims[,1])
-dygraphs::dygraph(mims_xts) %>% dygraphs::dyRangeSelector() %>% dyOptions(colors = RColorBrewer::brewer.pal(4, "Set2"), drawPoints=TRUE, pointSize=2) %>% dyLegend(width = 400) %>% dyAxis("y", label = "MIMS unit")
+Plot MIMS-unit values
+```{r echo=TRUE, fig.height=2.5, message=FALSE, warning=FALSE, out.width='100%'}
+MIMSunit::generate_interactive_plot(mims, "MIMS-unit values", c(2,3,4,5))
 ```
