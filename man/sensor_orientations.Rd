@@ -53,7 +53,7 @@ This function interpolates and extrapolates the signal before
   estimating the orientation angles.
 
   \code{before_df} and \code{after_df} are often set when the accelerometer
-  data are devided into files of smaller chunk.
+  data are divided into files of smaller chunk.
 }
 \section{How is it used in MIMS-unit algorithm?}{
  This is not included in the

@@ -18,7 +18,7 @@ secs", "10 mins".}
 "trapz", "power", "sum", "meanBySecond", "meanBySize". Default is "trapz".}
 
 \item{rectify}{logical. If TRUE, input data will be rectified before
-intregration. Default is TRUE.}
+integration. Default is TRUE.}
 }
 \value{
 dataframe. The returned dataframe will have the same format as input

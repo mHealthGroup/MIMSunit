@@ -25,7 +25,7 @@
 #' @param method string. Integration methods. Supported strings include:
 #'   "trapz", "power", "sum", "meanBySecond", "meanBySize". Default is "trapz".
 #' @param rectify logical. If TRUE, input data will be rectified before
-#'   intregration. Default is TRUE.
+#'   integration. Default is TRUE.
 #' @return dataframe. The returned dataframe will have the same format as input
 #'   dataframe.
 #'

@@ -11,8 +11,7 @@
 #' @param df dataframe. Input multi-channel accelerometer signal.
 #' @param method string. Interpolation algorithms. Could be "spline_natural",
 #'   "spline_improved" or "spline_fmm": see \code{\link[stats]{spline}};
-#'   "aspline_original": see \code{\link[akima]{aspline}}; and "linear": see
-#'   \code{\link[stats]{approx}}. Default is "spline_natural".
+#'   and "linear": see \code{\link[stats]{approx}}. Default is "spline_natural".
 #' @param sr number. Sampling rate in Hz of the input signal. Default is 100.
 #' @param st POSIXct date. The start time for interpolation. If it is
 #'   \code{NULL}, it will use the start time of the input signal. Default is
@@ -59,12 +58,6 @@ interpolate_signal <-
               y = col_data,
               xout = x_out,
               method = "natural"
-            ),
-            aspline_original = akima::aspline(
-              x = ts,
-              y = col_data,
-              xout = x_out,
-              method = "original"
             ),
             spline_improved = stats::spline(
               x = ts,

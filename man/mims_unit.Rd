@@ -92,7 +92,7 @@ This function is a wrapper function for the low-level
   parameters are tunable.
 
   \code{before_df} and \code{after_df} are often set when the accelerometer
-  data are devided into files of smaller chunk.
+  data are divided into files of smaller chunk.
 }
 \section{How is it used in MIMS-unit algorithm?}{
  This is the main entry of

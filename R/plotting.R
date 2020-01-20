@@ -1,7 +1,7 @@
 #' Plot given raw signal in illustration diagram style.
 #'
 #' \code{illustrate_signal} plots the given uniaxial signal in illustration diagram style.
-#' Illustration diagram style hides axes markers, uncessary guidelines.
+#' Illustration diagram style hides axes markers, unnecessary guidelines.
 #'
 #' @param data data.frame. The input uniaxial signal. First column should be timestamp.
 #' @param point_size number. The size of the plotted data point.
@@ -36,7 +36,7 @@ illustrate_signal <- function(data,
   colnames(data) <- c("HEADER_TIME_STAMP", "value")
   p <- ggplot2::ggplot(
     data = data,
-    ggplot2::aes(x = HEADER_TIME_STAMP, y = value)
+    ggplot2::aes(x = data['HEADER_TIME_STAMP'], y = data['value'])
   )
   if (plot_line) {
     p <- p + ggplot2::geom_line(size = line_size)
@@ -172,12 +172,12 @@ illustrate_extrapolation <-
             colnames(right_fit_line_df) <- c("HEADER_TIME_STAMP", "value")
             p <- p + ggplot2::geom_line(
               data = left_fit_line_df,
-              ggplot2::aes(x = HEADER_TIME_STAMP, y = value),
+              ggplot2::aes(x = left_fit_line_df['HEADER_TIME_STAMP'], y = left_fit_line_df['value']),
               size = 0.5
             ) +
               ggplot2::geom_line(
                 data = right_fit_line_df,
-                ggplot2::aes(x = HEADER_TIME_STAMP, y = value),
+                ggplot2::aes(x = right_fit_line_df['HEADER_TIME_STAMP'], y = right_fit_line_df['value']),
                 size = 0.5
               )
           }

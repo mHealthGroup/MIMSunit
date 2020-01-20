@@ -7,7 +7,7 @@
 compute_orientation(df, estimation_window = 2, unit = "deg")
 }
 \arguments{
-\item{df}{dataframe. Input multi-channel singal. First column should be
+\item{df}{dataframe. Input multi-channel signal. First column should be
 timestamps in POSIXt format.}
 
 \item{estimation_window}{number. window size in seconds to be used to

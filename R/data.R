@@ -3,7 +3,7 @@
 #'
 #' A dataset containing the coefficient of variation values at different
 #' frequencies for the dataset that includes accelerometer measures of different
-#' devices on a standard ellpitical shaker.
+#' devices on a standard elliptical shaker.
 #'
 #' @format A data frame with 30 rows and 3 variables:
 #' \describe{
@@ -15,12 +15,12 @@
 "cv_different_algorithms"
 
 
-#' The mean and standard deviation of accelerometer summary measures for
+#' The mean and standard deviation of accelerometer summary measure for
 #' different acceleration data summary algorithms and for different devices.
 #'
-#' A dataset containing the mean and standard deviation of acceleometer summary
-#' measures at different frequencies for the dataset that includes accelerometer
-#' measures of different devices on a standard ellpitical shaker.
+#' A dataframe contains the mean and standard deviation of accelerometer summary
+#' measured at different frequencies for the raw accelerometer signals
+#' from different devices collected from on a standard elliptical shaker.
 #'
 #' @format A data frame with 235 rows and 8 variables:
 #' \describe{

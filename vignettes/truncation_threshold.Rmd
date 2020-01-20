@@ -48,9 +48,9 @@ Plot MIMS-unit values
 MIMSunit::generate_interactive_plot(mims, "MIMS-unit values", c(2,3,4,5))
 ```
 
-The output MIMS unit values have high shoot up at the beginning due to the nonlinear phase response of butterworth filter. It takes about 1 min for the output signal to stablize. Although the signal is constant, the MIMS unit values are not zeros, which is caused by floating number precision limit during MIMS unit computation (filtering).
+The output MIMS unit values have high shoot up at the beginning due to the nonlinear phase response of butterworth filter. It takes about 1 min for the output signal to stabilize. Although the signal is constant, the MIMS unit values are not zeros, which is caused by floating number precision limit during MIMS unit computation (filtering).
 
-The median value after stablization is 
+The median value after stabilization is 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 lower_bound = median(mims[61:nrow(mims),2])
 print(lower_bound)
@@ -102,9 +102,9 @@ Plot MIMS-unit values
 MIMSunit::generate_interactive_plot(mims, "MIMS-unit values", c(2,3,4,5))
 ```
 
-The output MIMS unit values have high shoot up at the beginning due to the nonlinear phase response of butterworth filter. It takes about 1 min for the output signal to stablize. The MIMS unit algorithm outputs non-zero values, which is caused by flutuation of electronic current of hardware.
+The output MIMS unit values have high shoot up at the beginning due to the nonlinear phase response of butterworth filter. It takes about 1 min for the output signal to stabilize. The MIMS unit algorithm outputs non-zero values, which is caused by fluctuation of electronic current of hardware.
 
-The median value after stablization is
+The median value after stabilization is
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 upper_bound = median(mims[61:nrow(mims),2])
 print(sprintf('%e', upper_bound))

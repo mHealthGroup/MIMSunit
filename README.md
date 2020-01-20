@@ -18,15 +18,15 @@ any question related to the package.**
 MIMS-unit is abbreviated for *Monitor Independent Movement Summary*
 unit. This measurement is developed to harmonize the processing of
 accelerometer data from different devices. You may refer to the
-[manuscript](https://journals.humankinetics.com/view/journals/jmpb/2/4/article-p268.xml)
-for the detail description of the algorithm.
+[manuscript](https://doi.org/10.1123/jmpb.2018-0068) for the detail
+description of the algorithm.
 
 ## Copyright and citation
 
 The copyright of the work belongs to Northeastern University, [mHealth
 Research Group](https://mhealthgroup.org). Please kindly [cite the
-manuscript](authors.html) if you have used the package or referred to
-the algorithm in your work.
+manuscript](https://mhealthgroup.github.io/MIMSunit/authors.html) if you
+have used the package or referred to the algorithm in your work.
 
 ## System Requirements
 
@@ -39,7 +39,7 @@ Rtools 3.5 (see: <https://cran.r-project.org/bin/windows/Rtools/>)
 
 ### For Linux (use ubuntu as an example)
 
-Install depedency system packages for `devtools`: `build-essential`,
+Install dependency system packages for `devtools`: `build-essential`,
 `libcurl4-gnutls-dev`, `libxml2-dev`, `libssl-dev`.
 
 ## Installation

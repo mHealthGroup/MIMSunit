@@ -24,7 +24,7 @@ dataframe. Filtered signal.
 lowpass filter to the signal.
 }
 \details{
-This function filters the input multi-channel signal by appling a bessel
+This function filters the input multi-channel signal by applying a bessel
 lowpass filter. See \href{https://en.wikipedia.org/wiki/Bessel_filter}{wiki}
 for the explanation of the filter. The filter was implemented with the same
 implementation as in MATLAB.

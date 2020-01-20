@@ -16,7 +16,7 @@
 #'   parameters are tunable.
 #'
 #'   \code{before_df} and \code{after_df} are often set when the accelerometer
-#'   data are devided into files of smaller chunk.
+#'   data are divided into files of smaller chunk.
 #'
 #' @section How is it used in MIMS-unit algorithm?: This is the main entry of
 #'   MIMS-unit algorithm.
@@ -158,7 +158,7 @@ mims_unit <-
 #'   estimating the orientation angles.
 #'
 #'   \code{before_df} and \code{after_df} are often set when the accelerometer
-#'   data are devided into files of smaller chunk.
+#'   data are divided into files of smaller chunk.
 #'
 #' @section How is it used in MIMS-unit algorithm?: This is not included in the
 #'   official MIMS-unit algorithm nor the manuscript, but we found it is useful
@@ -223,7 +223,7 @@ sensor_orientations <-
 #'   sensor orientations.
 #'
 #'   \code{before_df} and \code{after_df} are often set when the accelerometer
-#'   data are devided into files of smaller chunk.
+#'   data are divided into files of smaller chunk.
 #'
 #' @section How is it used in MIMS-unit algorithm?: This is the low-level entry
 #'   of MIMS-unit and orientation estimation algorithm. \code{\link{mims_unit}}
@@ -251,7 +251,7 @@ sensor_orientations <-
 #'   filter. Default is "butter".
 #' @param cutoffs numerical vector. Cut off frequencies to be used in filtering.
 #'   If \code{filter_type} is "bessel", the cut off frequency for lowpass filter
-#'   would be multipled by 2 when being used. Default is 0.2Hz and 5Hz.
+#'   would be multiplied by 2 when being used. Default is 0.2Hz and 5Hz.
 #' @param axes numerical vector. Indices of columns that specifies the axis
 #'   values of the input signal. Default is \code{c(2,3,4)}.
 #' @param use_extrapolation logical. If it is TRUE, the function will apply
@@ -265,7 +265,7 @@ sensor_orientations <-
 #'   Could be "sum" for \code{\link{sum_up}} or "vm" for
 #'   \code{\link{vector_magnitude}}.
 #' @param allow_truncation logical. If it is TRUE, the algorithm will truncate
-#'   very small MIMS-unit valus to zero. Default is TRUE.
+#'   very small MIMS-unit values to zero. Default is TRUE.
 #' @param output_mims_per_axis logical. If it is TRUE, the output MIMS-unit
 #'   dataframe will have MIMS-unit values for each axis from the third column.
 #'   Default is FALSE.

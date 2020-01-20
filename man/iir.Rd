@@ -14,7 +14,7 @@ timestamps in POSXlct format. The rest columns are signal values.}
 
 \item{cutoff_freq}{number or numerical vector. The cutoff frequencies in Hz.
 If the IIR filter is a bandpass or bandstop filter, it will be a 2-element
-numerical vector specifing the low and high end cutoff frequencies
+numerical vector specifying the low and high end cutoff frequencies
 \code{c(low, high)}.}
 
 \item{order}{number. The order of the filter. Default is 4.}
@@ -35,7 +35,7 @@ dataframe. Filtered signal.
 the signal.
 }
 \details{
-This function filters the input multi-channel signal by appling an IIR
+This function filters the input multi-channel signal by applying an IIR
 filter. See
 \href{https://en.wikipedia.org/wiki/Infinite_impulse_response}{wiki} for the
 explanation of the filter. The implementations of IIR filters can be found in

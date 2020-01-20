@@ -52,7 +52,7 @@ remove_average <- function(df, sr, order = 0.5) {
 #' \code{bessel} function takes a multi-channel signal and applies a bessel
 #' lowpass filter to the signal.
 #'
-#' This function filters the input multi-channel signal by appling a bessel
+#' This function filters the input multi-channel signal by applying a bessel
 #' lowpass filter. See \href{https://en.wikipedia.org/wiki/Bessel_filter}{wiki}
 #' for the explanation of the filter. The filter was implemented with the same
 #' implementation as in MATLAB.
@@ -101,7 +101,7 @@ bessel <- function(df, sr, cutoff_freq, order = 8) {
 #' \code{iir} function takes a multi-channel signal and applies an IIR filter to
 #' the signal.
 #'
-#' This function filters the input multi-channel signal by appling an IIR
+#' This function filters the input multi-channel signal by applying an IIR
 #' filter. See
 #' \href{https://en.wikipedia.org/wiki/Infinite_impulse_response}{wiki} for the
 #' explanation of the filter. The implementations of IIR filters can be found in
@@ -121,7 +121,7 @@ bessel <- function(df, sr, cutoff_freq, order = 8) {
 #' @param sr number. Sampling rate in Hz of the input signal.
 #' @param cutoff_freq number or numerical vector. The cutoff frequencies in Hz.
 #'   If the IIR filter is a bandpass or bandstop filter, it will be a 2-element
-#'   numerical vector specifing the low and high end cutoff frequencies
+#'   numerical vector specifying the low and high end cutoff frequencies
 #'   \code{c(low, high)}.
 #' @param order number. The order of the filter. Default is 4.
 #' @param type string. Filtering type, one of "low" for a low-pass filter,
@@ -184,7 +184,7 @@ iir <-
 #' \code{bandlimited_interp} function takes a multi-channel signal and applies a
 #' bandlimited interpolation filter to the signal to change its sampling rate.
 #'
-#' This function filters the input multi-channel signal by appling a bandlimited
+#' This function filters the input multi-channel signal by applying a bandlimited
 #' interpolation filter. See \code{\link[signal]{resample}} for the underlying
 #' implementation.
 #'

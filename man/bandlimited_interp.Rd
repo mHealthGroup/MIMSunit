@@ -23,7 +23,7 @@ dataframe. Filtered signal.
 bandlimited interpolation filter to the signal to change its sampling rate.
 }
 \details{
-This function filters the input multi-channel signal by appling a bandlimited
+This function filters the input multi-channel signal by applying a bandlimited
 interpolation filter. See \code{\link[signal]{resample}} for the underlying
 implementation.
 }

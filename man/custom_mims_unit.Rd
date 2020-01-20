@@ -56,7 +56,7 @@ filter. Default is "butter".}
 
 \item{cutoffs}{numerical vector. Cut off frequencies to be used in filtering.
 If \code{filter_type} is "bessel", the cut off frequency for lowpass filter
-would be multipled by 2 when being used. Default is 0.2Hz and 5Hz.}
+would be multiplied by 2 when being used. Default is 0.2Hz and 5Hz.}
 
 \item{axes}{numerical vector. Indices of columns that specifies the axis
 values of the input signal. Default is \code{c(2,3,4)}.}
@@ -75,7 +75,7 @@ Could be "sum" for \code{\link{sum_up}} or "vm" for
 \code{\link{vector_magnitude}}.}
 
 \item{allow_truncation}{logical. If it is TRUE, the algorithm will truncate
-very small MIMS-unit valus to zero. Default is TRUE.}
+very small MIMS-unit values to zero. Default is TRUE.}
 
 \item{output_mims_per_axis}{logical. If it is TRUE, the output MIMS-unit
 dataframe will have MIMS-unit values for each axis from the third column.
@@ -138,7 +138,7 @@ This function allows you to run customized algorithm for MIMSunit and
   sensor orientations.
 
   \code{before_df} and \code{after_df} are often set when the accelerometer
-  data are devided into files of smaller chunk.
+  data are divided into files of smaller chunk.
 }
 \section{How is it used in MIMS-unit algorithm?}{
  This is the low-level entry

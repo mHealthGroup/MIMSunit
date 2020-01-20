@@ -25,11 +25,11 @@ extrapolate_single_col(
 \item{t}{POSIXct or numeric vector. Input index or timestamp sequence Used in
 \code{\link{extrapolate_single_col}}.}
 
-\item{value}{numerica vector. Value vector used in
+\item{value}{numeric vector. Value vector used in
 \code{\link{extrapolate_single_col}}.}
 
-\item{range}{numerical vector. The dynamic ranges of the input signal. Should
-be a 2-element numerical vector. \code{c(low, high)}, where \code{low} is
+\item{range}{numeric vector. The dynamic ranges of the input signal. Should
+be a 2-element numeric vector. \code{c(low, high)}, where \code{low} is
 the negative max value the device can reach and \code{high} is the positive
 max value the device can reach.}
 
@@ -47,7 +47,7 @@ Default is 0.6, as optimized by MIMS-unit algorithm.}
 \value{
 \code{extraplate} returns a dataframe with extrapolated multi-channel
   signal. \code{extrapolate_single_col} returns a dataframe with extrapolated
-  single-channel signal, the timestamp col is in numerical values instead of
+  single-channel signal, the timestamp col is in numeric values instead of
   POSIXct format.
 }
 \description{

@@ -35,10 +35,10 @@ parse_epoch_string <- function(epoch_str, sr) {
 #' Estimate sampling rate for multi-channel signal
 #'
 #' \code{sampling_rate} estimates the sampling rate based on the average time
-#' intervals between adjacent samples for the input multi-channel singal.
+#' intervals between adjacent samples for the input multi-channel signal.
 #'
 #' This function accepts a dataframe of multi-channel signal, computes the
-#' duration of the sequence, and gets the sampling rate by deviding the number
+#' duration of the sequence, and gets the sampling rate by dividing the number
 #' of samples by it.
 #'
 #' @section How is it used in MIMS-unit algorithm?: This function is a utility

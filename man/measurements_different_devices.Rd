@@ -3,7 +3,7 @@
 \docType{data}
 \name{measurements_different_devices}
 \alias{measurements_different_devices}
-\title{The mean and standard deviation of accelerometer summary measures for
+\title{The mean and standard deviation of accelerometer summary measure for
 different acceleration data summary algorithms and for different devices.}
 \format{A data frame with 235 rows and 8 variables:
 \describe{
@@ -23,8 +23,8 @@ different acceleration data summary algorithms and for different devices.}
 measurements_different_devices
 }
 \description{
-A dataset containing the mean and standard deviation of acceleometer summary
-measures at different frequencies for the dataset that includes accelerometer
-measures of different devices on a standard ellpitical shaker.
+A dataframe contains the mean and standard deviation of accelerometer summary
+measured at different frequencies for the raw accelerometer signals
+from different devices collected from on a standard elliptical shaker.
 }
 \keyword{datasets}

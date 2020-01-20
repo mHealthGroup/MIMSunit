@@ -18,7 +18,7 @@
 #' @section How is it used in mims-unit algorithm?: This function is used in
 #'   function (\code{\link{aggregate_for_orientation}}).
 #'
-#' @param df dataframe. Input multi-channel singal. First column should be
+#' @param df dataframe. Input multi-channel signal. First column should be
 #'   timestamps in POSIXt format.
 #' @param estimation_window number. window size in seconds to be used to
 #'   estimate orientations. Default is 2 (seconds), as suggested by

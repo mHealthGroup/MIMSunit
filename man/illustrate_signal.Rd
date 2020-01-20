@@ -43,7 +43,7 @@ ggplot2 graph object. The graph to be shown.
 }
 \description{
 \code{illustrate_signal} plots the given uniaxial signal in illustration diagram style.
-Illustration diagram style hides axes markers, uncessary guidelines.
+Illustration diagram style hides axes markers, unnecessary guidelines.
 }
 \seealso{
 Other visualization functions.: 

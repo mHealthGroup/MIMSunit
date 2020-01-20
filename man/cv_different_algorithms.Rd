@@ -20,6 +20,6 @@ cv_different_algorithms
 \description{
 A dataset containing the coefficient of variation values at different
 frequencies for the dataset that includes accelerometer measures of different
-devices on a standard ellpitical shaker.
+devices on a standard elliptical shaker.
 }
 \keyword{datasets}

@@ -21,10 +21,10 @@
 #' @param ... see following parameter list.
 #' @param t POSIXct or numeric vector. Input index or timestamp sequence Used in
 #'   \code{\link{extrapolate_single_col}}.
-#' @param value numerica vector. Value vector used in
+#' @param value numeric vector. Value vector used in
 #'   \code{\link{extrapolate_single_col}}.
-#' @param range numerical vector. The dynamic ranges of the input signal. Should
-#'   be a 2-element numerical vector. \code{c(low, high)}, where \code{low} is
+#' @param range numeric vector. The dynamic ranges of the input signal. Should
+#'   be a 2-element numeric vector. \code{c(low, high)}, where \code{low} is
 #'   the negative max value the device can reach and \code{high} is the positive
 #'   max value the device can reach.
 #' @param noise_level number. The tolerable noise level in \eqn{g} unit, should
@@ -37,7 +37,7 @@
 #'   Default is 0.6, as optimized by MIMS-unit algorithm.
 #' @return \code{extraplate} returns a dataframe with extrapolated multi-channel
 #'   signal. \code{extrapolate_single_col} returns a dataframe with extrapolated
-#'   single-channel signal, the timestamp col is in numerical values instead of
+#'   single-channel signal, the timestamp col is in numeric values instead of
 #'   POSIXct format.
 #' @family extrapolation related functions
 #' @name extrapolate

@@ -328,7 +328,7 @@ import_enmo_csv <- function(filepath, enmo_col = 2) {
 #' The returned meta information includes following fields.
 #'
 #' \itemize{ \item sr: Sampling rate in Hz. \item fw: Firmware version. For
-#' example "1.7.0". \item sw: Sotware version of Actilife. For example "6.13.0".
+#' example "1.7.0". \item sw: Software version of Actilife. For example "6.13.0".
 #' \item sn: Serial number of the device. \item st: Start time of the data, in
 #' POSIXct format. \item dt: Download time of the data, in POSIXct format. \item
 #' at: Type of the device. Could be "MAT","CLE", "MOS" or "TAS", corresponding

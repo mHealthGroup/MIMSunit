@@ -9,6 +9,6 @@ citEntry(
   volume = 2,
   number = 4,
   pages = "268--281",
-  url = "https://journals.humankinetics.com/view/journals/jmpb/2/4/article-p268.xml",
+  url = "https://doi.org/10.1123/jmpb.2018-0068",
   textVersion = "John, D., Tang, Q., Albinali, F. and Intille, S., 2019. An Open-Source Monitor-Independent Movement Summary for Accelerometer Data Processing. Journal for the Measurement of Physical Behaviour, 2(4), pp.268-281."
 )
