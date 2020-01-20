@@ -35,3 +35,4 @@ dev.R
 ^codecov\.yml$
 ^revdep$
 ^cran\-comments\.md$
+^CRAN-RELEASE$
