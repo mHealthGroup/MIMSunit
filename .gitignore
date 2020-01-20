@@ -6,3 +6,4 @@
 dists/*
 data-raw-archive
 .vscode
+revdep

@@ -13,7 +13,6 @@
 ^_pkgdown\.yml$
 ^\.Rproj\.user$     # used for temporary files.
 ^cran-comments\.md$ # Comments for CRAN submission
-^NEWS\.md$          # A news file written in Markdown
 ^renv$
 ^renv\.lock$
 .renvignore
@@ -26,8 +25,13 @@ dev.R
 ^reproduce\/figure$
 ^reproduce\/src$
 ^reproduce\/table$
+^reproduce$
 ^vignettes$
 ^data/spades_lab_counts\.rda$
 ^data/spades_lab_stats\.rda$
 ^\.github$
 ^\.vscode$
+^\.travis\.yml$
+^codecov\.yml$
+^revdep$
+^cran\-comments\.md$
