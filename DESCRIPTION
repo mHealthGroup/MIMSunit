@@ -1,9 +1,8 @@
 Package: MIMSunit
 Type: Package
-Title: Algorithm to Compute Monitor Independent Movement Summary Unit (MIMS-unit)
-Version: 0.6.3.9000
-Date: 2018-10-24
-Author: Qu Tang <tang.q@husky.neu.edu>
+Title: Algorithm to Compute Monitor Independent Movement Summary Unit (MIMS-Unit)
+Version: 0.7.0
+Date: 2020-01-20
 Authors@R: c(person("Qu", "Tang", email = "tang.q@husky.neu.edu",
                   role = c("aut", "cre")),
              person("Dinesh", "John", email = "d.john@northeastern.edu",
@@ -14,19 +13,19 @@ Authors@R: c(person("Qu", "Tang", email = "tang.q@husky.neu.edu",
              comment = "https://mhealthgroup.org")
             )
 Maintainer: Qu Tang <tang.q@husky.neu.edu>
-Description: This package includes the algorithm to compute Monitor Independent
+Description: The MIMS-unit algorithm is developed to compute Monitor Independent
     Movement Summary Unit, a measurement to summarize raw accelerometer data 
     while ensuring harmonized results across different devices. It also includes
     scripts to reproduce results in the related publication.
 License: MIT + file LICENSE
+Language: en-US
 Depends: R (>= 3.5.0)
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.0.2
-URL: https://mhealthgroup.github.io/MIMSunit/, https://github.com/mhealthgroup/MIMSunit/tree/master/MIMSunit
+URL: https://mhealthgroup.github.io/MIMSunit/, https://github.com/mhealthgroup/MIMSunit/tree/master
 BugReports: https://github.com/mhealthgroup/MIMSunit/issues/
 Imports:
-    akima (>= 0.6-2),
     caTools (>= 1.17.1.1),
     dplyr (>= 0.7.7),
     lubridate (>= 1.7.4),
@@ -40,7 +39,8 @@ Imports:
     xts (>= 0.11-2),
     dygraphs (>= 1.1.1.6),
     RColorBrewer (>= 1.1-2),
-    utils (>= 3.6.1)
+    utils (>= 3.6.1),
+    ggplot2 (>= 3.2.1)
 Suggests:
     testthat
 SystemRequirements:

@@ -79,13 +79,6 @@
       "Repository": "CRAN",
       "Hash": "f3ca785924863b0e4c8cb23b6a5c75a1"
     },
-    "akima": {
-      "Package": "akima",
-      "Version": "0.6-2",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "68ce9db5c728b0f603cb39fe1560736c"
-    },
     "askpass": {
       "Package": "askpass",
       "Version": "1.1",
@@ -130,10 +123,10 @@
     },
     "caTools": {
       "Package": "caTools",
-      "Version": "1.17.1.4",
+      "Version": "1.18.0",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "f0d6e21996be6e2ee342836ec173c4cd"
+      "Hash": "6f7c1405e500ef25a7c147e860b5fe32"
     },
     "callr": {
       "Package": "callr",
@@ -162,13 +155,6 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "96c01552bfd5661b9bbdefbc762f4bcd"
-    },
-    "codetools": {
-      "Package": "codetools",
-      "Version": "0.2-16",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "89cf4b8207269ccf82fbeb6473fd662b"
     },
     "colorspace": {
       "Package": "colorspace",
@@ -403,10 +389,10 @@
     },
     "knitr": {
       "Package": "knitr",
-      "Version": "1.26",
+      "Version": "1.27",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "a1f86bbc39ae43c6ae183223a52527a1"
+      "Hash": "0eaaccb0946bf5ee33e2762882a4ae07"
     },
     "labeling": {
       "Package": "labeling",
@@ -613,10 +599,15 @@
     },
     "rcmdcheck": {
       "Package": "rcmdcheck",
-      "Version": "1.3.3",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "ed95895886dab6d2a584da45503555da"
+      "Version": "1.3.3.9000",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "rcmdcheck",
+      "RemoteUsername": "r-lib",
+      "RemoteRef": "master",
+      "RemoteSha": "fa385d58984a957a5c94593fd32593eca6d12ade",
+      "Hash": "020bb01eab210438074849a893dc14d7"
     },
     "readr": {
       "Package": "readr",
@@ -669,10 +660,10 @@
     },
     "rmarkdown": {
       "Package": "rmarkdown",
-      "Version": "2.0",
+      "Version": "2.1",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "745a60d9256842b1abae2dcf7b64ebc1"
+      "Hash": "9d1c61d476c448350c482d6664e1b28b"
     },
     "roxygen2": {
       "Package": "roxygen2",
@@ -736,13 +727,6 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "947e4e02a79effa5d512473e10f41797"
-    },
-    "sp": {
-      "Package": "sp",
-      "Version": "1.3-2",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "803f04b858b8520ac243d38e09741de6"
     },
     "stringi": {
       "Package": "stringi",
@@ -865,10 +849,10 @@
     },
     "xts": {
       "Package": "xts",
-      "Version": "0.11-2",
+      "Version": "0.12-0",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "4322d0b1ed0dc74b2f9ae24b751f72de"
+      "Hash": "cae1f4b14c523f62b61276fb3962d4fb"
     },
     "yaml": {
       "Package": "yaml",
