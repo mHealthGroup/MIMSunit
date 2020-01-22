@@ -47,10 +47,12 @@ If both \code{count_col} and \code{count_per_axis_cols} are
 \seealso{
 Other Filo I/O functions: 
 \code{\link{export_to_actilife}()},
+\code{\link{import_actigraph_csv_chunked}()},
 \code{\link{import_actigraph_csv}()},
 \code{\link{import_actigraph_meta}()},
 \code{\link{import_activpal3_csv}()},
 \code{\link{import_enmo_csv}()},
+\code{\link{import_mhealth_csv_chunked}()},
 \code{\link{import_mhealth_csv}()}
 }
 \concept{Filo I/O functions}

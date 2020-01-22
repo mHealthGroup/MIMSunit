@@ -28,9 +28,11 @@ stored in mHealth Specification.
 Other Filo I/O functions: 
 \code{\link{export_to_actilife}()},
 \code{\link{import_actigraph_count_csv}()},
+\code{\link{import_actigraph_csv_chunked}()},
 \code{\link{import_actigraph_csv}()},
 \code{\link{import_actigraph_meta}()},
 \code{\link{import_activpal3_csv}()},
-\code{\link{import_enmo_csv}()}
+\code{\link{import_enmo_csv}()},
+\code{\link{import_mhealth_csv_chunked}()}
 }
 \concept{Filo I/O functions}

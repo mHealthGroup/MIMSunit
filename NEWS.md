@@ -1,5 +1,9 @@
 # MIMSunit 0.7.0.9000
 
+## Added
+
+* New import data functions `MIMSunit::import_actigraph_csv_chunked` and `MIMSunit::import_mhealth_csv_chunked` to support loading large csv files in chunks. See issue [#11](https://github.com/mHealthGroup/MIMSunit/issues/11).
+
 # MIMSunit 0.7.0
 
 ## Improved
