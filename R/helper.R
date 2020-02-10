@@ -15,6 +15,18 @@
 #' @return number. The number of samples represented by the epoch string.
 #' @family utility functions
 #' @export
+#' @examples
+#' # 1 min with 80 Hz = 4800 samples
+#' parse_epoch_string('1 min', sr=80)
+#'
+#' # 30 sec with 30 Hz = 900 samples
+#' parse_epoch_string('30 sec', sr=30)
+#'
+#' # 1 hour with 1 Hz = 3600 samples
+#' parse_epoch_string('1 hour', sr=1)
+#'
+#' # 1 day with 10 Hz = 864000 samples
+#' parse_epoch_string('1 day', sr=10)
 parse_epoch_string <- function(epoch_str, sr) {
   if (stringr::str_detect(epoch_str, "sec")) {
     tokens <- stringr::str_split(epoch_str, pattern = " ")[[1]]
@@ -51,6 +63,20 @@ parse_epoch_string <- function(epoch_str, sr) {
 #' @return number. The estimated sampling rate in Hz.
 #' @family utility functions
 #' @export
+#' @examples
+#' # Get the test data
+#' df = sample_raw_accel_data
+#'
+#' # Default sampling rate is 80Hz
+#' sampling_rate(df)
+#'
+#' # Downsample to 30Hz
+#' output = bandlimited_interp(df, 80, 30)
+#' sampling_rate(output)
+#'
+#' # Upsampling to 100Hz
+#' output = bandlimited_interp(df, 80, 100)
+#' sampling_rate(output)
 sampling_rate <- function(df) {
   duration <-
     as.numeric(dplyr::last(df[, 1]) - dplyr::first(df[, 1]), units = "secs")

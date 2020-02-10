@@ -23,6 +23,16 @@
 #'   the errors caused by signal maxing out (during over extrapolation).
 #' @family extrapolation related functions
 #' @export
+#' @examples
+#'   # Prepare data for test, ground truth
+#'   test_df = conceptual_diagram_data[conceptual_diagram_data['GRANGE'] == 4, c("HEADER_TIME_STAMP", "X")]
+#'   true_df = conceptual_diagram_data[conceptual_diagram_data['GRANGE'] == 8, c("HEADER_TIME_STAMP", "X")]
+#'
+#'   # Do extrapolation
+#'   extrap_df = extrapolate(test_df, range=c(-4, 4))
+#'
+#'   # Compute extrapolation rate
+#'   extrapolate_rate(test_df, true_df, extrap_df)
 extrapolate_rate <- function(test_df, true_df, extrap_df) {
   true_auc <- caTools::trapz(true_df[[1]], abs(true_df[[2]]))
   test_auc <- caTools::trapz(test_df[[1]], abs(test_df[[2]]))

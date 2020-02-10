@@ -20,7 +20,18 @@
 #' @return dataframe. Filtered signal.
 #' @family filtering functions
 #' @export
+#' @examples
+#'   # Use first 1000 rows of sample data
+#'   df = sample_raw_accel_data[1:1000,]
 #'
+#'   # View input
+#'   illustrate_signal(df, plot_maxed_out_line = FALSE)
+#'
+#'   # Apply filtering
+#'   output = remove_average(df, sr=80, order=0.5)
+#'
+#'   # View output
+#'   illustrate_signal(output, plot_maxed_out_line = FALSE)
 remove_average <- function(df, sr, order = 0.5) {
   n_cols <- ncol(df)
 
@@ -70,6 +81,18 @@ remove_average <- function(df, sr, order = 0.5) {
 #' @return dataframe. Filtered signal.
 #' @family filtering functions
 #' @export
+#' @examples
+#'   # Use first 1000 rows of sample data
+#'   df = sample_raw_accel_data[1:1000,]
+#'
+#'   # View input
+#'   illustrate_signal(df, plot_maxed_out_line = FALSE)
+#'
+#'   # Apply filtering
+#'   output = bessel(df, sr=80, cutoff_freq=2, order=8)
+#'
+#'   # View output
+#'   illustrate_signal(output, plot_maxed_out_line = FALSE)
 bessel <- function(df, sr, cutoff_freq, order = 8) {
   # real bessel filter design based on the implementation of matlab
   arma_coeffs <-
@@ -133,6 +156,18 @@ bessel <- function(df, sr, cutoff_freq, order = 8) {
 #' @return dataframe. Filtered signal.
 #' @family filtering functions
 #' @export
+#' @examples
+#'   # Use first 1000 rows of sample data
+#'   df = sample_raw_accel_data[1:1000,]
+#'
+#'   # View input
+#'   illustrate_signal(df, plot_maxed_out_line = FALSE)
+#'
+#'   # Apply filtering that uses the same setting as in MIMSunit algorithm
+#'   output = iir(df, sr=80, cutoff_freq=c(0.2, 5), type='pass')
+#'
+#'   # View output
+#'   illustrate_signal(output, plot_maxed_out_line = FALSE)
 iir <-
   function(df,
            sr,
@@ -201,7 +236,18 @@ iir <-
 #' @return dataframe. Filtered signal.
 #' @family filtering functions
 #' @export
+#' @examples
+#'   # Use first 1000 rows of sample data
+#'   df = sample_raw_accel_data[1:1000,]
 #'
+#'   # View input
+#'   illustrate_signal(df, plot_maxed_out_line = FALSE)
+#'
+#'   # Apply filtering that uses the same setting as in MIMSunit algorithm
+#'   output = bandlimited_interp(df, orig_sr=80, new_sr=30)
+#'
+#'   # View output
+#'   illustrate_signal(output, plot_maxed_out_line = FALSE)
 bandlimited_interp <- function(df, orig_sr, new_sr) {
   n_cols <- ncol(df)
 
