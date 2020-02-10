@@ -36,7 +36,7 @@ illustrate_signal <- function(data,
   colnames(data) <- c("HEADER_TIME_STAMP", "value")
   p <- ggplot2::ggplot(
     data = data,
-    ggplot2::aes(x = data['HEADER_TIME_STAMP'], y = data['value'])
+    ggplot2::aes(x = data[['HEADER_TIME_STAMP']], y = data[['value']])
   )
   if (plot_line) {
     p <- p + ggplot2::geom_line(size = line_size)
