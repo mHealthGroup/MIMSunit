@@ -12,7 +12,7 @@
 #'   first column being the timestamps in POSXlct format, and the rest columns
 #'   being accelerometer values in \eqn{g} unit.
 #'
-#' @family Filo I/O functions
+#' @family File I/O functions
 #'
 #' @export
 import_mhealth_csv <- function(filepath) {
@@ -64,7 +64,7 @@ import_mhealth_csv <- function(filepath) {
 #' `has_more_chunks` function used to check if all chunks are loaded.
 #' If it returns `FALSE`, it means the loading has ended. The third item is a
 #' `close` function which you can call at any moment to close the file loading.
-#' @family Filo I/O functions
+#' @family File I/O functions
 #'
 #' @export
 import_mhealth_csv_chunked <- function(filepath) {
@@ -172,7 +172,7 @@ import_mhealth_csv_chunked <- function(filepath) {
 #'   first column being the timestamps in POSXlct format, and the rest columns
 #'   being accelerometer values in \eqn{g} unit.
 #'
-#' @family Filo I/O functions
+#' @family File I/O functions
 #'
 #' @export
 import_activpal3_csv <- function(filepath, header = FALSE) {
@@ -245,7 +245,7 @@ import_activpal3_csv <- function(filepath, header = FALSE) {
 #' If it returns `FALSE`, it means the loading has ended. The third item is a
 #' `close` function which you can call at any moment to close the file loading.
 #'
-#' @family Filo I/O functions
+#' @family File I/O functions
 #' @export
 import_actigraph_csv_chunked <- function(filepath,
                                          in_voltage = FALSE,
@@ -418,7 +418,7 @@ import_actigraph_csv_chunked <- function(filepath,
 #'   first column being the timestamps in POSXlct format, and the rest columns
 #'   being accelerometer values in \eqn{g} unit.
 #'
-#' @family Filo I/O functions
+#' @family File I/O functions
 #' @export
 import_actigraph_csv <-
   function(filepath,
@@ -524,7 +524,7 @@ import_actigraph_csv <-
 #'   \code{HEADER_TIME_STAMP}, \code{ACTIGRAPH_COUNT},
 #'   \code{ACTIGRAPH_COUNT_X}....
 #'
-#' @family Filo I/O functions
+#' @family File I/O functions
 #' @export
 import_actigraph_count_csv <-
   function(filepath,
@@ -578,7 +578,7 @@ import_actigraph_count_csv <-
 #'   timestamps in POSIXct format, and the second column being the ENMO values.
 #'   Column names: \code{HEADER_TIME_STAMP}, \code{ENMO}.
 #'
-#' @family Filo I/O functions
+#' @family File I/O functions
 #' @export
 import_enmo_csv <- function(filepath, enmo_col = 2) {
   dat <- readr::read_csv(filepath, col_names = TRUE)
@@ -622,7 +622,7 @@ import_enmo_csv <- function(filepath, enmo_col = 2) {
 #' @param header logical. Whether the Actigraph RAW or summary csv file includes
 #'   column names. Default is TRUE.
 #' @return list. A list of Actigraph device meta information.
-#' @family Filo I/O functions
+#' @family File I/O functions
 #' @export
 import_actigraph_meta <- function(filepath, header = TRUE) {
   ACTIGRAPH_HEADER_SR_PATTERN <- "([0-9]+) Hz"
