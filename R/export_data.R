@@ -26,8 +26,21 @@
 #'   Actigraph counts by Actilife, so it may be set with an arbitrary version
 #'   code seen in any Actigraph devices. We use default version code "1.6.0".
 #' @return No return value.
-#' @family Filo I/O functions
+#' @family File I/O functions
 #' @export
+#' @examples
+#'   # Use the first 5 rows from sample data
+#'   df = sample_raw_accel_data[1:5,]
+#'   head(df)
+#'
+#'   # Save to current path with default mocked actilife and firmware versions
+#'   export_to_actilife(df, 'test.csv')
+#'
+#'   # The saved file will have the same format as Actigraph csv files
+#'   readLines('test.csv')
+#'
+#'   # Cleanup
+#'   file.remove('test.csv')
 export_to_actilife <-
   function(df,
            filepath,
