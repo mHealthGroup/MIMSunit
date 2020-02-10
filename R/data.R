@@ -1,3 +1,18 @@
+#' Sample raw accelerometer data
+#'
+#' A raw accelerometer data file contains treadmill data collected from a human
+#' subject.
+#'
+#' @format A data frame with 76479 rows and 4 variables:
+#' \describe{
+#'   \item{HEADER_TIME_STAMP}{Timestamp, in POSIXct}
+#'   \item{X}{X axis values, in number}
+#'   \item{Y}{Y axis values, in number}
+#'   \item{Z}{Z axis values, in number}
+#' }
+#' @source \url{https://github.com/qutang/MIMSunit}
+"sample_raw_accel_data"
+
 #' Coefficient of variation values for different acceleration data summary
 #' algorithms
 #'
