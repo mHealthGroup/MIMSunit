@@ -70,6 +70,20 @@ its timestamps and values specified in the first and second arguments.
   step during MIMS-unit algorithm, applied before filtering.
 }
 
+\examples{
+  # Use the maxed-out data for the conceptual diagram
+  df = conceptual_diagram_data[conceptual_diagram_data['GRANGE'] == 4, c("HEADER_TIME_STAMP", "X")]
+
+  # Plot input
+  illustrate_signal(df, range=c(-4, 4))
+
+  # Use the default parameter settings as in MIMunit algorithms
+  # The dynamic range of the input data is -4g to 4g.
+  output = extrapolate(df, range=c(-4, 4))
+
+  # Plot output
+  illustrate_signal(output, range=c(-4, 4))
+}
 \seealso{
 Other extrapolation related functions: 
 \code{\link{extrapolate_rate}()}

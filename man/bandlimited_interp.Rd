@@ -35,6 +35,19 @@ implementation.
   to increase the sampling rate to 100Hz, so this method is no longer needed.
 }
 
+\examples{
+  # Use first 1000 rows of sample data
+  df = sample_raw_accel_data[1:1000,]
+
+  # View input
+  illustrate_signal(df, plot_maxed_out_line = FALSE)
+
+  # Apply filtering that uses the same setting as in MIMSunit algorithm
+  output = bandlimited_interp(df, orig_sr=80, new_sr=30)
+
+  # View output
+  illustrate_signal(output, plot_maxed_out_line = FALSE)
+}
 \seealso{
 Other filtering functions: 
 \code{\link{bessel}()},

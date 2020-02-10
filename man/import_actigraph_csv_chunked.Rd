@@ -57,7 +57,7 @@ values. \eqn{r} can also be found in the meta section in the csv file.
 }
 
 \seealso{
-Other Filo I/O functions: 
+Other File I/O functions: 
 \code{\link{export_to_actilife}()},
 \code{\link{import_actigraph_count_csv}()},
 \code{\link{import_actigraph_csv}()},
@@ -67,4 +67,4 @@ Other Filo I/O functions:
 \code{\link{import_mhealth_csv_chunked}()},
 \code{\link{import_mhealth_csv}()}
 }
-\concept{Filo I/O functions}
+\concept{File I/O functions}

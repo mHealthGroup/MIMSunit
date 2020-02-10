@@ -48,8 +48,22 @@ format so that we can use Actilife to compute Actigraph counts values for
 these data.
 }
 
+\examples{
+  # Use the first 5 rows from sample data
+  df = sample_raw_accel_data[1:5,]
+  head(df)
+
+  # Save to current path with default mocked actilife and firmware versions
+  export_to_actilife(df, 'test.csv')
+
+  # The saved file will have the same format as Actigraph csv files
+  readLines('test.csv')
+
+  # Cleanup
+  file.remove('test.csv')
+}
 \seealso{
-Other Filo I/O functions: 
+Other File I/O functions: 
 \code{\link{import_actigraph_count_csv}()},
 \code{\link{import_actigraph_csv_chunked}()},
 \code{\link{import_actigraph_csv}()},
@@ -59,4 +73,4 @@ Other Filo I/O functions:
 \code{\link{import_mhealth_csv_chunked}()},
 \code{\link{import_mhealth_csv}()}
 }
-\concept{Filo I/O functions}
+\concept{File I/O functions}

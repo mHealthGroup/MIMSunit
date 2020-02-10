@@ -36,6 +36,19 @@ implementation as in MATLAB.
   this function for filtering.
 }
 
+\examples{
+  # Use first 1000 rows of sample data
+  df = sample_raw_accel_data[1:1000,]
+
+  # View input
+  illustrate_signal(df, plot_maxed_out_line = FALSE)
+
+  # Apply filtering
+  output = bessel(df, sr=80, cutoff_freq=2, order=8)
+
+  # View output
+  illustrate_signal(output, plot_maxed_out_line = FALSE)
+}
 \seealso{
 Other filtering functions: 
 \code{\link{bandlimited_interp}()},

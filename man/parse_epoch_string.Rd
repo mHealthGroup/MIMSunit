@@ -28,6 +28,19 @@ corresponding number of samples represented by the epoch string.
   \code{\link{aggregate_for_mims}} function and \code{\link{mims_unit}} function.
 }
 
+\examples{
+# 1 min with 80 Hz = 4800 samples
+parse_epoch_string('1 min', sr=80)
+
+# 30 sec with 30 Hz = 900 samples
+parse_epoch_string('30 sec', sr=30)
+
+# 1 hour with 1 Hz = 3600 samples
+parse_epoch_string('1 hour', sr=1)
+
+# 1 day with 10 Hz = 864000 samples
+parse_epoch_string('1 day', sr=10)
+}
 \seealso{
 Other utility functions: 
 \code{\link{clip_data}()},

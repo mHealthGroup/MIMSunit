@@ -29,6 +29,21 @@ of samples by it.
   know the sampling rate.
 }
 
+\examples{
+# Get the test data
+df = sample_raw_accel_data
+
+# Default sampling rate is 80Hz
+sampling_rate(df)
+
+# Downsample to 30Hz
+output = bandlimited_interp(df, 80, 30)
+sampling_rate(output)
+
+# Upsampling to 100Hz
+output = bandlimited_interp(df, 80, 100)
+sampling_rate(output)
+}
 \seealso{
 Other utility functions: 
 \code{\link{clip_data}()},

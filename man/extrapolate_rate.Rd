@@ -37,6 +37,17 @@ acceleration values in g.
   may see results in Figure 2 of the manuscript.
 }
 
+\examples{
+  # Prepare data for test, ground truth
+  test_df = conceptual_diagram_data[conceptual_diagram_data['GRANGE'] == 4, c("HEADER_TIME_STAMP", "X")]
+  true_df = conceptual_diagram_data[conceptual_diagram_data['GRANGE'] == 8, c("HEADER_TIME_STAMP", "X")]
+
+  # Do extrapolation
+  extrap_df = extrapolate(test_df, range=c(-4, 4))
+
+  # Compute extrapolation rate
+  extrapolate_rate(test_df, true_df, extrap_df)
+}
 \seealso{
 Other extrapolation related functions: 
 \code{\link{extrapolate}()}

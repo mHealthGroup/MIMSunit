@@ -34,6 +34,19 @@ value within each sliding window. The sliding window size is decided by
   this function for filtering.
 }
 
+\examples{
+  # Use first 1000 rows of sample data
+  df = sample_raw_accel_data[1:1000,]
+
+  # View input
+  illustrate_signal(df, plot_maxed_out_line = FALSE)
+
+  # Apply filtering
+  output = remove_average(df, sr=80, order=0.5)
+
+  # View output
+  illustrate_signal(output, plot_maxed_out_line = FALSE)
+}
 \seealso{
 Other filtering functions: 
 \code{\link{bandlimited_interp}()},

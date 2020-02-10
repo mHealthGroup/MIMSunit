@@ -52,6 +52,19 @@ fixed to be 0.05 dB. For Elliptic filter, the stopband ripple is fixed to be
   a 0.5 - 5 Hz bandpass butterworth filter during filtering.
 }
 
+\examples{
+  # Use first 1000 rows of sample data
+  df = sample_raw_accel_data[1:1000,]
+
+  # View input
+  illustrate_signal(df, plot_maxed_out_line = FALSE)
+
+  # Apply filtering that uses the same setting as in MIMSunit algorithm
+  output = iir(df, sr=80, cutoff_freq=c(0.2, 5), type='pass')
+
+  # View output
+  illustrate_signal(output, plot_maxed_out_line = FALSE)
+}
 \seealso{
 Other filtering functions: 
 \code{\link{bandlimited_interp}()},

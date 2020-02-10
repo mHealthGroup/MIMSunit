@@ -36,7 +36,7 @@ values may be converted to \eqn{g} unit using following equation.
 }
 
 \seealso{
-Other Filo I/O functions: 
+Other File I/O functions: 
 \code{\link{export_to_actilife}()},
 \code{\link{import_actigraph_count_csv}()},
 \code{\link{import_actigraph_csv_chunked}()},
@@ -46,4 +46,4 @@ Other Filo I/O functions:
 \code{\link{import_mhealth_csv_chunked}()},
 \code{\link{import_mhealth_csv}()}
 }
-\concept{Filo I/O functions}
+\concept{File I/O functions}
