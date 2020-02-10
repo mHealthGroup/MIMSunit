@@ -4,6 +4,15 @@
 
 * New import data functions `MIMSunit::import_actigraph_csv_chunked` and `MIMSunit::import_mhealth_csv_chunked` to support loading large csv files in chunks. See issue [#11](https://github.com/mHealthGroup/MIMSunit/issues/11).
 
+## Bug fixes
+
+* Column naming in `vector_magnitude` and `sum_up` functions.
+* Crashing bug in `illustrate_signal` due to ggplot2 version update.
+
+## Documentation
+
+* Add examples to functions.
+
 # MIMSunit 0.7.0
 
 ## Improved
