@@ -25,17 +25,35 @@
 #' @seealso \code{\link{sum_up}}
 #' @family transformation functions
 #' @export
+#' @examples
+#'   # Use the first 10 rows of the sample data as an example
+#'   df = sample_raw_accel_data[1:5,]
+#'   df
+#'
+#'   # By default, the function will assume columns starting from 2 to be axial
+#'   # values.
+#'   vector_magnitude(df)
+#'
+#'   # Or, you may specify the column indices yourself
+#'   vector_magnitude(df, axes=c(2,3,4))
+#'
+#'   # Or, if you only want to consider x and y axes
+#'   vector_magnitude(df, axes=c(2,3))
+#'
+#'   # Or, just return the chosen column
+#'   vector_magnitude(df, axes=c(2))
 #'
 vector_magnitude <- function(df, axes = NULL) {
   n_cols <- ncol(df)
   vm_data <- df
   stamp_name <- colnames(df)[1]
-  tokens <- stringr::str_split(names(df)[2], "_")[[1]]
-  label_name <-
-    paste(c("MAGNITUDE", tokens[2:length(tokens)]), collapse = "_")
   if (is.null(axes)) {
-    vm_data[label_name] <- rowSums(df[, 2:n_cols]^2)
-  } else if (length(axes) == 1) {
+    axes = 2:n_cols
+  }
+  tokens <- names(df)[axes]
+  label_name <-
+    paste(c("MAGNITUDE", tokens), collapse = "_")
+  if (length(axes) == 1) {
     vm_data[label_name] <- df[, axes]^2
   } else {
     vm_data[label_name] <- rowSums(df[, axes]^2)
@@ -71,17 +89,35 @@ vector_magnitude <- function(df, axes = NULL) {
 #' @seealso \code{\link{vector_magnitude}}
 #' @family transformation functions
 #' @export
+#' @examples
+#'   # Use the first 10 rows of the sample data as an example
+#'   df = sample_raw_accel_data[1:5,]
+#'   df
+#'
+#'   # By default, the function will assume columns starting from 2 to be axial
+#'   # values.
+#'   sum_up(df)
+#'
+#'   # Or, you may specify the column indices yourself
+#'   sum_up(df, axes=c(2,3,4))
+#'
+#'   # Or, if you only want to consider x and y axes
+#'   sum_up(df, axes=c(2,3))
+#'
+#'   # Or, just return the chosen column
+#'   sum_up(df, axes=c(2))
 #'
 sum_up <- function(df, axes = NULL) {
   n_cols <- ncol(df)
   sum_data <- df
   stamp_name <- colnames(df)[1]
-  tokens <- stringr::str_split(names(df)[2], "_")[[1]]
-  label_name <-
-    paste(c("SUMUP", tokens[2:length(tokens)]), collapse = "_")
   if (is.null(axes)) {
-    sum_data[label_name] <- rowSums(df[, 2:n_cols])
-  } else if (length(axes) == 1) {
+    axes = 2:n_cols
+  }
+  tokens <- names(df)[axes]
+  label_name <-
+    paste(c("SUMUP", tokens), collapse = "_")
+  if (length(axes) == 1) {
     sum_data[label_name] <- df[, axes]
   } else {
     sum_data[label_name] <- rowSums(df[, axes])

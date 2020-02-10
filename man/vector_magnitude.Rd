@@ -35,6 +35,25 @@ dataframe with two columns.
   each axis into a single value.
 }
 
+\examples{
+  # Use the first 10 rows of the sample data as an example
+  df = sample_raw_accel_data[1:5,]
+  df
+
+  # By default, the function will assume columns starting from 2 to be axial
+  # values.
+  vector_magnitude(df)
+
+  # Or, you may specify the column indices yourself
+  vector_magnitude(df, axes=c(2,3,4))
+
+  # Or, if you only want to consider x and y axes
+  vector_magnitude(df, axes=c(2,3))
+
+  # Or, just return the chosen column
+  vector_magnitude(df, axes=c(2))
+
+}
 \seealso{
 \code{\link{sum_up}}
 

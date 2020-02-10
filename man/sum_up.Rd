@@ -34,6 +34,25 @@ columns.
   over each epoch using \code{\link{aggregate_for_mims}}.
 }
 
+\examples{
+  # Use the first 10 rows of the sample data as an example
+  df = sample_raw_accel_data[1:5,]
+  df
+
+  # By default, the function will assume columns starting from 2 to be axial
+  # values.
+  sum_up(df)
+
+  # Or, you may specify the column indices yourself
+  sum_up(df, axes=c(2,3,4))
+
+  # Or, if you only want to consider x and y axes
+  sum_up(df, axes=c(2,3))
+
+  # Or, just return the chosen column
+  sum_up(df, axes=c(2))
+
+}
 \seealso{
 \code{\link{vector_magnitude}}
 

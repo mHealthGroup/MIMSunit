@@ -37,6 +37,16 @@
 #'   function will treat the input dataframe as a single epoch.
 #' @export
 #'
+#' @examples
+#'   # use the first 1000 rows from a sample data
+#'   df = sample_raw_accel_data[1:10000,]
+#'   head(df)
+#'
+#'   # epoch set to 1 minute, and method set to "trapz"
+#'   aggregate_for_mims(df, epoch = '1 min', method='trapz')
+#'
+#'   # method set to "sum"
+#'   aggregate_for_mims(df, epoch = '1 min', method='sum')
 aggregate_for_mims <-
   function(df,
            epoch,
@@ -154,7 +164,8 @@ aggregate_for_mims <-
 #' @param estimation_window number. Duration in seconds to be used to estimate
 #'   orientation within each epoch. Default is 2 (seconds), as suggested by
 #'   \href{https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=1241424}{Mizell,
-#'   2003}.
+#'   2003}. If the number of samples in an epoch is less than 90%, the output
+#'   would be NA for this epoch.
 #' @param unit string. The unit of orientation angles. Can be "deg" (degree) or
 #'   "rad" (radian). Default is "deg".
 #' @return dataframe. The returned dataframe will have the same format as input
@@ -167,6 +178,18 @@ aggregate_for_mims <-
 #' @note If \code{epoch} argument is not provided or is \code{NULL}, the
 #'   function will treat the input dataframe as a single epoch.
 #' @export
+#' @examples
+#'   # Use first 10000 rows from sample input data
+#'   df = sample_raw_accel_data[1:10000,]
+#'   head(df)
+#'
+#'   # set epoch to 1 minute and unit to degree
+#'   # last epoch does not have enough samples to estimate orientation angles.
+#'   aggregate_for_orientation(df, epoch='1 min', unit='deg')
+#'
+#'   # set epoch to 30 seconds and unit to radian
+#'   # last epoch does not have enough samples to estimate orientation angles.
+#'   aggregate_for_orientation(df, epoch='30 sec', unit='rad')
 #'
 aggregate_for_orientation <-
   function(df,

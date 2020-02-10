@@ -49,6 +49,17 @@ If \code{epoch} argument is not provided or is \code{NULL}, the
   axis using this function.
 }
 
+\examples{
+  # use the first 1000 rows from a sample data
+  df = sample_raw_accel_data[1:10000,]
+  head(df)
+
+  # epoch set to 1 minute, and method set to "trapz"
+  aggregate_for_mims(df, epoch = '1 min', method='trapz')
+
+  # method set to "sum"
+  aggregate_for_mims(df, epoch = '1 min', method='sum')
+}
 \seealso{
 \code{\link{aggregate_for_orientation}} for aggregating to get
   accelerometer orientation estimation for each epoch.

@@ -17,7 +17,8 @@ secs", "10 mins".}
 \item{estimation_window}{number. Duration in seconds to be used to estimate
 orientation within each epoch. Default is 2 (seconds), as suggested by
 \href{https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=1241424}{Mizell,
-2003}.}
+2003}. If the number of samples in an epoch is less than 90%, the output
+would be NA for this epoch.}
 
 \item{unit}{string. The unit of orientation angles. Can be "deg" (degree) or
 "rad" (radian). Default is "deg".}
@@ -54,6 +55,20 @@ If \code{epoch} argument is not provided or is \code{NULL}, the
   function.
 }
 
+\examples{
+  # Use first 10000 rows from sample input data
+  df = sample_raw_accel_data[1:10000,]
+  head(df)
+
+  # set epoch to 1 minute and unit to degree
+  # last epoch does not have enough samples to estimate orientation angles.
+  aggregate_for_orientation(df, epoch='1 min', unit='deg')
+
+  # set epoch to 30 seconds and unit to radian
+  # last epoch does not have enough samples to estimate orientation angles.
+  aggregate_for_orientation(df, epoch='30 sec', unit='rad')
+
+}
 \seealso{
 \code{\link{aggregate_for_mims}} for aggregating to get integrated
   values for each axis for each epoch.

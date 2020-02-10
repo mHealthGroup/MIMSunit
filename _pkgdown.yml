@@ -20,6 +20,8 @@ reference:
     contents:
       - cv_different_algorithms
       - measurements_different_devices
+      - sample_raw_accel_data
+      - conceptual_diagram_data
   - title: "Signal Filtering"
     desc: "Functions to filter multi-channel accelerometer signal."
     contents:
