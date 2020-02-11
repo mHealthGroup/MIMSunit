@@ -10,7 +10,7 @@ mims_unit_from_files(
   epoch = "5 sec",
   dynamic_range,
   output_mims_per_axis = FALSE,
-  show_progress = T,
+  show_progress = TRUE,
   file_type = "mhealth",
   ...
 )
@@ -99,6 +99,21 @@ This function is a wrapper function for the low-level
   MIMS-unit algorithm.
 }
 
+\examples{
+  # Use a single sample mhealth file
+  filepath = system.file('extdata', 'mhealth.csv', package='MIMSunit')
+
+  # Load a single file and compute mims unit
+  mims_unit_from_files(c(filepath), epoch='5 min', dynamic_range=c(-8, 8))
+
+  # Load multiple files
+  filepaths = c(system.file('extdata', 'mhealth.csv', package='MIMSunit'),
+                system.file('extdata', 'mhealth1.csv', package='MIMSunit'))
+
+  mims_unit_from_files(c(filepaths), epoch='20 min', dynamic_range=c(-8, 8))
+
+  # See more examples in the vigette \link{/articles/mims_unit_from_files.html}
+}
 \seealso{
 Other Top level API functions: 
 \code{\link{custom_mims_unit}()},

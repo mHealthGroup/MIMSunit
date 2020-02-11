@@ -34,6 +34,33 @@ according to the start_time and stop_time.
   clip a dataframe.
 }
 
+\examples{
+  options(digits.secs=3)
+  # Use the provided sample data
+  df = sample_raw_accel_data
+
+  # Check the start time and stop time of the dataset
+  summary(df)
+
+  # Use timestamp string to clip 1 second data
+  start_time = "2016-01-15 11:01:00"
+  stop_time = "2016-01-15 11:01:01"
+  output = clip_data(df, start_time, stop_time)
+  summary(output)
+
+  # Use POSIXct timestamp to clip data
+  start_time = as.POSIXct("2016-01-15 11:01:00")
+  stop_time = as.POSIXct("2016-01-15 11:01:01")
+  output = clip_data(df, start_time, stop_time)
+  summary(output)
+
+  # If start and stop time is not in the range of the input data
+  # return empty data.frame
+  start_time = "2016-01-15 12:01:00"
+  stop_time = "2016-01-15 12:01:01"
+  output = clip_data(df, start_time, stop_time)
+  output
+}
 \seealso{
 Other utility functions: 
 \code{\link{cut_off_signal}()},

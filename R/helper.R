@@ -106,16 +106,42 @@ sampling_rate <- function(df) {
 #' @return dataframe. The same format as the input dataframe.
 #' @family utility functions
 #' @export
+#' @examples
+#'   options(digits.secs=3)
+#'   # Use the provided sample data
+#'   df = sample_raw_accel_data
+#'
+#'   # Check the start time and stop time of the dataset
+#'   summary(df)
+#'
+#'   # Use timestamp string to clip 1 second data
+#'   start_time = "2016-01-15 11:01:00"
+#'   stop_time = "2016-01-15 11:01:01"
+#'   output = clip_data(df, start_time, stop_time)
+#'   summary(output)
+#'
+#'   # Use POSIXct timestamp to clip data
+#'   start_time = as.POSIXct("2016-01-15 11:01:00")
+#'   stop_time = as.POSIXct("2016-01-15 11:01:01")
+#'   output = clip_data(df, start_time, stop_time)
+#'   summary(output)
+#'
+#'   # If start and stop time is not in the range of the input data
+#'   # return empty data.frame
+#'   start_time = "2016-01-15 12:01:00"
+#'   stop_time = "2016-01-15 12:01:01"
+#'   output = clip_data(df, start_time, stop_time)
+#'   output
 clip_data <- function(df, start_time, stop_time) {
   tzone <- lubridate::tz(df[["HEADER_TIME_STAMP"]][1])
   if (is.character(start_time)) {
     start_time <- as.POSIXct(start_time, tz = tzone)
   }
-  start_time <- lubridate::force_tz(start_time, tz = tzone)
+  start_time <- lubridate::force_tz(start_time, tzone = tzone)
   if (is.character(stop_time)) {
     stop_time <- as.POSIXct(stop_time, tz = tzone)
   }
-  stop_time <- lubridate::force_tz(stop_time, tz = tzone)
+  stop_time <- lubridate::force_tz(stop_time, tzone = tzone)
 
   mask <- df[["HEADER_TIME_STAMP"]] >= start_time &
     df[["HEADER_TIME_STAMP"]] <= stop_time
@@ -126,10 +152,10 @@ clip_data <- function(df, start_time, stop_time) {
 
 #' Segment input dataframe into windows as specified by breaks.
 #' \code{segment_data} segments the input sensor dataframe into
-#'  epoch windows with length specified in breaks.
+#'   epoch windows with length specified in breaks.
 #'
-#' This function accepts a dataframe of multi-channel signal, segments it
-#' into epoch windows with length specified in breaks.
+#'   This function accepts a dataframe of multi-channel signal, segments it
+#'   into epoch windows with length specified in breaks.
 #'
 #' @section How is it used in MIMS-unit algorithm?: This function is a utility
 #'   function that was used in various part in the algorithm whenever we need to
@@ -139,11 +165,34 @@ clip_data <- function(df, start_time, stop_time) {
 #'   column is the timestamps in POSXlct format and the following columns are
 #'   accelerometer values.
 #' @param breaks character. An epoch length character that can be accepted by
-#' cut.breaks function.
+#'   cut.breaks function.
 #' @return dataframe. The same format as the input dataframe, but with an extra
-#' column "SEGMENT" in the end specifies the epoch window a sample belongs to.
+#'   column "SEGMENT" in the end specifies the epoch window a sample belongs to.
 #' @family utility functions
 #' @export
+#' @examples
+#'   # Use sample data
+#'   df = sample_raw_accel_data
+#'
+#'   # segment data into 1 minute segments
+#'   output = segment_data(df, "1 min")
+#'
+#'   # check the 3rd segent, each segment would have 1 minute data
+#'   summary(output[output['SEGMENT'] == 3,])
+#'
+#'   # segment data into 15 second segments
+#'   output = segment_data(df, "15 sec")
+#'
+#'   # check the 4th segment, each segment would have 15 second data
+#'   summary(output[output['SEGMENT'] == 4,])
+#'
+#'   # segment data into 1 hour segments
+#'   output = segment_data(df, "1 hour")
+#'
+#'   # because the input data has only 15 minute data
+#'   # there will be only 1 segment in the output
+#'   unique(output['SEGMENT'])
+#'   summary(output)
 segment_data <- function(df, breaks) {
   ts <- df[["HEADER_TIME_STAMP"]]
   if (missing(breaks) || is.null(breaks)) {

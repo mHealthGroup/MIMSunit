@@ -9,7 +9,8 @@ import_actigraph_csv_chunked(
   filepath,
   in_voltage = FALSE,
   has_ts = TRUE,
-  header = TRUE
+  header = TRUE,
+  chunk_samples = 180000
 )
 }
 \arguments{
@@ -56,6 +57,45 @@ values. \eqn{r} can also be found in the meta section in the csv file.
   algorithm validation.
 }
 
+\examples{
+  # Use the actigraph csv file shipped with the package
+  filepath = system.file('extdata', 'actigraph.csv', package='MIMSunit')
+
+  # Check original file format
+  readLines(filepath)[1:15]
+
+  # Load chunks every 3000 samples
+  results = import_actigraph_csv_chunked(filepath, has_ts=FALSE, chunk_samples=3000)
+  next_chunk = results[[1]]
+  has_more_chunk = results[[2]]
+  close_connection = results[[3]]
+  # Call next chunk at least once before call other functions
+  chunks = next_chunk()
+  before_df = chunks[[1]]
+  df = chunks[[2]]
+  after_df = chunks[[3]]
+  print('chunk 1')
+  print(paste("before df:", before_df[1, 1], '-', before_df[nrow(before_df),1]))
+  print(paste("df:", df[1, 1], '-', df[nrow(df),1]))
+  print(paste("after df:", after_df[1, 1], '-', after_df[nrow(after_df),1]))
+  # Check data as chunks, you can see chunks are shifted at each iteration.
+  # The before_df in the next iteration will be df in the current iteration.
+  n = 2
+  while (has_more_chunk()) {
+    chunks = next_chunk()
+    before_df = chunks[[1]]
+    df = chunks[[2]]
+    after_df = chunks[[3]]
+    print(paste('chunk', n))
+    print(paste("before df:", before_df[1, 1], '-', before_df[nrow(before_df),1]))
+    print(paste("df:", df[1, 1], '-', df[nrow(df),1]))
+    print(paste("after df:", after_df[1, 1], '-', after_df[nrow(after_df),1]))
+    n = n + 1
+  }
+
+  # Close connection after reading all the data
+  close_connection()
+}
 \seealso{
 Other File I/O functions: 
 \code{\link{export_to_actilife}()},

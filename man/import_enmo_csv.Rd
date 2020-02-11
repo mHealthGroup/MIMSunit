@@ -28,6 +28,19 @@ data analysis tools}.
   during algorithm validation.
 }
 
+\examples{
+  # Use the enmo csv file shipped with the package
+  filepath = system.file('extdata', 'enmo.csv', package='MIMSunit')
+
+  # Check original data format
+  readLines(filepath)[1:5]
+
+  # Load file, default column for enmo values are 2
+  output = import_enmo_csv(filepath, enmo_col=2)
+
+  # Check output
+  head(output)
+}
 \seealso{
 Other File I/O functions: 
 \code{\link{export_to_actilife}()},

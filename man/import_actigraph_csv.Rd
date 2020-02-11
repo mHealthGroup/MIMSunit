@@ -51,6 +51,22 @@ values. \eqn{r} can also be found in the meta section in the csv file.
   algorithm validation.
 }
 
+\examples{
+  # Use the sample actigraph csv file provided by the package
+  filepath = system.file('extdata', 'actigraph.csv', package='MIMSunit')
+
+  # Check file format
+  readLines(filepath)[1:15]
+
+  # Load the file without timestamp column
+  df = import_actigraph_csv(filepath, has_ts=FALSE)
+
+  # Check loaded file
+  head(df)
+
+  # Check more
+  summary(df)
+}
 \seealso{
 Other File I/O functions: 
 \code{\link{export_to_actilife}()},

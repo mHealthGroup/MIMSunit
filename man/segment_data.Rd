@@ -4,7 +4,7 @@
 \alias{segment_data}
 \title{Segment input dataframe into windows as specified by breaks.
 \code{segment_data} segments the input sensor dataframe into
- epoch windows with length specified in breaks.}
+  epoch windows with length specified in breaks.}
 \usage{
 segment_data(df, breaks)
 }
@@ -18,11 +18,11 @@ cut.breaks function.}
 }
 \value{
 dataframe. The same format as the input dataframe, but with an extra
-column "SEGMENT" in the end specifies the epoch window a sample belongs to.
+  column "SEGMENT" in the end specifies the epoch window a sample belongs to.
 }
 \description{
 This function accepts a dataframe of multi-channel signal, segments it
-into epoch windows with length specified in breaks.
+  into epoch windows with length specified in breaks.
 }
 \section{How is it used in MIMS-unit algorithm?}{
  This function is a utility
@@ -30,6 +30,30 @@ into epoch windows with length specified in breaks.
   segment a dataframe, e.g., before aggregating values over epoch windows.
 }
 
+\examples{
+  # Use sample data
+  df = sample_raw_accel_data
+
+  # segment data into 1 minute segments
+  output = segment_data(df, "1 min")
+
+  # check the 3rd segent, each segment would have 1 minute data
+  summary(output[output['SEGMENT'] == 3,])
+
+  # segment data into 15 second segments
+  output = segment_data(df, "15 sec")
+
+  # check the 4th segment, each segment would have 15 second data
+  summary(output[output['SEGMENT'] == 4,])
+
+  # segment data into 1 hour segments
+  output = segment_data(df, "1 hour")
+
+  # because the input data has only 15 minute data
+  # there will be only 1 segment in the output
+  unique(output['SEGMENT'])
+  summary(output)
+}
 \seealso{
 Other utility functions: 
 \code{\link{clip_data}()},

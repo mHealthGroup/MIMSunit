@@ -40,6 +40,16 @@ conversion. See \code{\link{import_actigraph_csv}}. }
   rate, firmware version from Actigraph devices.
 }
 
+\examples{
+  # Use the sample actigraph csv file provided by the package
+  filepath = system.file('extdata', 'actigraph.csv', package='MIMSunit')
+
+  # Check file format
+  readLines(filepath)[1:15]
+
+  # Load the meta headers of input file
+  import_actigraph_meta(filepath, header=TRUE)
+}
 \seealso{
 Other File I/O functions: 
 \code{\link{export_to_actilife}()},

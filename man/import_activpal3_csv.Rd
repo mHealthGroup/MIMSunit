@@ -35,6 +35,22 @@ values may be converted to \eqn{g} unit using following equation.
   algorithm validation.
 }
 
+\examples{
+  # Use the sample activpal3 csv file provided by the package
+  filepath = system.file('extdata', 'activpal3.csv', package='MIMSunit')
+
+  # Check the csv format
+  readLines(filepath)[1:5]
+
+  # Load the file, in our case without header
+  df = import_activpal3_csv(filepath, header=FALSE)
+
+  # Check loaded file
+  head(df)
+
+  # Check more
+  summary(df)
+}
 \seealso{
 Other File I/O functions: 
 \code{\link{export_to_actilife}()},

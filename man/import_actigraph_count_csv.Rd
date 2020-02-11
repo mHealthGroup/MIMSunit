@@ -44,6 +44,20 @@ If both \code{count_col} and \code{count_per_axis_cols} are
   during algorithm validation.
 }
 
+\examples{
+  # Use the actigraph count csv file shipped with the package
+  filepath = system.file('extdata', 'actigraph_count.csv', package='MIMSunit')
+
+  # Check original data format
+  readLines(filepath)[1:5]
+
+  # Load file, default column for actigraph count values are 2, this file does not have
+  # axial count values
+  output = import_actigraph_count_csv(filepath, count_col=2)
+
+  # Check output
+  head(output)
+}
 \seealso{
 Other File I/O functions: 
 \code{\link{export_to_actilife}()},

@@ -1,7 +1,9 @@
 #' Import raw multi-channel accelerometer data stored in mHealth Specification
 #'
 #' \code{import_mhealth_csv} imports the raw multi-channel accelerometer data
-#' stored in mHealth Specification.
+#'   stored in mHealth Specification. Note that this function will fail when
+#'   loading data that have size too big to fit in the memory. For large data
+#'   file, please use \code{\link{import_mhealth_csv_chunked}} to load.
 #'
 #' @section How is it used in MIMS-unit algorithm?: This function is a File IO
 #'   function that is used to import data stored in mHealth Specification during
@@ -15,11 +17,30 @@
 #' @family File I/O functions
 #'
 #' @export
+#' @examples
+#'   # Use the sample mhealth csv file provided by the package
+#'   filepath = system.file('extdata', 'mhealth.csv', package='MIMSunit')
+#'   filepath
+#'
+#'   # Load the file
+#'   df = import_mhealth_csv(filepath)
+#'
+#'   # Check loaded file
+#'   head(df)
+#'
+#'   # Check more
+#'   summary(df)
 import_mhealth_csv <- function(filepath) {
   ncols <- readr::count_fields(filepath, readr::tokenizer_csv(), skip = 0, n_max = 1L)
   date_format <- readr::col_datetime(format = "%Y-%m-%d %H:%M:%OS")
   coltypes <- list(date_format)
-  colheaders <- c("HEADER_TIME_STAMP")
+  if (ncols == 4) {
+    colheaders <- c("HEADER_TIME_STAMP", "X", "Y", "Z")
+  } else if (ncols == 2) {
+    colheaders <- c("HEADER_TIME_STAMP", "VALUE")
+  } else {
+    stop('The file does not contain the correct columns for mhealth raw accelerometer data.')
+  }
   for (i in 2:ncols) {
     coltypes <- append(coltypes, list(readr::col_double()))
   }
@@ -49,27 +70,65 @@ import_mhealth_csv <- function(filepath) {
 #' in chunks.
 #'
 #' \code{import_mhealth_csv_chunked} imports the raw multi-channel accelerometer
-#' data stored in mHealth Specification in chunks.
+#'   data stored in mHealth Specification in chunks.
 #'
 #' @section How is it used in MIMS-unit algorithm?: This function is a File IO
 #'   function that is used to import data stored in mHealth Specification during
 #'   algorithm validation.
 #'
 #' @param filepath string. The filepath of the input data.
+#' @param chunk_samples number. The number of samples in each chunk. Default is
+#'   180000, which is half hour data for 100 Hz sampling rate.
 #' @return list. The list contains three items. The first item is a generator
-#' function that each time it is called, it will
-#' return a list of `list(before_df, df, after_df)`. These are data.frames of
-#' imported chunks, ordered in time that can be loaded with
-#' the `MIMSunit::mims_unit` function directly. The second item is a
-#' `has_more_chunks` function used to check if all chunks are loaded.
-#' If it returns `FALSE`, it means the loading has ended. The third item is a
-#' `close` function which you can call at any moment to close the file loading.
+#'   function that each time it is called, it will
+#'   return a list of \code{list(before_df, df, after_df)}. These are
+#'   data.frames of imported chunks, ordered in time that can be loaded with
+#'   the \code{\link{mims_unit}} function directly. The second item is a
+#'   \code{has_more_chunks} function used to check if all chunks are loaded.
+#'   If it returns \code{FALSE}, it means the loading has ended. The third item is a
+#'   \code{close_connection} function which you can call at any moment to close the
+#'   file loading.
 #' @family File I/O functions
 #'
 #' @export
-import_mhealth_csv_chunked <- function(filepath) {
+#' @examples
+#'   # Use the mhealth csv file shipped with the package
+#'   filepath = system.file('extdata', 'mhealth.csv', package='MIMSunit')
+#'
+#'   # Load chunks every 25000 samples
+#'   results = import_mhealth_csv_chunked(filepath, chunk_samples=25000)
+#'   next_chunk = results[[1]]
+#'   has_more_chunk = results[[2]]
+#'   close_connection = results[[3]]
+#'   # Call next chunk at least once before call other functions
+#'   chunks = next_chunk()
+#'   before_df = chunks[[1]]
+#'   df = chunks[[2]]
+#'   after_df = chunks[[3]]
+#'   print('chunk 1')
+#'   print(paste("before df:", before_df[1, 1], '-', before_df[nrow(before_df),1]))
+#'   print(paste("df:", df[1, 1], '-', df[nrow(df),1]))
+#'   print(paste("after df:", after_df[1, 1], '-', after_df[nrow(after_df),1]))
+#'   # Check data as chunks, you can see chunks are shifted at each iteration.
+#'   # The before_df in the next iteration will be df in the current iteration.
+#'   n = 2
+#'   while (has_more_chunk()) {
+#'     chunks = next_chunk()
+#'     before_df = chunks[[1]]
+#'     df = chunks[[2]]
+#'     after_df = chunks[[3]]
+#'     print(paste('chunk', n))
+#'     print(paste("before df:", before_df[1, 1], '-', before_df[nrow(before_df),1]))
+#'     print(paste("df:", df[1, 1], '-', df[nrow(df),1]))
+#'     print(paste("after df:", after_df[1, 1], '-', after_df[nrow(after_df),1]))
+#'     n = n + 1
+#'   }
+#'
+#'   # Close connection after reading all the data
+#'   close_connection()
+import_mhealth_csv_chunked <- function(filepath, chunk_samples=180000) {
   options(digits.secs = 3)
-  chunk_size <- 1800 * 100
+  chunk_size <- chunk_samples
   col_types <- c("character", "numeric", "numeric", "numeric")
   col_names <- c("HEADER_TIME_STAMP", "X", "Y", "Z")
 
@@ -175,6 +234,21 @@ import_mhealth_csv_chunked <- function(filepath) {
 #' @family File I/O functions
 #'
 #' @export
+#' @examples
+#'   # Use the sample activpal3 csv file provided by the package
+#'   filepath = system.file('extdata', 'activpal3.csv', package='MIMSunit')
+#'
+#'   # Check the csv format
+#'   readLines(filepath)[1:5]
+#'
+#'   # Load the file, in our case without header
+#'   df = import_activpal3_csv(filepath, header=FALSE)
+#'
+#'   # Check loaded file
+#'   head(df)
+#'
+#'   # Check more
+#'   summary(df)
 import_activpal3_csv <- function(filepath, header = FALSE) {
   ncols <-
     readr::count_fields(filepath, readr::tokenizer_csv(), n_max = 1)
@@ -247,12 +321,50 @@ import_activpal3_csv <- function(filepath, header = FALSE) {
 #'
 #' @family File I/O functions
 #' @export
+#' @examples
+#'   # Use the actigraph csv file shipped with the package
+#'   filepath = system.file('extdata', 'actigraph.csv', package='MIMSunit')
+#'
+#'   # Check original file format
+#'   readLines(filepath)[1:15]
+#'
+#'   # Load chunks every 3000 samples
+#'   results = import_actigraph_csv_chunked(filepath, has_ts=FALSE, chunk_samples=3000)
+#'   next_chunk = results[[1]]
+#'   has_more_chunk = results[[2]]
+#'   close_connection = results[[3]]
+#'   # Call next chunk at least once before call other functions
+#'   chunks = next_chunk()
+#'   before_df = chunks[[1]]
+#'   df = chunks[[2]]
+#'   after_df = chunks[[3]]
+#'   print('chunk 1')
+#'   print(paste("before df:", before_df[1, 1], '-', before_df[nrow(before_df),1]))
+#'   print(paste("df:", df[1, 1], '-', df[nrow(df),1]))
+#'   print(paste("after df:", after_df[1, 1], '-', after_df[nrow(after_df),1]))
+#'   # Check data as chunks, you can see chunks are shifted at each iteration.
+#'   # The before_df in the next iteration will be df in the current iteration.
+#'   n = 2
+#'   while (has_more_chunk()) {
+#'     chunks = next_chunk()
+#'     before_df = chunks[[1]]
+#'     df = chunks[[2]]
+#'     after_df = chunks[[3]]
+#'     print(paste('chunk', n))
+#'     print(paste("before df:", before_df[1, 1], '-', before_df[nrow(before_df),1]))
+#'     print(paste("df:", df[1, 1], '-', df[nrow(df),1]))
+#'     print(paste("after df:", after_df[1, 1], '-', after_df[nrow(after_df),1]))
+#'     n = n + 1
+#'   }
+#'
+#'   # Close connection after reading all the data
+#'   close_connection()
 import_actigraph_csv_chunked <- function(filepath,
                                          in_voltage = FALSE,
                                          has_ts = TRUE,
-                                         header = TRUE) {
+                                         header = TRUE, chunk_samples=180000) {
   options(digits.secs = 3)
-  chunk_size <- 1800 * 100
+  chunk_size <- chunk_samples
   actigraph_meta <- import_actigraph_meta(filepath)
   if (has_ts) {
     ncols <- 4
@@ -307,7 +419,8 @@ import_actigraph_csv_chunked <- function(filepath,
         col.names = col_names
       )
       if (!has_ts) {
-        dat <- .append_actigraph_timestamps(dat, actigraph_meta)
+        st = g.env$before_dat[nrow(g.env$before_dat), 1]
+        dat <- .append_actigraph_timestamps(dat, actigraph_meta, st = st)
       } else {
         dat <- .convert_actigraph_timestamps(dat, actigraph_meta)
       }
@@ -327,7 +440,8 @@ import_actigraph_csv_chunked <- function(filepath,
       col.names = col_names
     )
     if (!has_ts) {
-      after_dat <- .append_actigraph_timestamps(after_dat, actigraph_meta)
+      st = g.env$dat[nrow(g.env$dat), 1]
+      after_dat <- .append_actigraph_timestamps(after_dat, actigraph_meta, st = st)
     } else {
       after_dat <- .convert_actigraph_timestamps(after_dat, actigraph_meta)
     }
@@ -350,11 +464,14 @@ import_actigraph_csv_chunked <- function(filepath,
   return(list(next_chunk, has_more_chunks, close_connection))
 }
 
-.append_actigraph_timestamps <- function(dat, actigraph_meta) {
+.append_actigraph_timestamps <- function(dat, actigraph_meta, st) {
+  if (is.null(st)) {
+    st = actigraph_meta$st
+  }
   ts_col <-
     seq(
-      from = actigraph_meta$st,
-      to = actigraph_meta$dt,
+      from = st,
+      by = 1 / actigraph_meta$sr,
       length.out = nrow(dat)
     )
   dat <- cbind(ts_col, dat)
@@ -420,6 +537,21 @@ import_actigraph_csv_chunked <- function(filepath,
 #'
 #' @family File I/O functions
 #' @export
+#' @examples
+#'   # Use the sample actigraph csv file provided by the package
+#'   filepath = system.file('extdata', 'actigraph.csv', package='MIMSunit')
+#'
+#'   # Check file format
+#'   readLines(filepath)[1:15]
+#'
+#'   # Load the file without timestamp column
+#'   df = import_actigraph_csv(filepath, has_ts=FALSE)
+#'
+#'   # Check loaded file
+#'   head(df)
+#'
+#'   # Check more
+#'   summary(df)
 import_actigraph_csv <-
   function(filepath,
            in_voltage = FALSE,
@@ -526,6 +658,19 @@ import_actigraph_csv <-
 #'
 #' @family File I/O functions
 #' @export
+#' @examples
+#'   # Use the actigraph count csv file shipped with the package
+#'   filepath = system.file('extdata', 'actigraph_count.csv', package='MIMSunit')
+#'
+#'   # Check original data format
+#'   readLines(filepath)[1:5]
+#'
+#'   # Load file, default column for actigraph count values are 2, this file does not have
+#'   # axial count values
+#'   output = import_actigraph_count_csv(filepath, count_col=2)
+#'
+#'   # Check output
+#'   head(output)
 import_actigraph_count_csv <-
   function(filepath,
            count_col = 2,
@@ -542,21 +687,14 @@ import_actigraph_count_csv <-
         tz = "UTC"
       )
 
-    result <- dat[, 1]
-    colnames(result) <- c("HEADER_TIME_STAMP")
-
-    if (~ is.null(count_col)) {
-      count_value <- dat[, count_col]
-    } else if (is.null(count_col) & ~ is.null(count_per_axis_cols)) {
-      count_value <- sqrt(rowSums(dat[, count_per_axis_cols]^2))
-    }
-
-    result["ACTIGRAPH_COUNT"] <- count_value
-    axes_names <- c("X", "Y", "Z")
-    if (~ is.null(count_per_axis_cols)) {
-      for (i in count_per_axis_cols) {
-        result[paste("ACTIGRAPH_COUNT_", axes_names[i], sep = "")] <- dat[, i]
-      }
+    if (!is.null(count_col)) {
+      result <- dat[, c(1, count_col)]
+      colnames(result) = c("HEADER_TIME_STAMP", "ACTIGRAPH_COUNT")
+    } else if (is.null(count_col) & !is.null(count_per_axis_cols)) {
+      result <- cbind(dat[,1], sqrt(rowSums(dat[, count_per_axis_cols]^2)), dat[, count_per_axis_cols])
+      colnames(result) = c("HEADER_TIME_STAMP", "ACTIGRAPH_COUNT", "ACTIGRAPH_COUNT_X", "ACTIGRAPH_COUNT_Y", "ACTIGRAPH_COUNT_Z")
+    } else {
+      stop("You must set count_col or count_per_axis_cols")
     }
     return(result)
   }
@@ -580,6 +718,18 @@ import_actigraph_count_csv <-
 #'
 #' @family File I/O functions
 #' @export
+#' @examples
+#'   # Use the enmo csv file shipped with the package
+#'   filepath = system.file('extdata', 'enmo.csv', package='MIMSunit')
+#'
+#'   # Check original data format
+#'   readLines(filepath)[1:5]
+#'
+#'   # Load file, default column for enmo values are 2
+#'   output = import_enmo_csv(filepath, enmo_col=2)
+#'
+#'   # Check output
+#'   head(output)
 import_enmo_csv <- function(filepath, enmo_col = 2) {
   dat <- readr::read_csv(filepath, col_names = TRUE)
   dat <- data.frame(dat)
@@ -624,6 +774,15 @@ import_enmo_csv <- function(filepath, enmo_col = 2) {
 #' @return list. A list of Actigraph device meta information.
 #' @family File I/O functions
 #' @export
+#' @examples
+#'   # Use the sample actigraph csv file provided by the package
+#'   filepath = system.file('extdata', 'actigraph.csv', package='MIMSunit')
+#'
+#'   # Check file format
+#'   readLines(filepath)[1:15]
+#'
+#'   # Load the meta headers of input file
+#'   import_actigraph_meta(filepath, header=TRUE)
 import_actigraph_meta <- function(filepath, header = TRUE) {
   ACTIGRAPH_HEADER_SR_PATTERN <- "([0-9]+) Hz"
   ACTIGRAPH_FIRMWARE_PATTERN <- "Firmware v([0-9]+.[0-9]+.[0-9]+)"

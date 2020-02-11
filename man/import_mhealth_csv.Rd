@@ -16,7 +16,9 @@ dataframe. The imported multi-channel accelerometer signal, with the
 }
 \description{
 \code{import_mhealth_csv} imports the raw multi-channel accelerometer data
-stored in mHealth Specification.
+  stored in mHealth Specification. Note that this function will fail when
+  loading data that have size too big to fit in the memory. For large data
+  file, please use \code{\link{import_mhealth_csv_chunked}} to load.
 }
 \section{How is it used in MIMS-unit algorithm?}{
  This function is a File IO
@@ -24,6 +26,20 @@ stored in mHealth Specification.
   algorithm validation.
 }
 
+\examples{
+  # Use the sample mhealth csv file provided by the package
+  filepath = system.file('extdata', 'mhealth.csv', package='MIMSunit')
+  filepath
+
+  # Load the file
+  df = import_mhealth_csv(filepath)
+
+  # Check loaded file
+  head(df)
+
+  # Check more
+  summary(df)
+}
 \seealso{
 Other File I/O functions: 
 \code{\link{export_to_actilife}()},

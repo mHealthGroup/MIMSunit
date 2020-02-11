@@ -42,6 +42,28 @@ sampling rate.
   \code{\link{simulate_new_data}}.
 }
 
+\examples{
+  # Use first 1000 rows of  sample data
+  df = sample_raw_accel_data[1:1000,]
+
+  # Plot input
+  illustrate_signal(df, plot_maxed_out_line=FALSE)
+
+  # Get sampling rate of the sample data
+  sr = sampling_rate(df)
+
+  # Interpolate the entire sequence of data
+  output = interpolate_signal(df, sr=sr)
+
+  # Plot output
+  illustrate_signal(output, plot_maxed_out_line=FALSE)
+
+  # Interpolate part of the sequence
+  output = interpolate_signal(df, sr=sr, st=df[10,1], et=df[100,1])
+
+  # Plot output
+  illustrate_signal(output, plot_maxed_out_line=FALSE)
+}
 \seealso{
 Other utility functions: 
 \code{\link{clip_data}()},
