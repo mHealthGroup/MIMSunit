@@ -1,8 +1,12 @@
 # MIMSunit 0.7.0.9000
 
-## Added
+## New features
 
-* New import data functions `MIMSunit::import_actigraph_csv_chunked` and `MIMSunit::import_mhealth_csv_chunked` to support loading large csv files in chunks. See issue [#11](https://github.com/mHealthGroup/MIMSunit/issues/11).
+* New import data functions `import_actigraph_csv_chunked` and `import_mhealth_csv_chunked` to support loading large csv files in chunks. See issue [#11](https://github.com/mHealthGroup/MIMSunit/issues/11).
+
+## Improvement
+
+* Use chunked import functions in `mims_unit_from_files` to support large input files.
 
 ## Bug fixes
 
@@ -15,7 +19,7 @@
 
 # MIMSunit 0.7.0
 
-## Improved
+## Improvement
 
 * Refine vignettes codes and texts.
 * Better progress bar support for `MIMSunit::mims_unit` functions. Use `show_progress` to control whether to show progress bar during computation.
