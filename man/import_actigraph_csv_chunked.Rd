@@ -23,16 +23,15 @@ analog quantized format and need to be converted into g value}
 
 \item{header}{boolean. If TRUE, the input csv file will have column names in
 the first row.}
+
+\item{chunk_samples}{number. The number of samples in each chunk. Default is
+180000.}
 }
 \value{
-list. The list contains three items. The first item is a generator
-function that each time it is called, it will
-return a list of `list(before_df, df, after_df)`. These are data.frames of
-imported chunks, ordered in time that can be loaded with
-the `MIMSunit::mims_unit` function directly. The second item is a
-`has_more_chunks` function used to check if all chunks are loaded.
-If it returns `FALSE`, it means the loading has ended. The third item is a
-`close` function which you can call at any moment to close the file loading.
+list. The list contains two items. The first item is a generator
+  function that each time it is called, it will return a data.frame of the
+  imported chunk. The second item is a \code{close} function which you can
+  call at any moment to close the file loading.
 }
 \description{
 \code{import_actigraph_csv_chunked} imports the raw multi-channel accelerometer data
@@ -64,37 +63,45 @@ values. \eqn{r} can also be found in the meta section in the csv file.
   # Check original file format
   readLines(filepath)[1:15]
 
-  # Load chunks every 3000 samples
+  # Example 1: Load chunks every 3000 samples
   results = import_actigraph_csv_chunked(filepath, has_ts=FALSE, chunk_samples=3000)
   next_chunk = results[[1]]
-  has_more_chunk = results[[2]]
-  close_connection = results[[3]]
-  # Call next chunk at least once before call other functions
-  chunks = next_chunk()
-  before_df = chunks[[1]]
-  df = chunks[[2]]
-  after_df = chunks[[3]]
-  print('chunk 1')
-  print(paste("before df:", before_df[1, 1], '-', before_df[nrow(before_df),1]))
-  print(paste("df:", df[1, 1], '-', df[nrow(df),1]))
-  print(paste("after df:", after_df[1, 1], '-', after_df[nrow(after_df),1]))
+  close_connection = results[[2]]
   # Check data as chunks, you can see chunks are shifted at each iteration.
-  # The before_df in the next iteration will be df in the current iteration.
-  n = 2
-  while (has_more_chunk()) {
-    chunks = next_chunk()
-    before_df = chunks[[1]]
-    df = chunks[[2]]
-    after_df = chunks[[3]]
-    print(paste('chunk', n))
-    print(paste("before df:", before_df[1, 1], '-', before_df[nrow(before_df),1]))
-    print(paste("df:", df[1, 1], '-', df[nrow(df),1]))
-    print(paste("after df:", after_df[1, 1], '-', after_df[nrow(after_df),1]))
-    n = n + 1
+  n = 1
+  repeat {
+    df = next_chunk()
+    if (nrow(df) > 0) {
+      print(paste('chunk', n))
+      print(paste("df:", df[1, 1], '-', df[nrow(df),1]))
+      n = n + 1
+    }
+    else {
+      break
+    }
   }
 
   # Close connection after reading all the data
   close_connection()
+
+  # Example 2: Close loading early
+  results = import_actigraph_csv_chunked(filepath, has_ts=FALSE, chunk_samples=3000)
+  next_chunk = results[[1]]
+  close_connection = results[[2]]
+  # Check data as chunks, you can see chunk time is shifting forward at each iteration.
+  n = 1
+  repeat {
+    df = next_chunk()
+    if (nrow(df) > 0) {
+      print(paste('chunk', n))
+      print(paste("df:", df[1, 1], '-', df[nrow(df),1]))
+      n = n + 1
+      close_connection()
+    }
+    else {
+      break
+    }
+  }
 }
 \seealso{
 Other File I/O functions: 

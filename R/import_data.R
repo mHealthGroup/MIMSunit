@@ -79,15 +79,11 @@ import_mhealth_csv <- function(filepath) {
 #' @param filepath string. The filepath of the input data.
 #' @param chunk_samples number. The number of samples in each chunk. Default is
 #'   180000, which is half hour data for 100 Hz sampling rate.
-#' @return list. The list contains three items. The first item is a generator
+#' @return list. The list contains two items. The first item is a generator
 #'   function that each time it is called, it will
-#'   return a list of \code{list(before_df, df, after_df)}. These are
-#'   data.frames of imported chunks, ordered in time that can be loaded with
-#'   the \code{\link{mims_unit}} function directly. The second item is a
-#'   \code{has_more_chunks} function used to check if all chunks are loaded.
-#'   If it returns \code{FALSE}, it means the loading has ended. The third item is a
-#'   \code{close_connection} function which you can call at any moment to close the
-#'   file loading.
+#'   return a dataframe with at most \code{chunk_samples} samples of imported data.
+#'   The third item is a \code{close_connection} function which you can call at
+#'   any moment to close the file loading.
 #' @family File I/O functions
 #'
 #' @export
@@ -95,37 +91,45 @@ import_mhealth_csv <- function(filepath) {
 #'   # Use the mhealth csv file shipped with the package
 #'   filepath = system.file('extdata', 'mhealth.csv', package='MIMSunit')
 #'
+#'   # Example 1
 #'   # Load chunks every 25000 samples
 #'   results = import_mhealth_csv_chunked(filepath, chunk_samples=25000)
 #'   next_chunk = results[[1]]
-#'   has_more_chunk = results[[2]]
-#'   close_connection = results[[3]]
-#'   # Call next chunk at least once before call other functions
-#'   chunks = next_chunk()
-#'   before_df = chunks[[1]]
-#'   df = chunks[[2]]
-#'   after_df = chunks[[3]]
-#'   print('chunk 1')
-#'   print(paste("before df:", before_df[1, 1], '-', before_df[nrow(before_df),1]))
-#'   print(paste("df:", df[1, 1], '-', df[nrow(df),1]))
-#'   print(paste("after df:", after_df[1, 1], '-', after_df[nrow(after_df),1]))
-#'   # Check data as chunks, you can see chunks are shifted at each iteration.
-#'   # The before_df in the next iteration will be df in the current iteration.
-#'   n = 2
-#'   while (has_more_chunk()) {
-#'     chunks = next_chunk()
-#'     before_df = chunks[[1]]
-#'     df = chunks[[2]]
-#'     after_df = chunks[[3]]
-#'     print(paste('chunk', n))
-#'     print(paste("before df:", before_df[1, 1], '-', before_df[nrow(before_df),1]))
-#'     print(paste("df:", df[1, 1], '-', df[nrow(df),1]))
-#'     print(paste("after df:", after_df[1, 1], '-', after_df[nrow(after_df),1]))
-#'     n = n + 1
+#'   close_connection = results[[2]]
+#'   # Check data as chunks, you can see chunk time is shifting forward at each iteration.
+#'   n = 1
+#'   repeat {
+#'     df = next_chunk()
+#'     if (nrow(df) > 0) {
+#'       print(paste('chunk', n))
+#'       print(paste("df:", df[1, 1], '-', df[nrow(df),1]))
+#'       n = n + 1
+#'     } else {
+#'       break
+#'     }
 #'   }
 #'
 #'   # Close connection after reading all the data
 #'   close_connection()
+#'
+#'   # Example 2: close loading early
+#'   results = import_mhealth_csv_chunked(filepath, chunk_samples=25000)
+#'   next_chunk = results[[1]]
+#'   close_connection = results[[2]]
+#'   # Check data as chunks, you can see chunk time is shifting forward at each iteration.
+#'   n = 1
+#'   repeat {
+#'     df = next_chunk()
+#'     if (nrow(df) > 0) {
+#'       print(paste('chunk', n))
+#'       print(paste("df:", df[1, 1], '-', df[nrow(df),1]))
+#'       n = n + 1
+#'       close_connection()
+#'     }
+#'     else {
+#'       break
+#'     }
+#'   }
 import_mhealth_csv_chunked <- function(filepath, chunk_samples=180000) {
   options(digits.secs = 3)
   chunk_size <- chunk_samples
@@ -133,37 +137,22 @@ import_mhealth_csv_chunked <- function(filepath, chunk_samples=180000) {
   col_names <- c("HEADER_TIME_STAMP", "X", "Y", "Z")
 
   con <- file(filepath, open = "r")
-  g.env <- new.env()
-  g.env$before_df <- NULL
-  g.env$df <- NULL
-  g.env$after_df <- NULL
 
-
-  has_more_chunks <- function() {
-    is_open <- tryCatch(
-      {
-        isOpen(con)
-      },
-      error =
-        function(cond) {
-          return(FALSE)
-        }
-    )
-    if (is.null(g.env$after_df) || !is_open) {
-      return(FALSE)
-    }
-    if (nrow(g.env$after_df) == chunk_size) {
-      return(TRUE)
-    } else {
-      return(FALSE)
-    }
-  }
+  df = NULL
 
   next_chunk <- function() {
-    g.env$before_df <- cbind(g.env$df)
-    if (!is.null(g.env$after_df)) {
-      g.env$df <- cbind(g.env$after_df)
-    } else {
+      is_open <- tryCatch(
+        {
+          isOpen(con)
+        },
+        error =
+          function(cond) {
+            return(FALSE)
+          }
+      )
+      if (!is_open) {
+        return(data.frame())
+      }
       df <- read.csv(
         file = con,
         header = TRUE,
@@ -173,30 +162,14 @@ import_mhealth_csv_chunked <- function(filepath, chunk_samples=180000) {
         col.names = col_names
       )
       df <- .convert_mhealth_timestamps(df)
-      g.env$df <- cbind(as.data.frame(df))
-    }
-
-    after_df <- read.csv(
-      file = con,
-      header = TRUE,
-      skip = 0,
-      nrows = chunk_size,
-      colClasses = col_types,
-      col.names = col_names
-    )
-    after_df <- .convert_mhealth_timestamps(after_df)
-    g.env$after_df <- cbind(as.data.frame(after_df))
-    if (nrow(after_df) == 0) {
-      g.env$after_df <- NULL
-    }
-
-    return(list(g.env$before_df, g.env$df, g.env$after_df))
+      df <- cbind(as.data.frame(df))
+      return(df)
   }
 
   close_connection <- function() {
     close(con)
   }
-  return(list(next_chunk, has_more_chunks, close_connection))
+  return(list(next_chunk, close_connection))
 }
 
 .convert_mhealth_timestamps <- function(dat) {
@@ -310,14 +283,12 @@ import_activpal3_csv <- function(filepath, header = FALSE) {
 #' @param has_ts set as TRUE only when timestamp is provided as the first column
 #' @param header boolean. If TRUE, the input csv file will have column names in
 #'   the first row.
-#' @return list. The list contains three items. The first item is a generator
-#' function that each time it is called, it will
-#' return a list of `list(before_df, df, after_df)`. These are data.frames of
-#' imported chunks, ordered in time that can be loaded with
-#' the `MIMSunit::mims_unit` function directly. The second item is a
-#' `has_more_chunks` function used to check if all chunks are loaded.
-#' If it returns `FALSE`, it means the loading has ended. The third item is a
-#' `close` function which you can call at any moment to close the file loading.
+#' @param chunk_samples number. The number of samples in each chunk. Default is
+#'   180000.
+#' @return list. The list contains two items. The first item is a generator
+#'   function that each time it is called, it will return a data.frame of the
+#'   imported chunk. The second item is a \code{close} function which you can
+#'   call at any moment to close the file loading.
 #'
 #' @family File I/O functions
 #' @export
@@ -328,37 +299,45 @@ import_activpal3_csv <- function(filepath, header = FALSE) {
 #'   # Check original file format
 #'   readLines(filepath)[1:15]
 #'
-#'   # Load chunks every 3000 samples
+#'   # Example 1: Load chunks every 3000 samples
 #'   results = import_actigraph_csv_chunked(filepath, has_ts=FALSE, chunk_samples=3000)
 #'   next_chunk = results[[1]]
-#'   has_more_chunk = results[[2]]
-#'   close_connection = results[[3]]
-#'   # Call next chunk at least once before call other functions
-#'   chunks = next_chunk()
-#'   before_df = chunks[[1]]
-#'   df = chunks[[2]]
-#'   after_df = chunks[[3]]
-#'   print('chunk 1')
-#'   print(paste("before df:", before_df[1, 1], '-', before_df[nrow(before_df),1]))
-#'   print(paste("df:", df[1, 1], '-', df[nrow(df),1]))
-#'   print(paste("after df:", after_df[1, 1], '-', after_df[nrow(after_df),1]))
+#'   close_connection = results[[2]]
 #'   # Check data as chunks, you can see chunks are shifted at each iteration.
-#'   # The before_df in the next iteration will be df in the current iteration.
-#'   n = 2
-#'   while (has_more_chunk()) {
-#'     chunks = next_chunk()
-#'     before_df = chunks[[1]]
-#'     df = chunks[[2]]
-#'     after_df = chunks[[3]]
-#'     print(paste('chunk', n))
-#'     print(paste("before df:", before_df[1, 1], '-', before_df[nrow(before_df),1]))
-#'     print(paste("df:", df[1, 1], '-', df[nrow(df),1]))
-#'     print(paste("after df:", after_df[1, 1], '-', after_df[nrow(after_df),1]))
-#'     n = n + 1
+#'   n = 1
+#'   repeat {
+#'     df = next_chunk()
+#'     if (nrow(df) > 0) {
+#'       print(paste('chunk', n))
+#'       print(paste("df:", df[1, 1], '-', df[nrow(df),1]))
+#'       n = n + 1
+#'     }
+#'     else {
+#'       break
+#'     }
 #'   }
 #'
 #'   # Close connection after reading all the data
 #'   close_connection()
+#'
+#'   # Example 2: Close loading early
+#'   results = import_actigraph_csv_chunked(filepath, has_ts=FALSE, chunk_samples=3000)
+#'   next_chunk = results[[1]]
+#'   close_connection = results[[2]]
+#'   # Check data as chunks, you can see chunk time is shifting forward at each iteration.
+#'   n = 1
+#'   repeat {
+#'     df = next_chunk()
+#'     if (nrow(df) > 0) {
+#'       print(paste('chunk', n))
+#'       print(paste("df:", df[1, 1], '-', df[nrow(df),1]))
+#'       n = n + 1
+#'       close_connection()
+#'     }
+#'     else {
+#'       break
+#'     }
+#'   }
 import_actigraph_csv_chunked <- function(filepath,
                                          in_voltage = FALSE,
                                          has_ts = TRUE,
@@ -381,12 +360,10 @@ import_actigraph_csv_chunked <- function(filepath,
     skip <- 10
   }
   con <- file(filepath, "r")
-  g.env <- new.env()
-  g.env$before_dat <- NULL
-  g.env$dat <- NULL
-  g.env$after_dat <- NULL
 
-  has_more_chunks <- function() {
+  df = NULL
+
+  next_chunk <- function() {
     is_open <- tryCatch(
       {
         isOpen(con)
@@ -396,72 +373,40 @@ import_actigraph_csv_chunked <- function(filepath,
           return(FALSE)
         }
     )
-    if (is.null(g.env$after_dat) || !is_open) {
-      return(FALSE)
+    if (!is_open) {
+      return(data.frame())
     }
-    if (nrow(g.env$after_dat) == chunk_size) {
-      return(TRUE)
-    } else {
-      return(FALSE)
-    }
-  }
-
-  next_chunk <- function() {
-    g.env$before_dat <- cbind(g.env$dat)
-    if (!is.null(g.env$after_dat)) {
-      g.env$dat <- cbind(g.env$after_dat)
-    } else {
-      dat <- read.csv(con,
-        header = FALSE,
-        skip = skip,
-        nrows = chunk_size,
-        colClasses = col_types,
-        col.names = col_names
-      )
-      if (!has_ts) {
-        st = g.env$before_dat[nrow(g.env$before_dat), 1]
-        dat <- .append_actigraph_timestamps(dat, actigraph_meta, st = st)
-      } else {
-        dat <- .convert_actigraph_timestamps(dat, actigraph_meta)
-      }
-      colnames(dat) <- c("HEADER_TIME_STAMP", "X", "Y", "Z")
-
-      if (in_voltage) {
-        dat <- .convert_voltage_to_g(dat, actigraph_meta)
-      }
-
-      g.env$dat <- as.data.frame(dat)
-    }
-    after_dat <- read.csv(con,
+    dat <- read.csv(con,
       header = FALSE,
-      skip = 0,
+      skip = skip,
       nrows = chunk_size,
       colClasses = col_types,
       col.names = col_names
     )
     if (!has_ts) {
-      st = g.env$dat[nrow(g.env$dat), 1]
-      after_dat <- .append_actigraph_timestamps(after_dat, actigraph_meta, st = st)
+      if (!is.null(df)) {
+        st = df[nrow(df), 1]
+      } else {
+        st = actigraph_meta$st
+      }
+      dat <- .append_actigraph_timestamps(dat, actigraph_meta, st = st)
     } else {
-      after_dat <- .convert_actigraph_timestamps(after_dat, actigraph_meta)
+      dat <- .convert_actigraph_timestamps(dat, actigraph_meta)
     }
-    colnames(after_dat) <- c("HEADER_TIME_STAMP", "X", "Y", "Z")
+    colnames(dat) <- c("HEADER_TIME_STAMP", "X", "Y", "Z")
 
     if (in_voltage) {
-      after_dat <- .convert_voltage_to_g(after_dat, actigraph_meta)
+      dat <- .convert_voltage_to_g(dat, actigraph_meta)
     }
 
-    g.env$after_dat <- as.data.frame(after_dat)
-    if (nrow(after_dat) == 0) {
-      g.env$after_dat <- NULL
-    }
-    return(list(g.env$before_dat, g.env$dat, g.env$after_dat))
+    df <- as.data.frame(dat)
+    return(df)
   }
 
   close_connection <- function() {
     close(con)
   }
-  return(list(next_chunk, has_more_chunks, close_connection))
+  return(list(next_chunk, close_connection))
 }
 
 .append_actigraph_timestamps <- function(dat, actigraph_meta, st) {

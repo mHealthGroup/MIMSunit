@@ -14,15 +14,11 @@ import_mhealth_csv_chunked(filepath, chunk_samples = 180000)
 180000, which is half hour data for 100 Hz sampling rate.}
 }
 \value{
-list. The list contains three items. The first item is a generator
+list. The list contains two items. The first item is a generator
   function that each time it is called, it will
-  return a list of \code{list(before_df, df, after_df)}. These are
-  data.frames of imported chunks, ordered in time that can be loaded with
-  the \code{\link{mims_unit}} function directly. The second item is a
-  \code{has_more_chunks} function used to check if all chunks are loaded.
-  If it returns \code{FALSE}, it means the loading has ended. The third item is a
-  \code{close_connection} function which you can call at any moment to close the
-  file loading.
+  return a dataframe with at most \code{chunk_samples} samples of imported data.
+  The third item is a \code{close_connection} function which you can call at
+  any moment to close the file loading.
 }
 \description{
 \code{import_mhealth_csv_chunked} imports the raw multi-channel accelerometer
@@ -38,37 +34,45 @@ list. The list contains three items. The first item is a generator
   # Use the mhealth csv file shipped with the package
   filepath = system.file('extdata', 'mhealth.csv', package='MIMSunit')
 
+  # Example 1
   # Load chunks every 25000 samples
   results = import_mhealth_csv_chunked(filepath, chunk_samples=25000)
   next_chunk = results[[1]]
-  has_more_chunk = results[[2]]
-  close_connection = results[[3]]
-  # Call next chunk at least once before call other functions
-  chunks = next_chunk()
-  before_df = chunks[[1]]
-  df = chunks[[2]]
-  after_df = chunks[[3]]
-  print('chunk 1')
-  print(paste("before df:", before_df[1, 1], '-', before_df[nrow(before_df),1]))
-  print(paste("df:", df[1, 1], '-', df[nrow(df),1]))
-  print(paste("after df:", after_df[1, 1], '-', after_df[nrow(after_df),1]))
-  # Check data as chunks, you can see chunks are shifted at each iteration.
-  # The before_df in the next iteration will be df in the current iteration.
-  n = 2
-  while (has_more_chunk()) {
-    chunks = next_chunk()
-    before_df = chunks[[1]]
-    df = chunks[[2]]
-    after_df = chunks[[3]]
-    print(paste('chunk', n))
-    print(paste("before df:", before_df[1, 1], '-', before_df[nrow(before_df),1]))
-    print(paste("df:", df[1, 1], '-', df[nrow(df),1]))
-    print(paste("after df:", after_df[1, 1], '-', after_df[nrow(after_df),1]))
-    n = n + 1
+  close_connection = results[[2]]
+  # Check data as chunks, you can see chunk time is shifting forward at each iteration.
+  n = 1
+  repeat {
+    df = next_chunk()
+    if (nrow(df) > 0) {
+      print(paste('chunk', n))
+      print(paste("df:", df[1, 1], '-', df[nrow(df),1]))
+      n = n + 1
+    } else {
+      break
+    }
   }
 
   # Close connection after reading all the data
   close_connection()
+
+  # Example 2: close loading early
+  results = import_mhealth_csv_chunked(filepath, chunk_samples=25000)
+  next_chunk = results[[1]]
+  close_connection = results[[2]]
+  # Check data as chunks, you can see chunk time is shifting forward at each iteration.
+  n = 1
+  repeat {
+    df = next_chunk()
+    if (nrow(df) > 0) {
+      print(paste('chunk', n))
+      print(paste("df:", df[1, 1], '-', df[nrow(df),1]))
+      n = n + 1
+      close_connection()
+    }
+    else {
+      break
+    }
+  }
 }
 \seealso{
 Other File I/O functions: 
