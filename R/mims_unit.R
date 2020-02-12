@@ -52,55 +52,128 @@
 #' @param ... additional parameters passed to the import function when reading
 #'   in the data from the files.
 #' @export
+#' @examples
+#'   # Use sample mhealth file for testing
+#'   filepaths = c(
+#'     system.file('extdata', 'mhealth.csv', package='MIMSunit'),
+#'     system.file('extdata', 'mhealth1.csv', package='MIMSunit')
+#'   )
+#'
+#'   # Test with single file
+#'   mims_unit_from_files(c(filepaths[1]), epoch = "5 min", dynamic_range = c(-8, 8))
+#'
+#'   # Test with multiple files
+#'   mims_unit_from_files(filepaths, epoch = "10 min", dynamic_range = c(-8, 8))
 mims_unit_from_files <-
   function(files,
            epoch = "5 sec",
            dynamic_range,
            output_mims_per_axis = FALSE,
-           show_progress = T,
+           show_progress = TRUE,
            file_type = "mhealth", ...) {
+    oldw <- getOption("warn")
+    options(warn = -1)
     num_of_files <- length(files)
-    if (file_type == "mhealth") {
-      import_fun <- import_mhealth_csv
-    } else if (file_type == "actigraph") {
-      import_fun <- function(x) import_actigraph_csv(x, ...)
-    } else {
-      stop('Only "mhealth" or "actigraph" file types are supported')
-    }
-    before_df <- NULL
+    dots = list(...)
     after_df <- NULL
     df <- NULL
     results <- list()
+
+    if (file_type == "mhealth") {
+      import_fun <- import_mhealth_csv_chunked
+      header = TRUE
+    } else if (file_type == "actigraph") {
+      import_fun <- function(x, chunk_samples) import_actigraph_csv_chunked(x, chunk_samples = chunk_samples, ...)
+      header = dots$header
+    } else {
+      stop('Only "mhealth" or "actigraph" file types are supported')
+    }
+
+    meta = .get_meta(files[1], file_type = file_type, header = header)
+    sr = meta$sr
+    st = meta$st
+    num_samples_epoch = parse_epoch_string(epoch, sr)
+    num_per_load = max(num_samples_epoch * 1.2, 180000)
+    last_epoch_st = NULL
+    last_chunk = NULL
+    j = 1
     for (i in 1:num_of_files) {
-      if (i == 1) {
-        before_df <- NULL
-        df <- import_fun(files[i])
-        if (num_of_files == 1) {
-          after_df <- NULL
-        } else {
-          after_df <- import_fun(files[i + 1])
+      funcs = import_fun(files[i], chunk_samples = num_per_load)
+      next_chunk = funcs[[1]]
+      close_con = funcs[[2]]
+
+      repeat {
+        chunk = next_chunk()
+        if (nrow(chunk) > 0) {
+          if (nrow(chunk) < num_per_load) {
+            num_per_df = nrow(chunk)
+          } else {
+            num_per_df = num_per_load - 0.2 * num_samples_epoch
+          }
+
+          if (!is.null(df)) {
+            if (!is.null(last_epoch_st) & !is.null(last_chunk)) {
+              df = clip_data(last_chunk, start_time = last_epoch_st, stop_time = last_chunk[nrow(last_chunk),1])
+              df = rbind(df, chunk[1:num_per_df,])
+            } else {
+              df = chunk[1:num_per_df,]
+            }
+            if (nrow(chunk) < num_per_load) {
+              after_df = NULL
+            } else {
+              after_df = chunk[(num_per_df + 1):nrow(chunk),]
+            }
+          } else {
+            df = chunk[1:num_per_df,]
+            after_df = chunk[(num_per_df + 1):nrow(chunk),]
+          }
+          result = mims_unit(df,
+                    before_df = NULL,
+                    after_df = after_df,
+                    epoch = epoch,
+                    dynamic_range = dynamic_range,
+                    output_mims_per_axis = output_mims_per_axis,
+                    show_progress = show_progress,
+                    st = st
+          )
+          last_epoch_st = result[nrow(result),1]
+          last_chunk = chunk
+          # discard the last epoch
+          result = result[1:(nrow(result) - 1),]
+          results[[j]] = result
+          j = j + 1
         }
-      } else if (i == num_of_files) {
-        before_df <- df
-        df <- after_df
-        after_df <- NULL
-      } else {
-        before_df <- df
-        df <- after_df
-        after_df <- import_fun(files[i + 1])
+        else {
+          close_con()
+          break
+        }
       }
-      results[[i]] <- mims_unit(df,
-        before_df = before_df,
-        after_df = after_df,
-        epoch = epoch,
-        dynamic_range = dynamic_range,
-        output_mims_per_axis = output_mims_per_axis,
-        show_progress = show_progress
-      )
     }
     result <- do.call(rbind, results)
+    options(warn = oldw)
     return(result)
   }
+
+
+.get_meta <- function(filepath, file_type, header) {
+  if (file_type == 'actigraph') {
+    meta = import_actigraph_meta(filepath, header = header)
+    st = meta$st
+    sr = meta$sr
+    return(list(st = st, sr = sr))
+  } else if (file_type == 'mhealth') {
+    # use the first 200 rows to compute sampling rate
+    funcs = import_mhealth_csv_chunked(filepath, chunk_samples = 200)
+    next_chunk = funcs[[1]]
+    close_con = funcs[[2]]
+    df = next_chunk()
+    close_con()
+    sr = sampling_rate(df)
+    st = df[1, 1]
+    return(list(st = st, sr = sr))
+  }
+}
+
 
 #' @rdname mims_unit
 #' @param df dataframe. Input multi-channel accelerometer signal.
@@ -114,7 +187,26 @@ mims_unit_from_files <-
 #'   eliminate the edge effect during extrapolation and filtering. If it is
 #'   \code{NULL}, algorithm will run directly on the input signal. Default is
 #'   NULL.
+#' @param st character or POSIXct timestamp. An optional start time you can set to
+#'   force the epochs generated by referencing this start time. If it is NULL, the
+#'   function will use the first timestamp in the timestamp column as start time to
+#'   generate epochs. This is useful when you are processing a stream of data and
+#'   want to use a common start time for segmenting data. Default is NULL.
 #' @export
+#' @examples
+#'   # Use sample data for testing
+#'   df = sample_raw_accel_data
+#'
+#'   # compute mims unit values
+#'   mims_unit(df, epoch = '5 min', dynamic_range=c(-8, 8))
+#'
+#'   # compute mims unit values with different epoch length
+#'   output = mims_unit(df, epoch = '15 sec', dynamic_range=c(-8, 8))
+#'   head(output)
+#'
+#'   # output axial values
+#'   output = mims_unit(df, epoch = '15 sec', dynamic_range=c(-8, 8), output_mims_per_axis=TRUE)
+#'   head(output)
 mims_unit <-
   function(df,
            before_df = NULL,
@@ -122,7 +214,8 @@ mims_unit <-
            epoch = "5 sec",
            dynamic_range,
            output_mims_per_axis = FALSE,
-           show_progress = T) {
+           show_progress = TRUE,
+           st = NULL) {
     mims_df <- custom_mims_unit(
       df = df,
       epoch = epoch,
@@ -141,7 +234,8 @@ mims_unit <-
       output_orientation_estimation = FALSE,
       before_df = before_df,
       after_df = after_df,
-      show_progress = show_progress
+      show_progress = show_progress,
+      st = st
     )
     return(mims_df)
   }
@@ -182,18 +276,36 @@ mims_unit <-
 #'   signal. Should be a 2-element numerical vector. \code{c(low, high)}, where
 #'   \code{low} is the negative max value the device can reach and \code{high}
 #'   is the positive max value the device can reach.
+#' @param st character or POSIXct timestamp. An optional start time you can set to
+#'   force the epochs generated by referencing this start time. If it is NULL, the
+#'   function will use the first timestamp in the timestamp column as start time to
+#'   generate epochs. This is useful when you are processing a stream of data and
+#'   want to use a common start time for segmenting data. Default is NULL.
 #' @return dataframe. The orientation dataframe. The first column is the start
 #'   time of each epoch in POSIXct format. The second to fourth columns are the
 #'   orientation angles.
 #'
 #' @family Top level API functions
 #' @export
+#' @examples
+#'   # Use sample data for testing
+#'   df = sample_raw_accel_data
+#'
+#'   # compute sensor orientation angles
+#'   sensor_orientations(df, epoch = '5 min', dynamic_range=c(-8, 8))
+#'
+#'   # compute sensor orientation angles with different epoch length
+#'   output = sensor_orientations(df, epoch = '15 sec', dynamic_range=c(-8, 8))
+#'   head(output)
 sensor_orientations <-
   function(df,
            before_df = NULL,
            after_df = NULL,
            epoch = "5 sec",
-           dynamic_range) {
+           dynamic_range,
+           st = NULL) {
+    oldw <- getOption("warn")
+    options(warn = -1)
     ori_df <- custom_mims_unit(
       df = df,
       epoch = epoch,
@@ -201,8 +313,10 @@ sensor_orientations <-
       output_orientation_estimation = TRUE,
       epoch_for_orientation_estimation = epoch,
       before_df = before_df,
-      after_df = after_df
+      after_df = after_df,
+      st = st
     )[[2]]
+    options(warn = oldw)
     return(ori_df)
   }
 
@@ -290,6 +404,11 @@ sensor_orientations <-
 #'   NULL.
 #' @param show_progress bool. If True, show a progress bar window indicating
 #' the computation progress. Default is TRUE.
+#' @param st character or POSIXct timestamp. An optional start time you can set to
+#'   force the epochs generated by referencing this start time. If it is NULL, the
+#'   function will use the first timestamp in the timestamp column as start time to
+#'   generate epochs. This is useful when you are processing a stream of data and
+#'   want to use a common start time for segmenting data. Default is NULL.
 #' @return dataframe or list. If \code{output_orientation_estimation} is TRUE,
 #'   the output will be a list, otherwise the output will be the MIMS-unit
 #'   dataframe.
@@ -306,6 +425,17 @@ sensor_orientations <-
 #'
 #' @family Top level API functions
 #' @export
+#' @examples
+#'   # Use sample data for testing
+#'   df = sample_raw_accel_data
+#'
+#'   # compute mims unit values
+#'   output = custom_mims_unit(df, epoch = '15 sec', dynamic_range=c(-8, 8))
+#'   head(output)
+#'
+#'   # compute mims unit values with custom parameter
+#'   output = custom_mims_unit(df, epoch = '15 sec', dynamic_range=c(-8, 8), spar=0.7)
+#'   head(output)
 custom_mims_unit <-
   function(df,
            epoch = "5 sec",
@@ -325,7 +455,8 @@ custom_mims_unit <-
            epoch_for_orientation_estimation = NULL,
            before_df = NULL,
            after_df = NULL,
-           show_progress = T) {
+           show_progress = T,
+           st = NULL) {
     # save the start and stop time of original df
     if (.Platform$OS.type == 'windows') {
       ProgressBar = utils::winProgressBar
@@ -437,7 +568,8 @@ custom_mims_unit <-
       }
       orientation_data <-
         aggregate_for_orientation(resampled_data,
-          epoch = epoch_for_orientation_estimation
+          epoch = epoch_for_orientation_estimation,
+          st = st
         )
     } else {
       orientation_data <- NULL
@@ -452,7 +584,8 @@ custom_mims_unit <-
         filtered_data,
         epoch = epoch,
         method = "trapz",
-        rectify = TRUE
+        rectify = TRUE,
+        st = st
       )
 
     if (allow_truncation) {
