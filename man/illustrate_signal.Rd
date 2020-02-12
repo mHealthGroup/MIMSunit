@@ -7,14 +7,14 @@
 illustrate_signal(
   data,
   point_size = 0.3,
-  plot_point = T,
+  plot_point = TRUE,
   line_size = 0.3,
-  plot_line = T,
+  plot_line = TRUE,
   range = c(-2, 2),
-  plot_maxed_out_line = T,
-  plot_origin = T,
+  plot_maxed_out_line = TRUE,
+  plot_origin = TRUE,
   title = NULL,
-  plot_title = T
+  plot_title = TRUE
 )
 }
 \arguments{
@@ -43,7 +43,23 @@ ggplot2 graph object. The graph to be shown.
 }
 \description{
 \code{illustrate_signal} plots the given uniaxial signal in illustration diagram style.
-Illustration diagram style hides axes markers, unnecessary guidelines.
+  Illustration diagram style hides axes markers, unnecessary guidelines.
+}
+\examples{
+  # Use sample data for testing
+  df = sample_raw_accel_data
+
+  # Plot it with default settings
+  illustrate_signal(df)
+
+  # Plot with a different style
+  illustrate_signal(df, point_size=1, line_size=1)
+
+  # Turn off annotation lines
+  illustrate_signal(df, plot_maxed_out_line = FALSE, plot_origin = FALSE)
+
+  # Use title
+  illustrate_signal(df, plot_title=TRUE, title = "This is a title")
 }
 \seealso{
 Other visualization functions.: 

@@ -435,21 +435,16 @@ extrapolate_single_col <-
       middle_t <- st + middle_t
       left_x_ex <- c(seq(st, middle_t, 1 / 100), middle_t)
       right_x_ex <-
-        c(seq(middle_t, st + right_start, 1 / 100), middle_t)
-      switch(model, linear = {
-        left_ex <-
-          fitted_left %>%
-          stats::predict(data.frame(over_t = as.numeric(middle_t)))
-        right_ex <-
-          fitted_right %>%
-          stats::predict(data.frame(over_t = as.numeric(middle_t)))
-        type_ex <- rep("left_line", length(left_ex))
-        type_ex <-
-          c(type_ex, rep("right_line", length(right_ex)))
-        point_ex <- (left_ex + right_ex) / 2
-        type_ex <- c(type_ex, "point")
-        index <- rep(neighbor$index, length(type_ex))
-      },
+        c(middle_t, seq(middle_t, st + right_start, 1 / 100))
+      # if (left_end == right_start) {
+      #   return(data.frame(
+      #     t_ex = c(),
+      #     value_ex = c(),
+      #     type_ex = c(),
+      #     index =
+      #   ))
+      # }
+      switch(model,
       spline = {
         left_ex <- fitted_left %>% stats::predict(x = as.numeric(left_x_ex))
         right_ex <-

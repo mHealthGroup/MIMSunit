@@ -6,34 +6,31 @@
 \usage{
 illustrate_extrapolation(
   df,
-  between_neighbor_df = NULL,
+  dynamic_range,
   title = NULL,
-  left_neighbors_df = NULL,
-  right_neighbors_df = NULL,
-  show_neighbors = T,
-  extrap_points_df = NULL,
-  fitted_line_df = NULL,
-  show_extrapolated_points_and_lines = T
+  show_neighbors = TRUE,
+  show_extrapolated_points_and_lines = TRUE,
+  ...
 )
 }
 \arguments{
 \item{df}{data.frame.The original data before extrapolation.}
 
-\item{between_neighbor_df}{data.frame. Dataframe containing points between the points used for extrapolation.}
+\item{dynamic_range}{numerical vector. The dynamic ranges of the input
+signal. Should be a 2-element numerical vector. \code{c(low, high)}, where
+\code{low} is the negative max value the device can reach and \code{high}
+is the positive max value the device can reach.}
 
 \item{title}{Char. The title of the plot.}
 
-\item{left_neighbors_df}{data.frame. Dataframe containing the points of left side used for extrapolation.}
-
-\item{right_neighbors_df}{data.frame. Dataframe containing the points of right side used for extrapolation.}
-
 \item{show_neighbors}{bool. Show the points used for extrapolation if TRUE.}
 
-\item{extrap_points_df}{data.frame. Dataframe containing the points got from extrapolation.}
+\item{show_extrapolated_points_and_lines}{bool. Show the extrapolated points
+and curves used for extrapolation.}
 
-\item{fitted_line_df}{data.frame. Dataframe containing the spline curves used during extrapolation.}
-
-\item{show_extrapolated_points_and_lines}{bool. Show the extrapolated points and curves used for extrapolation.}
+\item{...}{Parameters that can be used to tune extrapolation, including
+\code{spar}, \code{k}, and \code{noise_level}. See \code{\link{extrapolate}}
+for explanations.}
 }
 \value{
 ggplot2 graph object. The graph to be shown.
@@ -42,6 +39,19 @@ ggplot2 graph object. The graph to be shown.
 \code{illustrate_extrapolation} plots elements of extrapolations
 (e.g., marked points, reference lines) in the same style as
 \code{\link{illustrate_signal}}.
+}
+\examples{
+  # Use the maxed-out data for the conceptual diagram
+  df = conceptual_diagram_data[conceptual_diagram_data['GRANGE'] == 2, c("HEADER_TIME_STAMP", "X")]
+
+  # Plot extrapolation illustration using default settings
+  illustrate_extrapolation(df, dynamic_range=c(-2,2))
+
+  # Do not show neighbor points
+  illustrate_extrapolation(df, dynamic_range=c(-2,2), show_neighbors=FALSE)
+
+  # Do not show extrapolated points and lines
+  illustrate_extrapolation(df, dynamic_range=c(-2,2), show_extrapolated_points_and_lines=FALSE)
 }
 \seealso{
 Other visualization functions.: 

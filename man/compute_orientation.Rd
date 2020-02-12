@@ -44,6 +44,17 @@ used in the function is based on
   function (\code{\link{aggregate_for_orientation}}).
 }
 
+\examples{
+  # Use first 10 second sample data for testing
+  df = sample_raw_accel_data
+  df = clip_data(df, start_time = df[1,1], stop_time = df[1, 1] + 600)
+
+  # compute orientation angles in degrees
+  compute_orientation(df)
+
+  # compute orientation angles in radian angles
+  compute_orientation(df, unit='rad')
+}
 \seealso{
 Other transformation functions: 
 \code{\link{sum_up}()},
