@@ -33,6 +33,19 @@ function \code{\link{cut_off_signal}}.
   and dynamic ranges during algorithm validation.
 }
 
+\examples{
+  # Use sample data for testing
+  df = sample_raw_accel_data[1:1000,]
+
+  # Show df
+  illustrate_signal(df, range=c(-8, 8))
+
+  # simulate new data by changing range and sampling rate
+  new_df = simulate_new_data(df, new_range=c(-2, 2), new_sr = 30)
+
+  # Show new df
+  illustrate_signal(new_df, range=c(-2, 2))
+}
 \seealso{
 Other utility functions: 
 \code{\link{clip_data}()},
