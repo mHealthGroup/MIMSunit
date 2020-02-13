@@ -153,7 +153,7 @@ import_mhealth_csv_chunked <- function(filepath, chunk_samples=180000) {
       if (!is_open) {
         return(data.frame())
       }
-      df <- read.csv(
+      df <- utils::read.csv(
         file = con,
         header = TRUE,
         skip = 0,
@@ -376,7 +376,7 @@ import_actigraph_csv_chunked <- function(filepath,
     if (!is_open) {
       return(data.frame())
     }
-    dat <- read.csv(con,
+    dat <- utils::read.csv(con,
       header = FALSE,
       skip = skip,
       nrows = chunk_size,

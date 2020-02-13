@@ -43,7 +43,9 @@
 #' @name extrapolate
 #' @examples
 #'   # Use the maxed-out data for the conceptual diagram
-#'   df = conceptual_diagram_data[conceptual_diagram_data['GRANGE'] == 4, c("HEADER_TIME_STAMP", "X")]
+#'   df = conceptual_diagram_data[
+#'           conceptual_diagram_data['GRANGE'] == 4,
+#'           c("HEADER_TIME_STAMP", "X")]
 #'
 #'   # Plot input
 #'   illustrate_signal(df, range=c(-4, 4))
