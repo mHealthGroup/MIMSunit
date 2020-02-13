@@ -26,6 +26,18 @@
 #'   range as specified in \code{range}.
 #' @family utility functions
 #' @export
+#' @examples
+#'   # Use sample data for testing
+#'   df = sample_raw_accel_data[1:1000,]
+#'
+#'   # Show df
+#'   illustrate_signal(df, range=c(-8, 8))
+#'
+#'   # cut off the signal to c(-2, 2)
+#'   new_df = cut_off_signal(df, range=c(-2, 2), noise_std=0.03)
+#'
+#'   # Show new df
+#'   illustrate_signal(new_df, range=c(-2, 2))
 cut_off_signal <- function(df,
                            range = NULL,
                            noise_std = 0.03) {
@@ -67,6 +79,18 @@ cut_off_signal <- function(df,
 #' @param new_sr number. New sampling rate in Hz.
 #' @family utility functions
 #' @export
+#' @examples
+#'   # Use sample data for testing
+#'   df = sample_raw_accel_data[1:1000,]
+#'
+#'   # Show df
+#'   illustrate_signal(df, range=c(-8, 8))
+#'
+#'   # simulate new data by changing range and sampling rate
+#'   new_df = simulate_new_data(df, new_range=c(-2, 2), new_sr = 30)
+#'
+#'   # Show new df
+#'   illustrate_signal(new_df, range=c(-2, 2))
 simulate_new_data <- function(old_data, new_range, new_sr) {
   if (sampling_rate(old_data) != new_sr) {
     new_data <-
