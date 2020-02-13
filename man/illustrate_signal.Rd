@@ -47,7 +47,7 @@ ggplot2 graph object. The graph to be shown.
 }
 \examples{
   # Use sample data for testing
-  df = sample_raw_accel_data
+  df = sample_raw_accel_data[1:10000,]
 
   # Plot it with default settings
   illustrate_signal(df)

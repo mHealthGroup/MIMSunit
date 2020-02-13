@@ -19,7 +19,7 @@ interpolate_signal(
 "spline_improved" or "spline_fmm": see \code{\link[stats]{spline}};
 and "linear": see \code{\link[stats]{approx}}. Default is "spline_natural".}
 
-\item{sr}{number. Sampling rate in Hz of the input signal. Default is 100.}
+\item{sr}{number. Sampling rate in Hz of the output signal. Default is 100.}
 
 \item{st}{POSIXct date. The start time for interpolation. If it is
 \code{NULL}, it will use the start time of the input signal. Default is

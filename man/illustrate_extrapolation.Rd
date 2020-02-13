@@ -42,7 +42,9 @@ ggplot2 graph object. The graph to be shown.
 }
 \examples{
   # Use the maxed-out data for the conceptual diagram
-  df = conceptual_diagram_data[conceptual_diagram_data['GRANGE'] == 2, c("HEADER_TIME_STAMP", "X")]
+  df = conceptual_diagram_data[
+         conceptual_diagram_data['GRANGE'] == 2,
+         c("HEADER_TIME_STAMP", "X")]
 
   # Plot extrapolation illustration using default settings
   illustrate_extrapolation(df, dynamic_range=c(-2,2))
@@ -51,7 +53,9 @@ ggplot2 graph object. The graph to be shown.
   illustrate_extrapolation(df, dynamic_range=c(-2,2), show_neighbors=FALSE)
 
   # Do not show extrapolated points and lines
-  illustrate_extrapolation(df, dynamic_range=c(-2,2), show_extrapolated_points_and_lines=FALSE)
+  illustrate_extrapolation(df,
+                           dynamic_range=c(-2,2),
+                           show_extrapolated_points_and_lines=FALSE)
 }
 \seealso{
 Other visualization functions.: 

@@ -7,6 +7,7 @@
 ## Improvement
 
 * Use chunked import functions in `mims_unit_from_files` to support large input files.
+* Support returning snapshot image array for `generate_interactive_plot` function.
 
 ## Bug fixes
 

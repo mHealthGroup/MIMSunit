@@ -40,6 +40,19 @@ situation.
   devices during algorithm validation.
 }
 
+\examples{
+  # Use sample data for testing
+  df = sample_raw_accel_data[1:1000,]
+
+  # Show df
+  illustrate_signal(df, range=c(-8, 8))
+
+  # cut off the signal to c(-2, 2)
+  new_df = cut_off_signal(df, range=c(-2, 2), noise_std=0.03)
+
+  # Show new df
+  illustrate_signal(new_df, range=c(-2, 2))
+}
 \seealso{
 Other utility functions: 
 \code{\link{clip_data}()},
