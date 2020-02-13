@@ -132,7 +132,6 @@ extrapolate_single_col <-
     return(dat_interp)
   }
 
-#' @export
 .extrapolate_oversampling <- function(t, value) {
   time_zone <- lubridate::tz(t[1])
   t_over <- seq(t[1], t[length(t)], by = 1 / 100)
@@ -156,7 +155,6 @@ extrapolate_single_col <-
   return(list(t = t, value = value))
 }
 
-#' @export
 .extrapolate_mark <- function(method = "gamma") {
   return(switch(method, gamma = .mark_gamma, threshold = .mark_threshold))
 }
@@ -205,7 +203,6 @@ extrapolate_single_col <-
   return(result)
 }
 
-#' @export
 .mark_threshold <-
   function(t, value, range_low, range_high, noise_sd = noise_sd) {
     # init the mark vector
@@ -221,7 +218,6 @@ extrapolate_single_col <-
     return(marker)
   }
 
-#' @export
 #' @importFrom magrittr %>%
 .extrapolate_edges <- function(marker, confident, sr) {
   marker_diff_left <- c(0, diff(marker))
@@ -348,7 +344,6 @@ extrapolate_single_col <-
   return(edges)
 }
 
-#' @export
 #' @importFrom magrittr %>%
 .extrapolate_neighbor <- function(marker, sr, k, confident = 0.5) {
   n_neighbor <- k * sr
@@ -389,7 +384,6 @@ extrapolate_single_col <-
   return(v)
 }
 
-#' @export
 #' @importFrom magrittr %>%
 .extrapolate_fitline <-
   function(t,
@@ -636,7 +630,6 @@ extrapolate_single_col <-
     return(fitted)
   }
 
-#' @export
 #' @importFrom magrittr %>%
 .extrapolate_interpolate <-
   function(t, value, marker, points_ex, sr, confident = 0.5) {
