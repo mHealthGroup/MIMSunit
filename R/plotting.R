@@ -303,6 +303,7 @@ illustrate_extrapolation <-
 #'
 #'   # Show the image
 #'   grid::grid.raster(g)
+#'   dev.off()
 #'
 #'   # The function can be used to plot MIMS unit values as well
 #'   mims = mims_unit(df, dynamic_range=c(-8, 8))
@@ -314,6 +315,8 @@ illustrate_extrapolation <-
 #'   # Show in new image
 #'   frame()
 #'   grid::grid.raster(g)
+#'   dev.off()
+#'   closeAllConnections()
 generate_interactive_plot = function(df, y_label, value_cols=c(2,3,4), as_image_arr=FALSE) {
   if (!webshot::is_phantomjs_installed()) {
     webshot::install_phantomjs()
@@ -330,9 +333,7 @@ generate_interactive_plot = function(df, y_label, value_cols=c(2,3,4), as_image_
     dygraphs::dyAxis("x", label = 'Time')
   if (as_image_arr) {
     img = knitr::knit_print(g)
-    writeBin(img$image, 'tmp.png')
-    image_arr = png::readPNG('tmp.png')
-    file.remove('tmp.png')
+    image_arr = png::readPNG(img$image)
     return(image_arr)
   }
   return(g)

@@ -44,6 +44,7 @@ A dygraphs graph object. When showing, the graph will be plotted in
 
   # Show the image
   grid::grid.raster(g)
+  dev.off()
 
   # The function can be used to plot MIMS unit values as well
   mims = mims_unit(df, dynamic_range=c(-8, 8))
@@ -55,6 +56,8 @@ A dygraphs graph object. When showing, the graph will be plotted in
   # Show in new image
   frame()
   grid::grid.raster(g)
+  dev.off()
+  closeAllConnections()
 }
 \seealso{
 Other visualization functions.: 
