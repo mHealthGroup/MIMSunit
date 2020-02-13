@@ -63,8 +63,8 @@ values. \eqn{r} can also be found in the meta section in the csv file.
   # Check original file format
   readLines(filepath)[1:15]
 
-  # Example 1: Load chunks every 3000 samples
-  results = import_actigraph_csv_chunked(filepath, has_ts=FALSE, chunk_samples=3000)
+  # Example 1: Load chunks every 2000 samples
+  results = import_actigraph_csv_chunked(filepath, has_ts=FALSE, chunk_samples=2000)
   next_chunk = results[[1]]
   close_connection = results[[2]]
   # Check data as chunks, you can see chunks are shifted at each iteration.
@@ -85,7 +85,7 @@ values. \eqn{r} can also be found in the meta section in the csv file.
   close_connection()
 
   # Example 2: Close loading early
-  results = import_actigraph_csv_chunked(filepath, has_ts=FALSE, chunk_samples=3000)
+  results = import_actigraph_csv_chunked(filepath, has_ts=FALSE, chunk_samples=2000)
   next_chunk = results[[1]]
   close_connection = results[[2]]
   # Check data as chunks, you can see chunk time is shifting forward at each iteration.

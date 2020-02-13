@@ -60,10 +60,12 @@
 #'   )
 #'
 #'   # Test with single file
-#'   mims_unit_from_files(c(filepaths[1]), epoch = "5 min", dynamic_range = c(-8, 8))
+#'   mims_unit_from_files(c(filepaths[1]),
+#'                                 epoch = "10 sec",
+#'                                 dynamic_range = c(-2, 2))
 #'
 #'   # Test with multiple files
-#'   mims_unit_from_files(filepaths, epoch = "10 min", dynamic_range = c(-8, 8))
+#'   mims_unit_from_files(filepaths, epoch = "20 sec", dynamic_range = c(-2, 2))
 mims_unit_from_files <-
   function(files,
            epoch = "5 sec",
@@ -93,7 +95,7 @@ mims_unit_from_files <-
     sr = meta$sr
     st = meta$st
     num_samples_epoch = parse_epoch_string(epoch, sr)
-    num_per_load = max(num_samples_epoch * 1.2, 180000)
+    num_per_load = max(num_samples_epoch, 180000)
     last_epoch_st = NULL
     last_chunk = NULL
     j = 1
@@ -105,12 +107,7 @@ mims_unit_from_files <-
       repeat {
         chunk = next_chunk()
         if (nrow(chunk) > 0) {
-          if (nrow(chunk) < num_per_load) {
-            num_per_df = nrow(chunk)
-          } else {
-            num_per_df = num_per_load - 0.2 * num_samples_epoch
-          }
-
+          num_per_df = nrow(chunk)
           if (!is.null(df)) {
             if (!is.null(last_epoch_st) & !is.null(last_chunk)) {
               df = clip_data(last_chunk, start_time = last_epoch_st, stop_time = last_chunk[nrow(last_chunk),1])
@@ -118,18 +115,12 @@ mims_unit_from_files <-
             } else {
               df = chunk[1:num_per_df,]
             }
-            if (nrow(chunk) < num_per_load) {
-              after_df = NULL
-            } else {
-              after_df = chunk[(num_per_df + 1):nrow(chunk),]
-            }
           } else {
             df = chunk[1:num_per_df,]
-            after_df = chunk[(num_per_df + 1):nrow(chunk),]
           }
           result = mims_unit(df,
                     before_df = NULL,
-                    after_df = after_df,
+                    after_df = NULL,
                     epoch = epoch,
                     dynamic_range = dynamic_range,
                     output_mims_per_axis = output_mims_per_axis,

@@ -38,14 +38,19 @@ A dygraphs graph object. When showing, the graph will be plotted in
   # Plot using default settings, due to pkgdown limitation, in the example,
   # we show it as a snapshot image. If you want to have it in interactive
   # mode in practice, set as_image_arr to FALSE.
-  g = generate_interactive_plot(df, y_label="Acceleration (g)", as_image_arr=TRUE)
+  g = generate_interactive_plot(df,
+                                y_label="Acceleration (g)",
+                                as_image_arr=TRUE)
 
   # Show the image
   grid::grid.raster(g)
 
   # The function can be used to plot MIMS unit values as well
   mims = mims_unit(df, dynamic_range=c(-8, 8))
-  g = generate_interactive_plot(mims, y_label="MIMS-unit values", value_cols=c(2), as_image_arr=TRUE)
+  g = generate_interactive_plot(mims,
+                                y_label="MIMS-unit values",
+                                value_cols=c(2),
+                                as_image_arr=TRUE)
 
   # Show in new image
   frame()

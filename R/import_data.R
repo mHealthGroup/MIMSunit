@@ -92,8 +92,8 @@ import_mhealth_csv <- function(filepath) {
 #'   filepath = system.file('extdata', 'mhealth.csv', package='MIMSunit')
 #'
 #'   # Example 1
-#'   # Load chunks every 25000 samples
-#'   results = import_mhealth_csv_chunked(filepath, chunk_samples=25000)
+#'   # Load chunks every 1000 samples
+#'   results = import_mhealth_csv_chunked(filepath, chunk_samples=1000)
 #'   next_chunk = results[[1]]
 #'   close_connection = results[[2]]
 #'   # Check data as chunks, you can see chunk time is shifting forward at each iteration.
@@ -113,7 +113,7 @@ import_mhealth_csv <- function(filepath) {
 #'   close_connection()
 #'
 #'   # Example 2: close loading early
-#'   results = import_mhealth_csv_chunked(filepath, chunk_samples=25000)
+#'   results = import_mhealth_csv_chunked(filepath, chunk_samples=1000)
 #'   next_chunk = results[[1]]
 #'   close_connection = results[[2]]
 #'   # Check data as chunks, you can see chunk time is shifting forward at each iteration.
@@ -299,8 +299,8 @@ import_activpal3_csv <- function(filepath, header = FALSE) {
 #'   # Check original file format
 #'   readLines(filepath)[1:15]
 #'
-#'   # Example 1: Load chunks every 3000 samples
-#'   results = import_actigraph_csv_chunked(filepath, has_ts=FALSE, chunk_samples=3000)
+#'   # Example 1: Load chunks every 2000 samples
+#'   results = import_actigraph_csv_chunked(filepath, has_ts=FALSE, chunk_samples=2000)
 #'   next_chunk = results[[1]]
 #'   close_connection = results[[2]]
 #'   # Check data as chunks, you can see chunks are shifted at each iteration.
@@ -321,7 +321,7 @@ import_activpal3_csv <- function(filepath, header = FALSE) {
 #'   close_connection()
 #'
 #'   # Example 2: Close loading early
-#'   results = import_actigraph_csv_chunked(filepath, has_ts=FALSE, chunk_samples=3000)
+#'   results = import_actigraph_csv_chunked(filepath, has_ts=FALSE, chunk_samples=2000)
 #'   next_chunk = results[[1]]
 #'   close_connection = results[[2]]
 #'   # Check data as chunks, you can see chunk time is shifting forward at each iteration.

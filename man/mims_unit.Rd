@@ -114,10 +114,12 @@ This function is a wrapper function for the low-level
   )
 
   # Test with single file
-  mims_unit_from_files(c(filepaths[1]), epoch = "5 min", dynamic_range = c(-8, 8))
+  mims_unit_from_files(c(filepaths[1]),
+                                epoch = "10 sec",
+                                dynamic_range = c(-2, 2))
 
   # Test with multiple files
-  mims_unit_from_files(filepaths, epoch = "10 min", dynamic_range = c(-8, 8))
+  mims_unit_from_files(filepaths, epoch = "20 sec", dynamic_range = c(-2, 2))
   # Use sample data for testing
   df = sample_raw_accel_data
 

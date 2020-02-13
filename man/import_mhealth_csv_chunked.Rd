@@ -35,8 +35,8 @@ list. The list contains two items. The first item is a generator
   filepath = system.file('extdata', 'mhealth.csv', package='MIMSunit')
 
   # Example 1
-  # Load chunks every 25000 samples
-  results = import_mhealth_csv_chunked(filepath, chunk_samples=25000)
+  # Load chunks every 1000 samples
+  results = import_mhealth_csv_chunked(filepath, chunk_samples=1000)
   next_chunk = results[[1]]
   close_connection = results[[2]]
   # Check data as chunks, you can see chunk time is shifting forward at each iteration.
@@ -56,7 +56,7 @@ list. The list contains two items. The first item is a generator
   close_connection()
 
   # Example 2: close loading early
-  results = import_mhealth_csv_chunked(filepath, chunk_samples=25000)
+  results = import_mhealth_csv_chunked(filepath, chunk_samples=1000)
   next_chunk = results[[1]]
   close_connection = results[[2]]
   # Check data as chunks, you can see chunk time is shifting forward at each iteration.
