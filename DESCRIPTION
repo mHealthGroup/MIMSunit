@@ -17,7 +17,7 @@ Description: The MIMS-unit algorithm is developed to compute Monitor Independent
     Movement Summary Unit, a measurement to summarize raw accelerometer data 
     while ensuring harmonized results across different devices. It also includes
     scripts to reproduce results in the related publication 
-    (John, D., Tang. Q., Albinali, F. and Intille, S. (2019) <doi: 10.1123/jmpb.2018-0068>).
+    (John, D., Tang. Q., Albinali, F. and Intille, S. (2019) <doi:10.1123/jmpb.2018-0068>).
 License: MIT + file LICENSE
 Language: en-US
 Depends: R (>= 3.5.0)
@@ -41,7 +41,10 @@ Imports:
     dygraphs (>= 1.1.1.6),
     RColorBrewer (>= 1.1-2),
     utils (>= 3.6.1),
-    ggplot2 (>= 3.2.1)
+    ggplot2 (>= 3.2.1),
+    png (>= 0.1-7),
+    webshot (>= 0.5.2),
+    knitr (>= 1.28)
 Suggests:
     testthat
 SystemRequirements:

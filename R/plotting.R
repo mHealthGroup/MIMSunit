@@ -19,7 +19,7 @@
 #' @export
 #' @examples
 #'   # Use sample data for testing
-#'   df = sample_raw_accel_data
+#'   df = sample_raw_accel_data[1:10000,]
 #'
 #'   # Plot it with default settings
 #'   illustrate_signal(df)
@@ -50,7 +50,7 @@ illustrate_signal <- function(data,
   colnames(data) <- c("HEADER_TIME_STAMP", "value")
   p <- ggplot2::ggplot(
     data = data,
-    ggplot2::aes(x = data[['HEADER_TIME_STAMP']], y = data[['value']])
+    ggplot2::aes_string(x = 'HEADER_TIME_STAMP', y = 'value')
   )
   if (plot_line) {
     p <- p + ggplot2::geom_line(size = line_size)
@@ -112,7 +112,9 @@ illustrate_signal <- function(data,
 #' @export
 #' @examples
 #'   # Use the maxed-out data for the conceptual diagram
-#'   df = conceptual_diagram_data[conceptual_diagram_data['GRANGE'] == 2, c("HEADER_TIME_STAMP", "X")]
+#'   df = conceptual_diagram_data[
+#'          conceptual_diagram_data['GRANGE'] == 2,
+#'          c("HEADER_TIME_STAMP", "X")]
 #'
 #'   # Plot extrapolation illustration using default settings
 #'   illustrate_extrapolation(df, dynamic_range=c(-2,2))
@@ -121,7 +123,9 @@ illustrate_signal <- function(data,
 #'   illustrate_extrapolation(df, dynamic_range=c(-2,2), show_neighbors=FALSE)
 #'
 #'   # Do not show extrapolated points and lines
-#'   illustrate_extrapolation(df, dynamic_range=c(-2,2), show_extrapolated_points_and_lines=FALSE)
+#'   illustrate_extrapolation(df,
+#'                            dynamic_range=c(-2,2),
+#'                            show_extrapolated_points_and_lines=FALSE)
 illustrate_extrapolation <-
   function(df,
            dynamic_range,
@@ -144,7 +148,7 @@ illustrate_extrapolation <-
         p <- p +
           ggplot2::geom_point(
             data = results$left_neighbors_df,
-            ggplot2::aes(x = results$left_neighbors_df[, 1], y = results$left_neighbors_df[, 2]),
+            ggplot2::aes_string(x = 'HEADER_TIME_STAMP', y = 'VALUE'),
             shape = 1,
             size = 1
           )
@@ -153,7 +157,7 @@ illustrate_extrapolation <-
         p <- p +
           ggplot2::geom_point(
             data = results$right_neighbors_df,
-            ggplot2::aes(x = results$right_neighbors_df[, 1], y = results$right_neighbors_df[, 2]),
+            ggplot2::aes_string(x = 'HEADER_TIME_STAMP', y = 'VALUE'),
             shape = 1,
             size = 1
           )
@@ -164,7 +168,7 @@ illustrate_extrapolation <-
         p <- p +
           ggplot2::geom_point(
             data = results$points_ex_df,
-            ggplot2::aes(x = results$points_ex_df[, 1], y = results$points_ex_df[, 2]),
+            ggplot2::aes_string(x = 'HEADER_TIME_STAMP', y = 'VALUE'),
             shape = 17,
             size = 2
           ) +
@@ -186,12 +190,12 @@ illustrate_extrapolation <-
           colnames(right_fit_line_df) <- c("HEADER_TIME_STAMP", "value")
           p <- p + ggplot2::geom_line(
             data = left_fit_line_df,
-            ggplot2::aes(x = HEADER_TIME_STAMP, y = value),
+            ggplot2::aes_string(x = "HEADER_TIME_STAMP", y = "value"),
             size = 0.5
           ) +
             ggplot2::geom_line(
               data = right_fit_line_df,
-              ggplot2::aes(x = HEADER_TIME_STAMP, y = value),
+              ggplot2::aes_string(x = "HEADER_TIME_STAMP", y = "value"),
               size = 0.5
             )
         }
@@ -271,21 +275,44 @@ illustrate_extrapolation <-
 #' Plot MIMS unit values or raw signal using dygraphs interactive plotting library.
 #'
 #' \code{generate_interactive_plot} plots MIMS unit values or raw signal
-#' using dygraphs interactive plotting library.
+#'   using dygraphs interactive plotting library.
 #'
 #' @param df data.frame.The dataframe storing MIMS unit values or raw
-#' accelerometer signal. The first column should be timestamps.
+#'   accelerometer signal. The first column should be timestamps.
 #' @param y_label str. The label name to be put on the y axis.
 #' @param value_cols numerical vector. The indices of columns storing values,
-#'  typically starting from the second column. The default is `c(2,3,4)`.
+#'   typically starting from the second column. The default is `c(2,3,4)`.
+#' @param as_image_arr bool. If this is TRUE, the function will return an image
+#'   array representing the snapshot of the interactive image. Default is FALSE.
 #'
 #' @importFrom magrittr %>%
 #' @return A dygraphs graph object. When showing, the graph will be plotted in
-#' a html widgets in an opened browser.
+#'   a html widgets in an opened browser.
 #' @family visualization functions.
 #' @export
+#' @examples
+#'   # Use sample data for testing
+#'   df = sample_raw_accel_data[1:10000,]
 #'
-generate_interactive_plot = function(df, y_label, value_cols=c(2,3,4)) {
+#'   # Plot using default settings, due to pkgdown limitation, in the example,
+#'   # we show it as a snapshot image. If you want to have it in interactive
+#'   # mode in practice, set as_image_arr to FALSE.
+#'   g = generate_interactive_plot(df, y_label="Acceleration (g)", as_image_arr=TRUE)
+#'
+#'   # Show the image
+#'   grid::grid.raster(g)
+#'
+#'   # The function can be used to plot MIMS unit values as well
+#'   mims = mims_unit(df, dynamic_range=c(-8, 8))
+#'   g = generate_interactive_plot(mims, y_label="MIMS-unit values", value_cols=c(2), as_image_arr=TRUE)
+#'
+#'   # Show in new image
+#'   frame()
+#'   grid::grid.raster(g)
+generate_interactive_plot = function(df, y_label, value_cols=c(2,3,4), as_image_arr=FALSE) {
+  if (!webshot::is_phantomjs_installed()) {
+    webshot::install_phantomjs()
+  }
   xts_values = xts::xts(df[,value_cols], df[,1])
   range = max(xts_values) - min(xts_values)
   min_y = min(xts_values) - range * 1/2
@@ -296,5 +323,12 @@ generate_interactive_plot = function(df, y_label, value_cols=c(2,3,4)) {
     dygraphs::dyLegend(width = 400) %>%
     dygraphs::dyAxis("y", valueRange = c(min_y, max_y), label = y_label) %>%
     dygraphs::dyAxis("x", label = 'Time')
+  if (as_image_arr) {
+    img = knitr::knit_print(g)
+    writeBin(img$image, 'tmp.png')
+    image_arr = png::readPNG('tmp.png')
+    file.remove('tmp.png')
+    return(image_arr)
+  }
   return(g)
 }
