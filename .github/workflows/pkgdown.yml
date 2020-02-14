@@ -50,7 +50,7 @@ jobs:
         shell: Rscript {0}
 
       - name: Deploy website
-      - uses: peaceiris/actions-gh-pages@v2
+        uses: peaceiris/actions-gh-pages@v2
         env:
           PERSONAL_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
           PUBLISH_BRANCH: gh-pages
