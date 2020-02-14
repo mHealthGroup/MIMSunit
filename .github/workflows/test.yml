@@ -58,6 +58,7 @@ jobs:
           deps <- readRDS("depends.Rds")
           deps[["installed"]] <- vapply(deps[["package"]], remotes:::local_sha, character(1))
           update(deps)
+          install.packages('covr')
           remotes::install_cran("rcmdcheck")
         shell: Rscript {0}
 
