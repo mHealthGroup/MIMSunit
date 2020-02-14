@@ -29,7 +29,7 @@ have used the package or referred to the algorithm in your work.
 
 ## System Requirements
 
-1.  R (\>3.5.1)
+1.  R (\>= 3.6.0)
 2.  memory (\> 4GB)
 
 ### For Windows

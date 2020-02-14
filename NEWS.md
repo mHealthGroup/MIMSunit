@@ -22,6 +22,10 @@
 
 * `show_progress` is discarded in top-level `mims_unit` functions. Use `use_gui_progress` instead.
 
+## BREAKING CHANGES
+
+* Minimal R version requirement is bumped to 3.6.0.
+
 # MIMSunit 0.7.0
 
 ## Improvement
