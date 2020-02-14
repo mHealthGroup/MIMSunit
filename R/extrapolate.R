@@ -61,7 +61,7 @@ NULL
 #' @rdname extrapolate
 #' @export
 extrapolate <- function(df, ...) {
-  time_zone <- lubridate::tz(df[1, 1])
+  time_zone <- lubridate::tz(df[[1, 1]])
   t <- df[[1]]
   values <- df[2:ncol(df)]
   result <- plyr::alply(values,

@@ -67,7 +67,7 @@ aggregate_for_mims <-
            epoch,
            method = "trapz",
            rectify = TRUE, st=NULL) {
-    time_zone <- lubridate::tz(df[1, 1])
+    time_zone <- lubridate::tz(df[[1, 1]])
     n_cols <- ncol(df)
 
     # parse input argument epoch
@@ -225,7 +225,7 @@ aggregate_for_orientation <-
            epoch,
            estimation_window = 2,
            unit = "deg", st=NULL) {
-    time_zone <- lubridate::tz(df[1, 1])
+    time_zone <- lubridate::tz(df[[1, 1]])
     n_cols <- ncol(df)
 
     # parse input argument epoch

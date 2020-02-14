@@ -48,7 +48,7 @@ interpolate_signal <-
            sr = 100,
            st = NULL,
            et = NULL) {
-    time_zone <- lubridate::tz(df[1, 1])
+    time_zone <- lubridate::tz(df[[1, 1]])
     n_rows <- nrow(df)
     if (is.null(st)) {
       st <- df[[1]][1]
@@ -59,7 +59,7 @@ interpolate_signal <-
     n_cols <- ncol(df)
     x_out <- seq(from = st, to = et, by = 1 / sr)
     ts <- df[, 1]
-    values <- df[2:n_cols]
+    values <- as.data.frame(df[2:n_cols])
     result <- plyr::alply(values,
       .margins = 2, function(col_data) {
         col_name <- names(col_data)[1]
@@ -67,7 +67,7 @@ interpolate_signal <-
         output <-
           switch(
             method,
-            linear = stats::approx(x = ts, y = col_data, xout = x_out),
+            linear = stats::approx(x = ts[[1]], y = col_data, xout = x_out),
             spline_fmm = stats::spline(
               x = ts,
               y = col_data,
@@ -75,13 +75,13 @@ interpolate_signal <-
               method = "fmm"
             ),
             spline_natural = stats::spline(
-              x = ts,
+              x = ts[[1]],
               y = col_data,
               xout = x_out,
               method = "natural"
             ),
             spline_improved = stats::spline(
-              x = ts,
+              x = ts[[1]],
               y = col_data,
               xout = x_out,
               method = "improved"
@@ -102,5 +102,6 @@ interpolate_signal <-
       paste("INTERPOLATED", names(result[2:ncol(result)]), sep = "_")
     result[, 1] <-
       as.POSIXct(result[, 1], origin = "1970-01-01", tz = time_zone)
+    result = as.data.frame(result)
     return(result)
   }
