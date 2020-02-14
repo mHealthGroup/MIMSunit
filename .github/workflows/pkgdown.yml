@@ -36,6 +36,8 @@ jobs:
       - name: Install dependencies
         run: |
           library(remotes)
+          install.packages('ps')
+          install.packages('processx')
           deps <- readRDS("depends.Rds")
           deps[["installed"]] <- vapply(deps[["package"]], remotes:::local_sha, character(1))
           update(deps)
