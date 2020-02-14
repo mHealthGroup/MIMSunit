@@ -28,8 +28,8 @@
 #'   # Plot input
 #'   illustrate_signal(df, plot_maxed_out_line=FALSE)
 #'
-#'   # Get sampling rate of the sample data
-#'   sr = sampling_rate(df)
+#'   # Interpolate to 100 Hz
+#'   sr = 100
 #'
 #'   # Interpolate the entire sequence of data
 #'   output = interpolate_signal(df, sr=sr)
@@ -58,7 +58,7 @@ interpolate_signal <-
     }
     n_cols <- ncol(df)
     x_out <- seq(from = st, to = et, by = 1 / sr)
-    ts <- df[, 1]
+    ts <- df[[1]]
     values <- as.data.frame(df[2:n_cols])
     result <- plyr::alply(values,
       .margins = 2, function(col_data) {
@@ -67,7 +67,7 @@ interpolate_signal <-
         output <-
           switch(
             method,
-            linear = stats::approx(x = ts[[1]], y = col_data, xout = x_out),
+            linear = stats::approx(x = ts[1], y = col_data, xout = x_out),
             spline_fmm = stats::spline(
               x = ts,
               y = col_data,
@@ -75,13 +75,13 @@ interpolate_signal <-
               method = "fmm"
             ),
             spline_natural = stats::spline(
-              x = ts[[1]],
+              x = ts,
               y = col_data,
               xout = x_out,
               method = "natural"
             ),
             spline_improved = stats::spline(
-              x = ts[[1]],
+              x = ts,
               y = col_data,
               xout = x_out,
               method = "improved"

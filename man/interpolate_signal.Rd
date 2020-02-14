@@ -49,8 +49,8 @@ sampling rate.
   # Plot input
   illustrate_signal(df, plot_maxed_out_line=FALSE)
 
-  # Get sampling rate of the sample data
-  sr = sampling_rate(df)
+  # Interpolate to 100 Hz
+  sr = 100
 
   # Interpolate the entire sequence of data
   output = interpolate_signal(df, sr=sr)
