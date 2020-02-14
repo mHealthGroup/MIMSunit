@@ -31,7 +31,6 @@ jobs:
           restore-keys: |
             ubuntu-renv-
       - name: Install dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
         run: |
           renv::install()
         shell: Rscript {0}
