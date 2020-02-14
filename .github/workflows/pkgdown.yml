@@ -40,8 +40,6 @@ jobs:
 
       - name: Build pkgdown site
         run: |
-          install.packages('pkgdown')
-          install.packages('gridExtra')
           pkgdown::build_site(new_process = FALSE)
         shell: Rscript {0}
 
