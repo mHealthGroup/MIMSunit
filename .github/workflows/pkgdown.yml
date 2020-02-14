@@ -25,6 +25,7 @@ jobs:
       - name: Install dependencies
         run: |
           renv::install()
+          install.packages('pkgdown')
         shell: Rscript {0}
       - name: Install package
         run: R CMD INSTALL --no-multiarch --with-keep.source .
