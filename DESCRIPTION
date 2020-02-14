@@ -45,7 +45,7 @@ Imports:
 Suggests:
     testthat,
     pkgdown,
-    gridExtra
+    gridExtra,
     remotes
 SystemRequirements:
     memory (>= 4GB)
