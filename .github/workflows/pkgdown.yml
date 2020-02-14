@@ -42,6 +42,7 @@ jobs:
           deps[["installed"]] <- vapply(deps[["package"]], remotes:::local_sha, character(1))
           update(deps)
           install.packages('pkgdown')
+          install.packages('gridExtra')
         shell: Rscript {0}
       - name: Install package
         run: R CMD INSTALL --no-multiarch --with-keep.source .
