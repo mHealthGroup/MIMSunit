@@ -3,9 +3,8 @@
 
 # MIMS-unit algorithm
 
-[![Travis-CI build
-status](https://travis-ci.org/qutang/MIMSunit.svg?branch=master)](https://travis-ci.org/qutang/MIMSunit)
-[![codecov](https://codecov.io/gh/qutang/MIMSunit/branch/master/graph/badge.svg)](https://codecov.io/gh/qutang/MIMSunit)
+![Pkgdown](https://github.com/mHealthGroup/MIMSunit/workflows/Pkgdown/badge.svg?branch=master)
+![.github/workflows/test.yml](https://github.com/mHealthGroup/MIMSunit/workflows/.github/workflows/test.yml/badge.svg)
 [![CRAN
 Status](https://www.r-pkg.org/badges/version/MIMSunit)](https://cran.r-project.org/package=MIMSunit)
 
