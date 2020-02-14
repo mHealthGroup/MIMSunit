@@ -57,7 +57,7 @@ The second step is to regularize the sampling rates of the signals and upsample 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 oversampling = function(df, name) {
-  out_df = data.frame(MIMSunit::.extrapolate_oversampling(df$HEADER_TIME_STAMP, df$X))
+  out_df = MIMSunit::interpolate_signal(df[,c(1,2)], sr = 100)
   out_df$SR = df$SR[1]
   out_df$GRANGE = df$GRANGE[1]
   out_df$NAME = name[[1]]
@@ -68,6 +68,7 @@ interp_df = df %>% group_by(.data$NAME) %>%
   group_map(
     ~ oversampling(.x, name = .y)
   ) %>% rbind_list
+interp_df = as.data.frame(interp_df)
 colnames(interp_df) = c('HEADER_TIME_STAMP', 'X', 'SR', 'GRANGE', 'NAME')
 ```
 
@@ -94,127 +95,15 @@ gridExtra::grid.arrange(grobs = figs, nrow = 1)
 
 The third step is to restore the samples that are maxed out due to low dynamic range for signals of intensive movement. Please check the manuscript for the details of the extrapolation algorithm.
 
-<summary>
-<details>
-```{r echo=TRUE, message=FALSE, warning=FALSE}
-extrapolation = function(df, name, start_time, stop_time) {
-  markers = MIMSunit::.extrapolate_mark("gamma")(df$HEADER_TIME_STAMP, 
-                                                 df$X, -df$GRANGE[1], 
-                                                 df$GRANGE[1], 
-                                                 0.03)
-  markers_df = data.frame(HEADER_TIME_STAMP = df$HEADER_TIME_STAMP,
-                          X = abs(markers))
-  neighbors = MIMSunit::.extrapolate_neighbor(markers, 100, 0.05)
-  if (nrow(neighbors) > 0) {
-    left_indices = c()
-    right_indices = c()
-    mo_indices = c()
-    for (i in 1:nrow(neighbors)) {
-      left_indices = c(left_indices,
-                       neighbors$left_start[i]:neighbors$left_end[i])
-      right_indices = c(right_indices,
-                        neighbors$right_start[i]:neighbors$right_end[i])
-      mo_indices = c(mo_indices,
-                     neighbors$left_end[i]:neighbors$right_start[i])
-    }
-    fitted_line_df = MIMSunit::.extrapolate_fitline(
-      df[[1]],
-      df[[2]],
-      neighbors,
-      markers,
-      0.6,
-      100,
-      0.05
-    )
-    colnames(fitted_line_df) = c('HEADER_TIME_STAMP', 'X', 'type', 'index')
-    left_neighbors_df = df[left_indices, ] %>% 
-      MIMSunit::clip_data(start_time = start_time, 
-                             stop_time = stop_time) %>% data.frame
-    right_neighbors_df = df[right_indices, ] %>% 
-      MIMSunit::clip_data(start_time = start_time, 
-                             stop_time = stop_time) %>% data.frame
-    between_neighbor_df = df[c(-left_indices, -right_indices), ] %>% 
-      MIMSunit::clip_data(start_time = start_time, 
-                             stop_time = stop_time)%>% data.frame
-    between_neighbor_without_maxed_out_df = df[c(-left_indices, -right_indices, -mo_indices), ] %>% 
-      MIMSunit::clip_data(start_time = start_time, 
-                             stop_time = stop_time) %>% data.frame
-    maxed_out_df = df[mo_indices, ] %>% 
-      MIMSunit::clip_data(start_time = start_time, 
-                             stop_time = stop_time) %>% data.frame
-    maxed_out_df$weight = markers_df[mo_indices, 'value'] %>% 
-      MIMSunit::clip_data(start_time = start_time, 
-                             stop_time = stop_time)
-    fitted_line_df = fitted_line_df %>%
-      MIMSunit::clip_data(start_time = start_time, 
-                             stop_time = stop_time) %>% data.frame
-    points_ex_df = fitted_line_df[fitted_line_df$type == 'point', c(1, 2)]
-  } else {
-    marks_df = NULL
-    left_neighbors_df = NULL
-    right_neighbors_df = NULL
-    maxed_out_df = NULL
-    between_neighbor_df = NULL
-    between_neighbor_without_maxed_out_df = NULL
-    fitted_line_df = NULL
-    points_ex_df = NULL
-  }
-  df = df %>% 
-      MIMSunit::clip_data(start_time = start_time, 
-                             stop_time = stop_time) %>% data.frame
-  return(
-    list(
-      data.frame(df),
-      between_neighbor_df,
-      left_neighbors_df,
-      right_neighbors_df,
-      maxed_out_df,
-      between_neighbor_without_maxed_out_df,
-      markers_df,
-      fitted_line_df,
-      points_ex_df,
-      name[[1]]
-    )
-  )
-}
-```
-</details>
-</summary>
-
-```{r echo=TRUE}
-extrap_illustration_list = interp_df %>% group_by(.data$NAME) %>%
-  group_map( ~ extrapolation(
-    .x,
-    name = .y,
-    start_time = start_time,
-    stop_time = stop_time
-  ))
-```
-
-#### Illustration of extrapolation algorithm
-
 ```{r echo=TRUE, fig.height=2, fig.width=10, message=FALSE, warning=FALSE, out.width="100%"}
-draw_extrapolation = function(extrap_illustration) {
-  df = extrap_illustration[[1]]
-  between_neighbors_df = extrap_illustration[[2]]
-  left_neighbors_df = extrap_illustration[[3]]
-  right_neighbors_df = extrap_illustration[[4]]
-  extrap_points_df = extrap_illustration[[9]]
-  fitted_line_df = extrap_illustration[[8]]
-  p = MIMSunit::illustrate_extrapolation(
-    df = df,
-    between_neighbor_df = between_neighbors_df,
-    title = extrap_illustration[[10]],
-    left_neighbors_df = left_neighbors_df,
-    right_neighbors_df = right_neighbors_df,
+figs = interp_df %>% group_by(.data$NAME) %>%
+  MIMSunit::clip_data(start_time = start_time, stop_time = stop_time) %>%
+  group_map( ~ MIMSunit::illustrate_extrapolation(
+    .x,
+    title = .y,
+    dynamic_range = c(-.x$GRANGE[1], .x$GRANGE[1]),
     show_neighbors = TRUE,
-    extrap_points_df = extrap_points_df,
-    fitted_line_df = fitted_line_df,
     show_extrapolated_points_and_lines = TRUE
-  ) + theme(plot.margin = unit(c(0, 0.01, -0.2, -0.2), "line"))
-  return(p)
-}
-figs = lapply(extrap_illustration_list, draw_extrapolation)
+  ) + theme(plot.margin = unit(c(0, 0.01, -0.2, -0.2), "line"))) 
 gridExtra::grid.arrange(grobs = figs, nrow = 1)
 ```
-

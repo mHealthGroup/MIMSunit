@@ -41,10 +41,7 @@ Imports:
     dygraphs (>= 1.1.1.6),
     RColorBrewer (>= 1.1-2),
     utils (>= 3.6.1),
-    ggplot2 (>= 3.2.1),
-    png (>= 0.1-7),
-    webshot (>= 0.5.2),
-    knitr (>= 1.28)
+    ggplot2 (>= 3.2.1)
 Suggests:
     testthat
 SystemRequirements:

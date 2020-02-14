@@ -135,79 +135,91 @@ illustrate_extrapolation <-
     oldw <- getOption("warn")
     options(warn = -1)
     results = .prepare_for_extrapolation_illustration(df, dynamic_range = dynamic_range, ...)
-    p <- illustrate_signal(
-      results$between_neighbor_df[, 1:2],
-      point_size = 1,
-      plot_line = FALSE,
-      title = title,
-      range = dynamic_range,
-      plot_title = TRUE
-    )
-    if (show_neighbors) {
-      if (!is.null(results$left_neighbors_df)) {
-        p <- p +
-          ggplot2::geom_point(
-            data = results$left_neighbors_df,
-            ggplot2::aes_string(x = 'HEADER_TIME_STAMP', y = 'VALUE'),
-            shape = 1,
-            size = 1
-          )
-      }
-      if (!is.null(results$right_neighbors_df)) {
-        p <- p +
-          ggplot2::geom_point(
-            data = results$right_neighbors_df,
-            ggplot2::aes_string(x = 'HEADER_TIME_STAMP', y = 'VALUE'),
-            shape = 1,
-            size = 1
-          )
-      }
-    }
-    if (show_extrapolated_points_and_lines) {
-      if (!is.null(results$points_ex_df)) {
-        p <- p +
-          ggplot2::geom_point(
-            data = results$points_ex_df,
-            ggplot2::aes_string(x = 'HEADER_TIME_STAMP', y = 'VALUE'),
-            shape = 17,
-            size = 2
-          ) +
-          ggplot2::geom_vline(
-            xintercept = as.numeric(results$points_ex_df[, 1]),
-            size = 0.3,
-            linetype = "dotted"
-          )
-      }
-
-      if (!is.null(results$fitted_line_df)) {
-        indices <- unique(results$fitted_line_df$index)
-        for (i in indices) {
-          left_fit_line_df <- results$fitted_line_df[results$fitted_line_df$index == i &
-                                                       results$fitted_line_df$type == "left_line", c(1, 2)]
-          right_fit_line_df <- results$fitted_line_df[results$fitted_line_df$index == i &
-                                                        results$fitted_line_df$type == "right_line", c(1, 2)]
-          colnames(left_fit_line_df) <- c("HEADER_TIME_STAMP", "value")
-          colnames(right_fit_line_df) <- c("HEADER_TIME_STAMP", "value")
-          p <- p + ggplot2::geom_line(
-            data = left_fit_line_df,
-            ggplot2::aes_string(x = "HEADER_TIME_STAMP", y = "value"),
-            size = 0.5
-          ) +
-            ggplot2::geom_line(
-              data = right_fit_line_df,
-              ggplot2::aes_string(x = "HEADER_TIME_STAMP", y = "value"),
-              size = 0.5
+    if(is.null(results$between_neighbor_df)) {
+      p <- illustrate_signal(
+        df,
+        point_size = 1,
+        plot_line = FALSE,
+        title = title,
+        range = dynamic_range,
+        plot_title = TRUE
+      )
+      return(p)
+    } else {
+      p <- illustrate_signal(
+        results$between_neighbor_df[, 1:2],
+        point_size = 1,
+        plot_line = FALSE,
+        title = title,
+        range = dynamic_range,
+        plot_title = TRUE
+      )
+      if (show_neighbors) {
+        if (!is.null(results$left_neighbors_df)) {
+          p <- p +
+            ggplot2::geom_point(
+              data = results$left_neighbors_df,
+              ggplot2::aes_string(x = 'HEADER_TIME_STAMP', y = 'VALUE'),
+              shape = 1,
+              size = 1
+            )
+        }
+        if (!is.null(results$right_neighbors_df)) {
+          p <- p +
+            ggplot2::geom_point(
+              data = results$right_neighbors_df,
+              ggplot2::aes_string(x = 'HEADER_TIME_STAMP', y = 'VALUE'),
+              shape = 1,
+              size = 1
             )
         }
       }
+      if (show_extrapolated_points_and_lines) {
+        if (!is.null(results$points_ex_df)) {
+          p <- p +
+            ggplot2::geom_point(
+              data = results$points_ex_df,
+              ggplot2::aes_string(x = 'HEADER_TIME_STAMP', y = 'VALUE'),
+              shape = 17,
+              size = 2
+            ) +
+            ggplot2::geom_vline(
+              xintercept = as.numeric(results$points_ex_df[, 1]),
+              size = 0.3,
+              linetype = "dotted"
+            )
+        }
+
+        if (!is.null(results$fitted_line_df)) {
+          indices <- unique(results$fitted_line_df$index)
+          for (i in indices) {
+            left_fit_line_df <- results$fitted_line_df[results$fitted_line_df$index == i &
+                                                         results$fitted_line_df$type == "left_line", c(1, 2)]
+            right_fit_line_df <- results$fitted_line_df[results$fitted_line_df$index == i &
+                                                          results$fitted_line_df$type == "right_line", c(1, 2)]
+            colnames(left_fit_line_df) <- c("HEADER_TIME_STAMP", "value")
+            colnames(right_fit_line_df) <- c("HEADER_TIME_STAMP", "value")
+            p <- p + ggplot2::geom_line(
+              data = left_fit_line_df,
+              ggplot2::aes_string(x = "HEADER_TIME_STAMP", y = "value"),
+              size = 0.5
+            ) +
+              ggplot2::geom_line(
+                data = right_fit_line_df,
+                ggplot2::aes_string(x = "HEADER_TIME_STAMP", y = "value"),
+                size = 0.5
+              )
+          }
+        }
+      }
+      options(warn = oldw)
+      return(p)
     }
-    options(warn = oldw)
-    return(p)
   }
 
 .prepare_for_extrapolation_illustration = function(df, dynamic_range, noise_level=0.03, k=0.05, spar=0.6) {
   df = df[,c(1,2)]
-  df = data.frame(.extrapolate_oversampling(df[,1], df[,2]))
+  df = data.frame(.extrapolate_oversampling(df[[1]], df[[2]]))
   colnames(df) = c('HEADER_TIME_STAMP', 'VALUE')
   markers = .extrapolate_mark("gamma")(df$HEADER_TIME_STAMP,
                                        df$VALUE,
@@ -282,8 +294,6 @@ illustrate_extrapolation <-
 #' @param y_label str. The label name to be put on the y axis.
 #' @param value_cols numerical vector. The indices of columns storing values,
 #'   typically starting from the second column. The default is `c(2,3,4)`.
-#' @param as_image_arr bool. If this is TRUE, the function will return an image
-#'   array representing the snapshot of the interactive image. Default is FALSE.
 #'
 #' @importFrom magrittr %>%
 #' @return A dygraphs graph object. When showing, the graph will be plotted in
@@ -294,33 +304,20 @@ illustrate_extrapolation <-
 #'   # Use sample data for testing
 #'   df = sample_raw_accel_data[1:10000,]
 #'
-#'   # Plot using default settings, due to pkgdown limitation, in the example,
-#'   # we show it as a snapshot image. If you want to have it in interactive
-#'   # mode in practice, set as_image_arr to FALSE.
-#'   g = generate_interactive_plot(df,
-#'                                 y_label="Acceleration (g)",
-#'                                 as_image_arr=TRUE)
+#'   # Plot using default settings, due to pkgdown limitation, no interactive
+#'   # plots will be shown on the website page.
+#'   generate_interactive_plot(df,
+#'                             y_label="Acceleration (g)")
 #'
 #'   # Show the image
 #'   grid::grid.raster(g)
-#'   dev.off()
 #'
 #'   # The function can be used to plot MIMS unit values as well
 #'   mims = mims_unit(df, dynamic_range=c(-8, 8))
-#'   g = generate_interactive_plot(mims,
-#'                                 y_label="MIMS-unit values",
-#'                                 value_cols=c(2),
-#'                                 as_image_arr=TRUE)
-#'
-#'   # Show in new image
-#'   frame()
-#'   grid::grid.raster(g)
-#'   dev.off()
-#'   closeAllConnections()
-generate_interactive_plot = function(df, y_label, value_cols=c(2,3,4), as_image_arr=FALSE) {
-  if (!webshot::is_phantomjs_installed()) {
-    webshot::install_phantomjs()
-  }
+#'   generate_interactive_plot(mims,
+#'                             y_label="MIMS-unit values",
+#'                             value_cols=c(2))
+generate_interactive_plot = function(df, y_label, value_cols=c(2,3,4)) {
   xts_values = xts::xts(df[,value_cols], df[,1])
   range = max(xts_values) - min(xts_values)
   min_y = min(xts_values) - range * 1/2
@@ -331,10 +328,5 @@ generate_interactive_plot = function(df, y_label, value_cols=c(2,3,4), as_image_
     dygraphs::dyLegend(width = 400) %>%
     dygraphs::dyAxis("y", valueRange = c(min_y, max_y), label = y_label) %>%
     dygraphs::dyAxis("x", label = 'Time')
-  if (as_image_arr) {
-    img = knitr::knit_print(g)
-    image_arr = png::readPNG(img$image)
-    return(image_arr)
-  }
   return(g)
 }

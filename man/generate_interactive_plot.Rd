@@ -4,12 +4,7 @@
 \alias{generate_interactive_plot}
 \title{Plot MIMS unit values or raw signal using dygraphs interactive plotting library.}
 \usage{
-generate_interactive_plot(
-  df,
-  y_label,
-  value_cols = c(2, 3, 4),
-  as_image_arr = FALSE
-)
+generate_interactive_plot(df, y_label, value_cols = c(2, 3, 4))
 }
 \arguments{
 \item{df}{data.frame.The dataframe storing MIMS unit values or raw
@@ -19,9 +14,6 @@ accelerometer signal. The first column should be timestamps.}
 
 \item{value_cols}{numerical vector. The indices of columns storing values,
 typically starting from the second column. The default is `c(2,3,4)`.}
-
-\item{as_image_arr}{bool. If this is TRUE, the function will return an image
-array representing the snapshot of the interactive image. Default is FALSE.}
 }
 \value{
 A dygraphs graph object. When showing, the graph will be plotted in
@@ -35,29 +27,19 @@ A dygraphs graph object. When showing, the graph will be plotted in
   # Use sample data for testing
   df = sample_raw_accel_data[1:10000,]
 
-  # Plot using default settings, due to pkgdown limitation, in the example,
-  # we show it as a snapshot image. If you want to have it in interactive
-  # mode in practice, set as_image_arr to FALSE.
-  g = generate_interactive_plot(df,
-                                y_label="Acceleration (g)",
-                                as_image_arr=TRUE)
+  # Plot using default settings, due to pkgdown limitation, no interactive
+  # plots will be shown on the website page.
+  generate_interactive_plot(df,
+                            y_label="Acceleration (g)")
 
   # Show the image
   grid::grid.raster(g)
-  dev.off()
 
   # The function can be used to plot MIMS unit values as well
   mims = mims_unit(df, dynamic_range=c(-8, 8))
-  g = generate_interactive_plot(mims,
-                                y_label="MIMS-unit values",
-                                value_cols=c(2),
-                                as_image_arr=TRUE)
-
-  # Show in new image
-  frame()
-  grid::grid.raster(g)
-  dev.off()
-  closeAllConnections()
+  generate_interactive_plot(mims,
+                            y_label="MIMS-unit values",
+                            value_cols=c(2))
 }
 \seealso{
 Other visualization functions.: 
