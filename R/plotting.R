@@ -309,9 +309,6 @@ illustrate_extrapolation <-
 #'   generate_interactive_plot(df,
 #'                             y_label="Acceleration (g)")
 #'
-#'   # Show the image
-#'   grid::grid.raster(g)
-#'
 #'   # The function can be used to plot MIMS unit values as well
 #'   mims = mims_unit(df, dynamic_range=c(-8, 8))
 #'   generate_interactive_plot(mims,
