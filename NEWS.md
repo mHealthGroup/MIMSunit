@@ -1,4 +1,4 @@
-# MIMSunit 0.7.0.9000
+# MIMSunit 0.8.0
 
 ## New features
 
@@ -11,7 +11,7 @@
 ## Bug fixes
 
 * Column naming in `vector_magnitude` and `sum_up` functions.
-* Crashing bug in `illustrate_signal` due to ggplot2 version update.
+* Crashing bug in plotting functions.
 * Chances of incorrect parsing of time zone during interpolation and extrapolation.
 
 ## Documentation
