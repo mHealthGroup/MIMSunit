@@ -18,10 +18,10 @@
     },
     "MASS": {
       "Package": "MASS",
-      "Version": "7.3-51.5",
+      "Version": "7.3-51.4",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "9efe80472b21189ebab1b74169808c26"
+      "Hash": "a94714e63996bc284b8795ec50defc07"
     },
     "Matrix": {
       "Package": "Matrix",
@@ -305,10 +305,10 @@
     },
     "nlme": {
       "Package": "nlme",
-      "Version": "3.1-144",
+      "Version": "3.1-143",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "e80d41932d3cc235ccbbbb9732ae162e"
+      "Hash": "7518d3b54a24f9291735a25467997858"
     },
     "pillar": {
       "Package": "pillar",
