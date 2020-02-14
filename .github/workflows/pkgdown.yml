@@ -6,25 +6,13 @@ name: Pkgdown
 
 jobs:
   pkgdown:
-    runs-on: macOS-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
       - uses: r-lib/actions/setup-r@master
         with:
           r-version: 3.6
       - uses: r-lib/actions/setup-pandoc@master
-      - name: Query dependencies
-        run: |
-          install.packages('remotes')
-          saveRDS(remotes::dev_package_deps(dependencies = TRUE), "depends.Rds", version = 2)
-        shell: Rscript {0}
-      - name: Cache R packages
-        if: runner.os != 'Windows'
-        uses: actions/cache@v1
-        with:
-          path: ${{ env.R_LIBS_USER }}
-          key: macOS-latest-r-3.6-${{ hashFiles('depends.Rds') }}
-          restore-keys: macOS-latest-r-3.6-
       - name: Install system dependencies
         if: runner.os == 'Linux'
         env:
@@ -35,14 +23,7 @@ jobs:
           sudo -s eval "$sysreqs"
       - name: Install dependencies
         run: |
-          library(remotes)
-          install.packages('ps')
-          install.packages('processx')
-          deps <- readRDS("depends.Rds")
-          deps[["installed"]] <- vapply(deps[["package"]], remotes:::local_sha, character(1))
-          update(deps)
-          install.packages('pkgdown')
-          install.packages('gridExtra')
+          renv::install()
         shell: Rscript {0}
       - name: Install package
         run: R CMD INSTALL --no-multiarch --with-keep.source .
