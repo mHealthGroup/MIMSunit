@@ -7,23 +7,27 @@
 ## Improvement
 
 * Use chunked import functions in `mims_unit_from_files` to support large input files.
-* Support returning snapshot image array for `generate_interactive_plot` function.
 
 ## Bug fixes
 
 * Column naming in `vector_magnitude` and `sum_up` functions.
 * Crashing bug in `illustrate_signal` due to ggplot2 version update.
+* Chances of incorrect parsing of time zone during interpolation and extrapolation.
 
 ## Documentation
 
 * Add examples to functions.
+
+## Minor changes
+
+* `show_progress` is discarded in top-level `mims_unit` functions. Use `use_gui_progress` instead.
 
 # MIMSunit 0.7.0
 
 ## Improvement
 
 * Refine vignettes codes and texts.
-* Better progress bar support for `MIMSunit::mims_unit` functions. Use `show_progress` to control whether to show progress bar during computation.
+* Better progress bar support for `mims_unit` functions. Use `show_progress` to control whether to show progress bar during computation.
 
 ## Bug fixes
 
@@ -37,8 +41,8 @@
 ## Breaking changes
 
 * Remove dependency on "mHealthR" package.
-* Add top-level API function `MIMSunit::mims_unit_from_files`.
-* Add new plotting function `MIMSunit::generate_interactive_plot`.
+* Add top-level API function `mims_unit_from_files`.
+* Add new plotting function `generate_interactive_plot`.
 
 # MIMSunit 0.6.2
 
