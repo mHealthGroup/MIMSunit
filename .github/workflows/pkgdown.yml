@@ -10,15 +10,50 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - uses: r-lib/actions/setup-r@master
+        with:
+          r-version: 3.6
       - uses: r-lib/actions/setup-pandoc@master
+      - name: Query dependencies
+        run: |
+          install.packages('remotes')
+          saveRDS(remotes::dev_package_deps(dependencies = TRUE), "depends.Rds", version = 2)
+        shell: Rscript {0}
+      - name: Cache R packages
+        if: runner.os != 'Windows'
+        uses: actions/cache@v1
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: macOS-latest-r-3.6-${{ hashFiles('depends.Rds') }}
+          restore-keys: macOS-latest-r-3.6-
+      - name: Install system dependencies
+        if: runner.os == 'Linux'
+        env:
+          RHUB_PLATFORM: linux-x86_64-ubuntu-gcc
+        run: |
+          Rscript -e "remotes::install_github('r-hub/sysreqs')"
+          sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
+          sudo -s eval "$sysreqs"
       - name: Install dependencies
         run: |
-          install.packages("remotes")
-          remotes::install_deps(dependencies = TRUE)
-          remotes::install_github("jimhester/pkgdown@github-actions-deploy2")
+          library(remotes)
+          deps <- readRDS("depends.Rds")
+          deps[["installed"]] <- vapply(deps[["package"]], remotes:::local_sha, character(1))
+          update(deps)
+          install.packages('pkgdown')
         shell: Rscript {0}
       - name: Install package
-        run: R CMD INSTALL .
-      - name: Deploy package
-        run: pkgdown:::deploy_local(new_process = FALSE)
+        run: R CMD INSTALL --no-multiarch --with-keep.source MIMSunit
+
+      - name: Build pkgdown site
+        run: |
+          pkgdown::build_site(new_process = FALSE)
         shell: Rscript {0}
+
+      - name: Deploy website
+      - uses: peaceiris/actions-gh-pages@v2
+        env:
+          PERSONAL_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
+          PUBLISH_BRANCH: gh-pages
+          PUBLISH_DIR: ./docs
+        with:
+          emptyCommits: false
