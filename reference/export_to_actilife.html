@@ -118,24 +118,6 @@ compatible with Actilife." />
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Advance Guidance
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/import_data.html">Import Data</a>
-    </li>
-    <li>
-      <a href="../articles/generate_intermediate.html">Generate Intermediate Output</a>
-    </li>
-    <li>
-      <a href="../articles/customize.html">Customize MIMS unit algorithm</a>
-    </li>
-  </ul>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     Performances
      
     <span class="caret"></span>
@@ -259,10 +241,11 @@ these data.</p>
 #&gt; 4 2016-01-15 11:00:00.049 0.336 -0.430  0.012
 #&gt; 5 2016-01-15 11:00:00.062 0.430 -0.320  0.000</div><div class='input'>
   <span class='co'># Save to current path with default mocked actilife and firmware versions</span>
-  <span class='fu'>export_to_actilife</span>(<span class='no'>df</span>, <span class='st'>'test.csv'</span>)
+  <span class='no'>filepath</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>()
+  <span class='fu'>export_to_actilife</span>(<span class='no'>df</span>, <span class='no'>filepath</span>)
 
   <span class='co'># The saved file will have the same format as Actigraph csv files</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span>(<span class='st'>'test.csv'</span>)</div><div class='output co'>#&gt;  [1] "------------ Data File Created By Actigraph GT3X+ ActiLife v6.13.3 Firmware v1.6.0 date format M/d/yyyy at 100 Hz  Filter Nomral -----------"
+  <span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span>(<span class='no'>filepath</span>)</div><div class='output co'>#&gt;  [1] "------------ Data File Created By Actigraph GT3X+ ActiLife v6.13.3 Firmware v1.6.0 date format M/d/yyyy at 100 Hz  Filter Nomral -----------"
 #&gt;  [2] "Serial Number: TAS1E00000000"                                                                                                                
 #&gt;  [3] "Start Time 11:00:00"                                                                                                                         
 #&gt;  [4] "Start Date 01/15/2016"                                                                                                                       
@@ -279,7 +262,7 @@ these data.</p>
 #&gt; [15] "01/15/2016 11:00:00.049,0.336,-0.43,0.012"                                                                                                   
 #&gt; [16] "01/15/2016 11:00:00.062,0.43,-0.32,0"                                                                                                        </div><div class='input'>
   <span class='co'># Cleanup</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/files.html'>file.remove</a></span>(<span class='st'>'test.csv'</span>)</div><div class='output co'>#&gt; [1] TRUE</div></pre>
+  <span class='fu'><a href='https://rdrr.io/r/base/files.html'>file.remove</a></span>(<span class='no'>filepath</span>)</div><div class='output co'>#&gt; [1] TRUE</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

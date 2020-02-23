@@ -34,6 +34,9 @@
     <loc>https://mhealthgroup.github.io/MIMSunit//reference/cv_different_algorithms.html</loc>
   </url>
   <url>
+    <loc>https://mhealthgroup.github.io/MIMSunit//reference/edge_case.html</loc>
+  </url>
+  <url>
     <loc>https://mhealthgroup.github.io/MIMSunit//reference/export_to_actilife.html</loc>
   </url>
   <url>
@@ -94,6 +97,9 @@
     <loc>https://mhealthgroup.github.io/MIMSunit//reference/remove_average.html</loc>
   </url>
   <url>
+    <loc>https://mhealthgroup.github.io/MIMSunit//reference/rest_on_table.html</loc>
+  </url>
+  <url>
     <loc>https://mhealthgroup.github.io/MIMSunit//reference/sample_raw_accel_data.html</loc>
   </url>
   <url>
@@ -121,25 +127,13 @@
     <loc>https://mhealthgroup.github.io/MIMSunit//articles/cross_device_consistency.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//articles/customize.html</loc>
-  </url>
-  <url>
     <loc>https://mhealthgroup.github.io/MIMSunit//articles/edge_cases.html</loc>
-  </url>
-  <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//articles/generate_intermediate.html</loc>
-  </url>
-  <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//articles/import_data.html</loc>
   </url>
   <url>
     <loc>https://mhealthgroup.github.io/MIMSunit//articles/mims_unit_from_files.html</loc>
   </url>
   <url>
     <loc>https://mhealthgroup.github.io/MIMSunit//articles/mims_unit_from_imported_data.html</loc>
-  </url>
-  <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//articles/replicate.html</loc>
   </url>
   <url>
     <loc>https://mhealthgroup.github.io/MIMSunit//articles/truncation_threshold.html</loc>

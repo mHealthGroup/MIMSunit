@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Remove constant component of the signal — remove_average • MIMSunit</title>
+<title>A short snippet of raw accelerometer signal from a device resting on a table. — rest_on_table • MIMSunit</title>
 
 
 <!-- jquery -->
@@ -35,9 +35,8 @@
 
 
 
-<meta property="og:title" content="Remove constant component of the signal — remove_average" />
-<meta property="og:description" content="remove_average function takes a multi-channel signal and removes the
-average value over a filtering window." />
+<meta property="og:title" content="A short snippet of raw accelerometer signal from a device resting on a table. — rest_on_table" />
+<meta property="og:description" content="The dataset includes accelerometer data sampled at 80Hz and 6g. This data is used to derive the thresholding." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -158,79 +157,37 @@ average value over a filtering window." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Remove constant component of the signal</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mhealthgroup/MIMSunit/blob/master/R/filter.R'><code>R/filter.R</code></a></small>
-    <div class="hidden name"><code>remove_average.Rd</code></div>
+    <h1>A short snippet of raw accelerometer signal from a device resting on a table.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mhealthgroup/MIMSunit/blob/master/R/data.R'><code>R/data.R</code></a></small>
+    <div class="hidden name"><code>rest_on_table.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>remove_average</code> function takes a multi-channel signal and removes the
-average value over a filtering window.</p>
+    <p>The dataset includes accelerometer data sampled at 80Hz and 6g. This data is used to derive the thresholding.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>remove_average</span>(<span class='no'>df</span>, <span class='no'>sr</span>, <span class='kw'>order</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</pre>
+    <pre class="usage"><span class='no'>rest_on_table</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>df</th>
-      <td><p>dataframe. The input multi-channel signal. The first column is
-timestamps in POSXlct format. The rest columns are signal values.</p></td>
-    </tr>
-    <tr>
-      <th>sr</th>
-      <td><p>number. Sampling rate in Hz of the input signal.</p></td>
-    </tr>
-    <tr>
-      <th>order</th>
-      <td><p>number. Window size (in seconds) of the filter. Default is 500
-ms.</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>dataframe. Filtered signal.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <p>A data frame with 5000 rows and 4 variables:</p><dl class='dl-horizontal'>
+  <dt>HEADER_TIME_STAMP</dt><dd><p>The timestamp of raw accelerometer data, in POSIXct</p></dd>
+  <dt>X</dt><dd><p>The x axis value of raw accelerometer data, in number</p></dd>
+  <dt>Y</dt><dd><p>The x axis value of raw accelerometer data, in number</p></dd>
+  <dt>Z</dt><dd><p>The x axis value of raw accelerometer data, in number</p></dd>
 
-    <p>This function filters the input multi-channel signal by removing the average
-value within each sliding window. The sliding window size is decided by
-\(w = sr * order\).</p>
-    <h2 class="hasAnchor" id="how-is-it-used-in-mims-unit-algorithm-"><a class="anchor" href="#how-is-it-used-in-mims-unit-algorithm-"></a>How is it used in MIMS-unit algorithm?</h2>
+</dl>
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
 
-    <p>This function has been
-  considered as one of filtering options during the development of MIMS-unit
-  algorithm. But the released version of MIMS-unit algorithm does not use
-  this function for filtering.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <p><a href='https://github.com/qutang/MIMSunit'>https://github.com/qutang/MIMSunit</a></p>
 
-    <div class='dont-index'><p>Other filtering functions: 
-<code><a href='bandlimited_interp.html'>bandlimited_interp</a>()</code>,
-<code><a href='bessel.html'>bessel</a>()</code>,
-<code><a href='iir.html'>iir</a>()</code></p></div>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='co'># Use first 1000 rows of sample data</span>
-  <span class='no'>df</span> <span class='kw'>=</span> <span class='no'>sample_raw_accel_data</span>[<span class='fl'>1</span>:<span class='fl'>1000</span>,]
-
-  <span class='co'># View input</span>
-  <span class='fu'><a href='illustrate_signal.html'>illustrate_signal</a></span>(<span class='no'>df</span>, <span class='kw'>plot_maxed_out_line</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='remove_average-1.png' alt='' width='700' height='433' /></div><div class='input'>
-  <span class='co'># Apply filtering</span>
-  <span class='no'>output</span> <span class='kw'>=</span> <span class='fu'>remove_average</span>(<span class='no'>df</span>, <span class='kw'>sr</span><span class='kw'>=</span><span class='fl'>80</span>, <span class='kw'>order</span><span class='kw'>=</span><span class='fl'>0.5</span>)
-
-  <span class='co'># View output</span>
-  <span class='fu'><a href='illustrate_signal.html'>illustrate_signal</a></span>(<span class='no'>output</span>, <span class='kw'>plot_maxed_out_line</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='remove_average-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#how-is-it-used-in-mims-unit-algorithm-">How is it used in MIMS-unit algorithm?</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
+      <li><a href="#format">Format</a></li>
+      <li><a href="#source">Source</a></li>
     </ul>
 
   </div>

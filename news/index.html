@@ -115,24 +115,6 @@
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Advance Guidance
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/import_data.html">Import Data</a>
-    </li>
-    <li>
-      <a href="../articles/generate_intermediate.html">Generate Intermediate Output</a>
-    </li>
-    <li>
-      <a href="../articles/customize.html">Customize MIMS unit algorithm</a>
-    </li>
-  </ul>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     Performances
      
     <span class="caret"></span>
@@ -177,19 +159,47 @@
       <small>Source: <a href='https://github.com/mhealthgroup/MIMSunit/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="mimsunit-080" class="section level1">
+    <div id="mimsunit-081" class="section level1">
 <h1 class="page-header">
-<a href="#mimsunit-080" class="anchor"></a>MIMSunit 0.8.0</h1>
+<a href="#mimsunit-081" class="anchor"></a>MIMSunit 0.8.1</h1>
 <div id="new-features" class="section level2">
 <h2 class="hasAnchor">
 <a href="#new-features" class="anchor"></a>New features</h2>
 <ul>
-<li>New import data functions <code>import_actigraph_csv_chunked</code> and <code>import_mhealth_csv_chunked</code> to support loading large csv files in chunks. See issue <a href="https://github.com/mHealthGroup/MIMSunit/issues/11"><a href='https://github.com/mhealthgroup/MIMSunit/issues/11'>#11</a></a>.</li>
+<li>Add two new sample data <code>edge_case</code> and <code>rest_on_table</code>.</li>
+<li>Add one new external sample data <code>actigraph_timestamped.csv</code>.</li>
 </ul>
 </div>
 <div id="improvement" class="section level2">
 <h2 class="hasAnchor">
 <a href="#improvement" class="anchor"></a>Improvement</h2>
+<ul>
+<li>Use tempfile in examples.</li>
+</ul>
+</div>
+<div id="documentation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#documentation" class="anchor"></a>Documentation</h2>
+<ul>
+<li>Remove unused vignettes.</li>
+<li>Add documentation for the new sample data.</li>
+<li>Use internal data for all vignettes.</li>
+</ul>
+</div>
+</div>
+    <div id="mimsunit-080" class="section level1">
+<h1 class="page-header">
+<a href="#mimsunit-080" class="anchor"></a>MIMSunit 0.8.0</h1>
+<div id="new-features-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-features-1" class="anchor"></a>New features</h2>
+<ul>
+<li>New import data functions <code>import_actigraph_csv_chunked</code> and <code>import_mhealth_csv_chunked</code> to support loading large csv files in chunks. See issue <a href="https://github.com/mHealthGroup/MIMSunit/issues/11"><a href='https://github.com/mhealthgroup/MIMSunit/issues/11'>#11</a></a>.</li>
+</ul>
+</div>
+<div id="improvement-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#improvement-1" class="anchor"></a>Improvement</h2>
 <ul>
 <li>Use chunked import functions in <code>mims_unit_from_files</code> to support large input files.</li>
 </ul>
@@ -203,9 +213,9 @@
 <li>Chances of incorrect parsing of time zone during interpolation and extrapolation.</li>
 </ul>
 </div>
-<div id="documentation" class="section level2">
+<div id="documentation-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#documentation" class="anchor"></a>Documentation</h2>
+<a href="#documentation-1" class="anchor"></a>Documentation</h2>
 <ul>
 <li>Add examples to functions.</li>
 </ul>
@@ -229,9 +239,9 @@
     <div id="mimsunit-070" class="section level1">
 <h1 class="page-header">
 <a href="#mimsunit-070" class="anchor"></a>MIMSunit 0.7.0</h1>
-<div id="improvement-1" class="section level2">
+<div id="improvement-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#improvement-1" class="anchor"></a>Improvement</h2>
+<a href="#improvement-2" class="anchor"></a>Improvement</h2>
 <ul>
 <li>Refine vignettes codes and texts.</li>
 <li>Better progress bar support for <code>mims_unit</code> functions. Use <code>show_progress</code> to control whether to show progress bar during computation.</li>
@@ -404,6 +414,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#mimsunit-081">0.8.1</a></li>
         <li><a href="#mimsunit-080">0.8.0</a></li>
         <li><a href="#mimsunit-070">0.7.0</a></li>
         <li><a href="#mimsunit-062">0.6.2</a></li>
