@@ -12,7 +12,6 @@ Authors@R: c(person("Qu", "Tang", email = "tang.q@northeastern.edu",
              person("mHealth Research Group", role = c("cph"), 
              comment = "https://mhealthgroup.org")
             )
-Maintainer: Qu Tang <tang.q@northeastern.edu>
 Description: The MIMS-unit algorithm is developed to compute Monitor Independent
     Movement Summary Unit, a measurement to summarize raw accelerometer data 
     while ensuring harmonized results across different devices. It also includes
