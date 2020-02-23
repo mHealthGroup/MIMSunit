@@ -17,18 +17,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Bouts at the edge region (unable to do extrapolation) will be marked with __-0.01__.
 
-```{r, include=FALSE, warning=FALSE}
-wd = getwd()
-if(stringr::str_detect(wd, "articles")){
-  file_path = normalizePath(file.path(wd, "../../vignettes/data/end_edge_case_long.csv"))
-}else{
-  file_path = normalizePath(file.path(wd, "../vignettes/data/end_edge_case_long.csv"))
-}
-options(digits.secs=3)
-```
-
-```{r load_data_long, warning=FALSE, message=FALSE, include=FALSE}
-df = MIMSunit::import_mhealth_csv(filepath=file_path)
+```{r load_data_long, echo=TRUE, message=FALSE, warning=FALSE}
+df = MIMSunit::edge_case
 ```
 
 ### Input data
@@ -39,7 +29,7 @@ MIMSunit::generate_interactive_plot(df, "Acceleration (g)", c(2,3,4))
 ### Output: MIMS unit values
 
 Compute MIMS-unit values
-```{r message=FALSE, warning=FALSE, include=TRUE, echo=T, results='hide'}
+```{r echo=T, message=FALSE, warning=FALSE, include=TRUE, results='hide'}
 mims = MIMSunit::mims_unit(df, epoch = '5 sec', dynamic_range = c(-6, 6), output_mims_per_axis = TRUE)
 ```
 

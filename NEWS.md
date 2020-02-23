@@ -1,3 +1,20 @@
+# MIMSunit 0.8.1
+
+## New features
+
+* Add two new sample data `edge_case` and `rest_on_table`.
+* Add one new external sample data `actigraph_timestamped.csv`.
+
+## Improvement
+
+* Use tempfile in examples.
+
+## Documentation
+
+* Remove unused vignettes.
+* Add documentation for the new sample data.
+* Use internal data for all vignettes.
+
 # MIMSunit 0.8.0
 
 ## New features

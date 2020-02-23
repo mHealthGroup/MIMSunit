@@ -54,13 +54,14 @@ these data.
   head(df)
 
   # Save to current path with default mocked actilife and firmware versions
-  export_to_actilife(df, 'test.csv')
+  filepath = tempfile()
+  export_to_actilife(df, filepath)
 
   # The saved file will have the same format as Actigraph csv files
-  readLines('test.csv')
+  readLines(filepath)
 
   # Cleanup
-  file.remove('test.csv')
+  file.remove(filepath)
 }
 \seealso{
 Other File I/O functions: 

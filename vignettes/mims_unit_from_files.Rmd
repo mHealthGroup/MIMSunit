@@ -27,24 +27,15 @@ HEADER_TIME_STAMP,X,Y,Z
 2016-10-03 14:51:14.337,0.011,-0.010,0.982
 ```
 
-```{r, include=FALSE, warning=FALSE}
-wd = getwd()
-if(stringr::str_detect(wd, "articles")){
-  file_path = normalizePath(file.path(wd, "../../vignettes/data/shaker.csv"))
-}else{
-  file_path = normalizePath(file.path(wd, "../vignettes/data/shaker.csv"))
-}
-options(digits.secs=3)
-```
-
 ### Command
 
 Make sure `file_type` is set to 'mhealth' and `file_path` is put in a vector.
 
 Compute MIMS-unit values
 ```{r echo=TRUE, message=FALSE, warning=FALSE, results=FALSE}
-# file_path: shaker.csv
-mims = MIMSunit::mims_unit_from_files(c(file_path), 
+# test on a sample file shipped with the package
+sample_filepath = system.file("extdata", 'mhealth.csv', package='MIMSunit')
+mims = MIMSunit::mims_unit_from_files(c(sample_filepath), 
                                       epoch = '5 sec', 
                                       dynamic_range = c(-2, 2), 
                                       output_mims_per_axis = TRUE, 
@@ -58,30 +49,17 @@ MIMSunit::generate_interactive_plot(mims, "MIMS-unit values", c(2,3,4,5))
 
 ## Run on a list of files with mhealth specification
 
-```{r, include=FALSE, warning=FALSE}
-wd = getwd()
-file_paths = c()
-file_names = c('mhealth1.csv', 'mhealth2.csv', 'mhealth3.csv')
-for(name in file_names){
-  if(stringr::str_detect(wd, "articles")){
-    file_paths = append(file_paths, normalizePath(file.path(wd, paste0("../../vignettes/data/", name))))
-  }else{
-    file_paths = append(file_paths, normalizePath(file.path(wd, paste0("../vignettes/data/", name))))
-  }
-}
-
-options(digits.secs=3)
-```
-
 ### Command
 
 Make sure `file_type` is set to 'mhealth' and `file_paths` are sorted in time.
 
 Compute MIMS-unit values
 ```{r echo=TRUE, message=FALSE, warning=FALSE, results=FALSE}
-# file_paths: mhealth1.csv, mhealth2.csv, mhealth3.csv
-mims = MIMSunit::mims_unit_from_files(file_paths, 
-                                      epoch = '1 min', 
+# test on sample files shipped with the package
+sample_file_paths = c(system.file('extdata', 'mhealth.csv', package='MIMSunit'),
+               system.file('extdata', 'mhealth1.csv', package='MIMSunit'))
+mims = MIMSunit::mims_unit_from_files(sample_file_paths, 
+                                      epoch = '5 sec', 
                                       dynamic_range = c(-8, 8), 
                                       output_mims_per_axis = TRUE, 
                                       file_type = 'mhealth')
@@ -93,17 +71,6 @@ MIMSunit::generate_interactive_plot(mims, "MIMS-unit values", c(2,3,4,5))
 ```
 
 ## Run on a single actigraph csv file without timestamps
-
-```{r, include=FALSE, warning=FALSE}
-wd = getwd()
-if(stringr::str_detect(wd, "articles")){
-  file_path = normalizePath(file.path(wd, "../../vignettes/data/actigraph1.csv"))
-}else{
-  file_path = normalizePath(file.path(wd, "../vignettes/data/actigraph1.csv"))
-}
-
-options(digits.secs=3)
-```
 
 ### File format
 
@@ -139,9 +106,10 @@ Make sure `file_type` is set to 'actigraph' and `file_path` is put in a vector. 
 
 Compute MIMS-unit values
 ```{r echo=TRUE, message=FALSE, warning=FALSE, results=FALSE}
-# file_path: actigraph1.csv
-mims = MIMSunit::mims_unit_from_files(c(file_path), 
-                                      epoch = '1 min', 
+# test with a sample file shipped with the package
+sample_file_path = system.file('extdata', 'actigraph.csv', package='MIMSunit')
+mims = MIMSunit::mims_unit_from_files(c(sample_file_path), 
+                                      epoch = '5 sec', 
                                       dynamic_range = c(-3, 3), 
                                       output_mims_per_axis = TRUE, 
                                       file_type = 'actigraph', 
@@ -154,17 +122,6 @@ MIMSunit::generate_interactive_plot(mims, "MIMS-unit values", c(2,3,4,5))
 ```
 
 ## Run on a single actigraph csv file with timestamps
-
-```{r, include=FALSE, warning=FALSE}
-wd = getwd()
-if(stringr::str_detect(wd, "articles")){
-  file_path = normalizePath(file.path(wd, "../../vignettes/data/actigraph2.csv"))
-}else{
-  file_path = normalizePath(file.path(wd, "../vignettes/data/actigraph2.csv"))
-}
-
-options(digits.secs=3)
-```
 
 ### File format
 
@@ -199,9 +156,10 @@ Make sure `file_type` is set to 'actigraph' and `file_path` is put in a vector. 
 
 Compute MIMS-unit values
 ```{r echo=TRUE, message=FALSE, warning=FALSE, results=FALSE}
-# file_path: actigraph1.csv
-mims = MIMSunit::mims_unit_from_files(c(file_path), 
-                                      epoch = '1 min', 
+# test with a sample file shipped with the package
+sample_file_path = system.file('extdata', 'actigraph_timestamped.csv', package='MIMSunit')
+mims = MIMSunit::mims_unit_from_files(c(sample_file_path), 
+                                      epoch = '5 sec', 
                                       dynamic_range = c(-6, 6), 
                                       output_mims_per_axis = TRUE, 
                                       file_type = 'actigraph', 

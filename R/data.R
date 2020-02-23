@@ -73,3 +73,31 @@
 #' }
 #' @source \url{https://github.com/qutang/MIMSunit}
 "conceptual_diagram_data"
+
+#' A short snippet of raw accelerometer signal from a device resting on a table.
+#'
+#' The dataset includes accelerometer data sampled at 80Hz and 6g. This data is used to derive the thresholding.
+#'
+#' @format A data frame with 5000 rows and 4 variables:
+#' \describe{
+#'   \item{HEADER_TIME_STAMP}{The timestamp of raw accelerometer data, in POSIXct}
+#'   \item{X}{The x axis value of raw accelerometer data, in number}
+#'   \item{Y}{The x axis value of raw accelerometer data, in number}
+#'   \item{Z}{The x axis value of raw accelerometer data, in number}
+#' }
+#' @source \url{https://github.com/qutang/MIMSunit}
+"rest_on_table"
+
+#' A short snippet of raw accelerometer signal from a device that has ending data maxed out.
+#'
+#' The dataset includes accelerometer data sampled at 80Hz and 6g. This data is used to test the edge case.
+#'
+#' @format A data frame with 20001 rows and 4 variables:
+#' \describe{
+#'   \item{HEADER_TIME_STAMP}{The timestamp of raw accelerometer data, in POSIXct}
+#'   \item{X}{The x axis value of raw accelerometer data, in number}
+#'   \item{Y}{The x axis value of raw accelerometer data, in number}
+#'   \item{Z}{The x axis value of raw accelerometer data, in number}
+#' }
+#' @source \url{https://github.com/qutang/MIMSunit}
+"edge_case"

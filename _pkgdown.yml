@@ -22,6 +22,8 @@ reference:
       - measurements_different_devices
       - sample_raw_accel_data
       - conceptual_diagram_data
+      - rest_on_table
+      - edge_case
   - title: "Signal Filtering"
     desc: "Functions to filter multi-channel accelerometer signal."
     contents:
@@ -99,14 +101,6 @@ navbar:
           href: articles/conceptual_diagram.html
         - text: "Deciding truncation threshold"
           href: articles/truncation_threshold.html
-    - text: "Advance Guidance"
-      menu:
-        - text: "Import Data"
-          href: articles/import_data.html
-        - text: "Generate Intermediate Output"
-          href: articles/generate_intermediate.html
-        - text: "Customize MIMS unit algorithm"
-          href: articles/customize.html
     - text: "Performances"
       menu:
         - text: "Cross device consistency"

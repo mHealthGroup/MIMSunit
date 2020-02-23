@@ -20,7 +20,7 @@ Unlike Actigraph count algorithm, MIMS unit algorithm truncates non-zero values 
 The constant signal has zero variance.
 
 
-```{r load_data_long, warning=FALSE, message=FALSE, include=FALSE}
+```{r load_data_long, echo=TRUE, message=FALSE, warning=FALSE}
 st = Sys.time()
 ts = seq(st, st + 300, length = 300 * 80)
 x = rep(1, length(ts))
@@ -62,20 +62,9 @@ print(sd(mims[61:nrow(mims),2]))
 
 ## MIMS unit value of accelerometer signal when a device is resting on a table
 
-The original signal has variance,
-```{r, include=FALSE, warning=FALSE}
-wd = getwd()
-if(stringr::str_detect(wd, "articles")){
-  file_path = normalizePath(file.path(wd, "../../vignettes/data/rest_on_table.csv"))
-}else{
-  file_path = normalizePath(file.path(wd, "../vignettes/data/rest_on_table.csv"))
-}
-options(digits.secs=3)
-```
-
-Import data
+The original signal has variance, first import data
 ```{r, warning=FALSE, message=FALSE, include=T, echo=T, results=FALSE}
-df = MIMSunit::import_mhealth_csv(filepath=file_path)
+df = MIMSunit::rest_on_table
 ```
 
 ```{r echo=FALSE, warning=FALSE, message=FALSE}

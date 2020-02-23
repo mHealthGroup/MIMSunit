@@ -17,17 +17,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 The first timestamp column should be in `POSIXct` format.
 
-```{r, include=FALSE, warning=FALSE}
-wd = getwd()
-if(stringr::str_detect(wd, "articles")){
-  file_path = normalizePath(file.path(wd, "../../vignettes/data/shaker.csv"))
-}else{
-  file_path = normalizePath(file.path(wd, "../vignettes/data/shaker.csv"))
-}
-options(digits.secs=3)
-```
 
 ```{r load_data, message=FALSE, warning=FALSE, include=T, echo=T, results=FALSE}
+# test with a sample file shipped with the package
+file_path = system.file('extdata', 'mhealth.csv', package='MIMSunit')
 df = MIMSunit::import_mhealth_csv(filepath=file_path)
 ```
 

@@ -35,7 +35,6 @@ according to the start_time and stop_time.
 }
 
 \examples{
-  options(digits.secs=3)
   # Use the provided sample data
   df = sample_raw_accel_data
 
