@@ -166,7 +166,8 @@ mims_unit_from_files <-
 
 
 #' @rdname mims_unit
-#' @param df dataframe. Input multi-channel accelerometer signal.
+#' @param df dataframe. Input multi-channel accelerometer signal.  The
+#' first column should be the time component
 #' @param before_df dataframe. The multi-channel accelerometer signal comes
 #'   before the input signal to be prepended to the input signal during
 #'   computation. This is used to eliminate the edge effect during extrapolation
