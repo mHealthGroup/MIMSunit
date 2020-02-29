@@ -447,6 +447,7 @@ custom_mims_unit <-
            after_df = NULL,
            use_gui_progress = FALSE,
            st = NULL) {
+
     # save the start and stop time of original df
     if (use_gui_progress & .Platform$OS.type == 'windows') {
       ProgressBar = utils::winProgressBar
@@ -478,6 +479,7 @@ custom_mims_unit <-
 
     # apply extrapolation algorithm
     if (use_extrapolation) {
+      stopifnot(length(dynamic_range) == 2)
       setProgressBar(pb, 0.4, label = 'Extrapolating signal...')
       extrapolated_data <-
         extrapolate(df, dynamic_range, noise_level, k, spar)
