@@ -67,7 +67,7 @@ reference:
       - generate_interactive_plot
 
 development:
-  mode: unreleased
+  mode: auto
 
 authors:
   Qu Tang:

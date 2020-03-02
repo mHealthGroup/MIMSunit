@@ -57,6 +57,9 @@ values. \eqn{r} can also be found in the meta section in the csv file.
 }
 
 \examples{
+  default_ops = options()
+  options(digits.secs=3)
+
   # Use the actigraph csv file shipped with the package
   filepath = system.file('extdata', 'actigraph.csv', package='MIMSunit')
 
@@ -102,6 +105,9 @@ values. \eqn{r} can also be found in the meta section in the csv file.
       break
     }
   }
+
+  # Restore default options
+  options(default_ops)
 }
 \seealso{
 Other File I/O functions: 

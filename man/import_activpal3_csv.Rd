@@ -36,6 +36,8 @@ values may be converted to \eqn{g} unit using following equation.
 }
 
 \examples{
+  default_ops = options()
+  options(digits.secs=3)
   # Use the sample activpal3 csv file provided by the package
   filepath = system.file('extdata', 'activpal3.csv', package='MIMSunit')
 
@@ -50,6 +52,9 @@ values may be converted to \eqn{g} unit using following equation.
 
   # Check more
   summary(df)
+
+  # Restore default options
+  options(default_ops)
 }
 \seealso{
 Other File I/O functions: 

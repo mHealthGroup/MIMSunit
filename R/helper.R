@@ -107,6 +107,8 @@ sampling_rate <- function(df) {
 #' @family utility functions
 #' @export
 #' @examples
+#'   default_ops = options()
+#'   options(digits.secs=3)
 #'   # Use the provided sample data
 #'   df = sample_raw_accel_data
 #'
@@ -131,8 +133,10 @@ sampling_rate <- function(df) {
 #'   stop_time = "2016-01-15 12:01:01"
 #'   output = clip_data(df, start_time, stop_time)
 #'   output
+#'
+#'   # Restore original options
+#'   options(default_ops)
 clip_data <- function(df, start_time, stop_time) {
-  options(digits.secs=3)
   tzone <- lubridate::tz(df[["HEADER_TIME_STAMP"]][1])
   if (is.character(start_time)) {
     start_time <- as.POSIXct(start_time, tz = tzone)

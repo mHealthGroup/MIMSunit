@@ -18,6 +18,8 @@
 #'
 #' @export
 #' @examples
+#'   default_ops = options()
+#'   options(digits.secs=3)
 #'   # Use the sample mhealth csv file provided by the package
 #'   filepath = system.file('extdata', 'mhealth.csv', package='MIMSunit')
 #'   filepath
@@ -30,6 +32,9 @@
 #'
 #'   # Check more
 #'   summary(df)
+#'
+#'   # Restore default options
+#'   options(default_ops)
 import_mhealth_csv <- function(filepath) {
   ncols <- readr::count_fields(filepath, readr::tokenizer_csv(), skip = 0, n_max = 1L)
   date_format <- readr::col_datetime(format = "%Y-%m-%d %H:%M:%OS")
@@ -60,7 +65,6 @@ import_mhealth_csv <- function(filepath) {
   # enhance column headers
   colnames(df)[1:length(colheaders)] <- colheaders
   colnames(df) <- toupper(colnames(df))
-  options(digits.secs = 3)
   df <- data.frame(df, stringsAsFactors = FALSE)
 
   return(df)
@@ -88,6 +92,9 @@ import_mhealth_csv <- function(filepath) {
 #'
 #' @export
 #' @examples
+#'   default_ops = options()
+#'   options(digits.secs=3)
+#'
 #'   # Use the mhealth csv file shipped with the package
 #'   filepath = system.file('extdata', 'mhealth.csv', package='MIMSunit')
 #'
@@ -130,8 +137,10 @@ import_mhealth_csv <- function(filepath) {
 #'       break
 #'     }
 #'   }
+#'
+#'  # Restore default options
+#'  options(default_ops)
 import_mhealth_csv_chunked <- function(filepath, chunk_samples=180000) {
-  options(digits.secs = 3)
   chunk_size <- chunk_samples
   col_types <- c("character", "numeric", "numeric", "numeric")
   col_names <- c("HEADER_TIME_STAMP", "X", "Y", "Z")
@@ -208,6 +217,8 @@ import_mhealth_csv_chunked <- function(filepath, chunk_samples=180000) {
 #'
 #' @export
 #' @examples
+#'   default_ops = options()
+#'   options(digits.secs=3)
 #'   # Use the sample activpal3 csv file provided by the package
 #'   filepath = system.file('extdata', 'activpal3.csv', package='MIMSunit')
 #'
@@ -222,6 +233,9 @@ import_mhealth_csv_chunked <- function(filepath, chunk_samples=180000) {
 #'
 #'   # Check more
 #'   summary(df)
+#'
+#'   # Restore default options
+#'   options(default_ops)
 import_activpal3_csv <- function(filepath, header = FALSE) {
   ncols <-
     readr::count_fields(filepath, readr::tokenizer_csv(), n_max = 1)
@@ -250,7 +264,6 @@ import_activpal3_csv <- function(filepath, header = FALSE) {
   dat["HEADER_TIME_STAMP"] <-
     lubridate::force_tz(dat["HEADER_TIME_STAMP"], tzone = Sys.timezone())
   dat[2:4] <- (dat[2:4] - 127) / 2^8 * 4
-  options(digits.secs = 3)
   dat <- as.data.frame(dat)
   return(dat)
 }
@@ -293,6 +306,9 @@ import_activpal3_csv <- function(filepath, header = FALSE) {
 #' @family File I/O functions
 #' @export
 #' @examples
+#'   default_ops = options()
+#'   options(digits.secs=3)
+#'
 #'   # Use the actigraph csv file shipped with the package
 #'   filepath = system.file('extdata', 'actigraph.csv', package='MIMSunit')
 #'
@@ -338,11 +354,13 @@ import_activpal3_csv <- function(filepath, header = FALSE) {
 #'       break
 #'     }
 #'   }
+#'
+#'   # Restore default options
+#'   options(default_ops)
 import_actigraph_csv_chunked <- function(filepath,
                                          in_voltage = FALSE,
                                          has_ts = TRUE,
                                          header = TRUE, chunk_samples=180000) {
-  options(digits.secs = 3)
   chunk_size <- chunk_samples
   actigraph_meta <- import_actigraph_meta(filepath)
   if (has_ts) {
@@ -361,7 +379,8 @@ import_actigraph_csv_chunked <- function(filepath,
   }
   con <- file(filepath, "r")
 
-  df = NULL
+  env <- new.env()
+  env$df = NULL
 
   next_chunk <- function() {
     is_open <- tryCatch(
@@ -384,8 +403,8 @@ import_actigraph_csv_chunked <- function(filepath,
       col.names = col_names
     )
     if (!has_ts) {
-      if (!is.null(df)) {
-        st = df[nrow(df), 1]
+      if (!is.null(env$df)) {
+        st = env$df[nrow(env$df), 1]
       } else {
         st = actigraph_meta$st
       }
@@ -399,8 +418,8 @@ import_actigraph_csv_chunked <- function(filepath,
       dat <- .convert_voltage_to_g(dat, actigraph_meta)
     }
 
-    df <- as.data.frame(dat)
-    return(df)
+    env$df <- as.data.frame(dat)
+    return(env$df)
   }
 
   close_connection <- function() {
@@ -412,6 +431,8 @@ import_actigraph_csv_chunked <- function(filepath,
 .append_actigraph_timestamps <- function(dat, actigraph_meta, st) {
   if (is.null(st)) {
     st = actigraph_meta$st
+  } else {
+    st = st + 1 /  actigraph_meta$sr
   }
   ts_col <-
     seq(
@@ -483,6 +504,9 @@ import_actigraph_csv_chunked <- function(filepath,
 #' @family File I/O functions
 #' @export
 #' @examples
+#'   default_ops = options()
+#'   options(digits.secs=3)
+#'
 #'   # Use the sample actigraph csv file provided by the package
 #'   filepath = system.file('extdata', 'actigraph.csv', package='MIMSunit')
 #'
@@ -497,6 +521,9 @@ import_actigraph_csv_chunked <- function(filepath,
 #'
 #'   # Check more
 #'   summary(df)
+#'
+#'   # Restore default options
+#'   options(default_ops)
 import_actigraph_csv <-
   function(filepath,
            in_voltage = FALSE,
@@ -556,7 +583,6 @@ import_actigraph_csv <-
         strptime(x = dat[["HEADER_TIME_STAMP"]], format = time_format) + 5e-04
     }
 
-    options(digits.secs = 3)
     dat <- as.data.frame(dat)
 
     if (in_voltage) {
@@ -720,6 +746,9 @@ import_enmo_csv <- function(filepath, enmo_col = 2) {
 #' @family File I/O functions
 #' @export
 #' @examples
+#'   default_ops = options()
+#'   options(digits.secs=3)
+#'
 #'   # Use the sample actigraph csv file provided by the package
 #'   filepath = system.file('extdata', 'actigraph.csv', package='MIMSunit')
 #'
@@ -728,6 +757,9 @@ import_enmo_csv <- function(filepath, enmo_col = 2) {
 #'
 #'   # Load the meta headers of input file
 #'   import_actigraph_meta(filepath, header=TRUE)
+#'
+#'   # Restore default options
+#'   options(default_ops)
 import_actigraph_meta <- function(filepath, header = TRUE) {
   ACTIGRAPH_HEADER_SR_PATTERN <- "([0-9]+) Hz"
   ACTIGRAPH_FIRMWARE_PATTERN <- "Firmware v([0-9]+.[0-9]+.[0-9]+)"
@@ -794,7 +826,6 @@ import_actigraph_meta <- function(filepath, header = TRUE) {
   st <- paste(sd, st, sep = " ")
   time_format <- ACTIGRAPH_TIMESTAMP
   st <- strptime(st, time_format) + 5e-04
-  options(digits.secs = 3)
 
   # Session download time
   dt <- headlines[[6]]
@@ -806,7 +837,6 @@ import_actigraph_meta <- function(filepath, header = TRUE) {
   dt <- paste(dd, dt, sep = " ")
   time_format <- ACTIGRAPH_TIMESTAMP
   dt <- strptime(dt, time_format) + 5e-04
-  options(digits.secs = 3)
   if (is.na(sr)) {
     # determine sr by start and download time options(digits = 13)
     duration <- as.numeric(dt - st, units = "secs")
