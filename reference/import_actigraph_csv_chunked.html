@@ -83,7 +83,7 @@ devices: GT3X, GT3X+, GT3X+BT, GT9X, and GT9X-IMU." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.8.1</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.8.2</span>
       </span>
     </div>
 
@@ -243,7 +243,10 @@ values. \(r\) can also be found in the meta section in the csv file.</p>
 <code><a href='import_mhealth_csv.html'>import_mhealth_csv</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='co'># Use the actigraph csv file shipped with the package</span>
+    <pre class="examples"><div class='input'>  <span class='no'>default_ops</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>()
+  <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='kw'>digits.secs</span><span class='kw'>=</span><span class='fl'>3</span>)
+
+  <span class='co'># Use the actigraph csv file shipped with the package</span>
   <span class='no'>filepath</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>'extdata'</span>, <span class='st'>'actigraph.csv'</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>'MIMSunit'</span>)
 
   <span class='co'># Check original file format</span>
@@ -279,15 +282,15 @@ values. \(r\) can also be found in the meta section in the csv file.</p>
       <span class='kw'>break</span>
     }
   }</div><div class='output co'>#&gt; [1] "chunk 1"
-#&gt; [1] "df: 2018-06-14 11:21:00.000 - 2018-06-14 11:22:06.633"
+#&gt; [1] "df: 2018-06-14 11:21:00.033 - 2018-06-14 11:22:06.667"
 #&gt; [1] "chunk 2"
-#&gt; [1] "df: 2018-06-14 11:21:00.000 - 2018-06-14 11:22:06.633"
+#&gt; [1] "df: 2018-06-14 11:22:06.700 - 2018-06-14 11:23:13.333"
 #&gt; [1] "chunk 3"
-#&gt; [1] "df: 2018-06-14 11:21:00.000 - 2018-06-14 11:22:06.633"
+#&gt; [1] "df: 2018-06-14 11:23:13.367 - 2018-06-14 11:24:20.000"
 #&gt; [1] "chunk 4"
-#&gt; [1] "df: 2018-06-14 11:21:00.000 - 2018-06-14 11:22:06.633"
+#&gt; [1] "df: 2018-06-14 11:24:20.033 - 2018-06-14 11:25:26.667"
 #&gt; [1] "chunk 5"
-#&gt; [1] "df: 2018-06-14 11:21:00.000 - 2018-06-14 11:22:04.800"</div><div class='input'>
+#&gt; [1] "df: 2018-06-14 11:25:26.700 - 2018-06-14 11:26:31.500"</div><div class='input'>
   <span class='co'># Close connection after reading all the data</span>
   <span class='fu'>close_connection</span>()
 
@@ -309,7 +312,9 @@ values. \(r\) can also be found in the meta section in the csv file.</p>
       <span class='kw'>break</span>
     }
   }</div><div class='output co'>#&gt; [1] "chunk 1"
-#&gt; [1] "df: 2018-06-14 11:21:00.000 - 2018-06-14 11:22:06.633"</div></pre>
+#&gt; [1] "df: 2018-06-14 11:21:00.033 - 2018-06-14 11:22:06.667"</div><div class='input'>
+  <span class='co'># Restore default options</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='no'>default_ops</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

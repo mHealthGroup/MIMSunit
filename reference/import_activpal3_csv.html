@@ -81,7 +81,7 @@ digital voltage values) to \(g\) unit." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.8.1</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.8.2</span>
       </span>
     </div>
 
@@ -215,7 +215,9 @@ values may be converted to \(g\) unit using following equation.</p>
 <code><a href='import_mhealth_csv.html'>import_mhealth_csv</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='co'># Use the sample activpal3 csv file provided by the package</span>
+    <pre class="examples"><div class='input'>  <span class='no'>default_ops</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>()
+  <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='kw'>digits.secs</span><span class='kw'>=</span><span class='fl'>3</span>)
+  <span class='co'># Use the sample activpal3 csv file provided by the package</span>
   <span class='no'>filepath</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>'extdata'</span>, <span class='st'>'activpal3.csv'</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>'MIMSunit'</span>)
 
   <span class='co'># Check the csv format</span>
@@ -247,7 +249,9 @@ values may be converted to \(g\) unit using following equation.</p>
 #&gt;  Median : 1.1250  
 #&gt;  Mean   : 0.3263  
 #&gt;  3rd Qu.: 1.1250  
-#&gt;  Max.   : 1.9688  </div></pre>
+#&gt;  Max.   : 1.9688  </div><div class='input'>
+  <span class='co'># Restore default options</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='no'>default_ops</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

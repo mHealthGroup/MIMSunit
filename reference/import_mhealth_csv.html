@@ -82,7 +82,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.8.1</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.8.2</span>
       </span>
     </div>
 
@@ -206,7 +206,9 @@
 <code><a href='import_mhealth_csv_chunked.html'>import_mhealth_csv_chunked</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='co'># Use the sample mhealth csv file provided by the package</span>
+    <pre class="examples"><div class='input'>  <span class='no'>default_ops</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>()
+  <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='kw'>digits.secs</span><span class='kw'>=</span><span class='fl'>3</span>)
+  <span class='co'># Use the sample mhealth csv file provided by the package</span>
   <span class='no'>filepath</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>'extdata'</span>, <span class='st'>'mhealth.csv'</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>'MIMSunit'</span>)
   <span class='no'>filepath</span></div><div class='output co'>#&gt; [1] "/home/runner/work/MIMSunit/MIMSunit/renv/library/R-3.6/x86_64-pc-linux-gnu/MIMSunit/extdata/mhealth.csv"</div><div class='input'>
   <span class='co'># Load the file</span>
@@ -234,7 +236,9 @@
 #&gt;  Median : 0.09700  
 #&gt;  Mean   : 0.02415  
 #&gt;  3rd Qu.: 0.16100  
-#&gt;  Max.   : 0.40200  </div></pre>
+#&gt;  Max.   : 0.40200  </div><div class='input'>
+  <span class='co'># Restore default options</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='no'>default_ops</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -80,7 +80,7 @@ start and stop time" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.8.1</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.8.2</span>
       </span>
     </div>
 
@@ -214,17 +214,19 @@ according to the start_time and stop_time.</p>
 <code><a href='simulate_new_data.html'>simulate_new_data</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='co'># Use the provided sample data</span>
+    <pre class="examples"><div class='input'>  <span class='no'>default_ops</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>()
+  <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='kw'>digits.secs</span><span class='kw'>=</span><span class='fl'>3</span>)
+  <span class='co'># Use the provided sample data</span>
   <span class='no'>df</span> <span class='kw'>=</span> <span class='no'>sample_raw_accel_data</span>
 
   <span class='co'># Check the start time and stop time of the dataset</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>df</span>)</div><div class='output co'>#&gt;  HEADER_TIME_STAMP                   X                 Y            
-#&gt;  Min.   :2016-01-15 11:00:00   Min.   :-1.1520   Min.   :-2.965000  
-#&gt;  1st Qu.:2016-01-15 11:03:59   1st Qu.: 0.0000   1st Qu.:-0.137000  
-#&gt;  Median :2016-01-15 11:07:58   Median : 0.9770   Median :-0.051000  
-#&gt;  Mean   :2016-01-15 11:07:58   Mean   : 0.6713   Mean   : 0.003156  
-#&gt;  3rd Qu.:2016-01-15 11:11:56   3rd Qu.: 1.0160   3rd Qu.: 0.000000  
-#&gt;  Max.   :2016-01-15 11:15:55   Max.   : 5.1760   Max.   : 4.422000  
+  <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>df</span>)</div><div class='output co'>#&gt;  HEADER_TIME_STAMP                      X                 Y            
+#&gt;  Min.   :2016-01-15 11:00:00.00   Min.   :-1.1520   Min.   :-2.965000  
+#&gt;  1st Qu.:2016-01-15 11:03:59.00   1st Qu.: 0.0000   1st Qu.:-0.137000  
+#&gt;  Median :2016-01-15 11:07:58.00   Median : 0.9770   Median :-0.051000  
+#&gt;  Mean   :2016-01-15 11:07:58.00   Mean   : 0.6713   Mean   : 0.003156  
+#&gt;  3rd Qu.:2016-01-15 11:11:56.99   3rd Qu.: 1.0160   3rd Qu.: 0.000000  
+#&gt;  Max.   :2016-01-15 11:15:55.99   Max.   : 5.1760   Max.   : 4.422000  
 #&gt;        Z         
 #&gt;  Min.   :-2.855  
 #&gt;  1st Qu.:-0.207  
@@ -274,7 +276,9 @@ according to the start_time and stop_time.</p>
   <span class='no'>stop_time</span> <span class='kw'>=</span> <span class='st'>"2016-01-15 12:01:01"</span>
   <span class='no'>output</span> <span class='kw'>=</span> <span class='fu'>clip_data</span>(<span class='no'>df</span>, <span class='no'>start_time</span>, <span class='no'>stop_time</span>)
   <span class='no'>output</span></div><div class='output co'>#&gt; [1] HEADER_TIME_STAMP X                 Y                 Z                
-#&gt; &lt;0 rows&gt; (or 0-length row.names)</div></pre>
+#&gt; &lt;0 rows&gt; (or 0-length row.names)</div><div class='input'>
+  <span class='co'># Restore original options</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='no'>default_ops</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
