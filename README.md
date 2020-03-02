@@ -46,17 +46,24 @@ Install dependency system packages for `devtools`: `build-essential`,
 
 ## Installation
 
-1.  Stable version on CRAN (bundled or binary)
+### Stable version
 
-<!-- end list -->
+CRAN
 
 ``` r
 install.packages('MIMSunit')
 ```
 
-2.  Development version (source codes)
+Osler in health
 
-<!-- end list -->
+``` r
+source("https://oslerinhealth.org/oslerLite.R")
+osler_install('MIMSunit')
+```
+
+### Development version
+
+Github
 
 ``` r
 install.packages("devtools")
