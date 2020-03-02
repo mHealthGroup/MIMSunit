@@ -31,6 +31,9 @@ list. The list contains two items. The first item is a generator
 }
 
 \examples{
+  default_ops = options()
+  options(digits.secs=3)
+
   # Use the mhealth csv file shipped with the package
   filepath = system.file('extdata', 'mhealth.csv', package='MIMSunit')
 
@@ -73,6 +76,9 @@ list. The list contains two items. The first item is a generator
       break
     }
   }
+
+ # Restore default options
+ options(default_ops)
 }
 \seealso{
 Other File I/O functions: 

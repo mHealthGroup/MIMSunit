@@ -41,6 +41,9 @@ conversion. See \code{\link{import_actigraph_csv}}. }
 }
 
 \examples{
+  default_ops = options()
+  options(digits.secs=3)
+
   # Use the sample actigraph csv file provided by the package
   filepath = system.file('extdata', 'actigraph.csv', package='MIMSunit')
 
@@ -49,6 +52,9 @@ conversion. See \code{\link{import_actigraph_csv}}. }
 
   # Load the meta headers of input file
   import_actigraph_meta(filepath, header=TRUE)
+
+  # Restore default options
+  options(default_ops)
 }
 \seealso{
 Other File I/O functions: 

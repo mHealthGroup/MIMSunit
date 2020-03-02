@@ -35,6 +35,8 @@ according to the start_time and stop_time.
 }
 
 \examples{
+  default_ops = options()
+  options(digits.secs=3)
   # Use the provided sample data
   df = sample_raw_accel_data
 
@@ -59,6 +61,9 @@ according to the start_time and stop_time.
   stop_time = "2016-01-15 12:01:01"
   output = clip_data(df, start_time, stop_time)
   output
+
+  # Restore original options
+  options(default_ops)
 }
 \seealso{
 Other utility functions: 

@@ -73,8 +73,6 @@ mims_unit_from_files <-
            output_mims_per_axis = FALSE,
            use_gui_progress = FALSE,
            file_type = "mhealth", ...) {
-    oldw <- getOption("warn")
-    options(warn = -1)
     num_of_files <- length(files)
     dots = list(...)
     df <- NULL
@@ -140,7 +138,6 @@ mims_unit_from_files <-
       }
     }
     result <- do.call(rbind, results)
-    options(warn = oldw)
     return(result)
   }
 
@@ -294,8 +291,6 @@ sensor_orientations <-
            epoch = "5 sec",
            dynamic_range,
            st = NULL) {
-    oldw <- getOption("warn")
-    options(warn = -1)
     ori_df <- custom_mims_unit(
       df = df,
       epoch = epoch,
@@ -306,7 +301,6 @@ sensor_orientations <-
       after_df = after_df,
       st = st
     )[[2]]
-    options(warn = oldw)
     return(ori_df)
   }
 

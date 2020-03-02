@@ -132,8 +132,6 @@ illustrate_extrapolation <-
            title = NULL,
            show_neighbors = TRUE,
            show_extrapolated_points_and_lines = TRUE, ...) {
-    oldw <- getOption("warn")
-    options(warn = -1)
     results = .prepare_for_extrapolation_illustration(df, dynamic_range = dynamic_range, ...)
     if(is.null(results$between_neighbor_df)) {
       p <- illustrate_signal(
@@ -212,7 +210,6 @@ illustrate_extrapolation <-
           }
         }
       }
-      options(warn = oldw)
       return(p)
     }
   }

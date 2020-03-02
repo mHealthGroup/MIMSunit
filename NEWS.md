@@ -1,3 +1,10 @@
+# MIMSunit 0.8.2
+
+## Bug fixes
+
+* Make sure codes do not change options.
+* Fix timestamps in `import_actigraph_csv_chunked`.
+
 # MIMSunit 0.8.1
 
 ## New features

@@ -27,6 +27,8 @@ dataframe. The imported multi-channel accelerometer signal, with the
 }
 
 \examples{
+  default_ops = options()
+  options(digits.secs=3)
   # Use the sample mhealth csv file provided by the package
   filepath = system.file('extdata', 'mhealth.csv', package='MIMSunit')
   filepath
@@ -39,6 +41,9 @@ dataframe. The imported multi-channel accelerometer signal, with the
 
   # Check more
   summary(df)
+
+  # Restore default options
+  options(default_ops)
 }
 \seealso{
 Other File I/O functions: 
