@@ -9,6 +9,7 @@ init:
 
 install:
   - rm -rf renv.lock renv
+  - rm -rf .Rprofile
   - ps: Bootstrap
 
 cache:
