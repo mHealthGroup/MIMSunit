@@ -9,6 +9,7 @@
 Status](https://www.r-pkg.org/badges/version/MIMSunit)](https://cran.r-project.org/package=MIMSunit)
 [![Pkgdown](https://github.com/mHealthGroup/MIMSunit/workflows/Pkgdown/badge.svg?branch=master)]()
 [![.github/workflows/test.yml](https://github.com/mHealthGroup/MIMSunit/workflows/.github/workflows/test.yml/badge.svg)]()
+[![](https://cranlogs.r-pkg.org/badges/MIMSunit)](https://cran.r-project.org/package=MIMSunit)
 <!-- badges: end -->
 
 **Please create github
