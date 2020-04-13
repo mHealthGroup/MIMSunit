@@ -5,7 +5,8 @@
 \alias{measurements_different_devices}
 \title{The mean and standard deviation of accelerometer summary measure for
 different acceleration data summary algorithms and for different devices.}
-\format{A data frame with 235 rows and 8 variables:
+\format{
+A data frame with 235 rows and 8 variables:
 \describe{
   \item{DEVICE}{The name of different devices, in character}
   \item{GRANGE}{The dynamic range of the device in g, in number}
@@ -15,7 +16,8 @@ different acceleration data summary algorithms and for different devices.}
   \item{NAME}{An alternative name that is friendly for plotting for devices, in character}
   \item{mean}{The mean values of accelerometer summary measure, in number}
   \item{sd}{The standard deviation values of accelerometer summary measure, in number}
-}}
+}
+}
 \source{
 \url{https://github.com/qutang/MIMSunit-dataset-shaker}
 }

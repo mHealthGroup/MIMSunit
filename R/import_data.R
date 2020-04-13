@@ -559,6 +559,11 @@ import_actigraph_csv <-
         )
     }
 
+    if (!has_ts && ncol(dat) == 3) {
+      warning("has_ts = FALSE, but only 3 columns, setting has_ts = TRUE")
+      has_ts = TRUE
+    }
+
     if (!has_ts) {
       ts_col <-
         seq(

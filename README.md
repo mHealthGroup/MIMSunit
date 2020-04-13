@@ -11,6 +11,7 @@ Status](https://www.r-pkg.org/badges/version/MIMSunit)](https://cran.r-project.o
 [![.github/workflows/test.yml](https://github.com/mHealthGroup/MIMSunit/workflows/.github/workflows/test.yml/badge.svg)]()
 [![AppVeyor build
 status](https://ci.appveyor.com/api/projects/status/github/muschellij2/MIMSunit?branch=master&svg=true)](https://ci.appveyor.com/project/muschellij2/MIMSunit)
+[![](https://cranlogs.r-pkg.org/badges/MIMSunit)](https://cran.r-project.org/package=MIMSunit)
 <!-- badges: end -->
 
 **Please create github
