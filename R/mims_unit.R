@@ -107,7 +107,8 @@ mims_unit_from_files <-
           num_per_df = nrow(chunk)
           if (!is.null(df)) {
             if (!is.null(last_epoch_st) & !is.null(last_chunk)) {
-              df = clip_data(last_chunk, start_time = last_epoch_st, stop_time = last_chunk[nrow(last_chunk),1])
+              df = clip_data(last_chunk, start_time = last_epoch_st,
+                             stop_time = last_chunk[nrow(last_chunk),1])
               df = rbind(df, chunk[1:num_per_df,])
             } else {
               df = chunk[1:num_per_df,]
@@ -443,6 +444,15 @@ custom_mims_unit <-
            use_gui_progress = FALSE,
            st = NULL) {
 
+    if (inherits(df, "tbl_df")) {
+      df = as.data.frame(df)
+    }
+    first_col = df[[1]]
+    if (is.unsorted(first_col)) {
+      df = df[ order(first_col), ]
+    }
+    rm(first_col)
+
     if (use_extrapolation) {
       if (missing(dynamic_range)) {
         if (!is.null(st$gr)) {
@@ -468,9 +478,9 @@ custom_mims_unit <-
                      title = "Computing MIMS-unit values",
                      label = 'Starting...')
 
-    start_time <- lubridate::floor_date(df[1, 1], unit = "seconds")
+    start_time <- lubridate::floor_date(df[[1]][1], unit = "seconds")
     stop_time <-
-      lubridate::floor_date(df[nrow(df), 1], unit = "seconds")
+      lubridate::floor_date(df[[1]][nrow(df)], unit = "seconds")
 
     # concatenate with before and after df
     if (is.data.frame(before_df)) {
@@ -549,7 +559,7 @@ custom_mims_unit <-
     colnames(abnormal_data)[2:4] <- colnames(filtered_data)[2:4]
     filtered_data <- rbind(filtered_data, abnormal_data)
     filtered_data <-
-      filtered_data[order(filtered_data$HEADER_TIME_STAMP), ]
+      filtered_data[order(filtered_data[[1]]), ]
 
     # Compute orientations
     if (output_orientation_estimation) {
