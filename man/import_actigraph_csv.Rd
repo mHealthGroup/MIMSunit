@@ -70,6 +70,15 @@ values. \eqn{r} can also be found in the meta section in the csv file.
   # Check more
   summary(df)
 
+  # If set has_ts wrong, you should see a warning
+  df = import_actigraph_csv(filepath, has_ts=TRUE)
+
+  # Check loaded file
+  head(df)
+
+  # Check more
+  summary(df)
+
   # Restore default options
   options(default_ops)
 }

@@ -3,6 +3,21 @@
 ## Bug fixes
 
 * Check column existence before coverting data type in `import_mhealth_csv()`.
+* Quick failure if dynamic_range is not specified.
+* Auto set `has_ts` to `False` when there are only three columns in the input data in `import_actigraph_csv()`.
+
+## Features
+
+* Sort timestamps of input data before computing mims unit values in `custom_mims_unit()`.
+
+## Documentation
+
+* Indicate columns cannot be reordered in the argument description of `extrapolate()` and `mims_unit()`.
+
+## CI
+
+* Add appveyor for non-Github actions testing
+
 
 # MIMSunit 0.8.2
 

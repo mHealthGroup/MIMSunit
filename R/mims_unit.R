@@ -453,16 +453,6 @@ custom_mims_unit <-
     }
     rm(first_col)
 
-    if (use_extrapolation) {
-      if (missing(dynamic_range)) {
-        if (!is.null(st$gr)) {
-          st$gr = as.numeric(st$gr)
-          dynamic_range = c(-st$gr, st$gr)
-        }
-      }
-      stopifnot(length(dynamic_range) == 2)
-    }
-
     # save the start and stop time of original df
     if (use_gui_progress & .Platform$OS.type == 'windows') {
       ProgressBar = utils::winProgressBar
