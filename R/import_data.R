@@ -60,7 +60,9 @@ import_mhealth_csv <- function(filepath) {
     return(class(df[1, i]))
   })
   factor_cols <- which(col_classes == "factor")
-  df[, factor_cols] <- as.character(df[, factor_cols])
+  if (length(factor_cols) > 0) {
+    df[, factor_cols] <- as.character(df[, factor_cols])
+  }
 
   # enhance column headers
   colnames(df)[1:length(colheaders)] <- colheaders

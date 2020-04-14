@@ -5,12 +5,14 @@
 \alias{cv_different_algorithms}
 \title{Coefficient of variation values for different acceleration data summary
 algorithms}
-\format{A data frame with 30 rows and 3 variables:
+\format{
+A data frame with 30 rows and 3 variables:
 \describe{
   \item{TYPE}{Accelerometer summary algorithm name, in character}
   \item{HZ}{The frequency of the elliptical shaker, in number}
   \item{COEFF_OF_VARIATION}{The coefficient of variation values, in number}
-}}
+}
+}
 \source{
 \url{https://github.com/qutang/MIMSunit-dataset-shaker}
 }

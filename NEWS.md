@@ -1,3 +1,9 @@
+# MIMSunit 0.8.2.9000
+
+## Bug fixes
+
+* Check column existence before coverting data type in `import_mhealth_csv()`.
+
 # MIMSunit 0.8.2
 
 ## Bug fixes

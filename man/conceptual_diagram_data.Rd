@@ -5,14 +5,16 @@
 \alias{conceptual_diagram_data}
 \title{The input accelerometer data used to generate the conceptual diagram
 (Figure 1) in the manuscript.}
-\format{A data frame with 1704 rows and 5 variables:
+\format{
+A data frame with 1704 rows and 5 variables:
 \describe{
   \item{HEADER_TIME_STAMP}{The timestamp of raw accelerometer data, in POSIXct}
   \item{X}{The x axis value of raw accelerometer data, in number}
   \item{GRANGE}{The dynamic range of the simulated device in g, in number}
   \item{SR}{The sampling rate in Hz of the simulated device, in number}
   \item{NAME}{An alternative name that is friendly for plotting for different devices, in character}
-}}
+}
+}
 \source{
 \url{https://github.com/qutang/MIMSunit}
 }

@@ -4,13 +4,15 @@
 \name{rest_on_table}
 \alias{rest_on_table}
 \title{A short snippet of raw accelerometer signal from a device resting on a table.}
-\format{A data frame with 5000 rows and 4 variables:
+\format{
+A data frame with 5000 rows and 4 variables:
 \describe{
   \item{HEADER_TIME_STAMP}{The timestamp of raw accelerometer data, in POSIXct}
   \item{X}{The x axis value of raw accelerometer data, in number}
   \item{Y}{The x axis value of raw accelerometer data, in number}
   \item{Z}{The x axis value of raw accelerometer data, in number}
-}}
+}
+}
 \source{
 \url{https://github.com/qutang/MIMSunit}
 }
