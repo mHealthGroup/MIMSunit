@@ -1,0 +1,15 @@
+pandoc: 2.7.3
+pkgdown: 1.5.1
+pkgdown_sha: ~
+articles:
+  conceptual_diagram: conceptual_diagram.html
+  cross_device_consistency: cross_device_consistency.html
+  edge_cases: edge_cases.html
+  mims_unit_from_files: mims_unit_from_files.html
+  mims_unit_from_imported_data: mims_unit_from_imported_data.html
+  truncation_threshold: truncation_threshold.html
+last_built: 2020-04-14T17:01Z
+urls:
+  reference: https://mhealthgroup.github.io/MIMSunit//reference
+  article: https://mhealthgroup.github.io/MIMSunit//articles
+
