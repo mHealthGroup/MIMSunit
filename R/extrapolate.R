@@ -17,7 +17,7 @@
 #'   step during MIMS-unit algorithm, applied before filtering.
 #'
 #' @param df dataframe. Input multi-channel accelerometer data. Used in
-#'   \code{\link{extrapolate}}.
+#'   \code{\link{extrapolate}}.  The first column should be the date/time
 #' @param ... see following parameter list.
 #' @param t POSIXct or numeric vector. Input index or timestamp sequence Used in
 #'   \code{\link{extrapolate_single_col}}.

@@ -54,7 +54,8 @@ that store the raw accelerometer data.}
 \item{...}{additional parameters passed to the import function when reading
 in the data from the files.}
 
-\item{df}{dataframe. Input multi-channel accelerometer signal.}
+\item{df}{dataframe. Input multi-channel accelerometer signal.  The
+first column should be the time component}
 
 \item{before_df}{dataframe. The multi-channel accelerometer signal comes
 before the input signal to be prepended to the input signal during
