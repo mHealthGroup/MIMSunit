@@ -107,7 +107,8 @@ mims_unit_from_files <-
           num_per_df = nrow(chunk)
           if (!is.null(df)) {
             if (!is.null(last_epoch_st) & !is.null(last_chunk)) {
-              df = clip_data(last_chunk, start_time = last_epoch_st, stop_time = last_chunk[nrow(last_chunk),1])
+              df = clip_data(last_chunk, start_time = last_epoch_st,
+                             stop_time = last_chunk[nrow(last_chunk),1])
               df = rbind(df, chunk[1:num_per_df,])
             } else {
               df = chunk[1:num_per_df,]
@@ -163,7 +164,8 @@ mims_unit_from_files <-
 
 
 #' @rdname mims_unit
-#' @param df dataframe. Input multi-channel accelerometer signal.
+#' @param df dataframe. Input multi-channel accelerometer signal.  The
+#' first column should be the time component
 #' @param before_df dataframe. The multi-channel accelerometer signal comes
 #'   before the input signal to be prepended to the input signal during
 #'   computation. This is used to eliminate the edge effect during extrapolation
@@ -441,6 +443,26 @@ custom_mims_unit <-
            after_df = NULL,
            use_gui_progress = FALSE,
            st = NULL) {
+
+    if (inherits(df, "tbl_df")) {
+      df = as.data.frame(df)
+    }
+    first_col = df[[1]]
+    if (is.unsorted(first_col)) {
+      df = df[ order(first_col), ]
+    }
+    rm(first_col)
+
+    if (use_extrapolation) {
+      if (missing(dynamic_range)) {
+        if (!is.null(st$gr)) {
+          st$gr = as.numeric(st$gr)
+          dynamic_range = c(-st$gr, st$gr)
+        }
+      }
+      stopifnot(length(dynamic_range) == 2)
+    }
+
     # save the start and stop time of original df
     if (use_gui_progress & .Platform$OS.type == 'windows') {
       ProgressBar = utils::winProgressBar
@@ -456,9 +478,9 @@ custom_mims_unit <-
                      title = "Computing MIMS-unit values",
                      label = 'Starting...')
 
-    start_time <- lubridate::floor_date(df[1, 1], unit = "seconds")
+    start_time <- lubridate::floor_date(df[[1]][1], unit = "seconds")
     stop_time <-
-      lubridate::floor_date(df[nrow(df), 1], unit = "seconds")
+      lubridate::floor_date(df[[1]][nrow(df)], unit = "seconds")
 
     # concatenate with before and after df
     if (is.data.frame(before_df)) {
@@ -472,6 +494,7 @@ custom_mims_unit <-
 
     # apply extrapolation algorithm
     if (use_extrapolation) {
+      stopifnot(length(dynamic_range) == 2)
       setProgressBar(pb, 0.4, label = 'Extrapolating signal...')
       extrapolated_data <-
         extrapolate(df, dynamic_range, noise_level, k, spar)
@@ -536,7 +559,7 @@ custom_mims_unit <-
     colnames(abnormal_data)[2:4] <- colnames(filtered_data)[2:4]
     filtered_data <- rbind(filtered_data, abnormal_data)
     filtered_data <-
-      filtered_data[order(filtered_data$HEADER_TIME_STAMP), ]
+      filtered_data[order(filtered_data[[1]]), ]
 
     # Compute orientations
     if (output_orientation_estimation) {

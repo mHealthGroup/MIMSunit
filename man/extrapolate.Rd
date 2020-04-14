@@ -18,7 +18,7 @@ extrapolate_single_col(
 }
 \arguments{
 \item{df}{dataframe. Input multi-channel accelerometer data. Used in
-\code{\link{extrapolate}}.}
+\code{\link{extrapolate}}.  The first column should be the date/time}
 
 \item{...}{see following parameter list.}
 
