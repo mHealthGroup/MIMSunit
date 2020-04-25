@@ -1,4 +1,4 @@
-# MIMSunit 0.8.2.9000
+# MIMSunit 0.9.0
 
 ## Bug fixes
 
