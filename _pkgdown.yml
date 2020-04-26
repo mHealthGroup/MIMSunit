@@ -69,7 +69,6 @@ reference:
 development:
   mode: auto
   destination: /
-  version_label: danger
 
 authors:
   Qu Tang:
