@@ -1,144 +1,144 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//index.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/index.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//reference/aggregate_for_mims.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/reference/aggregate_for_mims.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//reference/aggregate_for_orientation.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/reference/aggregate_for_orientation.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//reference/bandlimited_interp.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/reference/bandlimited_interp.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//reference/bessel.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/reference/bessel.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//reference/clip_data.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/reference/clip_data.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//reference/compute_orientation.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/reference/compute_orientation.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//reference/conceptual_diagram_data.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/reference/conceptual_diagram_data.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//reference/custom_mims_unit.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/reference/custom_mims_unit.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//reference/cut_off_signal.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/reference/cut_off_signal.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//reference/cv_different_algorithms.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/reference/cv_different_algorithms.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//reference/edge_case.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/reference/edge_case.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//reference/export_to_actilife.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/reference/export_to_actilife.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//reference/extrapolate.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/reference/extrapolate.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//reference/extrapolate_rate.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/reference/extrapolate_rate.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//reference/generate_interactive_plot.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/reference/generate_interactive_plot.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//reference/iir.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/reference/iir.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//reference/illustrate_extrapolation.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/reference/illustrate_extrapolation.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//reference/illustrate_signal.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/reference/illustrate_signal.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//reference/import_actigraph_count_csv.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/reference/import_actigraph_count_csv.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//reference/import_actigraph_csv.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/reference/import_actigraph_csv.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//reference/import_actigraph_csv_chunked.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/reference/import_actigraph_csv_chunked.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//reference/import_actigraph_meta.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/reference/import_actigraph_meta.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//reference/import_activpal3_csv.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/reference/import_activpal3_csv.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//reference/import_enmo_csv.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/reference/import_enmo_csv.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//reference/import_mhealth_csv.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/reference/import_mhealth_csv.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//reference/import_mhealth_csv_chunked.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/reference/import_mhealth_csv_chunked.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//reference/interpolate_signal.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/reference/interpolate_signal.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//reference/measurements_different_devices.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/reference/measurements_different_devices.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//reference/mims_unit.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/reference/mims_unit.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//reference/parse_epoch_string.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/reference/parse_epoch_string.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//reference/remove_average.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/reference/remove_average.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//reference/rest_on_table.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/reference/rest_on_table.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//reference/sample_raw_accel_data.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/reference/sample_raw_accel_data.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//reference/sampling_rate.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/reference/sampling_rate.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//reference/segment_data.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/reference/segment_data.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//reference/sensor_orientations.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/reference/sensor_orientations.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//reference/simulate_new_data.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/reference/simulate_new_data.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//reference/sum_up.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/reference/sum_up.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//reference/vector_magnitude.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/reference/vector_magnitude.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//articles/conceptual_diagram.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/articles/conceptual_diagram.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//articles/cross_device_consistency.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/articles/cross_device_consistency.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//articles/datasets.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/articles/datasets.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//articles/edge_cases.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/articles/edge_cases.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//articles/mims_unit_from_files.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/articles/mims_unit_from_files.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//articles/mims_unit_from_imported_data.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/articles/mims_unit_from_imported_data.html</loc>
   </url>
   <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit//articles/truncation_threshold.html</loc>
+    <loc>https://mhealthgroup.github.io/MIMSunit/articles/truncation_threshold.html</loc>
   </url>
 </urlset>

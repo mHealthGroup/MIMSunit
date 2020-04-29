@@ -96,7 +96,7 @@
   <a href="../reference/index.html">API References</a>
 </li>
 <li>
-  <a href="../news/index.html">Changelog</a>
+  <a href="../news/index.html">Changelogs</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -135,7 +135,7 @@
 <div id="original-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#original-data" class="anchor"></a>Original data</h3>
-<p>We use a one-second segment of raw accelerometer signal (80 Hz, 8g) from a random subject doing jumping jack as test data. The other signals with different sampling rates and dynamic ranges are simulated via the <code>simulated_new_data</code> function. The step-by-step illustration has been presented as Figure 1 in the manuscript.</p>
+<p>We use a one-second segment of raw accelerometer signal (80 Hz, 8g) from a random subject doing jumping jack as test data. The other signals with different sampling rates and dynamic ranges are simulated via the <code>simulated_new_data()</code> function. The step-by-step illustration has been presented as Figure 1 in the manuscript.</p>
 <div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="no">df</span> <span class="kw">=</span> <span class="kw pkg">MIMSunit</span><span class="kw ns">::</span><span class="no"><a href="../reference/conceptual_diagram_data.html">conceptual_diagram_data</a></span>
 <span class="no">start_time</span> <span class="kw">=</span> <span class="no">df</span><span class="kw">[[</span><span class="fl">1</span>,<span class="fl">1</span>]]
 <span class="no">stop_time</span> <span class="kw">=</span> <span class="no">start_time</span> + <span class="fl">1</span></pre></body></html></div>
