@@ -5,13 +5,13 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cross device consistency of MIMS-Unit algorithm • MIMSunit</title>
+<title>Datasets • MIMSunit</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Cross device consistency of MIMS-Unit algorithm">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Datasets">
 <meta property="og:description" content="MIMSunit">
 <meta name="robots" content="noindex">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -119,22 +119,23 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Cross device consistency of MIMS-Unit algorithm</h1>
+      <h1 data-toc-skip>Datasets</h1>
                         <h4 class="author">Qu Tang</h4>
             
-            <h4 class="date">May 22, 2018</h4>
+            <h4 class="date">2020-04-29</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/mhealthgroup/MIMSunit/blob/master/vignettes/cross_device_consistency.Rmd"><code>vignettes/cross_device_consistency.Rmd</code></a></small>
-      <div class="hidden name"><code>cross_device_consistency.Rmd</code></div>
+      <small class="dont-index">Source: <a href="https://github.com/mhealthgroup/MIMSunit/blob/master/vignettes/datasets.Rmd"><code>vignettes/datasets.Rmd</code></a></small>
+      <div class="hidden name"><code>datasets.Rmd</code></div>
 
     </div>
 
     
     
-<div id="introduction" class="section level3">
-<h3 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h3>
-<p>This is a replication of Figure 3 in the published MIMS-Unit <a href="">paper</a>. The consistency test is run with the following devices on an orbital shaker with RPM ranging from 60 (approx. 1 Hz) to 480 (approx. 8Hz).</p>
+<p>We used three datasets when developing MIMS-unit algorithm. We list the datasets here you may refer to the datasets repos for details and use them to reproduce the results in the manuscript.</p>
+<div id="elliptical-shaker-dataset" class="section level2">
+<h2 class="hasAnchor">
+<a href="#elliptical-shaker-dataset" class="anchor"></a>Elliptical shaker dataset</h2>
+<p>In this dataset, we collected elliptical shaker data from multiple devices at different spinning speed. Please refer to the manuscript for the experiment protocol.</p>
 <table class="table">
 <thead><tr class="header">
 <th align="left">DEVICE</th>
@@ -184,31 +185,32 @@
 </tr>
 </tbody>
 </table>
-<p>The collected dataset is then processed by three accelerometer data summary algorithms for comparison.</p>
+<p>This dataset is used to</p>
 <ol style="list-style-type: decimal">
-<li>Actigraph counts (processed using Actilife software)</li>
-<li>
-<a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0164045">ENMO</a> (used by UK Biobank project)</li>
-<li>
-<a href="https://qutang.github.io/MIMSunit/">MIMS-Unit</a> (used by NHANES project)</li>
+<li>Tune the best parameter setups for the extrapolation algorithm.</li>
+<li>Compute the <a href="articles/cross_device_consistency.html">cross device consistency</a> after applying different accelerometer summarization algorithms.</li>
 </ol>
-<p><em>The collected data is calibrated using at least 24h wearing data when applying ENMO algorithm as suggested in the paper. The other two algorithms do not require specific calibration unless the calibration is suggested by device manufacturers.</em></p>
+<p><strong>Dataset repo</strong>: <a href="https://github.com/mHealthGroup/MIMSunit-dataset-shaker" class="uri">https://github.com/mHealthGroup/MIMSunit-dataset-shaker</a><br><strong>Dataset documentation</strong>: The file and folder names are self-explainable.</p>
 </div>
-<div id="coefficient-of-variety-of-three-accelerometer-data-summarizations-cross-different-devices" class="section level3">
-<h3 class="hasAnchor">
-<a href="#coefficient-of-variety-of-three-accelerometer-data-summarizations-cross-different-devices" class="anchor"></a>Coefficient of variety of three accelerometer data summarizations cross different devices</h3>
-<p><img src="cross_device_consistency_files/figure-html/unnamed-chunk-3-1.png" width="100%"></p>
+<div id="human-treadmill-dataset" class="section level2">
+<h2 class="hasAnchor">
+<a href="#human-treadmill-dataset" class="anchor"></a>Human treadmill dataset</h2>
+<p>Coming soon…</p>
 </div>
-<div id="accelerometer-data-summarizations-for-different-devices" class="section level3">
-<h3 class="hasAnchor">
-<a href="#accelerometer-data-summarizations-for-different-devices" class="anchor"></a>Accelerometer data summarizations for different devices</h3>
-<p><img src="cross_device_consistency_files/figure-html/unnamed-chunk-4-1.png" width="100%"></p>
+<div id="human-physical-activity-dataset-spades" class="section level2">
+<h2 class="hasAnchor">
+<a href="#human-physical-activity-dataset-spades" class="anchor"></a>Human physical activity dataset (SPADES)</h2>
+<p>In this dataset, we collected 22 different daily physical activities from 50 participants with sensors mounted on seven different body locations (both wrists, both ankles, both waist sides, and dominant thigh).</p>
+<p>Data from non dominant wrist and dominant ankle are used in developing MIMS-unit algorithm. It is mainly used to show the MIMS-unit values on different daily physical activities and specifically to show MIMS-unit algorithm does not suppress motions for sedentary activities.</p>
+<p><strong>Dataset repo</strong>: <a href="https://github.com/qutang/MUSS/releases/download/v1.2.0/muss_data.tar.gz" class="uri">https://github.com/qutang/MUSS/releases/download/v1.2.0/muss_data.tar.gz</a><br><strong>Dataset documentation</strong>: <a href="https://mhealth-specification.gitbook.io/mhealth-specification/" class="uri">https://mhealth-specification.gitbook.io/mhealth-specification/</a></p>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-      </div>
+        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
+    </nav>
+</div>
 
 </div>
 
