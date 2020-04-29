@@ -33,6 +33,11 @@ Research Group](https://mhealthgroup.org). Please kindly [cite the
 manuscript](https://mhealthgroup.github.io/MIMSunit/authors.html) if you
 have used the package or referred to the algorithm in your work.
 
+## Datasets
+
+All datasets used in the manuscript are available at
+<https://mhealthgroup.github.io/MIMSunit/articles/datasets.html>.
+
 ## System Requirements
 
 1.  R (\>= 3.6.0)

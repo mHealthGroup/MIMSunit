@@ -96,6 +96,8 @@ navbar:
           href: articles/mims_unit_from_files.html
         - text: "Compute MIMS-unit from imported data"
           href: articles/mims_unit_from_imported_data.html
+    - text: "Datasets"
+      href: articles/datasets.html
     - text: "Algorithm Walkthrough"
       menu:
         - text: "Step-by-step illustration"
