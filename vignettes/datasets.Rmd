@@ -41,7 +41,7 @@ knitr::kable(device_table)
 This dataset is used to 
 
 1. Tune the best parameter setups for the extrapolation algorithm.
-2. Compute the [cross device consistency](articles/cross_device_consistency.html) after applying different accelerometer summarization algorithms.
+2. Compute the cross device consistency `vignette("cross_device_consistency")` after applying different accelerometer summarization algorithms.
 
 **Dataset repo**: https://github.com/mHealthGroup/MIMSunit-dataset-shaker  
 **Dataset documentation**: The file and folder names are self-explainable.
