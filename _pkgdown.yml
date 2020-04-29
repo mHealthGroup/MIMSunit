@@ -1,4 +1,4 @@
-url: https://mhealthgroup.github.io/MIMSunit/
+url: https://mhealthgroup.github.io/MIMSunit
 destination: docs/
 reference:
   - title: "Top-level API for MIMS-unit algorithm"
@@ -112,7 +112,7 @@ navbar:
           href: articles/edge_cases.html
     - text: "API References"
       href: "reference/index.html"
-    - text: "Changelog"
+    - text: "Changelogs"
       href: "news/index.html"
   right:
     - icon: fa-lg fa-github
