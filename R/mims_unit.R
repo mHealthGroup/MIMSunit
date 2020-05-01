@@ -493,6 +493,7 @@ custom_mims_unit <-
       resampled_data <-
         interpolate_signal(df, sr = 100, method = "linear")
     }
+    rm(df)
     # removed the extrapolated_data
     sr <- sampling_rate(resampled_data)
 
