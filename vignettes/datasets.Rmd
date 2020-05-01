@@ -1,0 +1,60 @@
+---
+title: "Datasets"
+author: "Qu Tang"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+require(plyr)
+require(dplyr)
+```
+
+We used three datasets when developing MIMS-unit algorithm. We list the datasets here you may refer to the datasets repos for details and use them to reproduce the results in the manuscript.
+
+## Elliptical shaker dataset
+
+In this dataset, we collected elliptical shaker data from multiple devices at different spinning speed. Please refer to the manuscript for the experiment protocol.
+
+
+```{r, include=FALSE}
+df = MIMSunit::measurements_different_devices
+device_table = df %>% ddply(
+  c('NAME'),
+  summarise,
+  SR = head(.data$SR, 1),
+  GRANGE = head(.data$GRANGE, 1),
+  DEVICE = head(.data$DEVICE , 1)
+)
+device_table = device_table[c('DEVICE', 'SR', 'GRANGE')]
+colnames(device_table) = c('DEVICE', 'SAMPLING RATE (Hz)', 'DYNAMIC RANGE (g)')
+```
+```{r, echo = FALSE}
+knitr::kable(device_table)
+```
+
+This dataset is used to 
+
+1. Tune the best parameter setups for the extrapolation algorithm.
+2. Compute the cross device consistency `vignette("cross_device_consistency")` after applying different accelerometer summarization algorithms.
+
+**Dataset repo**: https://github.com/mHealthGroup/MIMSunit-dataset-shaker  
+**Dataset documentation**: The file and folder names are self-explainable.
+
+## Human treadmill dataset
+
+Coming soon...
+
+## Human physical activity dataset (SPADES)
+
+In this dataset, we collected 22 different daily physical activities from 50 participants with sensors mounted on seven different body locations (both wrists, both ankles, both waist sides, and dominant thigh). 
+
+Data from non dominant wrist and dominant ankle are used in developing MIMS-unit algorithm. It is mainly used to show the MIMS-unit values on different daily physical activities and specifically to show MIMS-unit algorithm does not suppress motions for sedentary activities.
+
+**Dataset repo**: https://github.com/qutang/MUSS/releases/download/v1.2.0/muss_data.tar.gz  
+**Dataset documentation**: https://mhealth-specification.gitbook.io/mhealth-specification/

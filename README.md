@@ -7,8 +7,8 @@
 
 [![CRAN
 Status](https://www.r-pkg.org/badges/version/MIMSunit)](https://cran.r-project.org/package=MIMSunit)
-[![Pkgdown](https://github.com/mHealthGroup/MIMSunit/workflows/Pkgdown/badge.svg?branch=master)]()
-[![.github/workflows/test.yml](https://github.com/mHealthGroup/MIMSunit/workflows/.github/workflows/test.yml/badge.svg)]()
+[![Pkgdown](https://github.com/mHealthGroup/MIMSunit/workflows/Pkgdown/badge.svg?branch=master)](https://github.com/mHealthGroup/MIMSunit)
+[![.github/workflows/test.yml](https://github.com/mHealthGroup/MIMSunit/workflows/.github/workflows/test.yml/badge.svg)](https://github.com/mHealthGroup/MIMSunit)
 [![AppVeyor build
 status](https://ci.appveyor.com/api/projects/status/github/muschellij2/MIMSunit?branch=master&svg=true)](https://ci.appveyor.com/project/muschellij2/MIMSunit)
 [![](https://cranlogs.r-pkg.org/badges/MIMSunit)](https://cran.r-project.org/package=MIMSunit)
@@ -30,8 +30,13 @@ description of the algorithm.
 
 The copyright of the work belongs to Northeastern University, [mHealth
 Research Group](https://mhealthgroup.org). Please kindly [cite the
-manuscript](https://mhealthgroup.github.io/MIMSunit/authors.html) if you
-have used the package or referred to the algorithm in your work.
+manuscript](authors.html) if you have used the package or referred to
+the algorithm in your work.
+
+## Datasets
+
+All datasets used in the manuscript are available at
+<https://mhealthgroup.github.io/MIMSunit/articles/datasets.html>.
 
 ## System Requirements
 

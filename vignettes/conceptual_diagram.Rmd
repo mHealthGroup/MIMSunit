@@ -22,7 +22,7 @@ Here we demonstrate the scripts used to reproduce the diagram.
 
 ### Original data
 
-We use a one-second segment of raw accelerometer signal (80 Hz, 8g) from a random subject doing jumping jack as test data. The other signals with different sampling rates and dynamic ranges are simulated via the `simulated_new_data` function. The step-by-step illustration has been presented as Figure 1 in the manuscript.
+We use a one-second segment of raw accelerometer signal (80 Hz, 8g) from a random subject doing jumping jack as test data. The other signals with different sampling rates and dynamic ranges are simulated via the `simulated_new_data()` function. The step-by-step illustration has been presented as Figure 1 in the manuscript.
 
 
 ```{r, echo=TRUE}
