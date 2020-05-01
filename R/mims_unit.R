@@ -486,15 +486,15 @@ custom_mims_unit <-
     if (use_extrapolation) {
       stopifnot(length(dynamic_range) == 2)
       setProgressBar(pb, 0.4, label = 'Extrapolating signal...')
-      extrapolated_data <-
+      resampled_data <-
         extrapolate(df, dynamic_range, noise_level, k, spar)
     } else {
       setProgressBar(pb, 0.4, label = 'Interpolating signal...')
-      extrapolated_data <-
+      resampled_data <-
         interpolate_signal(df, sr = 100, method = "linear")
     }
-    sr <- sampling_rate(extrapolated_data)
-    resampled_data <- extrapolated_data
+    # removed the extrapolated_data
+    sr <- sampling_rate(resampled_data)
 
 
     # store -0.01 values separately
@@ -544,6 +544,7 @@ custom_mims_unit <-
     } else {
       filtered_data <- normal_data
     }
+    rm(normal_data); gc()
 
     # sort by timestamp
     colnames(abnormal_data)[2:4] <- colnames(filtered_data)[2:4]
@@ -561,6 +562,7 @@ custom_mims_unit <-
           epoch = epoch_for_orientation_estimation,
           st = st
         )
+      rm(resampled_data); gc();
     } else {
       orientation_data <- NULL
     }
@@ -575,6 +577,7 @@ custom_mims_unit <-
         rectify = TRUE,
         st = st
       )
+    rm(filtered_data);
 
     if (allow_truncation) {
       setProgressBar(pb, 0.9, label = 'Truncating signal...')
@@ -616,6 +619,7 @@ custom_mims_unit <-
       colnames(mims_data)[2] <- "MIMS_UNIT"
       mims_data[row_abnormal, 2] <- -0.01
     }
+    rm(integrated_data)
 
 
     # only keep data between start and end time
