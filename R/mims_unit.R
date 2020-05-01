@@ -620,6 +620,7 @@ custom_mims_unit <-
       colnames(mims_data)[2] <- "MIMS_UNIT"
       mims_data[row_abnormal, 2] <- -0.01
     }
+    rm(row_abnormal)
     rm(integrated_data)
 
 
