@@ -82,6 +82,7 @@ This function interpolates and extrapolates the signal before
 \seealso{
 Other Top level API functions: 
 \code{\link{custom_mims_unit}()},
-\code{\link{mims_unit}()}
+\code{\link{mims_unit}()},
+\code{\link{shiny_app}()}
 }
 \concept{Top level API functions}

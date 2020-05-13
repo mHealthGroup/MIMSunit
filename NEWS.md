@@ -1,5 +1,9 @@
 # MIMSunit 0.9.0.9000
 
+## Features
+
+* Added a function `shiny_app()` to start a local shiny app that allows users to load local files to compute mims unit values and provides an interactive graph to view the computed values. 
+
 ## Documentation
 
 * Added datasets article `vignette("datasets")`.

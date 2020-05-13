@@ -8,6 +8,7 @@ reference:
       - mims_unit
       - sensor_orientations
       - custom_mims_unit
+      - shiny_app
   - title: "File IO"
     desc: >
       Functions for importing or exporting data for various data formats.

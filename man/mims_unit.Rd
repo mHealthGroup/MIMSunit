@@ -138,6 +138,7 @@ This function is a wrapper function for the low-level
 \seealso{
 Other Top level API functions: 
 \code{\link{custom_mims_unit}()},
-\code{\link{sensor_orientations}()}
+\code{\link{sensor_orientations}()},
+\code{\link{shiny_app}()}
 }
 \concept{Top level API functions}

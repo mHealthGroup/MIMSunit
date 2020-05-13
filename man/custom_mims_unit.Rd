@@ -168,6 +168,7 @@ This function allows you to run customized algorithm for MIMSunit and
 \seealso{
 Other Top level API functions: 
 \code{\link{mims_unit}()},
-\code{\link{sensor_orientations}()}
+\code{\link{sensor_orientations}()},
+\code{\link{shiny_app}()}
 }
 \concept{Top level API functions}
