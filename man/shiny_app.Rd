@@ -4,7 +4,10 @@
 \alias{shiny_app}
 \title{Run shiny app to compute MIMSunit values from files}
 \usage{
-shiny_app()
+shiny_app(options = list())
+}
+\arguments{
+\item{options}{The options passed to \code{\link[shiny]{shinyApp}}.}
 }
 \description{
 \code{shiny_app} runs a local shiny app that provides a user friendly interface
