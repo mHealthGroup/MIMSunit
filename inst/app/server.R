@@ -3,6 +3,7 @@
 
 library(shiny)
 library(dygraphs)
+library(xts)
 
 options(shiny.maxRequestSize=10000000*1024^2)
 
