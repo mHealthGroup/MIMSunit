@@ -7,7 +7,7 @@
 ^data-raw$
 ^data-raw-archive$
 ^mims-unit.R$
-^mims-unit-app.R$
+^build_electron.R$
 ^mims-unit.zip$
 ^docs$
 ^README_data$
