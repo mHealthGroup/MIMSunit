@@ -4,6 +4,10 @@
 
 * Added a function `shiny_app()` to start a local shiny app that allows users to load local files to compute mims unit values and provides an interactive graph to view the computed values. 
 
+## Improvement
+
+* Optimize memory usage when computing MIMS unit values.
+
 ## Documentation
 
 * Added datasets article `vignette("datasets")`.

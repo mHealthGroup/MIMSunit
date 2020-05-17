@@ -48,7 +48,12 @@ This dataset is used to
 
 ## Human treadmill dataset
 
-Coming soon...
+This dataset includes raw accelerometer data of treadmill walking and running from 10 participants wearing Actigraph devices (Some with GT3X+ and others with GT9X) on non dominant wrist and dominant waist.
+
+The dataset is used to compare the consistency of MIMS-unit values and the other summarization algorithms (ENMO, Actigraph count) when people are walking and running at different speeds. The dataset is also used to generate the dominant frequency and amplitude figure of walking and running at different speeds in the supplementary materials.
+
+**Dataset repo**: https://github.com/mHealthGroup/MIMSunit-dataset-treadmill  
+**Dataset documentation**: https://github.com/mHealthGroup/MIMSunit-dataset-treadmill
 
 ## Human physical activity dataset (SPADES)
 
