@@ -184,18 +184,6 @@
       "Repository": "CRAN",
       "Hash": "716869fffc16e282c118f8894e082a7d"
     },
-    "electricShine": {
-      "Package": "electricShine",
-      "Version": "0.0.0.9000",
-      "Source": "GitHub",
-      "RemoteType": "github",
-      "RemoteUsername": "chasemc",
-      "RemoteRepo": "electricShine",
-      "RemoteRef": "master",
-      "RemoteSha": "1acbf8cabd268a1eb12a829022aba3a3695a1f37",
-      "RemoteHost": "api.github.com",
-      "Hash": "86fefd5097f60b8359d7a008fdc3d165"
-    },
     "ellipsis": {
       "Package": "ellipsis",
       "Version": "0.3.0",
