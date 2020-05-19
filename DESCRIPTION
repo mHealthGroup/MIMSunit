@@ -1,8 +1,8 @@
 Package: MIMSunit
 Type: Package
 Title: Algorithm to Compute Monitor Independent Movement Summary Unit (MIMS-Unit)
-Version: 0.9.0.9000
-Date: 2020-05-13
+Version: 0.9.1
+Date: 2020-05-19
 Authors@R: c(person("Qu", "Tang", email = "tang.q@northeastern.edu",
                   role = c("aut", "cre"), comment = c(ORCID = "0000-0001-5415-0205")),
              person("Dinesh", "John", email = "d.john@northeastern.edu",
