@@ -117,7 +117,7 @@
 
 ## Bug fixes
 
-* MIMSunit axial values are now passed through the [truncation algorithm](/articles/truncation_threshold.html) before computing the axial sum.
+* MIMSunit axial values are now passed through the [truncation algorithm](https://mhealthgroup.github.io/MIMSunit/articles/truncation_threshold.html) before computing the axial sum.
 
 # MIMSunit 0.6.0
 
@@ -125,7 +125,7 @@
 
 ## Breaking changes
 
-* Add two datasets for experiment results (see [this article](/articles/cross_device_consistency.html)).
+* Add two datasets for experiment results (see [this article](https://mhealthgroup.github.io/MIMSunit/articles/cross_device_consistency.html)).
 * Move MIMSunit R project one level down to a subdirectory to better support git submodules.
 * Add [`MIMSunit-dataset-shaker`](https://github.com/qutang/MIMSunit-dataset-shaker) as submodule.
 
