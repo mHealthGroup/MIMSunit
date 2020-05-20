@@ -30,8 +30,8 @@ description of the algorithm.
 
 The copyright of the work belongs to Northeastern University, [mHealth
 Research Group](https://mhealthgroup.org). Please kindly [cite the
-manuscript](authors.html) if you have used the package or referred to
-the algorithm in your work.
+manuscript](https://mhealthgroup.github.io/MIMSunit/authors.html) if you
+have used the package or referred to the algorithm in your work.
 
 ## Datasets
 
