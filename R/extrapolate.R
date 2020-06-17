@@ -113,6 +113,7 @@ extrapolate_single_col <-
     not_dups <- !duplicated(dat_over$x)
     t <- dat_over$x[not_dups]
     value <- dat_over$y[not_dups]
+    rm(dat_over); gc()
 
     # mark maxed out region using gamma distribution or threshold
     marker_fun <- .extrapolate_mark("gamma")
@@ -633,25 +634,45 @@ extrapolate_single_col <-
 #' @importFrom magrittr %>%
 .extrapolate_interpolate <-
   function(t, value, marker, points_ex, sr, confident = 0.5) {
-    t_mark <- t[abs(marker) < confident]
-    value_mark <- value[abs(marker) < confident]
+
+    first_t = dplyr::first(t)
+    last_t = dplyr::last(t)
+
+    mark_it <- abs(marker) < confident
+    length_t_mark = sum(mark_it, na.rm = TRUE)
+
     # t_mark = t value_mark = value
-    if (length(t_mark) / length(t) < 0.3) {
+    if (length_t_mark / length(t) < 0.3) {
       dat <- data.frame(t = t, value = value)
     } else {
+      # only have to calculate these if the above isn't true
+      # since mark_it is logical, can just do the sum above
+      value_mark <- value[mark_it]
+      rm(value)
+
+      t_mark <- t[mark_it]
+      rm(mark_it)
+
+      rm(t); gc()
+
       dat <-
         rbind(
           data.frame(t = t_mark, value = value_mark),
           data.frame(t = points_ex$t_ex, value = points_ex$value_ex)
         ) %>% dplyr::arrange(t)
+      rm(t_mark); gc()
+      rm(value_mark); gc()
     }
+    t = dat$t
+    value = dat$value
+    rm(dat); gc()
     t_interp <-
-      seq(dplyr::first(t), dplyr::last(t), by = 1 / sr)
-    dat_interp <-
-      stats::spline(dat$t, y = dat$value, xout = t_interp) %>%
+      seq(first_t, last_t, by = 1 / sr)
+    dat <-
+      stats::spline(t, y = value, xout = t_interp) %>%
       as.data.frame() %>%
       stats::na.omit()
-    names(dat_interp) <- c("t", "value")
+    names(dat) <- c("t", "value")
 
-    return(dat_interp)
+    return(dat)
   }
