@@ -639,6 +639,7 @@ extrapolate_single_col <-
     last_t = dplyr::last(t)
 
     mark_it <- abs(marker) < confident
+    rm(marker); gc()
     length_t_mark = sum(mark_it, na.rm = TRUE)
 
     # t_mark = t value_mark = value
