@@ -41,21 +41,21 @@ remove_average <- function(df, sr, order = 0.5) {
     c((window - 1) / window, -matlab::ones(1, window - 1) / window)
   a <- 1
 
-  col_filter <- plyr::colwise(
-    .fun = function(x, filt, a) {
-      filtered <- signal::filter(filt, a, x)
-      result <- as.numeric(filtered)
-      return(result)
-    },
-    filt = b,
-    a = a
-  )
+  filt_fun = function(x, filt, a) {
+    filtered <- signal::filter(filt, a, x)
+    result <- as.numeric(filtered)
+    return(result)
+  }
+  for (icol in 2:n_cols) {
+    df[[icol]] = filt_fun(
+      df[[icol]],
+      filt = b,
+      a = a)
+  }
+  colnames(df)[2:n_cols] <-
+    paste0("AVERAGEREMOVAL_", colnames(df)[2:n_cols])
 
-  filtered_value <- col_filter(df[2:n_cols])
-  colnames(filtered_value) <-
-    paste0("AVERAGEREMOVAL_", colnames(filtered_value))
-  filtered_value <- cbind(df[1], filtered_value)
-  return(filtered_value)
+  return(df)
 }
 
 #' Apply Bessel lowpass filter to the signal
@@ -104,19 +104,20 @@ bessel <- function(df, sr, cutoff_freq, order = 8) {
 
   n_cols <- ncol(df)
 
-  col_filter <- plyr::colwise(
-    .fun = function(x, filt) {
-      filtered <- signal::filter(filt, x)
-      return(as.numeric(filtered))
-    },
-    filt = arma_coeffs
-  )
-  filtered_value <- col_filter(df[2:n_cols])
-  colnames(filtered_value) <-
-    paste0("BESSEL_", colnames(filtered_value))
-  filtered_value <- cbind(df[1], filtered_value)
+  filt_fun = function(x, filt) {
+    filtered <- signal::filter(filt, x)
+    return(as.numeric(filtered))
+  }
+  for (icol in 2:n_cols) {
+    df[[icol]] = filt_fun(
+      df[[icol]],
+      filt = arma_coeffs)
+  }
+  colnames(df)[2:n_cols] <-
+    paste0("BESSEL_", colnames(df)[2:n_cols])
 
-  return(filtered_value)
+
+  return(df)
 }
 
 #' Apply IIR filter to the signal
@@ -182,35 +183,35 @@ iir <-
         filter_type,
         butter = signal::butter(order, cutoff_freq / nyquist, type),
         chebyI = signal::cheby1(order, 0.05,
-          W = cutoff_freq / nyquist,
-          type, plane = "z"
+                                W = cutoff_freq / nyquist,
+                                type, plane = "z"
         ),
         chebyII = signal::cheby2(order, 0.05,
-          W = cutoff_freq / nyquist,
-          type, plane = "z"
+                                 W = cutoff_freq / nyquist,
+                                 type, plane = "z"
         ),
         ellip = signal::ellip(order, 0.05,
-          50,
-          W = cutoff_freq / nyquist, type, plane = "z"
+                              50,
+                              W = cutoff_freq / nyquist, type, plane = "z"
         )
       )
 
     n_cols <- ncol(df)
 
-    col_filter <- plyr::colwise(
-      .fun = function(x, filt, a) {
-        filtered <- signal::filter(filt, a, x)
-        result <- as.numeric(filtered)
-        return(result)
-      },
-      filt = coeffs$b,
-      a = coeffs$a
-    )
-    filtered_value <- col_filter(df[2:n_cols])
-    colnames(filtered_value) <-
-      paste0("IIR_", colnames(filtered_value))
-    filtered_value <- cbind(df[1], filtered_value)
-    return(filtered_value)
+    filt_fun = function(x, filt, a) {
+      filtered <- signal::filter(filt, a, x)
+      result <- as.numeric(filtered)
+      return(result)
+    }
+    for (icol in 2:n_cols) {
+      df[[icol]] = filt_fun(
+        df[[icol]],
+        filt = coeffs$b,
+        a = coeffs$a)
+    }
+    colnames(df)[2:n_cols] <-
+      paste0("IIR_", colnames(df)[2:n_cols])
+    return(df)
   }
 
 #' Apply a bandlimited interpolation filter to the signal to change the sampling
