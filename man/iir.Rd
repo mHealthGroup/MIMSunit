@@ -24,8 +24,7 @@ numerical vector specifying the low and high end cutoff frequencies
 or "pass" for a pass-band filter.}
 
 \item{filter_type}{string. IIR filter type, one of "butter" for butterworth
-filter, "chebyI" for Chebyshev Type I filter, "chebyII" for Chebyshev Type
-II filter, or "ellip" for Elliptic filter.}
+filter, "chebyI" for Chebyshev Type I filter, or "ellip" for Elliptic filter.}
 }
 \value{
 dataframe. Filtered signal.
@@ -39,8 +38,7 @@ This function filters the input multi-channel signal by applying an IIR
 filter. See
 \href{https://en.wikipedia.org/wiki/Infinite_impulse_response}{wiki} for the
 explanation of the filter. The implementations of IIR filters can be found in
-\code{\link[signal]{butter}}, \code{\link[signal]{cheby1}},
-\code{\link[signal]{cheby2}}, and \code{\link[signal]{ellip}}.
+\code{\link[signal]{butter}}, \code{\link[signal]{cheby1}}, and \code{\link[signal]{ellip}}.
 
 For Chebyshev Type I, Type II and Elliptic filter, the passband ripple is
 fixed to be 0.05 dB. For Elliptic filter, the stopband ripple is fixed to be
