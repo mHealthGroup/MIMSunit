@@ -1,3 +1,9 @@
+# MIMSunit 0.9.2
+
+## Improvement
+
+* Optimize memory usage when computing MIMS unit values. @muschellij2
+
 # MIMSunit 0.9.1
 
 ## Features
