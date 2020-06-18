@@ -4,6 +4,10 @@
 
 * Optimize memory usage when computing MIMS unit values. @muschellij2
 
+## Documentation
+
+* Fix cross-package references.
+
 # MIMSunit 0.9.1
 
 ## Features
