@@ -567,8 +567,7 @@ custom_mims_unit <-
 #' @examples
 #'   # Use sample mhealth file for testing
 #'   filepaths = c(
-#'     system.file('extdata', 'mhealth.csv', package='MIMSunit'),
-#'     system.file('extdata', 'mhealth1.csv', package='MIMSunit')
+#'     system.file('extdata', 'mhealth.csv', package='MIMSunit')
 #'   )
 #'
 #'   # Test with multiple files

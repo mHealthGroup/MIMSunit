@@ -37,7 +37,7 @@ MIMSunit::generate_interactive_plot(df, "Acceleration (g)", c(2,3,4))
 
 Compute MIMS-unit values
 ```{r, message=FALSE, warning=FALSE, include=T, echo=T, results=FALSE}
-mims = MIMSunit::mims_unit(df, epoch = '5 sec', dynamic_range = c(-2, 2), output_mims_per_axis = TRUE)
+mims = MIMSunit::mims_unit(df, epoch = '1 sec', dynamic_range = c(-2, 2), output_mims_per_axis = TRUE)
 ```
 
 ```{r, echo=FALSE}
