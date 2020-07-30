@@ -41,6 +41,7 @@ jobs:
           RHUB_PLATFORM: linux-x86_64-ubuntu-gcc
         run: |
           Rscript -e "install.packages('remotes')"
+          Rscript -e "install.packages('devtools')"
           Rscript -e "remotes::install_github('r-hub/sysreqs')"
           sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
           sudo -s eval "$sysreqs"
@@ -62,6 +63,7 @@ jobs:
       - name: Check
         run: |
           remotes::install_cran("rcmdcheck")
+          devtools::document(roclets = c('rd', 'collate', 'namespace', 'vignette'))
           rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "warning", check_dir = "check")
         shell: Rscript {0}
 
