@@ -158,7 +158,7 @@
 <div id="for-linux-use-ubuntu-as-an-example" class="section level3">
 <h3 class="hasAnchor">
 <a href="#for-linux-use-ubuntu-as-an-example" class="anchor"></a>For Linux (use ubuntu as an example)</h3>
-<p>Install dependency system packages for <code>devtools</code>: <code>build-essential</code>, <code>libcurl4-gnutls-dev</code>, <code>libxml2-dev</code>, <code>libssl-dev</code>.</p>
+<p>Install dependency system packages for <code>devtools</code>: <code>build-essential</code>, <code>libcurl4-gnutls-dev</code>, <code>libxml2-dev</code>, <code>libssl-dev</code>, <code>libcurl4-ssl-dev</code>.</p>
 </div>
 </div>
 <div id="installation" class="section level2">
@@ -185,7 +185,7 @@
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
-<div class="sourceCode" id="cb4"><pre class="r"><span class="kw pkg">MIMSunit</span><span class="kw ns">::</span><span class="fu">mims_unit</span>(<span class="no">input_dataframe</span>, <span class="kw">dynamic_range</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(-<span class="fl">3</span>,<span class="fl">3</span>), <span class="kw">epoch</span><span class="kw">=</span><span class="st">'1 min'</span>)</pre></div>
+<div class="sourceCode" id="cb4"><pre class="r"><span class="kw pkg">MIMSunit</span><span class="kw ns">::</span><span class="fu"><a href="reference/mims_unit.html">mims_unit</a></span>(<span class="no">input_dataframe</span>, <span class="kw">dynamic_range</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(-<span class="fl">3</span>,<span class="fl">3</span>), <span class="kw">epoch</span><span class="kw">=</span><span class="st">'1 min'</span>)</pre></div>
 <p>Assume the input dataframe is in following format, with the first column (timestamp) in <code>POSXlct</code> objects and the device used to collect this data has dynamic range being -3g to 3g. You may set the epoch length to be <code>1 min</code>, <code>1 sec</code>, <code>5 sec</code>, <code>10 sec</code> and so on.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>HEADER_TIME_STAMP,X,Y,Z</span>
 <span id="cb5-2"><a href="#cb5-2"></a><span class="dv">2016-10-03</span> <span class="dv">14</span><span class="op">:</span><span class="dv">51</span><span class="op">:</span><span class="fl">14.236</span>,<span class="fl">0.007</span>,<span class="op">-</span><span class="fl">0.005</span>,<span class="fl">0.984</span></span>

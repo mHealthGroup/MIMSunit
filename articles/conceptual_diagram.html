@@ -136,7 +136,7 @@
 <h3 class="hasAnchor">
 <a href="#original-data" class="anchor"></a>Original data</h3>
 <p>We use a one-second segment of raw accelerometer signal (80 Hz, 8g) from a random subject doing jumping jack as test data. The other signals with different sampling rates and dynamic ranges are simulated via the <code>simulated_new_data()</code> function. The step-by-step illustration has been presented as Figure 1 in the manuscript.</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="no">df</span> <span class="kw">=</span> <span class="kw pkg">MIMSunit</span><span class="kw ns">::</span><span class="no">conceptual_diagram_data</span>
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="no">df</span> <span class="kw">=</span> <span class="kw pkg">MIMSunit</span><span class="kw ns">::</span><span class="no"><a href="../reference/conceptual_diagram_data.html">conceptual_diagram_data</a></span>
 <span class="no">start_time</span> <span class="kw">=</span> <span class="no">df</span><span class="kw">[[</span><span class="fl">1</span>,<span class="fl">1</span>]]
 <span class="no">stop_time</span> <span class="kw">=</span> <span class="no">start_time</span> + <span class="fl">1</span></pre></body></html></div>
 <div id="illustration-of-the-original-signals" class="section level4">
@@ -144,9 +144,9 @@
 <a href="#illustration-of-the-original-signals" class="anchor"></a>Illustration of the original signals</h4>
 <div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">figs</span> <span class="kw">=</span> <span class="no">df</span> <span class="kw">%&gt;%</span>
   <span class="fu">group_by</span>(<span class="no">.data</span>$<span class="no">NAME</span>) <span class="kw">%&gt;%</span>
-  <span class="kw pkg">MIMSunit</span><span class="kw ns">::</span><span class="fu">clip_data</span>(<span class="kw">start_time</span> <span class="kw">=</span> <span class="no">start_time</span>, <span class="kw">stop_time</span> <span class="kw">=</span> <span class="no">stop_time</span>) <span class="kw">%&gt;%</span>
+  <span class="kw pkg">MIMSunit</span><span class="kw ns">::</span><span class="fu"><a href="../reference/clip_data.html">clip_data</a></span>(<span class="kw">start_time</span> <span class="kw">=</span> <span class="no">start_time</span>, <span class="kw">stop_time</span> <span class="kw">=</span> <span class="no">stop_time</span>) <span class="kw">%&gt;%</span>
   <span class="fu">group_map</span>(
-    ~ <span class="kw pkg">MIMSunit</span><span class="kw ns">::</span><span class="fu">illustrate_signal</span>(
+    ~ <span class="kw pkg">MIMSunit</span><span class="kw ns">::</span><span class="fu"><a href="../reference/illustrate_signal.html">illustrate_signal</a></span>(
       <span class="no">.x</span>,
       <span class="kw">title</span> <span class="kw">=</span> <span class="no">.y</span>,
       <span class="kw">line_size</span> <span class="kw">=</span> <span class="fl">1</span>,
@@ -170,10 +170,10 @@
 <a href="#illustration-of-the-interpolated-signals" class="anchor"></a>Illustration of the interpolated signals</h4>
 <div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">figs</span> <span class="kw">=</span> <span class="no">interp_df</span> <span class="kw">%&gt;%</span>
   <span class="fu">group_by</span>(<span class="no">.data</span>$<span class="no">NAME</span>) <span class="kw">%&gt;%</span>
-  <span class="kw pkg">MIMSunit</span><span class="kw ns">::</span><span class="fu">clip_data</span>(<span class="kw">start_time</span> <span class="kw">=</span> <span class="no">start_time</span>,
+  <span class="kw pkg">MIMSunit</span><span class="kw ns">::</span><span class="fu"><a href="../reference/clip_data.html">clip_data</a></span>(<span class="kw">start_time</span> <span class="kw">=</span> <span class="no">start_time</span>,
                          <span class="kw">stop_time</span> <span class="kw">=</span> <span class="no">stop_time</span>) <span class="kw">%&gt;%</span>
   <span class="fu">group_map</span>(
-    ~ <span class="kw pkg">MIMSunit</span><span class="kw ns">::</span><span class="fu">illustrate_signal</span>(
+    ~ <span class="kw pkg">MIMSunit</span><span class="kw ns">::</span><span class="fu"><a href="../reference/illustrate_signal.html">illustrate_signal</a></span>(
       <span class="no">.x</span>,
       <span class="kw">title</span> <span class="kw">=</span> <span class="no">.y</span><span class="kw">[[</span><span class="fl">1</span>]],
       <span class="kw">line_size</span> <span class="kw">=</span> <span class="fl">1</span>,
@@ -190,8 +190,8 @@
 <a href="#extrapolation-restoring-maxed-out-samples" class="anchor"></a>Extrapolation: Restoring “maxed-out” samples</h3>
 <p>The third step is to restore the samples that are maxed out due to low dynamic range for signals of intensive movement. Please check the manuscript for the details of the extrapolation algorithm.</p>
 <div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">figs</span> <span class="kw">=</span> <span class="no">interp_df</span> <span class="kw">%&gt;%</span> <span class="fu">group_by</span>(<span class="no">.data</span>$<span class="no">NAME</span>) <span class="kw">%&gt;%</span>
-  <span class="kw pkg">MIMSunit</span><span class="kw ns">::</span><span class="fu">clip_data</span>(<span class="kw">start_time</span> <span class="kw">=</span> <span class="no">start_time</span>, <span class="kw">stop_time</span> <span class="kw">=</span> <span class="no">stop_time</span>) <span class="kw">%&gt;%</span>
-  <span class="fu">group_map</span>( ~ <span class="kw pkg">MIMSunit</span><span class="kw ns">::</span><span class="fu">illustrate_extrapolation</span>(
+  <span class="kw pkg">MIMSunit</span><span class="kw ns">::</span><span class="fu"><a href="../reference/clip_data.html">clip_data</a></span>(<span class="kw">start_time</span> <span class="kw">=</span> <span class="no">start_time</span>, <span class="kw">stop_time</span> <span class="kw">=</span> <span class="no">stop_time</span>) <span class="kw">%&gt;%</span>
+  <span class="fu">group_map</span>( ~ <span class="kw pkg">MIMSunit</span><span class="kw ns">::</span><span class="fu"><a href="../reference/illustrate_extrapolation.html">illustrate_extrapolation</a></span>(
     <span class="no">.x</span>,
     <span class="kw">title</span> <span class="kw">=</span> <span class="no">.y</span>,
     <span class="kw">dynamic_range</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(-<span class="no">.x</span>$<span class="no">GRANGE</span>[<span class="fl">1</span>], <span class="no">.x</span>$<span class="no">GRANGE</span>[<span class="fl">1</span>]),
