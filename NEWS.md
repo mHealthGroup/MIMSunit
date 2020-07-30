@@ -1,4 +1,4 @@
-# MIMSunit 0.9.1.9000
+# MIMSunit 0.9.2
 
 ## Improvement
 
