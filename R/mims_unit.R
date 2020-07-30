@@ -96,14 +96,27 @@ mims_unit_from_files <-
     last_epoch_st = NULL
     last_chunk = NULL
     j = 1
+    if (shiny::isRunning()) {
+      file_pb = shiny::Progress$new()
+    }
     for (i in 1:num_of_files) {
+      if (shiny::isRunning()) {
+        file_pb$set(value=i/num_of_files, message=paste("Compute MIMS-unit values for", files[i]))
+      }
       funcs = import_fun(files[i], chunk_samples = num_per_load)
       next_chunk = funcs[[1]]
       close_con = funcs[[2]]
 
+      if (shiny::isRunning()) {
+        chunk_pb = shiny::Progress$new()
+        chunk_pb$set(value=0, message="Compute MIMS-unit values for chunks")
+      }
       repeat {
         chunk = next_chunk()
         if (nrow(chunk) > 0) {
+          if (shiny::isRunning()) {
+            chunk_pb$inc(amount=0.01)
+          }
           num_per_df = nrow(chunk)
           if (!is.null(df)) {
             if (!is.null(last_epoch_st) & !is.null(last_chunk)) {
@@ -133,10 +146,17 @@ mims_unit_from_files <-
           j = j + 1
         }
         else {
+          if (shiny::isRunning()) {
+            chunk_pb$set(value=1)
+            chunk_pb$close()
+          }
           close_con()
           break
         }
       }
+    }
+    if (shiny::isRunning()) {
+      file_pb$close()
     }
     result <- do.call(rbind, results)
     return(result)
@@ -454,19 +474,29 @@ custom_mims_unit <-
     rm(first_col)
 
     # save the start and stop time of original df
-    if (use_gui_progress & .Platform$OS.type == 'windows') {
+    if (shiny::isRunning()) {
+      pb = shiny::Progress$new()
+      pb$set(message = "Computing MIMS-unit values", value=0)
+
+    }
+    else if (use_gui_progress & .Platform$OS.type == 'windows') {
       ProgressBar = utils::winProgressBar
       setProgressBar = utils::setWinProgressBar
+      pb = ProgressBar(min = 0,
+                       max = 1,
+                       title = "Computing MIMS-unit values",
+                       label = 'Starting...')
     }
     else {
       ProgressBar = utils::txtProgressBar
       setProgressBar = utils::setTxtProgressBar
+      pb = ProgressBar(min = 0,
+                       max = 1,
+                       title = "Computing MIMS-unit values",
+                       label = 'Starting...')
     }
 
-    pb = ProgressBar(min = 0,
-                     max = 1,
-                     title = "Computing MIMS-unit values",
-                     label = 'Starting...')
+
 
     start_time <- lubridate::floor_date(df[[1]][1], unit = "seconds")
     stop_time <-
@@ -474,22 +504,38 @@ custom_mims_unit <-
 
     # concatenate with before and after df
     if (is.data.frame(before_df)) {
-      setProgressBar(pb, 0.2, label = 'Concatenating before_df...')
+      if (shiny::isRunning()) {
+        pb$inc(0.2, detail='Concatenating before_df...')
+      } else {
+        setProgressBar(pb, 0.2, label = 'Concatenating before_df...')
+      }
       df <- rbind(before_df, df)
     }
     if (is.data.frame(after_df)) {
-      setProgressBar(pb, 0.3, label = 'Concatenating after_df...')
+      if (shiny::isRunning()) {
+        pb$inc(0.3, detail='Concatenating after_df...')
+      } else {
+        setProgressBar(pb, 0.3, label = 'Concatenating after_df...')
+      }
       df <- rbind(df, after_df)
     }
 
     # apply extrapolation algorithm
     if (use_extrapolation) {
       stopifnot(length(dynamic_range) == 2)
-      setProgressBar(pb, 0.4, label = 'Extrapolating signal...')
+      if (shiny::isRunning()) {
+        pb$inc(0.4, detail='Extrapolating signal...')
+      } else {
+        setProgressBar(pb, 0.4, label = 'Extrapolating signal...')
+      }
       resampled_data <-
         extrapolate(df, dynamic_range, noise_level, k, spar)
     } else {
-      setProgressBar(pb, 0.4, label = 'Interpolating signal...')
+      if (shiny::isRunning()) {
+        pb$inc(0.4, detail='Interpolating signal...')
+      } else {
+        setProgressBar(pb, 0.4, label = 'Interpolating signal...')
+      }
       resampled_data <-
         interpolate_signal(df, sr = 100, method = "linear")
     }
@@ -510,7 +556,11 @@ custom_mims_unit <-
 
     # Apply filter cascade
     if (use_filtering) {
-      setProgressBar(pb, 0.6, label = 'Filtering signal...')
+      if (shiny::isRunning()) {
+        pb$inc(0.6, detail='Filtering signal...')
+      } else {
+        setProgressBar(pb, 0.6, label = 'Filtering signal...')
+      }
       if (filter_type == "butter") {
         filtered_data <-
           iir(
@@ -569,7 +619,11 @@ custom_mims_unit <-
     }
 
     # Compute the AUC
-    setProgressBar(pb, 0.8, label = 'Computing AUC...')
+    if (shiny::isRunning()) {
+      pb$inc(0.8, detail='Computing AUC...')
+    } else {
+      setProgressBar(pb, 0.8, label = 'Computing AUC...')
+    }
     integrated_data <-
       aggregate_for_mims(
         filtered_data,
@@ -581,7 +635,11 @@ custom_mims_unit <-
     rm(filtered_data);
 
     if (allow_truncation) {
-      setProgressBar(pb, 0.9, label = 'Truncating signal...')
+      if (shiny::isRunning()) {
+        pb$inc(0.9, detail='Truncating signal...')
+      } else {
+        setProgressBar(pb, 0.9, label = 'Truncating signal...')
+      }
       truncate_indices <-
         integrated_data[, 2:ncol(integrated_data)] > 0 &
           (integrated_data[, 2:ncol(integrated_data)] <=
@@ -595,7 +653,13 @@ custom_mims_unit <-
     }
 
     # Compute vector magnitude
-    setProgressBar(pb, 1, label = 'Summing up axial values...')
+    if (shiny::isRunning()) {
+      pb$inc(1, detail='Summing up axial values...')
+      pb$close()
+    } else {
+      setProgressBar(pb, 1, label = 'Summing up axial values...')
+      close(pb)
+    }
     row_abnormal <- rep(FALSE, nrow(integrated_data))
     for (i in 2:ncol(integrated_data))
     {
@@ -629,7 +693,7 @@ custom_mims_unit <-
       mims_data[[1]] >= start_time & mims_data[[1]] < stop_time
     mims_data <- mims_data[keep_mask, ]
 
-    close(pb)
+
     if (output_orientation_estimation) {
       return(list(mims = mims_data, orientation = orientation_data))
     } else {
