@@ -50,7 +50,7 @@ Rtools 3.5 (see: <https://cran.r-project.org/bin/windows/Rtools/>)
 ### For Linux (use ubuntu as an example)
 
 Install dependency system packages for `devtools`: `build-essential`,
-`libcurl4-gnutls-dev`, `libxml2-dev`, `libssl-dev`.
+`libcurl4-gnutls-dev`, `libxml2-dev`, `libssl-dev`, `libcurl4-ssl-dev`.
 
 ## Installation
 
