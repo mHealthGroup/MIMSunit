@@ -45,7 +45,7 @@ trapzoidal method over each epoch for each column. The epoch start time will
 be used as timestamp in the first column." />
 
 
-
+<meta name="robots" content="noindex">
 
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
@@ -84,7 +84,7 @@ be used as timestamp in the first column." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.1</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.9.1.9000</span>
       </span>
     </div>
 
@@ -245,8 +245,8 @@ method used in the function is based on <code><a href='https://rdrr.io/pkg/caToo
 <code><a href='aggregate_for_orientation.html'>aggregate_for_orientation</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='co'># use the first 20000 rows from a sample data</span>
-  <span class='no'>df</span> <span class='kw'>=</span> <span class='no'>sample_raw_accel_data</span>[<span class='fl'>1</span>:<span class='fl'>20000</span>,]
+    <pre class="examples"><div class='input'>  <span class='co'># sample data</span>
+  <span class='no'>df</span> <span class='kw'>=</span> <span class='no'>sample_raw_accel_data</span>
   <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>df</span>)</div><div class='output co'>#&gt;     HEADER_TIME_STAMP     X      Y      Z
 #&gt; 1 2016-01-15 11:00:00 0.148 -0.438  0.016
 #&gt; 2 2016-01-15 11:00:00 0.215 -0.418 -0.023
@@ -254,27 +254,32 @@ method used in the function is based on <code><a href='https://rdrr.io/pkg/caToo
 #&gt; 4 2016-01-15 11:00:00 0.336 -0.430  0.012
 #&gt; 5 2016-01-15 11:00:00 0.430 -0.320  0.000
 #&gt; 6 2016-01-15 11:00:00 0.535 -0.258  0.004</div><div class='input'>
-  <span class='co'># epoch set to 1 minute, and method set to "trapz"</span>
-  <span class='fu'>aggregate_for_mims</span>(<span class='no'>df</span>, <span class='kw'>epoch</span> <span class='kw'>=</span> <span class='st'>'1 min'</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>'trapz'</span>)</div><div class='output co'>#&gt;     HEADER_TIME_STAMP AGGREGATED_X AGGREGATED_Y AGGREGATED_Z
-#&gt; 1 2016-01-15 11:00:00     76.34340     27.22861     18.13640
-#&gt; 2 2016-01-15 11:01:00     88.70217     56.96746     23.74545
-#&gt; 3 2016-01-15 11:02:00     89.20063     60.00560     23.14638
-#&gt; 4 2016-01-15 11:03:00     84.09553     48.82182     21.47900
-#&gt; 5 2016-01-15 11:04:00     -1.00000     -1.00000     -1.00000</div><div class='input'>
-  <span class='co'># epoch set to 2 minute, method set to "sum"</span>
-  <span class='fu'>aggregate_for_mims</span>(<span class='no'>df</span>, <span class='kw'>epoch</span> <span class='kw'>=</span> <span class='st'>'2 min'</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>'sum'</span>)</div><div class='output co'>#&gt;     HEADER_TIME_STAMP AGGREGATED_X AGGREGATED_Y AGGREGATED_Z
-#&gt; 1 2016-01-15 11:00:00     13205.28     6736.806     3350.853
-#&gt; 2 2016-01-15 11:02:00     13865.70     8707.349     3570.559
-#&gt; 3 2016-01-15 11:04:00        -1.00       -1.000       -1.000</div><div class='input'>
-  <span class='co'># epoch set to 2 minute, and st set to be 1 minute before the start time of the data</span>
-  <span class='co'># so the first segment will only include data for 1 minute, therefore the resulted</span>
+  <span class='co'># epoch set to 5 seconds, and method set to "trapz"</span>
+  <span class='fu'>aggregate_for_mims</span>(<span class='no'>df</span>, <span class='kw'>epoch</span> <span class='kw'>=</span> <span class='st'>'5 sec'</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>'trapz'</span>)</div><div class='output co'>#&gt;     HEADER_TIME_STAMP AGGREGATED_X AGGREGATED_Y AGGREGATED_Z
+#&gt; 1 2016-01-15 11:00:00     6.359663     2.420398      1.62992
+#&gt; 2 2016-01-15 11:00:05    -1.000000    -1.000000     -1.00000</div><div class='input'>
+  <span class='co'># epoch set to 1 second, method set to "sum"</span>
+  <span class='fu'>aggregate_for_mims</span>(<span class='no'>df</span>, <span class='kw'>epoch</span> <span class='kw'>=</span> <span class='st'>'1 sec'</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>'sum'</span>)</div><div class='output co'>#&gt;     HEADER_TIME_STAMP AGGREGATED_X AGGREGATED_Y AGGREGATED_Z
+#&gt; 1 2016-01-15 11:00:00       99.542       34.291       22.296
+#&gt; 2 2016-01-15 11:00:01       97.332       36.783       25.970
+#&gt; 3 2016-01-15 11:00:02      104.054       42.027       27.141
+#&gt; 4 2016-01-15 11:00:03      104.749       39.400       26.702
+#&gt; 5 2016-01-15 11:00:04      103.642       41.445       28.518
+#&gt; 6 2016-01-15 11:00:05      100.172       28.005       21.359
+#&gt; 7 2016-01-15 11:00:06       -1.000       -1.000       -1.000</div><div class='input'>
+  <span class='co'># epoch set to 1 second, and st set to be 1 second before the start time of the data</span>
+  <span class='co'># so the first segment will only include data for 1 second, therefore the resulted</span>
   <span class='co'># aggregated value for the first segment will be -1 (invalid) because the</span>
-  <span class='co'># samples are not enough. And the second segment starts from 11:01:00, instead</span>
-  <span class='co'># of 11:02:00 as shown in prior example,</span>
-  <span class='fu'>aggregate_for_mims</span>(<span class='no'>df</span>, <span class='kw'>epoch</span> <span class='kw'>=</span> <span class='st'>'2 min'</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>'sum'</span>, <span class='kw'>st</span><span class='kw'>=</span><span class='no'>df</span>[<span class='fl'>1</span>,<span class='fl'>1</span>] - <span class='fl'>60</span>)</div><div class='output co'>#&gt;     HEADER_TIME_STAMP AGGREGATED_X AGGREGATED_Y AGGREGATED_Z
-#&gt; 1 2016-01-15 11:00:00        -1.00       -1.000       -1.000
-#&gt; 2 2016-01-15 11:01:00     14234.28     9359.236     3751.853
-#&gt; 3 2016-01-15 11:03:00        -1.00       -1.000       -1.000</div></pre>
+  <span class='co'># samples are not enough. And the second segment starts from 11:00:01, instead</span>
+  <span class='co'># of 11:00:02 as shown in prior example,</span>
+  <span class='fu'>aggregate_for_mims</span>(<span class='no'>df</span>, <span class='kw'>epoch</span> <span class='kw'>=</span> <span class='st'>'1 sec'</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>'sum'</span>, <span class='kw'>st</span><span class='kw'>=</span><span class='no'>df</span>[<span class='fl'>1</span>,<span class='fl'>1</span>] - <span class='fl'>1</span>)</div><div class='output co'>#&gt;     HEADER_TIME_STAMP AGGREGATED_X AGGREGATED_Y AGGREGATED_Z
+#&gt; 1 2016-01-15 11:00:00       99.542       34.291       22.296
+#&gt; 2 2016-01-15 11:00:01       97.332       36.783       25.970
+#&gt; 3 2016-01-15 11:00:02      104.054       42.027       27.141
+#&gt; 4 2016-01-15 11:00:03      104.749       39.400       26.702
+#&gt; 5 2016-01-15 11:00:04      103.642       41.445       28.518
+#&gt; 6 2016-01-15 11:00:05      100.172       28.005       21.359
+#&gt; 7 2016-01-15 11:00:06       -1.000       -1.000       -1.000</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

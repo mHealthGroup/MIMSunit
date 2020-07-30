@@ -46,7 +46,7 @@ rate — bandlimited_interp" />
 bandlimited interpolation filter to the signal to change its sampling rate." />
 
 
-
+<meta name="robots" content="noindex">
 
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
@@ -85,7 +85,7 @@ bandlimited interpolation filter to the signal to change its sampling rate." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.1</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.9.1.9000</span>
       </span>
     </div>
 
@@ -220,8 +220,8 @@ implementation.</p>
 <code><a href='remove_average.html'>remove_average</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='co'># Use first 1000 rows of sample data</span>
-  <span class='no'>df</span> <span class='kw'>=</span> <span class='no'>sample_raw_accel_data</span>[<span class='fl'>1</span>:<span class='fl'>1000</span>,]
+    <pre class="examples"><div class='input'>  <span class='co'># Use sample data</span>
+  <span class='no'>df</span> <span class='kw'>=</span> <span class='no'>sample_raw_accel_data</span>
 
   <span class='co'># View input</span>
   <span class='fu'><a href='illustrate_signal.html'>illustrate_signal</a></span>(<span class='no'>df</span>, <span class='kw'>plot_maxed_out_line</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='bandlimited_interp-1.png' alt='' width='700' height='433' /></div><div class='input'>

@@ -51,7 +51,7 @@ aggregate_for_mims and aggregate_for_orientation
 for aggregation." />
 
 
-
+<meta name="robots" content="noindex">
 
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
@@ -90,7 +90,7 @@ for aggregation." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.1</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.9.1.9000</span>
       </span>
     </div>
 
@@ -377,22 +377,14 @@ want to use a common start time for segmenting data. Default is NULL.</p></td>
     <pre class="examples"><div class='input'>  <span class='co'># Use sample data for testing</span>
   <span class='no'>df</span> <span class='kw'>=</span> <span class='no'>sample_raw_accel_data</span>
 
-  <span class='co'># compute mims unit values</span>
-  <span class='no'>output</span> <span class='kw'>=</span> <span class='fu'>custom_mims_unit</span>(<span class='no'>df</span>, <span class='kw'>epoch</span> <span class='kw'>=</span> <span class='st'>'15 sec'</span>, <span class='kw'>dynamic_range</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>8</span>, <span class='fl'>8</span>))</div><div class='output co'>#&gt; ================================================================================</div><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>output</span>)</div><div class='output co'>#&gt;         HEADER_TIME_STAMP MIMS_UNIT
-#&gt; 1 2016-01-15 11:00:00.013  14.66365
-#&gt; 2 2016-01-15 11:00:15.003  14.76582
-#&gt; 3 2016-01-15 11:00:30.003  14.35483
-#&gt; 4 2016-01-15 11:00:45.003  14.60055
-#&gt; 5 2016-01-15 11:01:00.003  21.73163
-#&gt; 6 2016-01-15 11:01:15.003  25.09067</div><div class='input'>
   <span class='co'># compute mims unit values with custom parameter</span>
-  <span class='no'>output</span> <span class='kw'>=</span> <span class='fu'>custom_mims_unit</span>(<span class='no'>df</span>, <span class='kw'>epoch</span> <span class='kw'>=</span> <span class='st'>'15 sec'</span>, <span class='kw'>dynamic_range</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>8</span>, <span class='fl'>8</span>), <span class='kw'>spar</span><span class='kw'>=</span><span class='fl'>0.7</span>)</div><div class='output co'>#&gt; ================================================================================</div><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>output</span>)</div><div class='output co'>#&gt;         HEADER_TIME_STAMP MIMS_UNIT
-#&gt; 1 2016-01-15 11:00:00.013  14.66365
-#&gt; 2 2016-01-15 11:00:15.003  14.76582
-#&gt; 3 2016-01-15 11:00:30.003  14.35483
-#&gt; 4 2016-01-15 11:00:45.003  14.60055
-#&gt; 5 2016-01-15 11:01:00.003  21.73163
-#&gt; 6 2016-01-15 11:01:15.003  25.09067</div></pre>
+  <span class='no'>output</span> <span class='kw'>=</span> <span class='fu'>custom_mims_unit</span>(<span class='no'>df</span>, <span class='kw'>epoch</span> <span class='kw'>=</span> <span class='st'>'1 sec'</span>, <span class='kw'>dynamic_range</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>8</span>, <span class='fl'>8</span>), <span class='kw'>spar</span><span class='kw'>=</span><span class='fl'>0.7</span>)</div><div class='output co'>#&gt; ================================================================================</div><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>output</span>)</div><div class='output co'>#&gt;         HEADER_TIME_STAMP MIMS_UNIT
+#&gt; 1 2016-01-15 11:00:00.013  1.071916
+#&gt; 2 2016-01-15 11:00:01.003  1.079748
+#&gt; 3 2016-01-15 11:00:02.003  1.001164
+#&gt; 4 2016-01-15 11:00:03.003  1.023815
+#&gt; 5 2016-01-15 11:00:04.003  1.016161
+#&gt; 6 2016-01-15 11:00:05.003  0.813439</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

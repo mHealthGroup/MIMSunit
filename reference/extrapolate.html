@@ -45,7 +45,7 @@ accelerometer data, trying to reconstruct the true movement from the
 maxed-out samples." />
 
 
-
+<meta name="robots" content="noindex">
 
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
@@ -84,7 +84,7 @@ maxed-out samples." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.1</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.9.1.9000</span>
       </span>
     </div>
 
@@ -269,8 +269,10 @@ its timestamps and values specified in the first and second arguments.</p>
   <span class='fu'><a href='illustrate_signal.html'>illustrate_signal</a></span>(<span class='no'>df</span>, <span class='kw'>range</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>4</span>, <span class='fl'>4</span>))</div><div class='img'><img src='extrapolate-1.png' alt='' width='700' height='433' /></div><div class='input'>
   <span class='co'># Use the default parameter settings as in MIMunit algorithms</span>
   <span class='co'># The dynamic range of the input data is -4g to 4g.</span>
-  <span class='no'>output</span> <span class='kw'>=</span> <span class='fu'>extrapolate</span>(<span class='no'>df</span>, <span class='kw'>range</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>4</span>, <span class='fl'>4</span>))
-
+  <span class='no'>output</span> <span class='kw'>=</span> <span class='fu'>extrapolate</span>(<span class='no'>df</span>, <span class='kw'>range</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>4</span>, <span class='fl'>4</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: `tbl_df()` is deprecated as of dplyr 1.0.0.</span>
+#&gt; <span class='warning'>Please use `tibble::as_tibble()` instead.</span>
+#&gt; <span class='warning'>This warning is displayed once every 8 hours.</span>
+#&gt; <span class='warning'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span></div><div class='input'>
   <span class='co'># Plot output</span>
   <span class='fu'><a href='illustrate_signal.html'>illustrate_signal</a></span>(<span class='no'>output</span>, <span class='kw'>range</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>4</span>, <span class='fl'>4</span>))</div><div class='img'><img src='extrapolate-2.png' alt='' width='700' height='433' /></div></pre>
   </div>

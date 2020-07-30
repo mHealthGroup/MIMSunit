@@ -47,7 +47,7 @@ compute_orientation for the implementation of the estimation
 algorithm." />
 
 
-
+<meta name="robots" content="noindex">
 
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
@@ -86,7 +86,7 @@ algorithm." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.1</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.9.1.9000</span>
       </span>
     </div>
 
@@ -263,19 +263,18 @@ want to use a common start time for segmenting data. Default is NULL.</p></td>
   <span class='no'>df</span> <span class='kw'>=</span> <span class='no'>sample_raw_accel_data</span>
 
   <span class='co'># compute sensor orientation angles</span>
-  <span class='fu'>sensor_orientations</span>(<span class='no'>df</span>, <span class='kw'>epoch</span> <span class='kw'>=</span> <span class='st'>'5 min'</span>, <span class='kw'>dynamic_range</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>8</span>, <span class='fl'>8</span>))</div><div class='output co'>#&gt; ================================================</div><div class='output co'>#&gt; <span class='warning'>Warning: NaNs produced</span></div><div class='output co'>#&gt; ================================</div><div class='output co'>#&gt;         HEADER_TIME_STAMP    X_ANGLE  Y_ANGLE   Z_ANGLE
-#&gt; 1 2016-01-15 11:00:00.013  13.900844 86.12948 100.85193
-#&gt; 2 2016-01-15 11:05:00.003   9.662081 93.65115  96.41904
-#&gt; 3 2016-01-15 11:10:00.003 102.409417 92.06482  24.60815
-#&gt; 4 2016-01-15 11:15:00.003        NaN      NaN       NaN</div><div class='input'>
+  <span class='fu'>sensor_orientations</span>(<span class='no'>df</span>, <span class='kw'>epoch</span> <span class='kw'>=</span> <span class='st'>'2 sec'</span>, <span class='kw'>dynamic_range</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>8</span>, <span class='fl'>8</span>))</div><div class='output co'>#&gt; ================================================================================</div><div class='output co'>#&gt;         HEADER_TIME_STAMP  X_ANGLE  Y_ANGLE  Z_ANGLE
+#&gt; 1 2016-01-15 11:00:00.013 11.45678 88.88573 101.4010
+#&gt; 2 2016-01-15 11:00:02.003 10.93501 90.81432 100.9039
+#&gt; 3 2016-01-15 11:00:04.003 10.57168 91.72037 100.4276</div><div class='input'>
   <span class='co'># compute sensor orientation angles with different epoch length</span>
-  <span class='no'>output</span> <span class='kw'>=</span> <span class='fu'>sensor_orientations</span>(<span class='no'>df</span>, <span class='kw'>epoch</span> <span class='kw'>=</span> <span class='st'>'15 sec'</span>, <span class='kw'>dynamic_range</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>8</span>, <span class='fl'>8</span>))</div><div class='output co'>#&gt; ================================================</div><div class='output co'>#&gt; <span class='warning'>Warning: NaNs produced</span></div><div class='output co'>#&gt; <span class='warning'>Warning: NaNs produced</span></div><div class='output co'>#&gt; ================================</div><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>output</span>)</div><div class='output co'>#&gt;         HEADER_TIME_STAMP  X_ANGLE  Y_ANGLE   Z_ANGLE
-#&gt; 1 2016-01-15 11:00:00.013 10.91751 91.06634 100.74475
-#&gt; 2 2016-01-15 11:00:15.003 10.49971 91.29207 100.10203
-#&gt; 3 2016-01-15 11:00:30.003 10.46272 91.77603 100.01999
-#&gt; 4 2016-01-15 11:00:45.003 10.08617 90.74729  99.82672
-#&gt; 5 2016-01-15 11:01:00.003 13.69015 85.14183 101.91828
-#&gt; 6 2016-01-15 11:01:15.003 16.71821 79.25918 102.21465</div></pre>
+  <span class='no'>output</span> <span class='kw'>=</span> <span class='fu'>sensor_orientations</span>(<span class='no'>df</span>, <span class='kw'>epoch</span> <span class='kw'>=</span> <span class='st'>'1 sec'</span>, <span class='kw'>dynamic_range</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>8</span>, <span class='fl'>8</span>))</div><div class='output co'>#&gt; ================================================================================</div><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>output</span>)</div><div class='output co'>#&gt;         HEADER_TIME_STAMP X_ANGLE Y_ANGLE Z_ANGLE
+#&gt; 1 2016-01-15 11:00:00.013     NaN     NaN     NaN
+#&gt; 2 2016-01-15 11:00:01.003     NaN     NaN     NaN
+#&gt; 3 2016-01-15 11:00:02.003     NaN     NaN     NaN
+#&gt; 4 2016-01-15 11:00:03.003     NaN     NaN     NaN
+#&gt; 5 2016-01-15 11:00:04.003     NaN     NaN     NaN
+#&gt; 6 2016-01-15 11:00:05.003     NaN     NaN     NaN</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

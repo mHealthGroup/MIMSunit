@@ -42,7 +42,7 @@
 <meta property="og:title" content="Changelog" />
 
 
-
+<meta name="robots" content="noindex">
 
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
@@ -81,7 +81,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.1</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.9.1.9000</span>
       </span>
     </div>
 
@@ -166,6 +166,27 @@
       <small>Source: <a href='https://github.com/mhealthgroup/MIMSunit/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="mimsunit-0919000" class="section level1">
+<h1 class="page-header" data-toc-text="0.9.1.9000">
+<a href="#mimsunit-0919000" class="anchor"></a>MIMSunit 0.9.1.9000<small> Unreleased </small>
+</h1>
+<div id="improvement" class="section level2">
+<h2 class="hasAnchor">
+<a href="#improvement" class="anchor"></a>Improvement</h2>
+<ul>
+<li>Optimize memory usage when computing MIMS unit values. <a href='https://github.com/muschellij2'>@muschellij2</a></li>
+<li>Reduce sample data size to accelerate example execution time.</li>
+<li>Support shiny progress indicator when running <code><a href="../reference/mims_unit.html">mims_unit()</a></code> functions in a shiny app.</li>
+</ul>
+</div>
+<div id="documentation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#documentation" class="anchor"></a>Documentation</h2>
+<ul>
+<li>Fix cross-package references.</li>
+</ul>
+</div>
+</div>
     <div id="mimsunit-091" class="section level1">
 <h1 class="page-header" data-toc-text="0.9.1">
 <a href="#mimsunit-091" class="anchor"></a>MIMSunit 0.9.1<small> 2020-05-20 </small>
@@ -177,16 +198,16 @@
 <li>Added a function <code><a href="../reference/shiny_app.html">shiny_app()</a></code> to start a local shiny app that allows users to load local files to compute mims unit values and provides an interactive graph to view the computed values.</li>
 </ul>
 </div>
-<div id="improvement" class="section level2">
+<div id="improvement-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#improvement" class="anchor"></a>Improvement</h2>
+<a href="#improvement-1" class="anchor"></a>Improvement</h2>
 <ul>
 <li>Optimize memory usage when computing MIMS unit values.</li>
 </ul>
 </div>
-<div id="documentation" class="section level2">
+<div id="documentation-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#documentation" class="anchor"></a>Documentation</h2>
+<a href="#documentation-1" class="anchor"></a>Documentation</h2>
 <ul>
 <li>Added datasets article <code><a href="../articles/datasets.html">vignette("datasets")</a></code>.</li>
 </ul>
@@ -212,9 +233,9 @@
 <li>Sort timestamps of input data before computing mims unit values in <code><a href="../reference/custom_mims_unit.html">custom_mims_unit()</a></code>.</li>
 </ul>
 </div>
-<div id="documentation-1" class="section level2">
+<div id="documentation-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#documentation-1" class="anchor"></a>Documentation</h2>
+<a href="#documentation-2" class="anchor"></a>Documentation</h2>
 <ul>
 <li>Indicate columns cannot be reordered in the argument description of <code><a href="../reference/extrapolate.html">extrapolate()</a></code> and <code><a href="../reference/mims_unit.html">mims_unit()</a></code>.</li>
 </ul>
@@ -252,16 +273,16 @@
 <li>Add one new external sample data <code>actigraph_timestamped.csv</code>.</li>
 </ul>
 </div>
-<div id="improvement-1" class="section level2">
+<div id="improvement-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#improvement-1" class="anchor"></a>Improvement</h2>
+<a href="#improvement-2" class="anchor"></a>Improvement</h2>
 <ul>
 <li>Use tempfile in examples.</li>
 </ul>
 </div>
-<div id="documentation-2" class="section level2">
+<div id="documentation-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#documentation-2" class="anchor"></a>Documentation</h2>
+<a href="#documentation-3" class="anchor"></a>Documentation</h2>
 <ul>
 <li>Remove unused vignettes.</li>
 <li>Add documentation for the new sample data.</li>
@@ -280,9 +301,9 @@
 <li>New import data functions <code><a href="../reference/import_actigraph_csv_chunked.html">import_actigraph_csv_chunked()</a></code> and <code><a href="../reference/import_mhealth_csv_chunked.html">import_mhealth_csv_chunked()</a></code> to support loading large csv files in chunks. See issue <a href="https://github.com/mHealthGroup/MIMSunit/issues/11"><a href='https://github.com/mhealthgroup/MIMSunit/issues/11'>#11</a></a>.</li>
 </ul>
 </div>
-<div id="improvement-2" class="section level2">
+<div id="improvement-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#improvement-2" class="anchor"></a>Improvement</h2>
+<a href="#improvement-3" class="anchor"></a>Improvement</h2>
 <ul>
 <li>Use chunked import functions in <code><a href="../reference/mims_unit.html">mims_unit_from_files()</a></code> to support large input files.</li>
 </ul>
@@ -296,9 +317,9 @@
 <li>Chances of incorrect parsing of time zone during interpolation and extrapolation.</li>
 </ul>
 </div>
-<div id="documentation-3" class="section level2">
+<div id="documentation-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#documentation-3" class="anchor"></a>Documentation</h2>
+<a href="#documentation-4" class="anchor"></a>Documentation</h2>
 <ul>
 <li>Add examples to functions.</li>
 </ul>
@@ -323,9 +344,9 @@
 <h1 class="page-header" data-toc-text="0.7.0">
 <a href="#mimsunit-070" class="anchor"></a>MIMSunit 0.7.0<small> Unreleased </small>
 </h1>
-<div id="improvement-3" class="section level2">
+<div id="improvement-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#improvement-3" class="anchor"></a>Improvement</h2>
+<a href="#improvement-4" class="anchor"></a>Improvement</h2>
 <ul>
 <li>Refine vignettes codes and texts.</li>
 <li>Better progress bar support for <code><a href="../reference/mims_unit.html">mims_unit()</a></code> functions. Use <code>show_progress</code> to control whether to show progress bar during computation.</li>

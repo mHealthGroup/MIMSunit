@@ -48,7 +48,7 @@
   into epoch windows with length specified in breaks." />
 
 
-
+<meta name="robots" content="noindex">
 
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
@@ -87,7 +87,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.1</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.9.1.9000</span>
       </span>
     </div>
 
@@ -233,37 +233,30 @@ want to use a common start time for segmenting data. Default is NULL.</p></td>
   <span class='no'>output</span> <span class='kw'>=</span> <span class='fu'>segment_data</span>(<span class='no'>df</span>, <span class='st'>"1 min"</span>)
 
   <span class='co'># check the 3rd segment, each segment would have 1 minute data</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>output</span>[<span class='no'>output</span>[<span class='st'>'SEGMENT'</span>] <span class='kw'>==</span> <span class='fl'>3</span>,])</div><div class='output co'>#&gt;  HEADER_TIME_STAMP                      X                Y          
-#&gt;  Min.   :2016-01-15 11:02:00.00   Min.   :-0.625   Min.   :-2.2540  
-#&gt;  1st Qu.:2016-01-15 11:02:15.00   1st Qu.: 1.023   1st Qu.:-0.6250  
-#&gt;  Median :2016-01-15 11:02:29.99   Median : 1.355   Median :-0.1050  
-#&gt;  Mean   :2016-01-15 11:02:29.99   Mean   : 1.484   Mean   : 0.3093  
-#&gt;  3rd Qu.:2016-01-15 11:02:44.99   3rd Qu.: 1.852   3rd Qu.: 0.6130  
-#&gt;  Max.   :2016-01-15 11:02:59.99   Max.   : 5.176   Max.   : 4.2930  
-#&gt;        Z              SEGMENT 
-#&gt;  Min.   :-2.8550   Min.   :3  
-#&gt;  1st Qu.:-0.5390   1st Qu.:3  
-#&gt;  Median :-0.3050   Median :3  
-#&gt;  Mean   :-0.3206   Mean   :3  
-#&gt;  3rd Qu.:-0.0390   3rd Qu.:3  
-#&gt;  Max.   : 0.5820   Max.   :3  </div><div class='input'>
+  <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>output</span>[<span class='no'>output</span>[<span class='st'>'SEGMENT'</span>] <span class='kw'>==</span> <span class='fl'>3</span>,])</div><div class='output co'>#&gt;  HEADER_TIME_STAMP       X             Y             Z          SEGMENT   
+#&gt;  Min.   :NA        Min.   : NA   Min.   : NA   Min.   : NA   Min.   : NA  
+#&gt;  1st Qu.:NA        1st Qu.: NA   1st Qu.: NA   1st Qu.: NA   1st Qu.: NA  
+#&gt;  Median :NA        Median : NA   Median : NA   Median : NA   Median : NA  
+#&gt;  Mean   :NA        Mean   :NaN   Mean   :NaN   Mean   :NaN   Mean   :NaN  
+#&gt;  3rd Qu.:NA        3rd Qu.: NA   3rd Qu.: NA   3rd Qu.: NA   3rd Qu.: NA  
+#&gt;  Max.   :NA        Max.   : NA   Max.   : NA   Max.   : NA   Max.   : NA  </div><div class='input'>
   <span class='co'># segment data into 15 second segments</span>
   <span class='no'>output</span> <span class='kw'>=</span> <span class='fu'>segment_data</span>(<span class='no'>df</span>, <span class='st'>"15 sec"</span>)
 
   <span class='co'># check the 1st segment, each segment would have 15 second data</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>output</span>[<span class='no'>output</span>[<span class='st'>'SEGMENT'</span>] <span class='kw'>==</span> <span class='fl'>1</span>,])</div><div class='output co'>#&gt;  HEADER_TIME_STAMP                      X               Y           
-#&gt;  Min.   :2016-01-15 11:00:00.00   Min.   :0.113   Min.   :-2.71500  
-#&gt;  1st Qu.:2016-01-15 11:00:03.75   1st Qu.:1.000   1st Qu.:-0.31300  
-#&gt;  Median :2016-01-15 11:00:07.50   Median :1.191   Median :-0.13700  
-#&gt;  Mean   :2016-01-15 11:00:07.50   Mean   :1.269   Mean   :-0.02772  
-#&gt;  3rd Qu.:2016-01-15 11:00:11.24   3rd Qu.:1.574   3rd Qu.:-0.00200  
-#&gt;  Max.   :2016-01-15 11:00:14.99   Max.   :2.684   Max.   : 2.87500  
+  <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>output</span>[<span class='no'>output</span>[<span class='st'>'SEGMENT'</span>] <span class='kw'>==</span> <span class='fl'>1</span>,])</div><div class='output co'>#&gt;  HEADER_TIME_STAMP                      X               Y            
+#&gt;  Min.   :2016-01-15 11:00:00.00   Min.   :0.129   Min.   :-2.715000  
+#&gt;  1st Qu.:2016-01-15 11:00:01.50   1st Qu.:1.004   1st Qu.:-0.309000  
+#&gt;  Median :2016-01-15 11:00:03.00   Median :1.205   Median :-0.125000  
+#&gt;  Mean   :2016-01-15 11:00:03.00   Mean   :1.273   Mean   :-0.008275  
+#&gt;  3rd Qu.:2016-01-15 11:00:04.50   3rd Qu.:1.583   3rd Qu.: 0.011000  
+#&gt;  Max.   :2016-01-15 11:00:06.00   Max.   :2.652   Max.   : 2.871000  
 #&gt;        Z              SEGMENT 
 #&gt;  Min.   :-1.7300   Min.   :1  
-#&gt;  1st Qu.:-0.3360   1st Qu.:1  
-#&gt;  Median :-0.1910   Median :1  
-#&gt;  Mean   :-0.2414   Mean   :1  
-#&gt;  3rd Qu.:-0.0780   3rd Qu.:1  
+#&gt;  1st Qu.:-0.3490   1st Qu.:1  
+#&gt;  Median :-0.1840   Median :1  
+#&gt;  Mean   :-0.2462   Mean   :1  
+#&gt;  3rd Qu.:-0.0740   3rd Qu.:1  
 #&gt;  Max.   : 1.1090   Max.   :1  </div><div class='input'>
   <span class='co'># segment data into 1 hour segments</span>
   <span class='no'>output</span> <span class='kw'>=</span> <span class='fu'>segment_data</span>(<span class='no'>df</span>, <span class='st'>"1 hour"</span>)
@@ -271,20 +264,20 @@ want to use a common start time for segmenting data. Default is NULL.</p></td>
   <span class='co'># because the input data has only 15 minute data</span>
   <span class='co'># there will be only 1 segment in the output</span>
   <span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span>(<span class='no'>output</span>[<span class='st'>'SEGMENT'</span>])</div><div class='output co'>#&gt;   SEGMENT
-#&gt; 1       1</div><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>output</span>)</div><div class='output co'>#&gt;  HEADER_TIME_STAMP                      X                 Y            
-#&gt;  Min.   :2016-01-15 11:00:00.00   Min.   :-1.1520   Min.   :-2.965000  
-#&gt;  1st Qu.:2016-01-15 11:03:59.00   1st Qu.: 0.0000   1st Qu.:-0.137000  
-#&gt;  Median :2016-01-15 11:07:58.00   Median : 0.9770   Median :-0.051000  
-#&gt;  Mean   :2016-01-15 11:07:58.00   Mean   : 0.6713   Mean   : 0.003156  
-#&gt;  3rd Qu.:2016-01-15 11:11:56.99   3rd Qu.: 1.0160   3rd Qu.: 0.000000  
-#&gt;  Max.   :2016-01-15 11:15:55.99   Max.   : 5.1760   Max.   : 4.422000  
-#&gt;        Z             SEGMENT 
-#&gt;  Min.   :-2.855   Min.   :1  
-#&gt;  1st Qu.:-0.207   1st Qu.:1  
-#&gt;  Median :-0.016   Median :1  
-#&gt;  Mean   : 0.119   Mean   :1  
-#&gt;  3rd Qu.: 0.656   3rd Qu.:1  
-#&gt;  Max.   : 2.277   Max.   :1  </div><div class='input'>
+#&gt; 1       1</div><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>output</span>)</div><div class='output co'>#&gt;  HEADER_TIME_STAMP                      X               Y            
+#&gt;  Min.   :2016-01-15 11:00:00.00   Min.   :0.129   Min.   :-2.715000  
+#&gt;  1st Qu.:2016-01-15 11:00:01.50   1st Qu.:1.004   1st Qu.:-0.309000  
+#&gt;  Median :2016-01-15 11:00:03.00   Median :1.205   Median :-0.125000  
+#&gt;  Mean   :2016-01-15 11:00:03.00   Mean   :1.273   Mean   :-0.008275  
+#&gt;  3rd Qu.:2016-01-15 11:00:04.50   3rd Qu.:1.583   3rd Qu.: 0.011000  
+#&gt;  Max.   :2016-01-15 11:00:06.00   Max.   :2.652   Max.   : 2.871000  
+#&gt;        Z              SEGMENT 
+#&gt;  Min.   :-1.7300   Min.   :1  
+#&gt;  1st Qu.:-0.3490   1st Qu.:1  
+#&gt;  Median :-0.1840   Median :1  
+#&gt;  Mean   :-0.2462   Mean   :1  
+#&gt;  3rd Qu.:-0.0740   3rd Qu.:1  
+#&gt;  Max.   : 1.1090   Max.   :1  </div><div class='input'>
   <span class='co'># use manually set start time</span>
   <span class='no'>output</span> <span class='kw'>=</span> <span class='fu'>segment_data</span>(<span class='no'>df</span>, <span class='st'>"15 sec"</span>, <span class='kw'>st</span><span class='kw'>=</span><span class='st'>'2016-01-15 10:59:50.000'</span>)
 

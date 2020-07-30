@@ -44,7 +44,7 @@
 (row) of a multi-channel signal." />
 
 
-
+<meta name="robots" content="noindex">
 
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
@@ -83,7 +83,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.1</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.9.1.9000</span>
       </span>
     </div>
 
@@ -217,42 +217,67 @@ dataframe with two columns.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>  <span class='co'># Use the first 10 rows of the sample data as an example</span>
-  <span class='no'>df</span> <span class='kw'>=</span> <span class='no'>sample_raw_accel_data</span>[<span class='fl'>1</span>:<span class='fl'>5</span>,]
-  <span class='no'>df</span></div><div class='output co'>#&gt;         HEADER_TIME_STAMP     X      Y      Z
-#&gt; 1 2016-01-15 11:00:00.013 0.148 -0.438  0.016
-#&gt; 2 2016-01-15 11:00:00.025 0.215 -0.418 -0.023
-#&gt; 3 2016-01-15 11:00:00.038 0.266 -0.402 -0.012
-#&gt; 4 2016-01-15 11:00:00.049 0.336 -0.430  0.012
-#&gt; 5 2016-01-15 11:00:00.062 0.430 -0.320  0.000</div><div class='input'>
+  <span class='no'>df</span> <span class='kw'>=</span> <span class='no'>sample_raw_accel_data</span>[<span class='fl'>1</span>:<span class='fl'>10</span>,]
+  <span class='no'>df</span></div><div class='output co'>#&gt;          HEADER_TIME_STAMP     X      Y      Z
+#&gt; 1  2016-01-15 11:00:00.013 0.148 -0.438  0.016
+#&gt; 2  2016-01-15 11:00:00.025 0.215 -0.418 -0.023
+#&gt; 3  2016-01-15 11:00:00.038 0.266 -0.402 -0.012
+#&gt; 4  2016-01-15 11:00:00.049 0.336 -0.430  0.012
+#&gt; 5  2016-01-15 11:00:00.062 0.430 -0.320  0.000
+#&gt; 6  2016-01-15 11:00:00.075 0.535 -0.258  0.004
+#&gt; 7  2016-01-15 11:00:00.088 0.641 -0.348  0.020
+#&gt; 8  2016-01-15 11:00:00.099 0.777 -0.418  0.023
+#&gt; 9  2016-01-15 11:00:00.112 0.938 -0.359  0.043
+#&gt; 10 2016-01-15 11:00:00.125 1.113 -0.234  0.055</div><div class='input'>
   <span class='co'># By default, the function will assume columns starting from 2 to be axial</span>
   <span class='co'># values.</span>
-  <span class='fu'>vector_magnitude</span>(<span class='no'>df</span>)</div><div class='output co'>#&gt;         HEADER_TIME_STAMP MAGNITUDE_X_Y_Z
-#&gt; 1 2016-01-15 11:00:00.013       0.4626057
-#&gt; 2 2016-01-15 11:00:00.025       0.4706145
-#&gt; 3 2016-01-15 11:00:00.038       0.4821867
-#&gt; 4 2016-01-15 11:00:00.049       0.5458388
-#&gt; 5 2016-01-15 11:00:00.062       0.5360037</div><div class='input'>
+  <span class='fu'>vector_magnitude</span>(<span class='no'>df</span>)</div><div class='output co'>#&gt;          HEADER_TIME_STAMP MAGNITUDE_X_Y_Z
+#&gt; 1  2016-01-15 11:00:00.013       0.4626057
+#&gt; 2  2016-01-15 11:00:00.025       0.4706145
+#&gt; 3  2016-01-15 11:00:00.038       0.4821867
+#&gt; 4  2016-01-15 11:00:00.049       0.5458388
+#&gt; 5  2016-01-15 11:00:00.062       0.5360037
+#&gt; 6  2016-01-15 11:00:00.075       0.5939739
+#&gt; 7  2016-01-15 11:00:00.088       0.7296472
+#&gt; 8  2016-01-15 11:00:00.099       0.8825996
+#&gt; 9  2016-01-15 11:00:00.112       1.0052731
+#&gt; 10 2016-01-15 11:00:00.125       1.1386615</div><div class='input'>
   <span class='co'># Or, you may specify the column indices yourself</span>
-  <span class='fu'>vector_magnitude</span>(<span class='no'>df</span>, <span class='kw'>axes</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>4</span>))</div><div class='output co'>#&gt;         HEADER_TIME_STAMP MAGNITUDE_X_Y_Z
-#&gt; 1 2016-01-15 11:00:00.013       0.4626057
-#&gt; 2 2016-01-15 11:00:00.025       0.4706145
-#&gt; 3 2016-01-15 11:00:00.038       0.4821867
-#&gt; 4 2016-01-15 11:00:00.049       0.5458388
-#&gt; 5 2016-01-15 11:00:00.062       0.5360037</div><div class='input'>
+  <span class='fu'>vector_magnitude</span>(<span class='no'>df</span>, <span class='kw'>axes</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>4</span>))</div><div class='output co'>#&gt;          HEADER_TIME_STAMP MAGNITUDE_X_Y_Z
+#&gt; 1  2016-01-15 11:00:00.013       0.4626057
+#&gt; 2  2016-01-15 11:00:00.025       0.4706145
+#&gt; 3  2016-01-15 11:00:00.038       0.4821867
+#&gt; 4  2016-01-15 11:00:00.049       0.5458388
+#&gt; 5  2016-01-15 11:00:00.062       0.5360037
+#&gt; 6  2016-01-15 11:00:00.075       0.5939739
+#&gt; 7  2016-01-15 11:00:00.088       0.7296472
+#&gt; 8  2016-01-15 11:00:00.099       0.8825996
+#&gt; 9  2016-01-15 11:00:00.112       1.0052731
+#&gt; 10 2016-01-15 11:00:00.125       1.1386615</div><div class='input'>
   <span class='co'># Or, if you only want to consider x and y axes</span>
-  <span class='fu'>vector_magnitude</span>(<span class='no'>df</span>, <span class='kw'>axes</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>,<span class='fl'>3</span>))</div><div class='output co'>#&gt;         HEADER_TIME_STAMP MAGNITUDE_X_Y
-#&gt; 1 2016-01-15 11:00:00.013     0.4623289
-#&gt; 2 2016-01-15 11:00:00.025     0.4700521
-#&gt; 3 2016-01-15 11:00:00.038     0.4820373
-#&gt; 4 2016-01-15 11:00:00.049     0.5457069
-#&gt; 5 2016-01-15 11:00:00.062     0.5360037</div><div class='input'>
+  <span class='fu'>vector_magnitude</span>(<span class='no'>df</span>, <span class='kw'>axes</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>,<span class='fl'>3</span>))</div><div class='output co'>#&gt;          HEADER_TIME_STAMP MAGNITUDE_X_Y
+#&gt; 1  2016-01-15 11:00:00.013     0.4623289
+#&gt; 2  2016-01-15 11:00:00.025     0.4700521
+#&gt; 3  2016-01-15 11:00:00.038     0.4820373
+#&gt; 4  2016-01-15 11:00:00.049     0.5457069
+#&gt; 5  2016-01-15 11:00:00.062     0.5360037
+#&gt; 6  2016-01-15 11:00:00.075     0.5939604
+#&gt; 7  2016-01-15 11:00:00.088     0.7293730
+#&gt; 8  2016-01-15 11:00:00.099     0.8822998
+#&gt; 9  2016-01-15 11:00:00.112     1.0043530
+#&gt; 10 2016-01-15 11:00:00.125     1.1373324</div><div class='input'>
   <span class='co'># Or, just return the chosen column</span>
-  <span class='fu'>vector_magnitude</span>(<span class='no'>df</span>, <span class='kw'>axes</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>))</div><div class='output co'>#&gt;         HEADER_TIME_STAMP MAGNITUDE_X
-#&gt; 1 2016-01-15 11:00:00.013       0.148
-#&gt; 2 2016-01-15 11:00:00.025       0.215
-#&gt; 3 2016-01-15 11:00:00.038       0.266
-#&gt; 4 2016-01-15 11:00:00.049       0.336
-#&gt; 5 2016-01-15 11:00:00.062       0.430</div><div class='input'>
+  <span class='fu'>vector_magnitude</span>(<span class='no'>df</span>, <span class='kw'>axes</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>))</div><div class='output co'>#&gt;          HEADER_TIME_STAMP MAGNITUDE_X
+#&gt; 1  2016-01-15 11:00:00.013       0.148
+#&gt; 2  2016-01-15 11:00:00.025       0.215
+#&gt; 3  2016-01-15 11:00:00.038       0.266
+#&gt; 4  2016-01-15 11:00:00.049       0.336
+#&gt; 5  2016-01-15 11:00:00.062       0.430
+#&gt; 6  2016-01-15 11:00:00.075       0.535
+#&gt; 7  2016-01-15 11:00:00.088       0.641
+#&gt; 8  2016-01-15 11:00:00.099       0.777
+#&gt; 9  2016-01-15 11:00:00.112       0.938
+#&gt; 10 2016-01-15 11:00:00.125       1.113</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

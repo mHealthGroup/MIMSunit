@@ -44,7 +44,7 @@
 the signal." />
 
 
-
+<meta name="robots" content="noindex">
 
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
@@ -83,7 +83,7 @@ the signal." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.1</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.9.1.9000</span>
       </span>
     </div>
 
@@ -208,8 +208,7 @@ or "pass" for a pass-band filter.</p></td>
     <tr>
       <th>filter_type</th>
       <td><p>string. IIR filter type, one of "butter" for butterworth
-filter, "chebyI" for Chebyshev Type I filter, "chebyII" for Chebyshev Type
-II filter, or "ellip" for Elliptic filter.</p></td>
+filter, "chebyI" for Chebyshev Type I filter, or "ellip" for Elliptic filter.</p></td>
     </tr>
     </table>
 
@@ -222,8 +221,7 @@ II filter, or "ellip" for Elliptic filter.</p></td>
 filter. See
 <a href='https://en.wikipedia.org/wiki/Infinite_impulse_response'>wiki</a> for the
 explanation of the filter. The implementations of IIR filters can be found in
-<code><a href='https://rdrr.io/pkg/signal/man/butter.html'>butter</a></code>, <code><a href='https://rdrr.io/pkg/signal/man/cheby1.html'>cheby1</a></code>,
-<code><a href='https://rdrr.io/pkg/signal/man/cheby1.html'>cheby2</a></code>, and <code><a href='https://rdrr.io/pkg/signal/man/ellip.html'>ellip</a></code>.</p>
+<code><a href='https://rdrr.io/pkg/signal/man/butter.html'>butter</a></code>, <code><a href='https://rdrr.io/pkg/signal/man/cheby1.html'>cheby1</a></code>, and <code><a href='https://rdrr.io/pkg/signal/man/ellip.html'>ellip</a></code>.</p>
 <p>For Chebyshev Type I, Type II and Elliptic filter, the passband ripple is
 fixed to be 0.05 dB. For Elliptic filter, the stopband ripple is fixed to be
 -50dB.</p>
@@ -240,8 +238,8 @@ fixed to be 0.05 dB. For Elliptic filter, the stopband ripple is fixed to be
 <code><a href='remove_average.html'>remove_average</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='co'># Use first 1000 rows of sample data</span>
-  <span class='no'>df</span> <span class='kw'>=</span> <span class='no'>sample_raw_accel_data</span>[<span class='fl'>1</span>:<span class='fl'>1000</span>,]
+    <pre class="examples"><div class='input'>  <span class='co'># Use sample data</span>
+  <span class='no'>df</span> <span class='kw'>=</span> <span class='no'>sample_raw_accel_data</span>
 
   <span class='co'># View input</span>
   <span class='fu'><a href='illustrate_signal.html'>illustrate_signal</a></span>(<span class='no'>df</span>, <span class='kw'>plot_maxed_out_line</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='iir-1.png' alt='' width='700' height='433' /></div><div class='input'>

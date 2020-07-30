@@ -45,7 +45,7 @@ input multi-channel signal to fill in the missing samples and harmonizes the
 sampling rate." />
 
 
-
+<meta name="robots" content="noindex">
 
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
@@ -84,7 +84,7 @@ sampling rate." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.1</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.9.1.9000</span>
       </span>
     </div>
 
@@ -194,8 +194,8 @@ sampling rate.</p>
     <tr>
       <th>method</th>
       <td><p>string. Interpolation algorithms. Could be "spline_natural",
-"spline_improved" or "spline_fmm": see <code><a href='https://rdrr.io/r/stats/splinefun.html'>spline</a></code>;
-and "linear": see <code><a href='https://rdrr.io/r/stats/approxfun.html'>approx</a></code>. Default is "spline_natural".</p></td>
+"spline_improved" or "spline_fmm": see <code><a href='https://rdrr.io/r/stats/splinefun.html'>splinefun</a></code>;
+and "linear": see <code><a href='https://rdrr.io/r/stats/approxfun.html'>approxfun</a></code>. Default is "spline_natural".</p></td>
     </tr>
     <tr>
       <th>sr</th>
@@ -233,8 +233,8 @@ it will use the end time of the input signal. Default is <code>NULL</code>.</p><
 <code><a href='simulate_new_data.html'>simulate_new_data</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='co'># Use first 1000 rows of  sample data</span>
-  <span class='no'>df</span> <span class='kw'>=</span> <span class='no'>sample_raw_accel_data</span>[<span class='fl'>1</span>:<span class='fl'>1000</span>,]
+    <pre class="examples"><div class='input'>  <span class='co'># Use sample data</span>
+  <span class='no'>df</span> <span class='kw'>=</span> <span class='no'>sample_raw_accel_data</span>
 
   <span class='co'># Plot input</span>
   <span class='fu'><a href='illustrate_signal.html'>illustrate_signal</a></span>(<span class='no'>df</span>, <span class='kw'>plot_maxed_out_line</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='img'><img src='interpolate_signal-1.png' alt='' width='700' height='433' /></div><div class='input'>

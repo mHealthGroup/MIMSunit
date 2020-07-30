@@ -44,7 +44,7 @@
 start and stop time" />
 
 
-
+<meta name="robots" content="noindex">
 
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
@@ -83,7 +83,7 @@ start and stop time" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.1</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.9.1.9000</span>
       </span>
     </div>
 
@@ -226,56 +226,42 @@ according to the start_time and stop_time.</p>
   <span class='no'>df</span> <span class='kw'>=</span> <span class='no'>sample_raw_accel_data</span>
 
   <span class='co'># Check the start time and stop time of the dataset</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>df</span>)</div><div class='output co'>#&gt;  HEADER_TIME_STAMP                      X                 Y            
-#&gt;  Min.   :2016-01-15 11:00:00.00   Min.   :-1.1520   Min.   :-2.965000  
-#&gt;  1st Qu.:2016-01-15 11:03:59.00   1st Qu.: 0.0000   1st Qu.:-0.137000  
-#&gt;  Median :2016-01-15 11:07:58.00   Median : 0.9770   Median :-0.051000  
-#&gt;  Mean   :2016-01-15 11:07:58.00   Mean   : 0.6713   Mean   : 0.003156  
-#&gt;  3rd Qu.:2016-01-15 11:11:56.99   3rd Qu.: 1.0160   3rd Qu.: 0.000000  
-#&gt;  Max.   :2016-01-15 11:15:55.99   Max.   : 5.1760   Max.   : 4.422000  
-#&gt;        Z         
-#&gt;  Min.   :-2.855  
-#&gt;  1st Qu.:-0.207  
-#&gt;  Median :-0.016  
-#&gt;  Mean   : 0.119  
-#&gt;  3rd Qu.: 0.656  
-#&gt;  Max.   : 2.277  </div><div class='input'>
+  <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>df</span>)</div><div class='output co'>#&gt;  HEADER_TIME_STAMP                      X               Y            
+#&gt;  Min.   :2016-01-15 11:00:00.00   Min.   :0.129   Min.   :-2.715000  
+#&gt;  1st Qu.:2016-01-15 11:00:01.50   1st Qu.:1.004   1st Qu.:-0.309000  
+#&gt;  Median :2016-01-15 11:00:03.00   Median :1.205   Median :-0.125000  
+#&gt;  Mean   :2016-01-15 11:00:03.00   Mean   :1.273   Mean   :-0.008275  
+#&gt;  3rd Qu.:2016-01-15 11:00:04.50   3rd Qu.:1.583   3rd Qu.: 0.011000  
+#&gt;  Max.   :2016-01-15 11:00:06.00   Max.   :2.652   Max.   : 2.871000  
+#&gt;        Z          
+#&gt;  Min.   :-1.7300  
+#&gt;  1st Qu.:-0.3490  
+#&gt;  Median :-0.1840  
+#&gt;  Mean   :-0.2462  
+#&gt;  3rd Qu.:-0.0740  
+#&gt;  Max.   : 1.1090  </div><div class='input'>
   <span class='co'># Use timestamp string to clip 1 second data</span>
   <span class='no'>start_time</span> <span class='kw'>=</span> <span class='st'>"2016-01-15 11:01:00"</span>
   <span class='no'>stop_time</span> <span class='kw'>=</span> <span class='st'>"2016-01-15 11:01:01"</span>
   <span class='no'>output</span> <span class='kw'>=</span> <span class='fu'>clip_data</span>(<span class='no'>df</span>, <span class='no'>start_time</span>, <span class='no'>stop_time</span>)
-  <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>output</span>)</div><div class='output co'>#&gt;  HEADER_TIME_STAMP                      X               Y           
-#&gt;  Min.   :2016-01-15 11:01:00.00   Min.   :0.168   Min.   :-2.16800  
-#&gt;  1st Qu.:2016-01-15 11:01:00.25   1st Qu.:1.008   1st Qu.:-0.46500  
-#&gt;  Median :2016-01-15 11:01:00.50   Median :1.297   Median :-0.16800  
-#&gt;  Mean   :2016-01-15 11:01:00.50   Mean   :1.345   Mean   :-0.02668  
-#&gt;  3rd Qu.:2016-01-15 11:01:00.75   3rd Qu.:1.723   3rd Qu.:-0.00400  
-#&gt;  Max.   :2016-01-15 11:01:01.00   Max.   :2.609   Max.   : 3.15200  
-#&gt;        Z         
-#&gt;  Min.   :-1.496  
-#&gt;  1st Qu.:-0.367  
-#&gt;  Median :-0.219  
-#&gt;  Mean   :-0.262  
-#&gt;  3rd Qu.:-0.059  
-#&gt;  Max.   : 0.879  </div><div class='input'>
+  <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>output</span>)</div><div class='output co'>#&gt;  HEADER_TIME_STAMP       X             Y             Z      
+#&gt;  Min.   :NA        Min.   : NA   Min.   : NA   Min.   : NA  
+#&gt;  1st Qu.:NA        1st Qu.: NA   1st Qu.: NA   1st Qu.: NA  
+#&gt;  Median :NA        Median : NA   Median : NA   Median : NA  
+#&gt;  Mean   :NA        Mean   :NaN   Mean   :NaN   Mean   :NaN  
+#&gt;  3rd Qu.:NA        3rd Qu.: NA   3rd Qu.: NA   3rd Qu.: NA  
+#&gt;  Max.   :NA        Max.   : NA   Max.   : NA   Max.   : NA  </div><div class='input'>
   <span class='co'># Use POSIXct timestamp to clip data</span>
   <span class='no'>start_time</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/as.POSIXlt.html'>as.POSIXct</a></span>(<span class='st'>"2016-01-15 11:01:00"</span>)
   <span class='no'>stop_time</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/as.POSIXlt.html'>as.POSIXct</a></span>(<span class='st'>"2016-01-15 11:01:01"</span>)
   <span class='no'>output</span> <span class='kw'>=</span> <span class='fu'>clip_data</span>(<span class='no'>df</span>, <span class='no'>start_time</span>, <span class='no'>stop_time</span>)
-  <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>output</span>)</div><div class='output co'>#&gt;  HEADER_TIME_STAMP                      X               Y           
-#&gt;  Min.   :2016-01-15 11:01:00.00   Min.   :0.168   Min.   :-2.16800  
-#&gt;  1st Qu.:2016-01-15 11:01:00.25   1st Qu.:1.008   1st Qu.:-0.46500  
-#&gt;  Median :2016-01-15 11:01:00.50   Median :1.297   Median :-0.16800  
-#&gt;  Mean   :2016-01-15 11:01:00.50   Mean   :1.345   Mean   :-0.02668  
-#&gt;  3rd Qu.:2016-01-15 11:01:00.75   3rd Qu.:1.723   3rd Qu.:-0.00400  
-#&gt;  Max.   :2016-01-15 11:01:01.00   Max.   :2.609   Max.   : 3.15200  
-#&gt;        Z         
-#&gt;  Min.   :-1.496  
-#&gt;  1st Qu.:-0.367  
-#&gt;  Median :-0.219  
-#&gt;  Mean   :-0.262  
-#&gt;  3rd Qu.:-0.059  
-#&gt;  Max.   : 0.879  </div><div class='input'>
+  <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>output</span>)</div><div class='output co'>#&gt;  HEADER_TIME_STAMP       X             Y             Z      
+#&gt;  Min.   :NA        Min.   : NA   Min.   : NA   Min.   : NA  
+#&gt;  1st Qu.:NA        1st Qu.: NA   1st Qu.: NA   1st Qu.: NA  
+#&gt;  Median :NA        Median : NA   Median : NA   Median : NA  
+#&gt;  Mean   :NA        Mean   :NaN   Mean   :NaN   Mean   :NaN  
+#&gt;  3rd Qu.:NA        3rd Qu.: NA   3rd Qu.: NA   3rd Qu.: NA  
+#&gt;  Max.   :NA        Max.   : NA   Max.   : NA   Max.   : NA  </div><div class='input'>
   <span class='co'># If start and stop time is not in the range of the input data</span>
   <span class='co'># return empty data.frame</span>
   <span class='no'>start_time</span> <span class='kw'>=</span> <span class='st'>"2016-01-15 12:01:00"</span>

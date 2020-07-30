@@ -47,7 +47,7 @@ Mizell,
 start time will be used as timestamp in the first column." />
 
 
-
+<meta name="robots" content="noindex">
 
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
@@ -86,7 +86,7 @@ start time will be used as timestamp in the first column." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.1</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.9.1.9000</span>
       </span>
     </div>
 
@@ -258,8 +258,8 @@ the function is based on
 <code><a href='aggregate_for_mims.html'>aggregate_for_mims</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='co'># Use first 20000 rows from sample input data</span>
-  <span class='no'>df</span> <span class='kw'>=</span> <span class='no'>sample_raw_accel_data</span>[<span class='fl'>1</span>:<span class='fl'>20000</span>,]
+    <pre class="examples"><div class='input'>  <span class='co'># Use sample input data</span>
+  <span class='no'>df</span> <span class='kw'>=</span> <span class='no'>sample_raw_accel_data</span>
   <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>df</span>)</div><div class='output co'>#&gt;     HEADER_TIME_STAMP     X      Y      Z
 #&gt; 1 2016-01-15 11:00:00 0.148 -0.438  0.016
 #&gt; 2 2016-01-15 11:00:00 0.215 -0.418 -0.023
@@ -267,29 +267,36 @@ the function is based on
 #&gt; 4 2016-01-15 11:00:00 0.336 -0.430  0.012
 #&gt; 5 2016-01-15 11:00:00 0.430 -0.320  0.000
 #&gt; 6 2016-01-15 11:00:00 0.535 -0.258  0.004</div><div class='input'>
-  <span class='co'># set epoch to 1 minute and unit to degree</span>
+  <span class='co'># set epoch to 1 second and unit to degree</span>
   <span class='co'># last epoch does not have enough samples to estimate orientation angles.</span>
-  <span class='fu'>aggregate_for_orientation</span>(<span class='no'>df</span>, <span class='kw'>epoch</span><span class='kw'>=</span><span class='st'>'1 min'</span>, <span class='kw'>unit</span><span class='kw'>=</span><span class='st'>'deg'</span>)</div><div class='output co'>#&gt;     HEADER_TIME_STAMP  X_ANGLE  Y_ANGLE  Z_ANGLE
-#&gt; 1 2016-01-15 11:00:00 10.54435 91.19397 100.2459
-#&gt; 2 2016-01-15 11:01:00 15.95004 80.61263 102.1225
-#&gt; 3 2016-01-15 11:02:00 16.82971 78.59920 101.8897
-#&gt; 4 2016-01-15 11:03:00 14.22266 84.23786 101.3783
-#&gt; 5 2016-01-15 11:04:00      NaN      NaN      NaN</div><div class='input'>
-  <span class='co'># set epoch to 2 minute and unit to radian</span>
+  <span class='fu'>aggregate_for_orientation</span>(<span class='no'>df</span>, <span class='kw'>epoch</span><span class='kw'>=</span><span class='st'>'1 sec'</span>, <span class='kw'>unit</span><span class='kw'>=</span><span class='st'>'deg'</span>)</div><div class='output co'>#&gt;     HEADER_TIME_STAMP X_ANGLE Y_ANGLE Z_ANGLE
+#&gt; 1 2016-01-15 11:00:00     NaN     NaN     NaN
+#&gt; 2 2016-01-15 11:00:01     NaN     NaN     NaN
+#&gt; 3 2016-01-15 11:00:02     NaN     NaN     NaN
+#&gt; 4 2016-01-15 11:00:03     NaN     NaN     NaN
+#&gt; 5 2016-01-15 11:00:04     NaN     NaN     NaN
+#&gt; 6 2016-01-15 11:00:05     NaN     NaN     NaN
+#&gt; 7 2016-01-15 11:00:06     NaN     NaN     NaN</div><div class='input'>
+  <span class='co'># set epoch to 2 seconds and unit to radian</span>
   <span class='co'># last epoch does not have enough samples to estimate orientation angles.</span>
-  <span class='fu'>aggregate_for_orientation</span>(<span class='no'>df</span>, <span class='kw'>epoch</span><span class='kw'>=</span><span class='st'>'2 min'</span>, <span class='kw'>unit</span><span class='kw'>=</span><span class='st'>'rad'</span>)</div><div class='output co'>#&gt;     HEADER_TIME_STAMP   X_ANGLE  Y_ANGLE  Z_ANGLE
-#&gt; 1 2016-01-15 11:00:00 0.2312072 1.499295 1.765997
-#&gt; 2 2016-01-15 11:02:00 0.2709830 1.421021 1.773847
-#&gt; 3 2016-01-15 11:04:00       NaN      NaN      NaN</div><div class='input'>
-  <span class='co'># epoch set to 2 minute, and st set to be 1 minute before the start time of the data</span>
-  <span class='co'># so the first segment will only include data for 1 minute, therefore the resulted</span>
+  <span class='fu'>aggregate_for_orientation</span>(<span class='no'>df</span>, <span class='kw'>epoch</span><span class='kw'>=</span><span class='st'>'2 sec'</span>, <span class='kw'>unit</span><span class='kw'>=</span><span class='st'>'rad'</span>)</div><div class='output co'>#&gt;     HEADER_TIME_STAMP   X_ANGLE  Y_ANGLE  Z_ANGLE
+#&gt; 1 2016-01-15 11:00:00 0.2001082 1.551401 1.769937
+#&gt; 2 2016-01-15 11:00:02 0.1908424 1.584946 1.761100
+#&gt; 3 2016-01-15 11:00:04 0.1840464 1.604471 1.751666
+#&gt; 4 2016-01-15 11:00:06       NaN      NaN      NaN</div><div class='input'>
+  <span class='co'># epoch set to 2 seconds, and st set to be 1 second before the start time of the data</span>
+  <span class='co'># so the first segment will only include data for 1 second, therefore the resulted</span>
   <span class='co'># aggregated value for the first segment will be -1 (invalid) because the</span>
-  <span class='co'># samples are not enough. And the second segment starts from 11:01:00, instead</span>
-  <span class='co'># of 11:02:00 as shown in prior example,</span>
-  <span class='fu'>aggregate_for_orientation</span>(<span class='no'>df</span>, <span class='kw'>epoch</span> <span class='kw'>=</span> <span class='st'>'2 min'</span>, <span class='kw'>unit</span><span class='kw'>=</span><span class='st'>'rad'</span>, <span class='kw'>st</span><span class='kw'>=</span><span class='no'>df</span>[<span class='fl'>1</span>,<span class='fl'>1</span>] - <span class='fl'>60</span>)</div><div class='output co'>#&gt;     HEADER_TIME_STAMP   X_ANGLE  Y_ANGLE  Z_ANGLE
-#&gt; 1 2016-01-15 11:00:00       NaN      NaN      NaN
-#&gt; 2 2016-01-15 11:01:00 0.2860572 1.389385 1.780342
-#&gt; 3 2016-01-15 11:03:00       NaN      NaN      NaN</div><div class='input'>
+  <span class='co'># samples are not enough. And the second segment starts from 11:00:01, instead</span>
+  <span class='co'># of 11:00:01 as shown in prior example,</span>
+  <span class='fu'>aggregate_for_orientation</span>(<span class='no'>df</span>, <span class='kw'>epoch</span> <span class='kw'>=</span> <span class='st'>'1 sec'</span>, <span class='kw'>unit</span><span class='kw'>=</span><span class='st'>'rad'</span>, <span class='kw'>st</span><span class='kw'>=</span><span class='no'>df</span>[<span class='fl'>1</span>,<span class='fl'>1</span>] - <span class='fl'>1</span>)</div><div class='output co'>#&gt;     HEADER_TIME_STAMP X_ANGLE Y_ANGLE Z_ANGLE
+#&gt; 1 2016-01-15 11:00:00     NaN     NaN     NaN
+#&gt; 2 2016-01-15 11:00:01     NaN     NaN     NaN
+#&gt; 3 2016-01-15 11:00:02     NaN     NaN     NaN
+#&gt; 4 2016-01-15 11:00:03     NaN     NaN     NaN
+#&gt; 5 2016-01-15 11:00:04     NaN     NaN     NaN
+#&gt; 6 2016-01-15 11:00:05     NaN     NaN     NaN
+#&gt; 7 2016-01-15 11:00:06     NaN     NaN     NaN</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
