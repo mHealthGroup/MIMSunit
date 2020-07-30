@@ -403,6 +403,21 @@ custom_mims_unit <-
     abnormal_data <- resampled_data[row_abnormal, ]
     normal_data <- resampled_data[!row_abnormal, ]
 
+    # Compute orientations
+    if (output_orientation_estimation) {
+      if (is.null(epoch_for_orientation_estimation)) {
+        epoch_for_orientation_estimation <- epoch
+      }
+      orientation_data <-
+        aggregate_for_orientation(resampled_data,
+                                  epoch = epoch_for_orientation_estimation,
+                                  st = st
+        )
+    } else {
+      orientation_data <- NULL
+    }
+    rm(resampled_data); gc();
+
     # Apply filter cascade
     if (use_filtering) {
       if (shiny::isRunning()) {
@@ -449,23 +464,10 @@ custom_mims_unit <-
     # sort by timestamp
     colnames(abnormal_data)[2:4] <- colnames(filtered_data)[2:4]
     filtered_data <- rbind(filtered_data, abnormal_data)
+    rm(abnormal_data)
     filtered_data <-
       filtered_data[order(filtered_data[[1]]), ]
 
-    # Compute orientations
-    if (output_orientation_estimation) {
-      if (is.null(epoch_for_orientation_estimation)) {
-        epoch_for_orientation_estimation <- epoch
-      }
-      orientation_data <-
-        aggregate_for_orientation(resampled_data,
-          epoch = epoch_for_orientation_estimation,
-          st = st
-        )
-      rm(resampled_data); gc();
-    } else {
-      orientation_data <- NULL
-    }
 
     # Compute the AUC
     if (shiny::isRunning()) {
@@ -565,8 +567,7 @@ custom_mims_unit <-
 #' @examples
 #'   # Use sample mhealth file for testing
 #'   filepaths = c(
-#'     system.file('extdata', 'mhealth.csv', package='MIMSunit'),
-#'     system.file('extdata', 'mhealth1.csv', package='MIMSunit')
+#'     system.file('extdata', 'mhealth.csv', package='MIMSunit')
 #'   )
 #'
 #'   # Test with multiple files
