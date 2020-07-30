@@ -3,6 +3,7 @@
 ## Improvement
 
 * Optimize memory usage when computing MIMS unit values. @muschellij2
+* Support shiny progress indicator when running `mims_unit()` functions in a shiny app.
 
 ## Documentation
 
