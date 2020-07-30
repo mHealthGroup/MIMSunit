@@ -1,3 +1,15 @@
+# MIMSunit 0.9.1.9000
+
+## Improvement
+
+* Optimize memory usage when computing MIMS unit values. @muschellij2
+* Reduce sample data size to accelerate example execution time.
+* Support shiny progress indicator when running `mims_unit()` functions in a shiny app.
+
+## Documentation
+
+* Fix cross-package references.
+
 # MIMSunit 0.9.1
 
 ## Features

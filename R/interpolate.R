@@ -10,8 +10,8 @@
 #'
 #' @param df dataframe. Input multi-channel accelerometer signal.
 #' @param method string. Interpolation algorithms. Could be "spline_natural",
-#'   "spline_improved" or "spline_fmm": see \code{\link[stats]{spline}};
-#'   and "linear": see \code{\link[stats]{approx}}. Default is "spline_natural".
+#'   "spline_improved" or "spline_fmm": see \code{\link[stats]{splinefun}};
+#'   and "linear": see \code{\link[stats]{approxfun}}. Default is "spline_natural".
 #' @param sr number. Sampling rate in Hz of the output signal. Default is 100.
 #' @param st POSIXct date. The start time for interpolation. If it is
 #'   \code{NULL}, it will use the start time of the input signal. Default is
@@ -22,8 +22,8 @@
 #' @family utility functions
 #' @export
 #' @examples
-#'   # Use first 1000 rows of  sample data
-#'   df = sample_raw_accel_data[1:1000,]
+#'   # Use sample data
+#'   df = sample_raw_accel_data
 #'
 #'   # Plot input
 #'   illustrate_signal(df, plot_maxed_out_line=FALSE)

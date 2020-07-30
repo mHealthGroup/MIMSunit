@@ -8,3 +8,4 @@ data-raw-archive
 .vscode
 revdep
 docs
+man/*

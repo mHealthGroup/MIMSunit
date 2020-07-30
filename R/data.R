@@ -3,7 +3,7 @@
 #' A raw accelerometer data file contains treadmill data collected from a human
 #' subject.
 #'
-#' @format A data frame with 76479 rows and 4 variables:
+#' @format A data frame with 480 rows and 4 variables:
 #' \describe{
 #'   \item{HEADER_TIME_STAMP}{Timestamp, in POSIXct}
 #'   \item{X}{X axis values, in number}

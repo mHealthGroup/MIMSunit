@@ -67,7 +67,7 @@ oversampling = function(df, name) {
 interp_df = df %>% group_by(.data$NAME) %>%
   group_map(
     ~ oversampling(.x, name = .y)
-  ) %>% rbind_list
+  ) %>% bind_rows
 interp_df = as.data.frame(interp_df)
 colnames(interp_df) = c('HEADER_TIME_STAMP', 'X', 'SR', 'GRANGE', 'NAME')
 ```

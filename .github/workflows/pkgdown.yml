@@ -11,17 +11,20 @@ jobs:
       - uses: actions/checkout@master
       - uses: r-lib/actions/setup-r@master
         with:
-          r-version: 3.6
+          r-version: 4.0
       - uses: r-lib/actions/setup-pandoc@master
       - name: Install system dependencies
         if: runner.os == 'Linux'
         env:
           RHUB_PLATFORM: linux-x86_64-ubuntu-gcc
         run: |
+          sudo apt-get update
+          sudo apt-get install build-essential libxml2-dev libssl-dev libcurl4-openssl-dev
           Rscript -e "install.packages('remotes')"
           Rscript -e "remotes::install_github('r-hub/sysreqs')"
           sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
           sudo -s eval "$sysreqs"
+          Rscript -e "install.packages('devtools')"
       - name: Cache dependencies
         uses: actions/cache@v1
         id: cache
@@ -39,6 +42,7 @@ jobs:
 
       - name: Build pkgdown site
         run: |
+          devtools::document(roclets = c('rd', 'collate', 'namespace', 'vignette'))
           pkgdown::build_site(new_process = FALSE)
         shell: Rscript {0}
 
