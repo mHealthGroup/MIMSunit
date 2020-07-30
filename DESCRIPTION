@@ -49,5 +49,5 @@ Suggests:
     remotes
 SystemRequirements:
     memory (>= 4GB)
-    Ubuntu: build-essential, libcurl4-gnutls-dev, libxml2-dev, libssl-dev
+    Ubuntu: build-essential, libcurl4-gnutls-dev, libxml2-dev, libssl-dev, libcurl4-openssl-dev
     Windows: Rtools (>= 3.5)
