@@ -322,19 +322,15 @@ in the data from the files.</p></td>
 #&gt; 5 2016-01-15 11:00:04.003  1.016161   0.3984286   0.4094350   0.2082975
 #&gt; 6 2016-01-15 11:00:05.003  0.813439   0.3977156   0.2549294   0.1607941</div><div class='input'>  <span class='co'># Use sample mhealth file for testing</span>
   <span class='no'>filepaths</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(
-    <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>'extdata'</span>, <span class='st'>'mhealth.csv'</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>'MIMSunit'</span>),
-    <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>'extdata'</span>, <span class='st'>'mhealth1.csv'</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>'MIMSunit'</span>)
+    <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>'extdata'</span>, <span class='st'>'mhealth.csv'</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>'MIMSunit'</span>)
   )
 
   <span class='co'># Test with multiple files</span>
-  <span class='no'>output</span> <span class='kw'>=</span> <span class='fu'>mims_unit_from_files</span>(<span class='no'>filepaths</span>, <span class='kw'>epoch</span> <span class='kw'>=</span> <span class='st'>"1 sec"</span>, <span class='kw'>dynamic_range</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>8</span>, <span class='fl'>8</span>))</div><div class='output co'>#&gt; ================================================================================
-#&gt; ================================================================================</div><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>output</span>)</div><div class='output co'>#&gt;         HEADER_TIME_STAMP MIMS_UNIT
+  <span class='no'>output</span> <span class='kw'>=</span> <span class='fu'>mims_unit_from_files</span>(<span class='no'>filepaths</span>, <span class='kw'>epoch</span> <span class='kw'>=</span> <span class='st'>"1 sec"</span>, <span class='kw'>dynamic_range</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>8</span>, <span class='fl'>8</span>))</div><div class='output co'>#&gt; ================================================================================</div><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>output</span>)</div><div class='output co'>#&gt;         HEADER_TIME_STAMP MIMS_UNIT
 #&gt; 1 2017-03-16 12:25:50.000 0.4904041
 #&gt; 2 2017-03-16 12:25:51.000 0.5724948
 #&gt; 3 2017-03-16 12:25:52.000 0.4372073
-#&gt; 4 2017-03-16 12:25:53.000 0.4564886
-#&gt; 5 2017-03-16 12:25:54.000 0.4897198
-#&gt; 6 2017-03-16 12:25:55.000 0.5700439</div></pre>
+#&gt; 4 2017-03-16 12:25:53.000 0.4564886</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

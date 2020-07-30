@@ -226,7 +226,7 @@ in chunks.</h1>
 
   <span class='co'># Example 1</span>
   <span class='co'># Load chunks every 1000 samples</span>
-  <span class='no'>results</span> <span class='kw'>=</span> <span class='fu'>import_mhealth_csv_chunked</span>(<span class='no'>filepath</span>, <span class='kw'>chunk_samples</span><span class='kw'>=</span><span class='fl'>1000</span>)
+  <span class='no'>results</span> <span class='kw'>=</span> <span class='fu'>import_mhealth_csv_chunked</span>(<span class='no'>filepath</span>, <span class='kw'>chunk_samples</span><span class='kw'>=</span><span class='fl'>100</span>)
   <span class='no'>next_chunk</span> <span class='kw'>=</span> <span class='no'>results</span><span class='kw'>[[</span><span class='fl'>1</span>]]
   <span class='no'>close_connection</span> <span class='kw'>=</span> <span class='no'>results</span><span class='kw'>[[</span><span class='fl'>2</span>]]
   <span class='co'># Check data as chunks, you can see chunk time is shifting forward at each iteration.</span>
@@ -241,7 +241,15 @@ in chunks.</h1>
       <span class='kw'>break</span>
     }
   }</div><div class='output co'>#&gt; [1] "chunk 1"
-#&gt; [1] "df: 2017-03-16 12:25:50.000 - 2017-03-16 12:25:55.987"</div><div class='input'>
+#&gt; [1] "df: 2017-03-16 12:25:50.000 - 2017-03-16 12:25:51.237"
+#&gt; [1] "chunk 2"
+#&gt; [1] "df: 2017-03-16 12:25:51.263 - 2017-03-16 12:25:52.500"
+#&gt; [1] "chunk 3"
+#&gt; [1] "df: 2017-03-16 12:25:52.525 - 2017-03-16 12:25:53.763"
+#&gt; [1] "chunk 4"
+#&gt; [1] "df: 2017-03-16 12:25:53.787 - 2017-03-16 12:25:55.025"
+#&gt; [1] "chunk 5"
+#&gt; [1] "df: 2017-03-16 12:25:55.050 - 2017-03-16 12:25:55.987"</div><div class='input'>
   <span class='co'># Close connection after reading all the data</span>
   <span class='fu'>close_connection</span>()
 

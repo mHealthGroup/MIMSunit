@@ -9,7 +9,7 @@ articles:
   mims_unit_from_files: mims_unit_from_files.html
   mims_unit_from_imported_data: mims_unit_from_imported_data.html
   truncation_threshold: truncation_threshold.html
-last_built: 2020-07-30T19:55Z
+last_built: 2020-07-30T21:52Z
 urls:
   reference: https://mhealthgroup.github.io/MIMSunit/reference
   article: https://mhealthgroup.github.io/MIMSunit/articles
