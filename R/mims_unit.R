@@ -42,146 +42,6 @@
 #' @family Top level API functions
 #' @name mims_unit
 
-#' @rdname mims_unit
-#' @param files character vector. A list of csv filepaths for raw accelerometer
-#'   data organized in order to be processed. The data should be consecutive in
-#'   timestamps. A typical case is a set of hourly or daily files for
-#'   continuous accelerometer sampling.
-#' @param file_type character. "mhealth" or "actigraph". The type of the csv files
-#' that store the raw accelerometer data.
-#' @param ... additional parameters passed to the import function when reading
-#'   in the data from the files.
-#' @export
-#' @examples
-#'   # Use sample mhealth file for testing
-#'   filepaths = c(
-#'     system.file('extdata', 'mhealth.csv', package='MIMSunit'),
-#'     system.file('extdata', 'mhealth1.csv', package='MIMSunit')
-#'   )
-#'
-#'   # Test with single file
-#'   mims_unit_from_files(c(filepaths[1]),
-#'                                 epoch = "10 sec",
-#'                                 dynamic_range = c(-2, 2))
-#'
-#'   # Test with multiple files
-#'   mims_unit_from_files(filepaths, epoch = "20 sec", dynamic_range = c(-2, 2))
-mims_unit_from_files <-
-  function(files,
-           epoch = "5 sec",
-           dynamic_range,
-           output_mims_per_axis = FALSE,
-           use_gui_progress = FALSE,
-           file_type = "mhealth", ...) {
-    num_of_files <- length(files)
-    dots = list(...)
-    df <- NULL
-    results <- list()
-
-    if (file_type == "mhealth") {
-      import_fun <- import_mhealth_csv_chunked
-      header = TRUE
-    } else if (file_type == "actigraph") {
-      import_fun <- function(x, chunk_samples) import_actigraph_csv_chunked(x, chunk_samples = chunk_samples, ...)
-      header = dots$header
-    } else {
-      stop('Only "mhealth" or "actigraph" file types are supported')
-    }
-
-    meta = .get_meta(files[1], file_type = file_type, header = header)
-    sr = meta$sr
-    st = meta$st
-    num_samples_epoch = parse_epoch_string(epoch, sr)
-    num_per_load = max(num_samples_epoch, 180000)
-    last_epoch_st = NULL
-    last_chunk = NULL
-    j = 1
-    if (shiny::isRunning()) {
-      file_pb = shiny::Progress$new()
-    }
-    for (i in 1:num_of_files) {
-      if (shiny::isRunning()) {
-        file_pb$set(value=i/num_of_files, message=paste("Compute MIMS-unit values for", files[i]))
-      }
-      funcs = import_fun(files[i], chunk_samples = num_per_load)
-      next_chunk = funcs[[1]]
-      close_con = funcs[[2]]
-
-      if (shiny::isRunning()) {
-        chunk_pb = shiny::Progress$new()
-        chunk_pb$set(value=0, message="Compute MIMS-unit values for chunks")
-      }
-      repeat {
-        chunk = next_chunk()
-        if (nrow(chunk) > 0) {
-          if (shiny::isRunning()) {
-            chunk_pb$inc(amount=0.01)
-          }
-          num_per_df = nrow(chunk)
-          if (!is.null(df)) {
-            if (!is.null(last_epoch_st) & !is.null(last_chunk)) {
-              df = clip_data(last_chunk, start_time = last_epoch_st,
-                             stop_time = last_chunk[nrow(last_chunk),1])
-              df = rbind(df, chunk[1:num_per_df,])
-            } else {
-              df = chunk[1:num_per_df,]
-            }
-          } else {
-            df = chunk[1:num_per_df,]
-          }
-          result = mims_unit(df,
-                    before_df = NULL,
-                    after_df = NULL,
-                    epoch = epoch,
-                    dynamic_range = dynamic_range,
-                    output_mims_per_axis = output_mims_per_axis,
-                    use_gui_progress = use_gui_progress,
-                    st = st
-          )
-          last_epoch_st = result[nrow(result),1]
-          last_chunk = chunk
-          # discard the last epoch
-          result = result[1:(nrow(result) - 1),]
-          results[[j]] = result
-          j = j + 1
-        }
-        else {
-          if (shiny::isRunning()) {
-            chunk_pb$set(value=1)
-            chunk_pb$close()
-          }
-          close_con()
-          break
-        }
-      }
-    }
-    if (shiny::isRunning()) {
-      file_pb$close()
-    }
-    result <- do.call(rbind, results)
-    return(result)
-  }
-
-
-.get_meta <- function(filepath, file_type, header) {
-  if (file_type == 'actigraph') {
-    meta = import_actigraph_meta(filepath, header = header)
-    st = meta$st
-    sr = meta$sr
-    return(list(st = st, sr = sr))
-  } else if (file_type == 'mhealth') {
-    # use the first 200 rows to compute sampling rate
-    funcs = import_mhealth_csv_chunked(filepath, chunk_samples = 200)
-    next_chunk = funcs[[1]]
-    close_con = funcs[[2]]
-    df = next_chunk()
-    close_con()
-    sr = sampling_rate(df)
-    st = df[1, 1]
-    return(list(st = st, sr = sr))
-  }
-}
-
 
 #' @rdname mims_unit
 #' @param df dataframe. Input multi-channel accelerometer signal.  The
@@ -206,15 +66,8 @@ mims_unit_from_files <-
 #'   # Use sample data for testing
 #'   df = sample_raw_accel_data
 #'
-#'   # compute mims unit values
-#'   mims_unit(df, epoch = '5 min', dynamic_range=c(-8, 8))
-#'
-#'   # compute mims unit values with different epoch length
-#'   output = mims_unit(df, epoch = '15 sec', dynamic_range=c(-8, 8))
-#'   head(output)
-#'
-#'   # output axial values
-#'   output = mims_unit(df, epoch = '15 sec', dynamic_range=c(-8, 8), output_mims_per_axis=TRUE)
+#'   # compute mims unit values and output axial values
+#'   output = mims_unit(df, epoch = '1 sec', dynamic_range=c(-8, 8), output_mims_per_axis=TRUE)
 #'   head(output)
 mims_unit <-
   function(df,
@@ -301,10 +154,10 @@ mims_unit <-
 #'   df = sample_raw_accel_data
 #'
 #'   # compute sensor orientation angles
-#'   sensor_orientations(df, epoch = '5 min', dynamic_range=c(-8, 8))
+#'   sensor_orientations(df, epoch = '2 sec', dynamic_range=c(-8, 8))
 #'
 #'   # compute sensor orientation angles with different epoch length
-#'   output = sensor_orientations(df, epoch = '15 sec', dynamic_range=c(-8, 8))
+#'   output = sensor_orientations(df, epoch = '1 sec', dynamic_range=c(-8, 8))
 #'   head(output)
 sensor_orientations <-
   function(df,
@@ -435,12 +288,8 @@ sensor_orientations <-
 #'   # Use sample data for testing
 #'   df = sample_raw_accel_data
 #'
-#'   # compute mims unit values
-#'   output = custom_mims_unit(df, epoch = '15 sec', dynamic_range=c(-8, 8))
-#'   head(output)
-#'
 #'   # compute mims unit values with custom parameter
-#'   output = custom_mims_unit(df, epoch = '15 sec', dynamic_range=c(-8, 8), spar=0.7)
+#'   output = custom_mims_unit(df, epoch = '1 sec', dynamic_range=c(-8, 8), spar=0.7)
 #'   head(output)
 custom_mims_unit <-
   function(df,
@@ -700,3 +549,141 @@ custom_mims_unit <-
       return(mims_data)
     }
   }
+
+#' @rdname mims_unit
+#'
+#' @param files character vector. A list of csv filepaths for raw accelerometer
+#'   data organized in order to be processed. The data should be consecutive in
+#'   timestamps. A typical case is a set of hourly or daily files for
+#'   continuous accelerometer sampling. For a single file, please wrap the filepath
+#'   in a vector `c(filepath)`.
+#' @param file_type character. "mhealth" or "actigraph". The type of the csv files
+#' that store the raw accelerometer data.
+#' @param ... additional parameters passed to the import function when reading
+#'   in the data from the files.
+#' @export
+#' @examples
+#'   # Use sample mhealth file for testing
+#'   filepaths = c(
+#'     system.file('extdata', 'mhealth.csv', package='MIMSunit'),
+#'     system.file('extdata', 'mhealth1.csv', package='MIMSunit')
+#'   )
+#'
+#'   # Test with multiple files
+#'   output = mims_unit_from_files(filepaths, epoch = "1 sec", dynamic_range = c(-8, 8))
+#'   head(output)
+mims_unit_from_files <-
+  function(files,
+           epoch = "5 sec",
+           dynamic_range,
+           output_mims_per_axis = FALSE,
+           use_gui_progress = FALSE,
+           file_type = "mhealth", ...) {
+    num_of_files <- length(files)
+    dots = list(...)
+    df <- NULL
+    results <- list()
+
+    if (file_type == "mhealth") {
+      import_fun <- import_mhealth_csv_chunked
+      header = TRUE
+    } else if (file_type == "actigraph") {
+      import_fun <- function(x, chunk_samples) import_actigraph_csv_chunked(x, chunk_samples = chunk_samples, ...)
+      header = dots$header
+    } else {
+      stop('Only "mhealth" or "actigraph" file types are supported')
+    }
+
+    meta = .get_meta(files[1], file_type = file_type, header = header)
+    sr = meta$sr
+    st = meta$st
+    num_samples_epoch = parse_epoch_string(epoch, sr)
+    num_per_load = max(num_samples_epoch, 180000)
+    last_epoch_st = NULL
+    last_chunk = NULL
+    j = 1
+    if (shiny::isRunning()) {
+      file_pb = shiny::Progress$new()
+    }
+    for (i in 1:num_of_files) {
+      if (shiny::isRunning()) {
+        file_pb$set(value=i/num_of_files, message=paste("Compute MIMS-unit values for", files[i]))
+      }
+      funcs = import_fun(files[i], chunk_samples = num_per_load)
+      next_chunk = funcs[[1]]
+      close_con = funcs[[2]]
+
+      if (shiny::isRunning()) {
+        chunk_pb = shiny::Progress$new()
+        chunk_pb$set(value=0, message="Compute MIMS-unit values for chunks")
+      }
+      repeat {
+        chunk = next_chunk()
+        if (nrow(chunk) > 0) {
+          if (shiny::isRunning()) {
+            chunk_pb$inc(amount=0.01)
+          }
+          num_per_df = nrow(chunk)
+          if (!is.null(df)) {
+            if (!is.null(last_epoch_st) & !is.null(last_chunk)) {
+              df = clip_data(last_chunk, start_time = last_epoch_st,
+                             stop_time = last_chunk[nrow(last_chunk),1])
+              df = rbind(df, chunk[1:num_per_df,])
+            } else {
+              df = chunk[1:num_per_df,]
+            }
+          } else {
+            df = chunk[1:num_per_df,]
+          }
+          result = mims_unit(df,
+                             before_df = NULL,
+                             after_df = NULL,
+                             epoch = epoch,
+                             dynamic_range = dynamic_range,
+                             output_mims_per_axis = output_mims_per_axis,
+                             use_gui_progress = use_gui_progress,
+                             st = st
+          )
+          last_epoch_st = result[nrow(result),1]
+          last_chunk = chunk
+          # discard the last epoch
+          result = result[1:(nrow(result) - 1),]
+          results[[j]] = result
+          j = j + 1
+        }
+        else {
+          if (shiny::isRunning()) {
+            chunk_pb$set(value=1)
+            chunk_pb$close()
+          }
+          close_con()
+          break
+        }
+      }
+    }
+    if (shiny::isRunning()) {
+      file_pb$close()
+    }
+    result <- do.call(rbind, results)
+    return(result)
+  }
+
+
+.get_meta <- function(filepath, file_type, header) {
+  if (file_type == 'actigraph') {
+    meta = import_actigraph_meta(filepath, header = header)
+    st = meta$st
+    sr = meta$sr
+    return(list(st = st, sr = sr))
+  } else if (file_type == 'mhealth') {
+    # use the first 200 rows to compute sampling rate
+    funcs = import_mhealth_csv_chunked(filepath, chunk_samples = 200)
+    next_chunk = funcs[[1]]
+    close_con = funcs[[2]]
+    df = next_chunk()
+    close_con()
+    sr = sampling_rate(df)
+    st = df[1, 1]
+    return(list(st = st, sr = sr))
+  }
+}

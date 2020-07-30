@@ -42,7 +42,7 @@ situation.
 
 \examples{
   # Use sample data for testing
-  df = sample_raw_accel_data[1:1000,]
+  df = sample_raw_accel_data
 
   # Show df
   illustrate_signal(df, range=c(-8, 8))

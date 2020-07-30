@@ -157,12 +157,8 @@ This function allows you to run customized algorithm for MIMSunit and
   # Use sample data for testing
   df = sample_raw_accel_data
 
-  # compute mims unit values
-  output = custom_mims_unit(df, epoch = '15 sec', dynamic_range=c(-8, 8))
-  head(output)
-
   # compute mims unit values with custom parameter
-  output = custom_mims_unit(df, epoch = '15 sec', dynamic_range=c(-8, 8), spar=0.7)
+  output = custom_mims_unit(df, epoch = '1 sec', dynamic_range=c(-8, 8), spar=0.7)
   head(output)
 }
 \seealso{

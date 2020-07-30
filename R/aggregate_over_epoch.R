@@ -46,22 +46,22 @@
 #' @export
 #'
 #' @examples
-#'   # use the first 20000 rows from a sample data
-#'   df = sample_raw_accel_data[1:20000,]
+#'   # sample data
+#'   df = sample_raw_accel_data
 #'   head(df)
 #'
-#'   # epoch set to 1 minute, and method set to "trapz"
-#'   aggregate_for_mims(df, epoch = '1 min', method='trapz')
+#'   # epoch set to 5 seconds, and method set to "trapz"
+#'   aggregate_for_mims(df, epoch = '5 sec', method='trapz')
 #'
-#'   # epoch set to 2 minute, method set to "sum"
-#'   aggregate_for_mims(df, epoch = '2 min', method='sum')
+#'   # epoch set to 1 second, method set to "sum"
+#'   aggregate_for_mims(df, epoch = '1 sec', method='sum')
 #'
-#'   # epoch set to 2 minute, and st set to be 1 minute before the start time of the data
-#'   # so the first segment will only include data for 1 minute, therefore the resulted
+#'   # epoch set to 1 second, and st set to be 1 second before the start time of the data
+#'   # so the first segment will only include data for 1 second, therefore the resulted
 #'   # aggregated value for the first segment will be -1 (invalid) because the
-#'   # samples are not enough. And the second segment starts from 11:01:00, instead
-#'   # of 11:02:00 as shown in prior example,
-#'   aggregate_for_mims(df, epoch = '2 min', method='sum', st=df[1,1] - 60)
+#'   # samples are not enough. And the second segment starts from 11:00:01, instead
+#'   # of 11:00:02 as shown in prior example,
+#'   aggregate_for_mims(df, epoch = '1 sec', method='sum', st=df[1,1] - 1)
 aggregate_for_mims <-
   function(df,
            epoch,
@@ -201,24 +201,24 @@ aggregate_for_mims <-
 #'   would be NaN (invalid) for this epoch.
 #' @export
 #' @examples
-#'   # Use first 20000 rows from sample input data
-#'   df = sample_raw_accel_data[1:20000,]
+#'   # Use sample input data
+#'   df = sample_raw_accel_data
 #'   head(df)
 #'
-#'   # set epoch to 1 minute and unit to degree
+#'   # set epoch to 1 second and unit to degree
 #'   # last epoch does not have enough samples to estimate orientation angles.
-#'   aggregate_for_orientation(df, epoch='1 min', unit='deg')
+#'   aggregate_for_orientation(df, epoch='1 sec', unit='deg')
 #'
-#'   # set epoch to 2 minute and unit to radian
+#'   # set epoch to 2 seconds and unit to radian
 #'   # last epoch does not have enough samples to estimate orientation angles.
-#'   aggregate_for_orientation(df, epoch='2 min', unit='rad')
+#'   aggregate_for_orientation(df, epoch='2 sec', unit='rad')
 #'
-#'   # epoch set to 2 minute, and st set to be 1 minute before the start time of the data
-#'   # so the first segment will only include data for 1 minute, therefore the resulted
+#'   # epoch set to 2 seconds, and st set to be 1 second before the start time of the data
+#'   # so the first segment will only include data for 1 second, therefore the resulted
 #'   # aggregated value for the first segment will be -1 (invalid) because the
-#'   # samples are not enough. And the second segment starts from 11:01:00, instead
-#'   # of 11:02:00 as shown in prior example,
-#'   aggregate_for_orientation(df, epoch = '2 min', unit='rad', st=df[1,1] - 60)
+#'   # samples are not enough. And the second segment starts from 11:00:01, instead
+#'   # of 11:00:01 as shown in prior example,
+#'   aggregate_for_orientation(df, epoch = '1 sec', unit='rad', st=df[1,1] - 1)
 #'
 aggregate_for_orientation <-
   function(df,

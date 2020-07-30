@@ -5,7 +5,7 @@
 \alias{sample_raw_accel_data}
 \title{Sample raw accelerometer data}
 \format{
-A data frame with 76479 rows and 4 variables:
+A data frame with 480 rows and 4 variables:
 \describe{
   \item{HEADER_TIME_STAMP}{Timestamp, in POSIXct}
   \item{X}{X axis values, in number}

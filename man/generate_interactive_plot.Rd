@@ -25,7 +25,7 @@ A dygraphs graph object. When showing, the graph will be plotted in
 }
 \examples{
   # Use sample data for testing
-  df = sample_raw_accel_data[1:10000,]
+  df = sample_raw_accel_data
 
   # Plot using default settings, due to pkgdown limitation, no interactive
   # plots will be shown on the website page.

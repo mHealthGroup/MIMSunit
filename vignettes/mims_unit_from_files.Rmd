@@ -36,7 +36,7 @@ Compute MIMS-unit values
 # test on a sample file shipped with the package
 sample_filepath = system.file("extdata", 'mhealth.csv', package='MIMSunit')
 mims = MIMSunit::mims_unit_from_files(c(sample_filepath), 
-                                      epoch = '5 sec', 
+                                      epoch = '1 sec', 
                                       dynamic_range = c(-2, 2), 
                                       output_mims_per_axis = TRUE, 
                                       file_type = 'mhealth')
@@ -59,7 +59,7 @@ Compute MIMS-unit values
 sample_file_paths = c(system.file('extdata', 'mhealth.csv', package='MIMSunit'),
                system.file('extdata', 'mhealth1.csv', package='MIMSunit'))
 mims = MIMSunit::mims_unit_from_files(sample_file_paths, 
-                                      epoch = '5 sec', 
+                                      epoch = '1 sec', 
                                       dynamic_range = c(-8, 8), 
                                       output_mims_per_axis = TRUE, 
                                       file_type = 'mhealth')

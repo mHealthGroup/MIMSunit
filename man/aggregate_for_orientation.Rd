@@ -70,24 +70,24 @@ If \code{epoch} argument is not provided or is \code{NULL}, the
 }
 
 \examples{
-  # Use first 20000 rows from sample input data
-  df = sample_raw_accel_data[1:20000,]
+  # Use sample input data
+  df = sample_raw_accel_data
   head(df)
 
-  # set epoch to 1 minute and unit to degree
+  # set epoch to 1 second and unit to degree
   # last epoch does not have enough samples to estimate orientation angles.
-  aggregate_for_orientation(df, epoch='1 min', unit='deg')
+  aggregate_for_orientation(df, epoch='1 sec', unit='deg')
 
-  # set epoch to 2 minute and unit to radian
+  # set epoch to 2 seconds and unit to radian
   # last epoch does not have enough samples to estimate orientation angles.
-  aggregate_for_orientation(df, epoch='2 min', unit='rad')
+  aggregate_for_orientation(df, epoch='2 sec', unit='rad')
 
-  # epoch set to 2 minute, and st set to be 1 minute before the start time of the data
-  # so the first segment will only include data for 1 minute, therefore the resulted
+  # epoch set to 2 seconds, and st set to be 1 second before the start time of the data
+  # so the first segment will only include data for 1 second, therefore the resulted
   # aggregated value for the first segment will be -1 (invalid) because the
-  # samples are not enough. And the second segment starts from 11:01:00, instead
-  # of 11:02:00 as shown in prior example,
-  aggregate_for_orientation(df, epoch = '2 min', unit='rad', st=df[1,1] - 60)
+  # samples are not enough. And the second segment starts from 11:00:01, instead
+  # of 11:00:01 as shown in prior example,
+  aggregate_for_orientation(df, epoch = '1 sec', unit='rad', st=df[1,1] - 1)
 
 }
 \seealso{

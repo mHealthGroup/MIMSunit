@@ -35,8 +35,8 @@ value within each sliding window. The sliding window size is decided by
 }
 
 \examples{
-  # Use first 1000 rows of sample data
-  df = sample_raw_accel_data[1:1000,]
+  # Use sample data
+  df = sample_raw_accel_data
 
   # View input
   illustrate_signal(df, plot_maxed_out_line = FALSE)

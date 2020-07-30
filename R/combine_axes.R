@@ -27,7 +27,7 @@
 #' @export
 #' @examples
 #'   # Use the first 10 rows of the sample data as an example
-#'   df = sample_raw_accel_data[1:5,]
+#'   df = sample_raw_accel_data[1:10,]
 #'   df
 #'
 #'   # By default, the function will assume columns starting from 2 to be axial
@@ -91,7 +91,7 @@ vector_magnitude <- function(df, axes = NULL) {
 #' @export
 #' @examples
 #'   # Use the first 10 rows of the sample data as an example
-#'   df = sample_raw_accel_data[1:5,]
+#'   df = sample_raw_accel_data[1:10,]
 #'   df
 #'
 #'   # By default, the function will assume columns starting from 2 to be axial

@@ -5,6 +5,7 @@ reference:
     desc: >
       Function to compute MIMS-unit value and estimate sensor orientation.
     contents:
+      - mims_unit_from_files
       - mims_unit
       - sensor_orientations
       - custom_mims_unit

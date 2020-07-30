@@ -21,8 +21,8 @@
 #' @family filtering functions
 #' @export
 #' @examples
-#'   # Use first 1000 rows of sample data
-#'   df = sample_raw_accel_data[1:1000,]
+#'   # Use sample data
+#'   df = sample_raw_accel_data
 #'
 #'   # View input
 #'   illustrate_signal(df, plot_maxed_out_line = FALSE)
@@ -82,8 +82,8 @@ remove_average <- function(df, sr, order = 0.5) {
 #' @family filtering functions
 #' @export
 #' @examples
-#'   # Use first 1000 rows of sample data
-#'   df = sample_raw_accel_data[1:1000,]
+#'   # Use sample data
+#'   df = sample_raw_accel_data
 #'
 #'   # View input
 #'   illustrate_signal(df, plot_maxed_out_line = FALSE)
@@ -155,8 +155,8 @@ bessel <- function(df, sr, cutoff_freq, order = 8) {
 #' @family filtering functions
 #' @export
 #' @examples
-#'   # Use first 1000 rows of sample data
-#'   df = sample_raw_accel_data[1:1000,]
+#'   # Use sample data
+#'   df = sample_raw_accel_data
 #'
 #'   # View input
 #'   illustrate_signal(df, plot_maxed_out_line = FALSE)
@@ -235,8 +235,8 @@ iir <-
 #' @family filtering functions
 #' @export
 #' @examples
-#'   # Use first 1000 rows of sample data
-#'   df = sample_raw_accel_data[1:1000,]
+#'   # Use sample data
+#'   df = sample_raw_accel_data
 #'
 #'   # View input
 #'   illustrate_signal(df, plot_maxed_out_line = FALSE)

@@ -73,10 +73,10 @@ This function interpolates and extrapolates the signal before
   df = sample_raw_accel_data
 
   # compute sensor orientation angles
-  sensor_orientations(df, epoch = '5 min', dynamic_range=c(-8, 8))
+  sensor_orientations(df, epoch = '2 sec', dynamic_range=c(-8, 8))
 
   # compute sensor orientation angles with different epoch length
-  output = sensor_orientations(df, epoch = '15 sec', dynamic_range=c(-8, 8))
+  output = sensor_orientations(df, epoch = '1 sec', dynamic_range=c(-8, 8))
   head(output)
 }
 \seealso{
