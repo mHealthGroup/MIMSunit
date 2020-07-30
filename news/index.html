@@ -176,7 +176,7 @@
 <ul>
 <li>Optimize memory usage when computing MIMS unit values. <a href='https://github.com/muschellij2'>@muschellij2</a></li>
 <li>Reduce sample data size to accelerate example execution time.</li>
-<li>Support shiny progress indicator when running <code><a href="../reference/mims_unit.html">mims_unit()</a></code> functions in a shiny app.</li>
+<li>Support shiny progress indicator when running <code>mims_unit()</code> functions in a shiny app.</li>
 </ul>
 </div>
 <div id="documentation" class="section level2">
@@ -195,7 +195,7 @@
 <h2 class="hasAnchor">
 <a href="#features" class="anchor"></a>Features</h2>
 <ul>
-<li>Added a function <code><a href="../reference/shiny_app.html">shiny_app()</a></code> to start a local shiny app that allows users to load local files to compute mims unit values and provides an interactive graph to view the computed values.</li>
+<li>Added a function <code>shiny_app()</code> to start a local shiny app that allows users to load local files to compute mims unit values and provides an interactive graph to view the computed values.</li>
 </ul>
 </div>
 <div id="improvement-1" class="section level2">
@@ -221,23 +221,23 @@
 <h2 class="hasAnchor">
 <a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
 <ul>
-<li>Check column existence before coverting data type in <code><a href="../reference/import_mhealth_csv.html">import_mhealth_csv()</a></code>.</li>
+<li>Check column existence before coverting data type in <code>import_mhealth_csv()</code>.</li>
 <li>Quick failure if dynamic_range is not specified.</li>
-<li>Auto set <code>has_ts</code> to <code>False</code> when there are only three columns in the input data in <code><a href="../reference/import_actigraph_csv.html">import_actigraph_csv()</a></code>.</li>
+<li>Auto set <code>has_ts</code> to <code>False</code> when there are only three columns in the input data in <code>import_actigraph_csv()</code>.</li>
 </ul>
 </div>
 <div id="features-1" class="section level2">
 <h2 class="hasAnchor">
 <a href="#features-1" class="anchor"></a>Features</h2>
 <ul>
-<li>Sort timestamps of input data before computing mims unit values in <code><a href="../reference/custom_mims_unit.html">custom_mims_unit()</a></code>.</li>
+<li>Sort timestamps of input data before computing mims unit values in <code>custom_mims_unit()</code>.</li>
 </ul>
 </div>
 <div id="documentation-2" class="section level2">
 <h2 class="hasAnchor">
 <a href="#documentation-2" class="anchor"></a>Documentation</h2>
 <ul>
-<li>Indicate columns cannot be reordered in the argument description of <code><a href="../reference/extrapolate.html">extrapolate()</a></code> and <code><a href="../reference/mims_unit.html">mims_unit()</a></code>.</li>
+<li>Indicate columns cannot be reordered in the argument description of <code>extrapolate()</code> and <code>mims_unit()</code>.</li>
 </ul>
 </div>
 <div id="ci" class="section level2">
@@ -257,7 +257,7 @@
 <a href="#bug-fixes-1" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Make sure codes do not change options.</li>
-<li>Fix timestamps in <code><a href="../reference/import_actigraph_csv_chunked.html">import_actigraph_csv_chunked()</a></code>.</li>
+<li>Fix timestamps in <code>import_actigraph_csv_chunked()</code>.</li>
 </ul>
 </div>
 </div>
@@ -298,21 +298,21 @@
 <h2 class="hasAnchor">
 <a href="#new-features-1" class="anchor"></a>New features</h2>
 <ul>
-<li>New import data functions <code><a href="../reference/import_actigraph_csv_chunked.html">import_actigraph_csv_chunked()</a></code> and <code><a href="../reference/import_mhealth_csv_chunked.html">import_mhealth_csv_chunked()</a></code> to support loading large csv files in chunks. See issue <a href="https://github.com/mHealthGroup/MIMSunit/issues/11"><a href='https://github.com/mhealthgroup/MIMSunit/issues/11'>#11</a></a>.</li>
+<li>New import data functions <code>import_actigraph_csv_chunked()</code> and <code>import_mhealth_csv_chunked()</code> to support loading large csv files in chunks. See issue <a href="https://github.com/mHealthGroup/MIMSunit/issues/11"><a href='https://github.com/mhealthgroup/MIMSunit/issues/11'>#11</a></a>.</li>
 </ul>
 </div>
 <div id="improvement-3" class="section level2">
 <h2 class="hasAnchor">
 <a href="#improvement-3" class="anchor"></a>Improvement</h2>
 <ul>
-<li>Use chunked import functions in <code><a href="../reference/mims_unit.html">mims_unit_from_files()</a></code> to support large input files.</li>
+<li>Use chunked import functions in <code>mims_unit_from_files()</code> to support large input files.</li>
 </ul>
 </div>
 <div id="bug-fixes-2" class="section level2">
 <h2 class="hasAnchor">
 <a href="#bug-fixes-2" class="anchor"></a>Bug fixes</h2>
 <ul>
-<li>Column naming in <code><a href="../reference/vector_magnitude.html">vector_magnitude()</a></code> and <code><a href="../reference/sum_up.html">sum_up()</a></code> functions.</li>
+<li>Column naming in <code>vector_magnitude()</code> and <code>sum_up()</code> functions.</li>
 <li>Crashing bug in plotting functions.</li>
 <li>Chances of incorrect parsing of time zone during interpolation and extrapolation.</li>
 </ul>
@@ -329,7 +329,7 @@
 <a href="#minor-changes" class="anchor"></a>Minor changes</h2>
 <ul>
 <li>
-<code>show_progress</code> is discarded in top-level <code><a href="../reference/mims_unit.html">mims_unit()</a></code> functions. Use <code>use_gui_progress</code> instead.</li>
+<code>show_progress</code> is discarded in top-level <code>mims_unit()</code> functions. Use <code>use_gui_progress</code> instead.</li>
 </ul>
 </div>
 <div id="breaking-changes" class="section level2">
@@ -349,7 +349,7 @@
 <a href="#improvement-4" class="anchor"></a>Improvement</h2>
 <ul>
 <li>Refine vignettes codes and texts.</li>
-<li>Better progress bar support for <code><a href="../reference/mims_unit.html">mims_unit()</a></code> functions. Use <code>show_progress</code> to control whether to show progress bar during computation.</li>
+<li>Better progress bar support for <code>mims_unit()</code> functions. Use <code>show_progress</code> to control whether to show progress bar during computation.</li>
 </ul>
 </div>
 <div id="bug-fixes-3" class="section level2">
@@ -372,8 +372,8 @@
 <a href="#breaking-changes-1" class="anchor"></a>Breaking changes</h2>
 <ul>
 <li>Remove dependency on “mHealthR” package.</li>
-<li>Add top-level API function <code><a href="../reference/mims_unit.html">mims_unit_from_files()</a></code>.</li>
-<li>Add new plotting function <code><a href="../reference/generate_interactive_plot.html">generate_interactive_plot()</a></code>.</li>
+<li>Add top-level API function <code>mims_unit_from_files()</code>.</li>
+<li>Add new plotting function <code>generate_interactive_plot()</code>.</li>
 </ul>
 </div>
 </div>
@@ -441,7 +441,7 @@
 <a href="#mimsunit-057" class="anchor"></a>MIMSunit 0.5.7<small> Unreleased </small>
 </h1>
 <ul>
-<li>Refactor <code><a href="../reference/mims_unit.html">mims_unit()</a></code>.</li>
+<li>Refactor <code>mims_unit()</code>.</li>
 </ul>
 <div id="breaking-changes-4" class="section level2">
 <h2 class="hasAnchor">
@@ -450,10 +450,10 @@
 <li>API changes for the following functions. Please refer to the documentations for the details.
 <ul>
 <li>
-<code><a href="../reference/sensor_orientations.html">sensor_orientations()</a></code> is Added as an entry function to compute sensor orientations.</li>
+<code>sensor_orientations()</code> is Added as an entry function to compute sensor orientations.</li>
 <li>
-<code><a href="../reference/mims_unit.html">mims_unit()</a></code> is simplified to not allow customization on parameters.</li>
-<li>Old <code><a href="../reference/mims_unit.html">mims_unit()</a></code> is now <code><a href="../reference/custom_mims_unit.html">custom_mims_unit()</a></code>, which allows full tuning of algorithm parameters.</li>
+<code>mims_unit()</code> is simplified to not allow customization on parameters.</li>
+<li>Old <code>mims_unit()</code> is now <code>custom_mims_unit()</code>, which allows full tuning of algorithm parameters.</li>
 </ul>
 </li>
 </ul>
@@ -473,16 +473,16 @@
 <li>API changes for the following functions. Please refer to the documentations for the details.
 <ul>
 <li>
-<code>crop_grange()</code> is now <code><a href="../reference/cut_off_signal.html">cut_off_signal()</a></code>
+<code>crop_grange()</code> is now <code>cut_off_signal()</code>
 </li>
 <li>
-<code>make_new_data()</code> is now <code><a href="../reference/simulate_new_data.html">simulate_new_data()</a></code>
+<code>make_new_data()</code> is now <code>simulate_new_data()</code>
 </li>
 <li>
-<code>extrapolate.data.frame()</code> is now <code><a href="../reference/extrapolate.html">extrapolate()</a></code>
+<code>extrapolate.data.frame()</code> is now <code>extrapolate()</code>
 </li>
 <li>
-<code><a href="../reference/extrapolate.html">extrapolate()</a></code> is now <code><a href="../reference/extrapolate.html">extrapolate_single_col()</a></code>
+<code>extrapolate()</code> is now <code>extrapolate_single_col()</code>
 </li>
 </ul>
 </li>
@@ -504,16 +504,16 @@
 <li>API changes for the following functions. Please refer to the documentations for the details.
 <ul>
 <li>
-<code>import_actigraph_raw()</code> is now <code><a href="../reference/import_actigraph_csv.html">import_actigraph_csv()</a></code>
+<code>import_actigraph_raw()</code> is now <code>import_actigraph_csv()</code>
 </li>
 <li>
-<code>import_actigraph_count()</code> is now <code><a href="../reference/import_actigraph_count_csv.html">import_actigraph_count_csv()</a></code>
+<code>import_actigraph_count()</code> is now <code>import_actigraph_count_csv()</code>
 </li>
 <li>
-<code>import_biobank_enmo()</code> is now <code><a href="../reference/import_enmo_csv.html">import_enmo_csv()</a></code>
+<code>import_biobank_enmo()</code> is now <code>import_enmo_csv()</code>
 </li>
 <li>
-<code>import_activpal_raw()</code> is now <code><a href="../reference/import_activpal3_csv.html">import_activpal3_csv()</a></code>
+<code>import_activpal_raw()</code> is now <code>import_activpal3_csv()</code>
 </li>
 </ul>
 </li>
