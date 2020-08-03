@@ -5,7 +5,7 @@ library(shiny)
 library(dygraphs)
 library(xts)
 
-options(shiny.maxRequestSize=10000000*1024^2)
+options(shiny.maxRequestSize=50*1024^2) # Limit to upload data size to 50 MB
 
 server <- function(input, output) {
 

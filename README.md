@@ -33,6 +33,13 @@ Research Group](https://mhealthgroup.org). Please kindly [cite the
 manuscript](https://mhealthgroup.github.io/MIMSunit/authors.html) if you
 have used the package or referred to the algorithm in your work.
 
+## Shiny Demo App
+
+You may try to compute MIMS-unit values using our shiny demo app
+<https://qutang.shinyapps.io/MIMSunit/>. Note that the upload file size
+limit is 50 MB. The usage quote for the server is limited, so we do not
+guarantee the web app is always available to you.
+
 ## Datasets
 
 All datasets used in the manuscript are available at

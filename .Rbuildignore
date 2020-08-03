@@ -3,6 +3,7 @@
 ^.*\.Rproj$
 ^\.RData$
 ^\.Rhistory$
+^inst\/app\/rsconnect$
 ^dists$
 ^data-raw$
 ^data-raw-archive$
