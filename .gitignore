@@ -8,5 +8,4 @@ data-raw-archive
 .vscode
 revdep
 docs
-man/*
 inst/app/rsconnect*
