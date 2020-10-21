@@ -352,7 +352,7 @@ extrapolate_single_col <-
   if (nrow(edges) > 0) {
     neighbors <-
       edges %>%
-      tibble::as_tibble() %>%
+      dplyr::as_tibble() %>%
       dplyr::mutate(
         left_start = edges$left_end - n_neighbor + 1,
         right_end = edges$right_start + n_neighbor - 1
