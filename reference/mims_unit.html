@@ -49,7 +49,7 @@ extrapolation, iir for filtering,
 aggregate_for_mims for aggregation." />
 
 
-
+<meta name="robots" content="noindex">
 
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
@@ -88,7 +88,7 @@ aggregate_for_mims for aggregation." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.2</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.9.2.9000</span>
       </span>
     </div>
 
@@ -184,26 +184,26 @@ extrapolation, <code><a href='iir.html'>iir</a></code> for filtering,
 <code><a href='aggregate_for_mims.html'>aggregate_for_mims</a></code> for aggregation.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>mims_unit</span>(
-  <span class='no'>df</span>,
-  <span class='kw'>before_df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>after_df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>epoch</span> <span class='kw'>=</span> <span class='st'>"5 sec"</span>,
-  <span class='no'>dynamic_range</span>,
-  <span class='kw'>output_mims_per_axis</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>use_gui_progress</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>st</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)
+    <pre class="usage"><span class='fu'>mims_unit</span><span class='op'>(</span>
+  <span class='va'>df</span>,
+  before_df <span class='op'>=</span> <span class='cn'>NULL</span>,
+  after_df <span class='op'>=</span> <span class='cn'>NULL</span>,
+  epoch <span class='op'>=</span> <span class='st'>"5 sec"</span>,
+  <span class='va'>dynamic_range</span>,
+  output_mims_per_axis <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  use_gui_progress <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  st <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span>
 
-<span class='fu'>mims_unit_from_files</span>(
-  <span class='no'>files</span>,
-  <span class='kw'>epoch</span> <span class='kw'>=</span> <span class='st'>"5 sec"</span>,
-  <span class='no'>dynamic_range</span>,
-  <span class='kw'>output_mims_per_axis</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>use_gui_progress</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>file_type</span> <span class='kw'>=</span> <span class='st'>"mhealth"</span>,
-  <span class='no'>...</span>
-)</pre>
+<span class='fu'>mims_unit_from_files</span><span class='op'>(</span>
+  <span class='va'>files</span>,
+  epoch <span class='op'>=</span> <span class='st'>"5 sec"</span>,
+  <span class='va'>dynamic_range</span>,
+  output_mims_per_axis <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  use_gui_progress <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  file_type <span class='op'>=</span> <span class='st'>"mhealth"</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -311,22 +311,26 @@ in the data from the files.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>  <span class='co'># Use sample data for testing</span>
-  <span class='no'>df</span> <span class='kw'>=</span> <span class='no'>sample_raw_accel_data</span>
+  <span class='va'>df</span> <span class='op'>=</span> <span class='va'>sample_raw_accel_data</span>
 
   <span class='co'># compute mims unit values and output axial values</span>
-  <span class='no'>output</span> <span class='kw'>=</span> <span class='fu'>mims_unit</span>(<span class='no'>df</span>, <span class='kw'>epoch</span> <span class='kw'>=</span> <span class='st'>'1 sec'</span>, <span class='kw'>dynamic_range</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>8</span>, <span class='fl'>8</span>), <span class='kw'>output_mims_per_axis</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; ================================================================================</div><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>output</span>)</div><div class='output co'>#&gt;         HEADER_TIME_STAMP MIMS_UNIT MIMS_UNIT_X MIMS_UNIT_Y MIMS_UNIT_Z
+  <span class='va'>output</span> <span class='op'>=</span> <span class='fu'>mims_unit</span><span class='op'>(</span><span class='va'>df</span>, epoch <span class='op'>=</span> <span class='st'>'1 sec'</span>, dynamic_range<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>8</span>, <span class='fl'>8</span><span class='op'>)</span>, output_mims_per_axis<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; ================================================================================</div><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>output</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;         HEADER_TIME_STAMP MIMS_UNIT MIMS_UNIT_X MIMS_UNIT_Y MIMS_UNIT_Z
 #&gt; 1 2016-01-15 11:00:00.013  1.071916   0.5157147   0.3950629   0.1611382
 #&gt; 2 2016-01-15 11:00:01.003  1.079748   0.4780306   0.3946065   0.2071108
 #&gt; 3 2016-01-15 11:00:02.003  1.001164   0.3800644   0.4082316   0.2128675
 #&gt; 4 2016-01-15 11:00:03.003  1.023815   0.4002251   0.4232901   0.2002998
 #&gt; 5 2016-01-15 11:00:04.003  1.016161   0.3984286   0.4094350   0.2082975
 #&gt; 6 2016-01-15 11:00:05.003  0.813439   0.3977156   0.2549294   0.1607941</div><div class='input'>  <span class='co'># Use sample mhealth file for testing</span>
-  <span class='no'>filepaths</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(
-    <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>'extdata'</span>, <span class='st'>'mhealth.csv'</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>'MIMSunit'</span>)
-  )
+  <span class='va'>filepaths</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>
+    <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>'extdata'</span>, <span class='st'>'mhealth.csv'</span>, package<span class='op'>=</span><span class='st'>'MIMSunit'</span><span class='op'>)</span>
+  <span class='op'>)</span>
 
   <span class='co'># Test with multiple files</span>
-  <span class='no'>output</span> <span class='kw'>=</span> <span class='fu'>mims_unit_from_files</span>(<span class='no'>filepaths</span>, <span class='kw'>epoch</span> <span class='kw'>=</span> <span class='st'>"1 sec"</span>, <span class='kw'>dynamic_range</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>8</span>, <span class='fl'>8</span>))</div><div class='output co'>#&gt; ================================================================================</div><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>output</span>)</div><div class='output co'>#&gt;         HEADER_TIME_STAMP MIMS_UNIT
+  <span class='va'>output</span> <span class='op'>=</span> <span class='fu'>mims_unit_from_files</span><span class='op'>(</span><span class='va'>filepaths</span>, epoch <span class='op'>=</span> <span class='st'>"1 sec"</span>, dynamic_range <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>8</span>, <span class='fl'>8</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; ================================================================================</div><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>output</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;         HEADER_TIME_STAMP MIMS_UNIT
 #&gt; 1 2017-03-16 12:25:50.000 0.4904041
 #&gt; 2 2017-03-16 12:25:51.000 0.5724948
 #&gt; 3 2017-03-16 12:25:52.000 0.4372073
@@ -346,7 +350,7 @@ in the data from the files.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

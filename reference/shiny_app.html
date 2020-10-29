@@ -44,7 +44,7 @@
 to compute mims unit values from files stored in mhealth or actigraph format." />
 
 
-
+<meta name="robots" content="noindex">
 
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
@@ -83,7 +83,7 @@ to compute mims unit values from files stored in mhealth or actigraph format." /
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.2</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.9.2.9000</span>
       </span>
     </div>
 
@@ -174,14 +174,14 @@ to compute mims unit values from files stored in mhealth or actigraph format." /
 to compute mims unit values from files stored in mhealth or actigraph format.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>shiny_app</span>(<span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())</pre>
+    <pre class="usage"><span class='fu'>shiny_app</span><span class='op'>(</span>options <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>options</th>
-      <td><p>The options passed to <code><a href='https://rdrr.io/pkg/shiny/man/shinyApp.html'>shinyApp</a></code>.</p></td>
+      <td><p>The options passed to <code><a href='https://shiny.rstudio.com/reference/shiny/latest/shinyApp.html'>shinyApp</a></code>.</p></td>
     </tr>
     </table>
 
@@ -198,9 +198,10 @@ and display the results as an interactive graph.</p>
 <code><a href='sensor_orientations.html'>sensor_orientations</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-  <span class='fu'>shiny_app</span>()
-  }</div></pre>
+    <pre class="examples"><div class='input'>  <span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'>shiny_app</span><span class='op'>(</span><span class='op'>)</span>
+  <span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -216,7 +217,7 @@ and display the results as an interactive graph.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

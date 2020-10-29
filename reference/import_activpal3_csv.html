@@ -45,7 +45,7 @@ stored in ActivPal3 csv format by converting the accelerometer values (in
 digital voltage values) to \(g\) unit." />
 
 
-
+<meta name="robots" content="noindex">
 
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
@@ -84,7 +84,7 @@ digital voltage values) to \(g\) unit." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.2</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.9.2.9000</span>
       </span>
     </div>
 
@@ -176,7 +176,7 @@ stored in ActivPal3 csv format by converting the accelerometer values (in
 digital voltage values) to \(g\) unit.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>import_activpal3_csv</span>(<span class='no'>filepath</span>, <span class='kw'>header</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>import_activpal3_csv</span><span class='op'>(</span><span class='va'>filepath</span>, header <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -221,20 +221,22 @@ values may be converted to \(g\) unit using following equation.</p>
 <code><a href='import_mhealth_csv.html'>import_mhealth_csv</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='no'>default_ops</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>()
-  <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='kw'>digits.secs</span><span class='kw'>=</span><span class='fl'>3</span>)
+    <pre class="examples"><div class='input'>  <span class='va'>default_ops</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>digits.secs<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span>
   <span class='co'># Use the sample activpal3 csv file provided by the package</span>
-  <span class='no'>filepath</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>'extdata'</span>, <span class='st'>'activpal3.csv'</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>'MIMSunit'</span>)
+  <span class='va'>filepath</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>'extdata'</span>, <span class='st'>'activpal3.csv'</span>, package<span class='op'>=</span><span class='st'>'MIMSunit'</span><span class='op'>)</span>
 
   <span class='co'># Check the csv format</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span>(<span class='no'>filepath</span>)[<span class='fl'>1</span>:<span class='fl'>5</span>]</div><div class='output co'>#&gt; [1] "43265.5705908565,112,140,58" "43265.5705914352,124,132,59"
+  <span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span><span class='op'>(</span><span class='va'>filepath</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>]</span>
+</div><div class='output co'>#&gt; [1] "43265.5705908565,112,140,58" "43265.5705914352,124,132,59"
 #&gt; [3] "43265.5705920139,116,126,61" "43265.5705925926,116,121,64"
 #&gt; [5] "43265.5705931713,102,113,68"</div><div class='input'>
   <span class='co'># Load the file, in our case without header</span>
-  <span class='no'>df</span> <span class='kw'>=</span> <span class='fu'>import_activpal3_csv</span>(<span class='no'>filepath</span>, <span class='kw'>header</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
+  <span class='va'>df</span> <span class='op'>=</span> <span class='fu'>import_activpal3_csv</span><span class='op'>(</span><span class='va'>filepath</span>, header<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
 
   <span class='co'># Check loaded file</span>
-  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>df</span>)</div><div class='output co'>#&gt;         HEADER_TIME_STAMP         X         Y         Z
+  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;         HEADER_TIME_STAMP         X         Y         Z
 #&gt; 1 2018-06-14 13:41:39.050 -0.234375  0.203125 -1.078125
 #&gt; 2 2018-06-14 13:41:39.100 -0.046875  0.078125 -1.062500
 #&gt; 3 2018-06-14 13:41:39.150 -0.171875 -0.015625 -1.031250
@@ -242,7 +244,8 @@ values may be converted to \(g\) unit using following equation.</p>
 #&gt; 5 2018-06-14 13:41:39.250 -0.390625 -0.218750 -0.921875
 #&gt; 6 2018-06-14 13:41:39.300 -0.421875 -0.546875 -0.843750</div><div class='input'>
   <span class='co'># Check more</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>df</span>)</div><div class='output co'>#&gt;  HEADER_TIME_STAMP                      X                  Y            
+  <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  HEADER_TIME_STAMP                      X                  Y            
 #&gt;  Min.   :2018-06-14 13:41:39.04   Min.   :-1.56250   Min.   :-1.953125  
 #&gt;  1st Qu.:2018-06-14 13:42:41.53   1st Qu.: 0.04688   1st Qu.: 0.046875  
 #&gt;  Median :2018-06-14 13:43:44.01   Median : 0.06250   Median : 0.046875  
@@ -257,7 +260,8 @@ values may be converted to \(g\) unit using following equation.</p>
 #&gt;  3rd Qu.: 1.1250  
 #&gt;  Max.   : 1.9688  </div><div class='input'>
   <span class='co'># Restore default options</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='no'>default_ops</span>)</div></pre>
+  <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span><span class='va'>default_ops</span><span class='op'>)</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -273,7 +277,7 @@ values may be converted to \(g\) unit using following equation.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

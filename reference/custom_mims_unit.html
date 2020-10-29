@@ -51,7 +51,7 @@ aggregate_for_mims and aggregate_for_orientation
 for aggregation." />
 
 
-
+<meta name="robots" content="noindex">
 
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
@@ -90,7 +90,7 @@ for aggregation." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.2</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.9.2.9000</span>
       </span>
     </div>
 
@@ -188,28 +188,28 @@ extrapolation, <code><a href='iir.html'>iir</a></code> for filtering,
 for aggregation.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>custom_mims_unit</span>(
-  <span class='no'>df</span>,
-  <span class='kw'>epoch</span> <span class='kw'>=</span> <span class='st'>"5 sec"</span>,
-  <span class='no'>dynamic_range</span>,
-  <span class='kw'>noise_level</span> <span class='kw'>=</span> <span class='fl'>0.03</span>,
-  <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>0.05</span>,
-  <span class='kw'>spar</span> <span class='kw'>=</span> <span class='fl'>0.6</span>,
-  <span class='kw'>filter_type</span> <span class='kw'>=</span> <span class='st'>"butter"</span>,
-  <span class='kw'>cutoffs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.2</span>, <span class='fl'>5</span>),
-  <span class='kw'>axes</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>4</span>),
-  <span class='kw'>use_extrapolation</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>use_filtering</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>combination</span> <span class='kw'>=</span> <span class='st'>"sum"</span>,
-  <span class='kw'>allow_truncation</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>output_mims_per_axis</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>output_orientation_estimation</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>epoch_for_orientation_estimation</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>before_df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>after_df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>use_gui_progress</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>st</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>custom_mims_unit</span><span class='op'>(</span>
+  <span class='va'>df</span>,
+  epoch <span class='op'>=</span> <span class='st'>"5 sec"</span>,
+  <span class='va'>dynamic_range</span>,
+  noise_level <span class='op'>=</span> <span class='fl'>0.03</span>,
+  k <span class='op'>=</span> <span class='fl'>0.05</span>,
+  spar <span class='op'>=</span> <span class='fl'>0.6</span>,
+  filter_type <span class='op'>=</span> <span class='st'>"butter"</span>,
+  cutoffs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.2</span>, <span class='fl'>5</span><span class='op'>)</span>,
+  axes <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>4</span><span class='op'>)</span>,
+  use_extrapolation <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  use_filtering <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  combination <span class='op'>=</span> <span class='st'>"sum"</span>,
+  allow_truncation <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  output_mims_per_axis <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  output_orientation_estimation <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  epoch_for_orientation_estimation <span class='op'>=</span> <span class='cn'>NULL</span>,
+  before_df <span class='op'>=</span> <span class='cn'>NULL</span>,
+  after_df <span class='op'>=</span> <span class='cn'>NULL</span>,
+  use_gui_progress <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  st <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -375,10 +375,12 @@ want to use a common start time for segmenting data. Default is NULL.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>  <span class='co'># Use sample data for testing</span>
-  <span class='no'>df</span> <span class='kw'>=</span> <span class='no'>sample_raw_accel_data</span>
+  <span class='va'>df</span> <span class='op'>=</span> <span class='va'>sample_raw_accel_data</span>
 
   <span class='co'># compute mims unit values with custom parameter</span>
-  <span class='no'>output</span> <span class='kw'>=</span> <span class='fu'>custom_mims_unit</span>(<span class='no'>df</span>, <span class='kw'>epoch</span> <span class='kw'>=</span> <span class='st'>'1 sec'</span>, <span class='kw'>dynamic_range</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>8</span>, <span class='fl'>8</span>), <span class='kw'>spar</span><span class='kw'>=</span><span class='fl'>0.7</span>)</div><div class='output co'>#&gt; ================================================================================</div><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>output</span>)</div><div class='output co'>#&gt;         HEADER_TIME_STAMP MIMS_UNIT
+  <span class='va'>output</span> <span class='op'>=</span> <span class='fu'>custom_mims_unit</span><span class='op'>(</span><span class='va'>df</span>, epoch <span class='op'>=</span> <span class='st'>'1 sec'</span>, dynamic_range<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>8</span>, <span class='fl'>8</span><span class='op'>)</span>, spar<span class='op'>=</span><span class='fl'>0.7</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; ================================================================================</div><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>output</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;         HEADER_TIME_STAMP MIMS_UNIT
 #&gt; 1 2016-01-15 11:00:00.013  1.071916
 #&gt; 2 2016-01-15 11:00:01.003  1.079748
 #&gt; 3 2016-01-15 11:00:02.003  1.001164
@@ -400,7 +402,7 @@ want to use a common start time for segmenting data. Default is NULL.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

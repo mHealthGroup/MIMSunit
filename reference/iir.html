@@ -44,7 +44,7 @@
 the signal." />
 
 
-
+<meta name="robots" content="noindex">
 
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
@@ -83,7 +83,7 @@ the signal." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.2</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.9.2.9000</span>
       </span>
     </div>
 
@@ -174,7 +174,7 @@ the signal." />
 the signal.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>iir</span>(<span class='no'>df</span>, <span class='no'>sr</span>, <span class='no'>cutoff_freq</span>, <span class='kw'>order</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"high"</span>, <span class='kw'>filter_type</span> <span class='kw'>=</span> <span class='st'>"butter"</span>)</pre>
+    <pre class="usage"><span class='fu'>iir</span><span class='op'>(</span><span class='va'>df</span>, <span class='va'>sr</span>, <span class='va'>cutoff_freq</span>, order <span class='op'>=</span> <span class='fl'>4</span>, type <span class='op'>=</span> <span class='st'>"high"</span>, filter_type <span class='op'>=</span> <span class='st'>"butter"</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -239,15 +239,17 @@ fixed to be 0.05 dB. For Elliptic filter, the stopband ripple is fixed to be
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>  <span class='co'># Use sample data</span>
-  <span class='no'>df</span> <span class='kw'>=</span> <span class='no'>sample_raw_accel_data</span>
+  <span class='va'>df</span> <span class='op'>=</span> <span class='va'>sample_raw_accel_data</span>
 
   <span class='co'># View input</span>
-  <span class='fu'><a href='illustrate_signal.html'>illustrate_signal</a></span>(<span class='no'>df</span>, <span class='kw'>plot_maxed_out_line</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='iir-1.png' alt='' width='700' height='433' /></div><div class='input'>
+  <span class='fu'><a href='illustrate_signal.html'>illustrate_signal</a></span><span class='op'>(</span><span class='va'>df</span>, plot_maxed_out_line <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+</div><div class='img'><img src='iir-1.png' alt='' width='700' height='433' /></div><div class='input'>
   <span class='co'># Apply filtering that uses the same setting as in MIMSunit algorithm</span>
-  <span class='no'>output</span> <span class='kw'>=</span> <span class='fu'>iir</span>(<span class='no'>df</span>, <span class='kw'>sr</span><span class='kw'>=</span><span class='fl'>80</span>, <span class='kw'>cutoff_freq</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.2</span>, <span class='fl'>5</span>), <span class='kw'>type</span><span class='kw'>=</span><span class='st'>'pass'</span>)
+  <span class='va'>output</span> <span class='op'>=</span> <span class='fu'>iir</span><span class='op'>(</span><span class='va'>df</span>, sr<span class='op'>=</span><span class='fl'>80</span>, cutoff_freq<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.2</span>, <span class='fl'>5</span><span class='op'>)</span>, type<span class='op'>=</span><span class='st'>'pass'</span><span class='op'>)</span>
 
   <span class='co'># View output</span>
-  <span class='fu'><a href='illustrate_signal.html'>illustrate_signal</a></span>(<span class='no'>output</span>, <span class='kw'>plot_maxed_out_line</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='iir-2.png' alt='' width='700' height='433' /></div></pre>
+  <span class='fu'><a href='illustrate_signal.html'>illustrate_signal</a></span><span class='op'>(</span><span class='va'>output</span>, plot_maxed_out_line <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+</div><div class='img'><img src='iir-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -263,7 +265,7 @@ fixed to be 0.05 dB. For Elliptic filter, the stopband ripple is fixed to be
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

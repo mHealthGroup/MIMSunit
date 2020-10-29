@@ -47,7 +47,7 @@ stored in Actigraph raw csv format. It supports files from the following
 devices: GT3X, GT3X+, GT3X+BT, GT9X, and GT9X-IMU." />
 
 
-
+<meta name="robots" content="noindex">
 
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
@@ -86,7 +86,7 @@ devices: GT3X, GT3X+, GT3X+BT, GT9X, and GT9X-IMU." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.2</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.9.2.9000</span>
       </span>
     </div>
 
@@ -179,13 +179,13 @@ stored in Actigraph raw csv format. It supports files from the following
 devices: GT3X, GT3X+, GT3X+BT, GT9X, and GT9X-IMU.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>import_actigraph_csv_chunked</span>(
-  <span class='no'>filepath</span>,
-  <span class='kw'>in_voltage</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>has_ts</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>header</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>chunk_samples</span> <span class='kw'>=</span> <span class='fl'>180000</span>
-)</pre>
+    <pre class="usage"><span class='fu'>import_actigraph_csv_chunked</span><span class='op'>(</span>
+  <span class='va'>filepath</span>,
+  in_voltage <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  has_ts <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  header <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  chunk_samples <span class='op'>=</span> <span class='fl'>180000</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -249,14 +249,15 @@ values. \(r\) can also be found in the meta section in the csv file.</p>
 <code><a href='import_mhealth_csv.html'>import_mhealth_csv</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='no'>default_ops</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>()
-  <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='kw'>digits.secs</span><span class='kw'>=</span><span class='fl'>3</span>)
+    <pre class="examples"><div class='input'>  <span class='va'>default_ops</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>digits.secs<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span>
 
   <span class='co'># Use the actigraph csv file shipped with the package</span>
-  <span class='no'>filepath</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>'extdata'</span>, <span class='st'>'actigraph.csv'</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>'MIMSunit'</span>)
+  <span class='va'>filepath</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>'extdata'</span>, <span class='st'>'actigraph.csv'</span>, package<span class='op'>=</span><span class='st'>'MIMSunit'</span><span class='op'>)</span>
 
   <span class='co'># Check original file format</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span>(<span class='no'>filepath</span>)[<span class='fl'>1</span>:<span class='fl'>15</span>]</div><div class='output co'>#&gt;  [1] "------------ Data File Created By ActiGraph GT3X ActiLife v6.13.3 Firmware v4.4.0 date format M/d/yyyy at 30 Hz Filter Normal -----------"
+  <span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span><span class='op'>(</span><span class='va'>filepath</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>15</span><span class='op'>]</span>
+</div><div class='output co'>#&gt;  [1] "------------ Data File Created By ActiGraph GT3X ActiLife v6.13.3 Firmware v4.4.0 date format M/d/yyyy at 30 Hz Filter Normal -----------"
 #&gt;  [2] "Serial Number: MAT2A16099981"                                                                                                             
 #&gt;  [3] "Start Time 11:21:00"                                                                                                                      
 #&gt;  [4] "Start Date 6/14/2018"                                                                                                                     
@@ -272,22 +273,23 @@ values. \(r\) can also be found in the meta section in the csv file.</p>
 #&gt; [14] "-0.075,0.004,-1.056"                                                                                                                      
 #&gt; [15] "-0.075,0.004,-1.052"                                                                                                                      </div><div class='input'>
   <span class='co'># Example 1: Load chunks every 2000 samples</span>
-  <span class='no'>results</span> <span class='kw'>=</span> <span class='fu'>import_actigraph_csv_chunked</span>(<span class='no'>filepath</span>, <span class='kw'>has_ts</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>chunk_samples</span><span class='kw'>=</span><span class='fl'>2000</span>)
-  <span class='no'>next_chunk</span> <span class='kw'>=</span> <span class='no'>results</span><span class='kw'>[[</span><span class='fl'>1</span>]]
-  <span class='no'>close_connection</span> <span class='kw'>=</span> <span class='no'>results</span><span class='kw'>[[</span><span class='fl'>2</span>]]
+  <span class='va'>results</span> <span class='op'>=</span> <span class='fu'>import_actigraph_csv_chunked</span><span class='op'>(</span><span class='va'>filepath</span>, has_ts<span class='op'>=</span><span class='cn'>FALSE</span>, chunk_samples<span class='op'>=</span><span class='fl'>2000</span><span class='op'>)</span>
+  <span class='va'>next_chunk</span> <span class='op'>=</span> <span class='va'>results</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
+  <span class='va'>close_connection</span> <span class='op'>=</span> <span class='va'>results</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span>
   <span class='co'># Check data as chunks, you can see chunks are shifted at each iteration.</span>
-  <span class='no'>n</span> <span class='kw'>=</span> <span class='fl'>1</span>
-  <span class='kw'>repeat</span> {
-    <span class='no'>df</span> <span class='kw'>=</span> <span class='fu'>next_chunk</span>()
-    <span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>df</span>) <span class='kw'>&gt;</span> <span class='fl'>0</span>) {
-      <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='st'>'chunk'</span>, <span class='no'>n</span>))
-      <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='st'>"df:"</span>, <span class='no'>df</span>[<span class='fl'>1</span>, <span class='fl'>1</span>], <span class='st'>'-'</span>, <span class='no'>df</span>[<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>df</span>),<span class='fl'>1</span>]))
-      <span class='no'>n</span> <span class='kw'>=</span> <span class='no'>n</span> + <span class='fl'>1</span>
-    }
-    <span class='kw'>else</span> {
+  <span class='va'>n</span> <span class='op'>=</span> <span class='fl'>1</span>
+  <span class='kw'>repeat</span> <span class='op'>{</span>
+    <span class='va'>df</span> <span class='op'>=</span> <span class='fu'>next_chunk</span><span class='op'>(</span><span class='op'>)</span>
+    <span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span> <span class='op'>&gt;</span> <span class='fl'>0</span><span class='op'>)</span> <span class='op'>{</span>
+      <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='st'>'chunk'</span>, <span class='va'>n</span><span class='op'>)</span><span class='op'>)</span>
+      <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='st'>"df:"</span>, <span class='va'>df</span><span class='op'>[</span><span class='fl'>1</span>, <span class='fl'>1</span><span class='op'>]</span>, <span class='st'>'-'</span>, <span class='va'>df</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span>,<span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span>
+      <span class='va'>n</span> <span class='op'>=</span> <span class='va'>n</span> <span class='op'>+</span> <span class='fl'>1</span>
+    <span class='op'>}</span>
+    <span class='kw'>else</span> <span class='op'>{</span>
       <span class='kw'>break</span>
-    }
-  }</div><div class='output co'>#&gt; [1] "chunk 1"
+    <span class='op'>}</span>
+  <span class='op'>}</span>
+</div><div class='output co'>#&gt; [1] "chunk 1"
 #&gt; [1] "df: 2018-06-14 11:21:00.033 - 2018-06-14 11:22:06.667"
 #&gt; [1] "chunk 2"
 #&gt; [1] "df: 2018-06-14 11:22:06.700 - 2018-06-14 11:23:13.333"
@@ -298,29 +300,31 @@ values. \(r\) can also be found in the meta section in the csv file.</p>
 #&gt; [1] "chunk 5"
 #&gt; [1] "df: 2018-06-14 11:25:26.700 - 2018-06-14 11:26:31.500"</div><div class='input'>
   <span class='co'># Close connection after reading all the data</span>
-  <span class='fu'>close_connection</span>()
+  <span class='fu'>close_connection</span><span class='op'>(</span><span class='op'>)</span>
 
   <span class='co'># Example 2: Close loading early</span>
-  <span class='no'>results</span> <span class='kw'>=</span> <span class='fu'>import_actigraph_csv_chunked</span>(<span class='no'>filepath</span>, <span class='kw'>has_ts</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>chunk_samples</span><span class='kw'>=</span><span class='fl'>2000</span>)
-  <span class='no'>next_chunk</span> <span class='kw'>=</span> <span class='no'>results</span><span class='kw'>[[</span><span class='fl'>1</span>]]
-  <span class='no'>close_connection</span> <span class='kw'>=</span> <span class='no'>results</span><span class='kw'>[[</span><span class='fl'>2</span>]]
+  <span class='va'>results</span> <span class='op'>=</span> <span class='fu'>import_actigraph_csv_chunked</span><span class='op'>(</span><span class='va'>filepath</span>, has_ts<span class='op'>=</span><span class='cn'>FALSE</span>, chunk_samples<span class='op'>=</span><span class='fl'>2000</span><span class='op'>)</span>
+  <span class='va'>next_chunk</span> <span class='op'>=</span> <span class='va'>results</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
+  <span class='va'>close_connection</span> <span class='op'>=</span> <span class='va'>results</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span>
   <span class='co'># Check data as chunks, you can see chunk time is shifting forward at each iteration.</span>
-  <span class='no'>n</span> <span class='kw'>=</span> <span class='fl'>1</span>
-  <span class='kw'>repeat</span> {
-    <span class='no'>df</span> <span class='kw'>=</span> <span class='fu'>next_chunk</span>()
-    <span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>df</span>) <span class='kw'>&gt;</span> <span class='fl'>0</span>) {
-      <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='st'>'chunk'</span>, <span class='no'>n</span>))
-      <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='st'>"df:"</span>, <span class='no'>df</span>[<span class='fl'>1</span>, <span class='fl'>1</span>], <span class='st'>'-'</span>, <span class='no'>df</span>[<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>df</span>),<span class='fl'>1</span>]))
-      <span class='no'>n</span> <span class='kw'>=</span> <span class='no'>n</span> + <span class='fl'>1</span>
-      <span class='fu'>close_connection</span>()
-    }
-    <span class='kw'>else</span> {
+  <span class='va'>n</span> <span class='op'>=</span> <span class='fl'>1</span>
+  <span class='kw'>repeat</span> <span class='op'>{</span>
+    <span class='va'>df</span> <span class='op'>=</span> <span class='fu'>next_chunk</span><span class='op'>(</span><span class='op'>)</span>
+    <span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span> <span class='op'>&gt;</span> <span class='fl'>0</span><span class='op'>)</span> <span class='op'>{</span>
+      <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='st'>'chunk'</span>, <span class='va'>n</span><span class='op'>)</span><span class='op'>)</span>
+      <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='st'>"df:"</span>, <span class='va'>df</span><span class='op'>[</span><span class='fl'>1</span>, <span class='fl'>1</span><span class='op'>]</span>, <span class='st'>'-'</span>, <span class='va'>df</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span>,<span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span>
+      <span class='va'>n</span> <span class='op'>=</span> <span class='va'>n</span> <span class='op'>+</span> <span class='fl'>1</span>
+      <span class='fu'>close_connection</span><span class='op'>(</span><span class='op'>)</span>
+    <span class='op'>}</span>
+    <span class='kw'>else</span> <span class='op'>{</span>
       <span class='kw'>break</span>
-    }
-  }</div><div class='output co'>#&gt; [1] "chunk 1"
+    <span class='op'>}</span>
+  <span class='op'>}</span>
+</div><div class='output co'>#&gt; [1] "chunk 1"
 #&gt; [1] "df: 2018-06-14 11:21:00.033 - 2018-06-14 11:22:06.667"</div><div class='input'>
   <span class='co'># Restore default options</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='no'>default_ops</span>)</div></pre>
+  <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span><span class='va'>default_ops</span><span class='op'>)</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -336,7 +340,7 @@ values. \(r\) can also be found in the meta section in the csv file.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

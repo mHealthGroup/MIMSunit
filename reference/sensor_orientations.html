@@ -47,7 +47,7 @@ compute_orientation for the implementation of the estimation
 algorithm." />
 
 
-
+<meta name="robots" content="noindex">
 
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
@@ -86,7 +86,7 @@ algorithm." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.2</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.9.2.9000</span>
       </span>
     </div>
 
@@ -180,14 +180,14 @@ any sampling rate and dynamic range. Please refer to function
 algorithm.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sensor_orientations</span>(
-  <span class='no'>df</span>,
-  <span class='kw'>before_df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>after_df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>epoch</span> <span class='kw'>=</span> <span class='st'>"5 sec"</span>,
-  <span class='no'>dynamic_range</span>,
-  <span class='kw'>st</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>sensor_orientations</span><span class='op'>(</span>
+  <span class='va'>df</span>,
+  before_df <span class='op'>=</span> <span class='cn'>NULL</span>,
+  after_df <span class='op'>=</span> <span class='cn'>NULL</span>,
+  epoch <span class='op'>=</span> <span class='st'>"5 sec"</span>,
+  <span class='va'>dynamic_range</span>,
+  st <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -260,15 +260,18 @@ want to use a common start time for segmenting data. Default is NULL.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>  <span class='co'># Use sample data for testing</span>
-  <span class='no'>df</span> <span class='kw'>=</span> <span class='no'>sample_raw_accel_data</span>
+  <span class='va'>df</span> <span class='op'>=</span> <span class='va'>sample_raw_accel_data</span>
 
   <span class='co'># compute sensor orientation angles</span>
-  <span class='fu'>sensor_orientations</span>(<span class='no'>df</span>, <span class='kw'>epoch</span> <span class='kw'>=</span> <span class='st'>'2 sec'</span>, <span class='kw'>dynamic_range</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>8</span>, <span class='fl'>8</span>))</div><div class='output co'>#&gt; ================================================================================</div><div class='output co'>#&gt;         HEADER_TIME_STAMP  X_ANGLE  Y_ANGLE  Z_ANGLE
+  <span class='fu'>sensor_orientations</span><span class='op'>(</span><span class='va'>df</span>, epoch <span class='op'>=</span> <span class='st'>'2 sec'</span>, dynamic_range<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>8</span>, <span class='fl'>8</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; ================================================================================</div><div class='output co'>#&gt;         HEADER_TIME_STAMP  X_ANGLE  Y_ANGLE  Z_ANGLE
 #&gt; 1 2016-01-15 11:00:00.013 11.45678 88.88573 101.4010
 #&gt; 2 2016-01-15 11:00:02.003 10.93501 90.81432 100.9039
 #&gt; 3 2016-01-15 11:00:04.003 10.57168 91.72037 100.4276</div><div class='input'>
   <span class='co'># compute sensor orientation angles with different epoch length</span>
-  <span class='no'>output</span> <span class='kw'>=</span> <span class='fu'>sensor_orientations</span>(<span class='no'>df</span>, <span class='kw'>epoch</span> <span class='kw'>=</span> <span class='st'>'1 sec'</span>, <span class='kw'>dynamic_range</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>8</span>, <span class='fl'>8</span>))</div><div class='output co'>#&gt; ================================================================================</div><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>output</span>)</div><div class='output co'>#&gt;         HEADER_TIME_STAMP X_ANGLE Y_ANGLE Z_ANGLE
+  <span class='va'>output</span> <span class='op'>=</span> <span class='fu'>sensor_orientations</span><span class='op'>(</span><span class='va'>df</span>, epoch <span class='op'>=</span> <span class='st'>'1 sec'</span>, dynamic_range<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>8</span>, <span class='fl'>8</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; ================================================================================</div><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>output</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;         HEADER_TIME_STAMP X_ANGLE Y_ANGLE Z_ANGLE
 #&gt; 1 2016-01-15 11:00:00.013     NaN     NaN     NaN
 #&gt; 2 2016-01-15 11:00:01.003     NaN     NaN     NaN
 #&gt; 3 2016-01-15 11:00:02.003     NaN     NaN     NaN
@@ -290,7 +293,7 @@ want to use a common start time for segmenting data. Default is NULL.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

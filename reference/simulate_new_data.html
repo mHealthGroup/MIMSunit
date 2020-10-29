@@ -44,7 +44,7 @@
 accelerometer data, a new dynamic range and a new sampling rate." />
 
 
-
+<meta name="robots" content="noindex">
 
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
@@ -83,7 +83,7 @@ accelerometer data, a new dynamic range and a new sampling rate." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.2</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.9.2.9000</span>
       </span>
     </div>
 
@@ -174,7 +174,7 @@ accelerometer data, a new dynamic range and a new sampling rate." />
 accelerometer data, a new dynamic range and a new sampling rate.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>simulate_new_data</span>(<span class='no'>old_data</span>, <span class='no'>new_range</span>, <span class='no'>new_sr</span>)</pre>
+    <pre class="usage"><span class='fu'>simulate_new_data</span><span class='op'>(</span><span class='va'>old_data</span>, <span class='va'>new_range</span>, <span class='va'>new_sr</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -220,15 +220,17 @@ function <code><a href='cut_off_signal.html'>cut_off_signal</a></code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>  <span class='co'># Use sample data for testing</span>
-  <span class='no'>df</span> <span class='kw'>=</span> <span class='no'>sample_raw_accel_data</span>
+  <span class='va'>df</span> <span class='op'>=</span> <span class='va'>sample_raw_accel_data</span>
 
   <span class='co'># Show df</span>
-  <span class='fu'><a href='illustrate_signal.html'>illustrate_signal</a></span>(<span class='no'>df</span>, <span class='kw'>range</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>8</span>, <span class='fl'>8</span>))</div><div class='img'><img src='simulate_new_data-1.png' alt='' width='700' height='433' /></div><div class='input'>
+  <span class='fu'><a href='illustrate_signal.html'>illustrate_signal</a></span><span class='op'>(</span><span class='va'>df</span>, range<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>8</span>, <span class='fl'>8</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='img'><img src='simulate_new_data-1.png' alt='' width='700' height='433' /></div><div class='input'>
   <span class='co'># simulate new data by changing range and sampling rate</span>
-  <span class='no'>new_df</span> <span class='kw'>=</span> <span class='fu'>simulate_new_data</span>(<span class='no'>df</span>, <span class='kw'>new_range</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>2</span>, <span class='fl'>2</span>), <span class='kw'>new_sr</span> <span class='kw'>=</span> <span class='fl'>30</span>)
+  <span class='va'>new_df</span> <span class='op'>=</span> <span class='fu'>simulate_new_data</span><span class='op'>(</span><span class='va'>df</span>, new_range<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>2</span>, <span class='fl'>2</span><span class='op'>)</span>, new_sr <span class='op'>=</span> <span class='fl'>30</span><span class='op'>)</span>
 
   <span class='co'># Show new df</span>
-  <span class='fu'><a href='illustrate_signal.html'>illustrate_signal</a></span>(<span class='no'>new_df</span>, <span class='kw'>range</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>2</span>, <span class='fl'>2</span>))</div><div class='img'><img src='simulate_new_data-2.png' alt='' width='700' height='433' /></div></pre>
+  <span class='fu'><a href='illustrate_signal.html'>illustrate_signal</a></span><span class='op'>(</span><span class='va'>new_df</span>, range<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>2</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='img'><img src='simulate_new_data-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -244,7 +246,7 @@ function <code><a href='cut_off_signal.html'>cut_off_signal</a></code>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
