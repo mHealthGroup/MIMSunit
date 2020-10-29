@@ -1,3 +1,13 @@
+# MIMSunit 0.9.2.9000
+
+## Bug fixes
+
+* Remove warnings from dplyr > 1.0.0.
+
+## Documentation
+
+* Add back man pages to the github development version.
+
 # MIMSunit 0.9.2
 
 ## Improvement
