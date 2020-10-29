@@ -27,6 +27,7 @@ URL: https://mhealthgroup.github.io/MIMSunit/, https://github.com/mhealthgroup/M
 BugReports: https://github.com/mhealthgroup/MIMSunit/issues/
 Imports:
     caTools (>= 1.17.1.1),
+    tibble (>= 3.0.4),
     dplyr (>= 0.7.7),
     lubridate (>= 1.7.4),
     magrittr (>= 1.5),
