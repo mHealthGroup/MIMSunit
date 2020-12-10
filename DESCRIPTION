@@ -1,7 +1,7 @@
 Package: MIMSunit
 Type: Package
 Title: Algorithm to Compute Monitor Independent Movement Summary Unit (MIMS-Unit)
-Version: 0.9.2
+Version: 0.9.2.9000
 Date: 2020-07-30
 Authors@R: c(person("Qu", "Tang", email = "tang.q@northeastern.edu",
                   role = c("aut", "cre"), comment = c(ORCID = "0000-0001-5415-0205")),
@@ -27,6 +27,7 @@ URL: https://mhealthgroup.github.io/MIMSunit/, https://github.com/mhealthgroup/M
 BugReports: https://github.com/mhealthgroup/MIMSunit/issues/
 Imports:
     caTools (>= 1.17.1.1),
+    tibble (>= 3.0.4),
     dplyr (>= 0.7.7),
     lubridate (>= 1.7.4),
     magrittr (>= 1.5),
