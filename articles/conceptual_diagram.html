@@ -98,11 +98,14 @@
 <li>
   <a href="../news/index.html">Changelogs</a>
 </li>
+<li>
+  <a href="../articles/faq.html">FAQs</a>
+</li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/mhealthgroup/mimsunit">
-    <span class="fa fa-lg fa-github"></span>
+    <span class="fas fa-lg fa-github"></span>
      
   </a>
 </li>
@@ -116,8 +119,7 @@
 
       
 
-      </header><script src="conceptual_diagram_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="conceptual_diagram_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
-<script src="conceptual_diagram_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
+      </header><script src="conceptual_diagram_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Step-by-step illustration of MIMS-unit algorithm</h1>
@@ -137,15 +139,15 @@
 <h3 class="hasAnchor">
 <a href="#original-data" class="anchor"></a>Original data</h3>
 <p>We use a one-second segment of raw accelerometer signal (80 Hz, 8g) from a random subject doing jumping jack as test data. The other signals with different sampling rates and dynamic ranges are simulated via the <code>simulated_new_data()</code> function. The step-by-step illustration has been presented as Figure 1 in the manuscript.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="va">df</span> <span class="op">=</span> <span class="fu">MIMSunit</span><span class="fu">::</span><span class="va"><a href="../reference/conceptual_diagram_data.html">conceptual_diagram_data</a></span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">df</span> <span class="op">=</span> <span class="fu">MIMSunit</span><span class="fu">::</span><span class="va"><a href="../reference/conceptual_diagram_data.html">conceptual_diagram_data</a></span>
 <span class="va">start_time</span> <span class="op">=</span> <span class="va">df</span><span class="op">[[</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">]</span><span class="op">]</span>
-<span class="va">stop_time</span> <span class="op">=</span> <span class="va">start_time</span> <span class="op">+</span> <span class="fl">1</span></pre></div>
+<span class="va">stop_time</span> <span class="op">=</span> <span class="va">start_time</span> <span class="op">+</span> <span class="fl">1</span></code></pre></div>
 <div id="illustration-of-the-original-signals" class="section level4">
 <h4 class="hasAnchor">
 <a href="#illustration-of-the-original-signals" class="anchor"></a>Illustration of the original signals</h4>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="va">figs</span> <span class="op">=</span> <span class="va">df</span> <span class="op">%&gt;%</span> 
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">figs</span> <span class="op">=</span> <span class="va">df</span> <span class="op">%&gt;%</span> 
   <span class="fu">group_by</span><span class="op">(</span><span class="va">.data</span><span class="op">$</span><span class="va">NAME</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">MIMSunit</span><span class="fu">::</span><span class="fu"><a href="../reference/clip_data.html">clip_data</a></span><span class="op">(</span>start_time <span class="op">=</span> <span class="va">start_time</span>, stop_time <span class="op">=</span> <span class="va">stop_time</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">group_map</span><span class="op">(</span>
@@ -157,7 +159,7 @@
       range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="va">.x</span><span class="op">$</span><span class="va">GRANGE</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">.x</span><span class="op">$</span><span class="va">GRANGE</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span>
     <span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>plot.margin <span class="op">=</span> <span class="fu">unit</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.01</span>, <span class="op">-</span><span class="fl">0.2</span>, <span class="op">-</span><span class="fl">0.2</span><span class="op">)</span>, <span class="st">"line"</span><span class="op">)</span><span class="op">)</span>
   <span class="op">)</span>
-<span class="fu">gridExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html">grid.arrange</a></span><span class="op">(</span>grobs <span class="op">=</span> <span class="va">figs</span>, nrow <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></pre></div>
+<span class="fu">gridExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html">grid.arrange</a></span><span class="op">(</span>grobs <span class="op">=</span> <span class="va">figs</span>, nrow <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
 <p><img src="conceptual_diagram_files/figure-html/unnamed-chunk-2-1.png" width="100%"></p>
 <ol style="list-style-type: decimal">
 <li>Dashed lines represent the dynamic range region. Beyond this line, signals will be maxed out as shown in Device 1-3.</li>
@@ -171,8 +173,8 @@
 <div id="illustration-of-the-interpolated-signals" class="section level4">
 <h4 class="hasAnchor">
 <a href="#illustration-of-the-interpolated-signals" class="anchor"></a>Illustration of the interpolated signals</h4>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="va">figs</span> <span class="op">=</span> <span class="va">interp_df</span> <span class="op">%&gt;%</span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">figs</span> <span class="op">=</span> <span class="va">interp_df</span> <span class="op">%&gt;%</span>
   <span class="fu">group_by</span><span class="op">(</span><span class="va">.data</span><span class="op">$</span><span class="va">NAME</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">MIMSunit</span><span class="fu">::</span><span class="fu"><a href="../reference/clip_data.html">clip_data</a></span><span class="op">(</span>start_time <span class="op">=</span> <span class="va">start_time</span>,
                          stop_time <span class="op">=</span> <span class="va">stop_time</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -185,7 +187,7 @@
       range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="va">.x</span><span class="op">$</span><span class="va">GRANGE</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">.x</span><span class="op">$</span><span class="va">GRANGE</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span>
     <span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>plot.margin <span class="op">=</span> <span class="fu">unit</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.01</span>, <span class="op">-</span><span class="fl">0.2</span>, <span class="op">-</span><span class="fl">0.2</span><span class="op">)</span>, <span class="st">"line"</span><span class="op">)</span><span class="op">)</span>
   <span class="op">)</span>
-<span class="fu">gridExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html">grid.arrange</a></span><span class="op">(</span>grobs <span class="op">=</span> <span class="va">figs</span>, nrow <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></pre></div>
+<span class="fu">gridExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html">grid.arrange</a></span><span class="op">(</span>grobs <span class="op">=</span> <span class="va">figs</span>, nrow <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
 <p><img src="conceptual_diagram_files/figure-html/unnamed-chunk-4-1.png" width="100%"></p>
 </div>
 </div>
@@ -193,8 +195,8 @@
 <h3 class="hasAnchor">
 <a href="#extrapolation-restoring-maxed-out-samples" class="anchor"></a>Extrapolation: Restoring “maxed-out” samples</h3>
 <p>The third step is to restore the samples that are maxed out due to low dynamic range for signals of intensive movement. Please check the manuscript for the details of the extrapolation algorithm.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="va">figs</span> <span class="op">=</span> <span class="va">interp_df</span> <span class="op">%&gt;%</span> <span class="fu">group_by</span><span class="op">(</span><span class="va">.data</span><span class="op">$</span><span class="va">NAME</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">figs</span> <span class="op">=</span> <span class="va">interp_df</span> <span class="op">%&gt;%</span> <span class="fu">group_by</span><span class="op">(</span><span class="va">.data</span><span class="op">$</span><span class="va">NAME</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">MIMSunit</span><span class="fu">::</span><span class="fu"><a href="../reference/clip_data.html">clip_data</a></span><span class="op">(</span>start_time <span class="op">=</span> <span class="va">start_time</span>, stop_time <span class="op">=</span> <span class="va">stop_time</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">group_map</span><span class="op">(</span> <span class="op">~</span> <span class="fu">MIMSunit</span><span class="fu">::</span><span class="fu"><a href="../reference/illustrate_extrapolation.html">illustrate_extrapolation</a></span><span class="op">(</span>
     <span class="va">.x</span>,
@@ -203,7 +205,7 @@
     show_neighbors <span class="op">=</span> <span class="cn">TRUE</span>,
     show_extrapolated_points_and_lines <span class="op">=</span> <span class="cn">TRUE</span>
   <span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>plot.margin <span class="op">=</span> <span class="fu">unit</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.01</span>, <span class="op">-</span><span class="fl">0.2</span>, <span class="op">-</span><span class="fl">0.2</span><span class="op">)</span>, <span class="st">"line"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> 
-<span class="fu">gridExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html">grid.arrange</a></span><span class="op">(</span>grobs <span class="op">=</span> <span class="va">figs</span>, nrow <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></pre></div>
+<span class="fu">gridExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html">grid.arrange</a></span><span class="op">(</span>grobs <span class="op">=</span> <span class="va">figs</span>, nrow <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
 <p><img src="conceptual_diagram_files/figure-html/unnamed-chunk-5-1.png" width="100%"></p>
 </div>
   </div>

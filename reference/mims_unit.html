@@ -148,11 +148,14 @@ aggregate_for_mims for aggregation." />
 <li>
   <a href="../news/index.html">Changelogs</a>
 </li>
+<li>
+  <a href="../articles/faq.html">FAQs</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mhealthgroup/mimsunit">
-    <span class="fa fa-lg fa-github"></span>
+    <span class="fas fa-lg fa-github"></span>
      
   </a>
 </li>
@@ -210,8 +213,9 @@ extrapolation, <code><a href='iir.html'>iir</a></code> for filtering,
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>df</th>
-      <td><p>dataframe. Input multi-channel accelerometer signal.  The
-first column should be the time component</p></td>
+      <td><p>dataframe. Input multi-channel accelerometer signal. The
+first column should be the time component. The accelerometer data values
+ (typically starting from the second column) should be in \(g\) (per \(9.81m/s^2\)) unit.</p></td>
     </tr>
     <tr>
       <th>before_df</th>
