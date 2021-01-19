@@ -19,7 +19,7 @@ jobs:
           RHUB_PLATFORM: linux-x86_64-ubuntu-gcc
         run: |
           sudo apt-get update
-          sudo apt-get install build-essential libxml2-dev libssl-dev libcurl4-openssl-dev
+          sudo apt-get install build-essential libxml2-dev libssl-dev libcurl4-openssl-dev libgit2-dev
           Rscript -e "install.packages('remotes')"
           Rscript -e "remotes::install_github('r-hub/sysreqs')"
           sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
