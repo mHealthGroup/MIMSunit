@@ -4,7 +4,7 @@ output: rmarkdown::html_vignette
 author: "Qu Tang"
 date: "Oct 12, 2019"
 vignette: >
-  %\VignetteIndexEntry{pkgdown}
+  %\VignetteIndexEntry{Step-by-step illustration of MIMS-unit algorithm}
   %\VignetteEngine{knitr::rmarkdown}
   %\usepackage[utf8]{inputenc}
 ---

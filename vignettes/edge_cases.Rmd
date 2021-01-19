@@ -4,7 +4,7 @@ output: rmarkdown::html_vignette
 author: "Qu Tang"
 date: "Jul 03, 2018"
 vignette: >
-  %\VignetteIndexEntry{pkgdown}
+  %\VignetteIndexEntry{Example of edge cases}
   %\VignetteEngine{knitr::rmarkdown}
   %\usepackage[utf8]{inputenc}
 ---
