@@ -116,6 +116,8 @@ navbar:
       href: "reference/index.html"
     - text: "Changelogs"
       href: "news/index.html"
+    - text: "FAQs"
+      href: "articles/faq.html"
   right:
     - icon: fa-lg fa-github
       href: https://github.com/mhealthgroup/mimsunit

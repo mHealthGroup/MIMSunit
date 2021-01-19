@@ -1,0 +1,35 @@
+---
+title: "Frquently asked questions"
+author: "Qu Tang"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Frquently asked questions}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+**Why could MIMS unit values be `-0.01`?**
+
+Simply speaking, `-0.01` means the MIMS unit can not produce a valid result based on the given raw data.
+
+Check this github issue for more explanations: [#21](https://github.com/mHealthGroup/MIMSunit/issues/21).
+
+**Is there any conversion equation between the MIMS unit values and the Actigraph counts?**
+
+The sort answer is No. And we do not intend to provide one because the two measurements have fundamentally different meanings and are not linearly related. See this github issue for more explanations: [#23](https://github.com/mHealthGroup/MIMSunit/issues/23).
+    
+**Is there any cut-point equation between the MIMS unit values and the activity intensity, energy expenditure or METs values?**
+
+Not any provided by us. However, we welcome other researchers contribute to expand the application of the algorithm.
+
+**What is the acceptible unit of raw accelerometer data?**
+
+The only acceptible unit of the input raw accelerometer data is the $g$ value, which is per $9.81 m/s^2$.
