@@ -27,8 +27,9 @@ mims_unit_from_files(
 )
 }
 \arguments{
-\item{df}{dataframe. Input multi-channel accelerometer signal.  The
-first column should be the time component}
+\item{df}{dataframe. Input multi-channel accelerometer signal. The
+first column should be the time component. The accelerometer data values
+ (typically starting from the second column) should be in \eqn{g} (per \eqn{9.81m/s^2}) unit.}
 
 \item{before_df}{dataframe. The multi-channel accelerometer signal comes
 before the input signal to be prepended to the input signal during
