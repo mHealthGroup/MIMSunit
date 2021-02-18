@@ -4,7 +4,7 @@ output: rmarkdown::html_vignette
 author: "Qu Tang"
 date: "January 10, 2020"
 vignette: >
-  %\VignetteIndexEntry{pkgdown}
+  %\VignetteIndexEntry{Compute MIMS-unit from files}
   %\VignetteEngine{knitr::rmarkdown}
   %\usepackage[utf8]{inputenc}
 ---

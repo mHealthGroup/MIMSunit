@@ -4,7 +4,7 @@ output: rmarkdown::html_vignette
 author: "Qu Tang"
 date: "May 22, 2018"
 vignette: >
-  %\VignetteIndexEntry{pkgdown}
+  %\VignetteIndexEntry{Cross device consistency of MIMS-Unit algorithm}
   %\VignetteEngine{knitr::rmarkdown}
   %\usepackage[utf8]{inputenc}
 ---
