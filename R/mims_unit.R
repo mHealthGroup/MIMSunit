@@ -314,6 +314,7 @@ custom_mims_unit <-
            use_gui_progress = FALSE,
            st = NULL) {
 
+    check_epoch(breaks = epoch)
     if (inherits(df, "tbl_df")) {
       df = as.data.frame(df)
     }
