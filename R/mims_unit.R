@@ -404,6 +404,7 @@ custom_mims_unit <-
 
     abnormal_data <- resampled_data[row_abnormal, ]
     normal_data <- resampled_data[!row_abnormal, ]
+    rm(row_abnormal)
 
     # Compute orientations
     if (output_orientation_estimation) {
