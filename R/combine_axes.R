@@ -109,7 +109,6 @@ vector_magnitude <- function(df, axes = NULL) {
 #'
 sum_up <- function(df, axes = NULL) {
   n_cols <- ncol(df)
-  sum_data <- df
   stamp_name <- colnames(df)[1]
   if (is.null(axes)) {
     axes = 2:n_cols
@@ -118,10 +117,10 @@ sum_up <- function(df, axes = NULL) {
   label_name <-
     paste(c("SUMUP", tokens), collapse = "_")
   if (length(axes) == 1) {
-    sum_data[label_name] <- df[, axes]
+    df[label_name] <- df[, axes]
   } else {
-    sum_data[label_name] <- rowSums(df[, axes])
+    df[label_name] <- rowSums(df[, axes])
   }
-  sum_data <- sum_data[, c(stamp_name, label_name)]
-  return(sum_data)
+  df <- df[, c(stamp_name, label_name)]
+  return(df)
 }
