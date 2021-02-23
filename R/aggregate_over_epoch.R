@@ -65,8 +65,9 @@
 aggregate_for_mims <-
   function(df,
            epoch,
-           method = "trapz",
+           method = c("trapz", "power", "mean_by_time", "mean_by_size", "sum"),
            rectify = TRUE, st=NULL) {
+    method = match.arg(method)
     time_zone <- lubridate::tz(df[[1, 1]])
     n_cols <- ncol(df)
 
