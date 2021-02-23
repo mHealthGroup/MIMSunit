@@ -160,7 +160,8 @@ aggregate_for_mims <-
       # flag extra large (abnormal) values
       auc_values[auc_values >= max_values] <- -1
       auc_values[auc_values < 0] <- -1
-      return(data.frame(ts = rows[1, 1], auc_values))
+      return(data.frame(ts = .segment.floor_date(rows[1, 1], breaks = epoch),
+                        auc_values))
     })
 
     # format output
