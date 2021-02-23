@@ -52,15 +52,9 @@ interpolate_signal <-
     n_rows <- nrow(df)
     if (is.null(st)) {
       st <- df[[1]][1]
-      unit <- paste0(round(1 / sr, 3), " seconds")
-      st <- lubridate::floor_date(st, unit = unit)
-      rm(unit)
     }
     if (is.null(et)) {
       et <- df[[1]][n_rows]
-      unit <- paste0(round(1 / sr, 3), " seconds")
-      et <- lubridate::ceiling_date(et, unit = unit)
-      rm(unit)
     }
     n_cols <- ncol(df)
     x_out <- seq(from = st, to = et, by = 1 / sr)
@@ -71,10 +65,11 @@ interpolate_signal <-
     result <- plyr::alply(values,
       .margins = 2, function(col_data) {
         col_name <- names(col_data)[1]
+        col_data <- col_data[[1]]
         output <-
           switch(
             method,
-            linear = stats::approx(x = ts[1], y = col_data, xout = x_out),
+            linear = stats::approx(x = ts, y = col_data, xout = x_out),
             spline_fmm = stats::spline(
               x = ts,
               y = col_data,
