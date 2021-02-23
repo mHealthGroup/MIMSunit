@@ -323,6 +323,7 @@ custom_mims_unit <-
       df = df[ order(first_col), ]
     }
     rm(first_col)
+    stopifnot("HEADER_TIME_STAMP" %in% colnames(df))
 
     # save the start and stop time of original df
     if (shiny::isRunning()) {
