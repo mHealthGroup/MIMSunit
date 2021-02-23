@@ -71,7 +71,6 @@ interpolate_signal <-
     result <- plyr::alply(values,
       .margins = 2, function(col_data) {
         col_name <- names(col_data)[1]
-        col_data <- col_data[[1]]
         output <-
           switch(
             method,
