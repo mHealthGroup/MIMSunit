@@ -52,9 +52,15 @@ interpolate_signal <-
     n_rows <- nrow(df)
     if (is.null(st)) {
       st <- df[[1]][1]
+      unit <- paste0(round(1 / sr, 3), " seconds")
+      st <- lubridate::floor_date(st, unit = unit)
+      rm(unit)
     }
     if (is.null(et)) {
       et <- df[[1]][n_rows]
+      unit <- paste0(round(1 / sr, 3), " seconds")
+      et <- lubridate::ceiling_date(et, unit = unit)
+      rm(unit)
     }
     n_cols <- ncol(df)
     x_out <- seq(from = st, to = et, by = 1 / sr)
