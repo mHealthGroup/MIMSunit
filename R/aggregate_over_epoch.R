@@ -83,7 +83,9 @@ aggregate_for_mims <-
 
     # iterate over each value column
     result <- plyr::ddply(df, c("SEGMENT"), function(rows) {
-      r1 = rows[,1]
+      r1 = rows[1,1]
+      r1 = .segment.floor_date(r1, breaks = epoch)
+      r1 = as.numeric(r1)
       rows[, 1] <- as.numeric(rows[, 1])
       rows <- stats::na.omit(rows)
 
@@ -161,7 +163,7 @@ aggregate_for_mims <-
       # flag extra large (abnormal) values
       auc_values[auc_values >= max_values] <- -1
       auc_values[auc_values < 0] <- -1
-      return(data.frame(ts = .segment.floor_date(r[[1]][1], breaks = epoch),
+      return(data.frame(ts = r1,
                         auc_values))
     })
 
