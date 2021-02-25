@@ -113,7 +113,9 @@ extrapolate_single_col <-
     if (lubridate::is.POSIXct(t[1])) {
       dat_over[1] <- as.POSIXct(dat_over[[1]], origin = "1970-01-01")
     }
-    dat_over <- dat_over[order(dat_over$x), ]
+    if (is.unsorted(dat_over$x)) {
+      dat_over <- dat_over[order(dat_over$x), ]
+    }
     if (anyDuplicated(dat_over$x)) {
       not_dups <- !duplicated(dat_over$x)
       t <- dat_over$x[not_dups]
@@ -590,8 +592,9 @@ extrapolate_single_col <-
     }
     # over sampling so that we have enough points
     n_over <- k * sr
-    sub_t <- t[start:end]
-    sub_value <- value[start:end]
+    index = start:end
+    sub_t <- t[index]
+    sub_value <- value[index]
     sp <- stats::approx(x = sub_t, y = sub_value, n = n_over)
     over_t <- sp$x[-n_over]
     over_value <- sp$y[-n_over]
@@ -625,13 +628,17 @@ extrapolate_single_col <-
       # start edge case
       fitted <- NULL
     } else {
-      sub_t <- t[start:end]
-      sub_value <- value[start:end]
-      weight <- 1 - marker[start:end]
+      index = start:end
+      sub_t <- t[index]
+      sub_value <- value[index]
+      weight <- 1 - marker[index]
       sp <- stats::approx(x = sub_t, y = sub_value, n = n_over)
+      rm(sub_value)
       weight <- stats::approx(x = sub_t, y = weight, n = n_over)
+      rm(sub_t)
       over_t <- sp$x
       over_value <- sp$y
+      rm(sp)
       weight <- weight$y
       # fit locally with spline smoothing
       fitted <-
