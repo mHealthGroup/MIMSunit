@@ -164,7 +164,9 @@ extrapolate_single_col <-
   if (lubridate::is.POSIXct(t[1])) {
     dat_over[1] <- as.POSIXct(dat_over[[1]], origin = "1970-01-01", tz = time_zone)
   }
-  dat_over <- dat_over[order(dat_over$x), ]
+  if (is.unsorted(dat_over$x)) {
+    dat_over <- dat_over[order(dat_over$x), ]
+  }
   if (anyDuplicated(dat_over$x)) {
     not_dups <- !duplicated(dat_over$x)
     t <- dat_over$x[not_dups]
