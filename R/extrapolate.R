@@ -194,13 +194,15 @@ extrapolate_single_col <-
     noise_sd <- noise_sd + 1e-05
     shape <- .optimize_gamma(3 * noise_sd)
     # mark using gamma distribution
-    marker[value >= 0] <-
-      stats::pgamma(value[value >= 0] - (range_high - 5 * noise_sd),
+    index = value >= 0
+    marker[index] <-
+      stats::pgamma(value[index] - (range_high - 5 * noise_sd),
                     shape = shape,
                     scale = 1
       )
-    marker[value < 0] <-
-      -stats::pgamma(-value[value < 0] + (range_low + 5 * noise_sd),
+    index = value < 0
+    marker[index] <-
+      -stats::pgamma(-value[index] + (range_low + 5 * noise_sd),
                      shape = shape,
                      scale = 1
       )
@@ -307,7 +309,8 @@ extrapolate_single_col <-
       right_start = positive_right_start,
       stringsAsFactors = FALSE
     )
-
+  rm(positive_left_end)
+  rm(positive_right_start)
 
   # valleys
   negative_left_end <-
@@ -343,6 +346,7 @@ extrapolate_single_col <-
       }
     }
   }
+  rm(marker)
 
   negative_left_end <- negative_left_end %>% stats::na.omit()
   negative_right_start <-
@@ -365,9 +369,10 @@ extrapolate_single_col <-
       right_start = negative_right_start,
       stringsAsFactors = FALSE
     )
+  rm(negative_left_end)
+  rm(negative_right_start)
 
-  edges <- rbind(positive_edges, negative_edges)
-  return(edges)
+  return(rbind(positive_edges, negative_edges))
 }
 
 #' @importFrom magrittr %>%
@@ -383,12 +388,14 @@ extrapolate_single_col <-
         right_end = edges$right_start + n_neighbor - 1
       ) %>%
       as.data.frame()
+    rm(edges)
     neighbors$left_start <- pmax(neighbors$left_start, 1)
     neighbors$right_end <-
       pmin(neighbors$right_end, length(marker))
     neighbors$left_start[neighbors$left_end == -1] <- -1
     neighbors$right_end[neighbors$right_start == -1] <- -1
   } else {
+    rm(edges)
     neighbors <-
       data.frame(
         left_start = c(),
