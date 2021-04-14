@@ -253,13 +253,7 @@ these data.</p>
   <span class='co'># Save to current path with default mocked actilife and firmware versions</span>
   <span class='va'>filepath</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span>
   <span class='fu'>export_to_actilife</span><span class='op'>(</span><span class='va'>df</span>, <span class='va'>filepath</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: The `path` argument of `write_lines()` is deprecated as of readr 1.4.0.</span>
-#&gt; <span class='warning'>Please use the `file` argument instead.</span>
-#&gt; <span class='warning'><span style='color: #555555;'>This warning is displayed once every 8 hours.</span><span></span>
-#&gt; <span class='warning'></span><span style='color: #555555;'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span><span></span></div><div class='output co'>#&gt; <span class='warning'>Warning: The `path` argument of `write_csv()` is deprecated as of readr 1.4.0.</span>
-#&gt; <span class='warning'>Please use the `file` argument instead.</span>
-#&gt; <span class='warning'></span><span style='color: #555555;'>This warning is displayed once every 8 hours.</span><span></span>
-#&gt; <span class='warning'></span><span style='color: #555555;'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span><span></span></div><div class='input'>
+
   <span class='co'># The saved file will have the same format as Actigraph csv files</span>
   <span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span><span class='op'>(</span><span class='va'>filepath</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;  [1] "------------ Data File Created By Actigraph GT3X+ ActiLife v6.13.3 Firmware v1.6.0 date format M/d/yyyy at 100 Hz  Filter Nomral -----------"
@@ -280,7 +274,7 @@ these data.</p>
 #&gt; [16] "01/15/2016 11:00:00.062,0.43,-0.32,0"                                                                                                        </div><div class='input'>
   <span class='co'># Cleanup</span>
   <span class='fu'><a href='https://rdrr.io/r/base/files.html'>file.remove</a></span><span class='op'>(</span><span class='va'>filepath</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] TRUE</div></span></pre>
+</div><div class='output co'>#&gt; [1] TRUE</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
