@@ -36,7 +36,7 @@ stop_time = start_time + 1
 ```{r echo=TRUE, fig.height=2, fig.width=10, message=FALSE, warning=FALSE, out.width="100%"}
 figs = df %>% 
   group_by(.data$NAME) %>%
-  MIMSunit::clip_data(start_time = start_time, stop_time = stop_time) %>%
+  group_modify(~ MIMSunit::clip_data(.x, start_time = start_time, stop_time = stop_time)) %>%
   group_map(
     ~ MIMSunit::illustrate_signal(
       .x,
@@ -77,12 +77,12 @@ colnames(interp_df) = c('HEADER_TIME_STAMP', 'X', 'SR', 'GRANGE', 'NAME')
 ```{r echo=TRUE, fig.height=2, fig.width=10, message=FALSE, warning=FALSE, out.width="100%"}
 figs = interp_df %>%
   group_by(.data$NAME) %>%
-  MIMSunit::clip_data(start_time = start_time,
-                         stop_time = stop_time) %>%
+  group_modify(~ MIMSunit::clip_data(.x, start_time = start_time,
+                         stop_time = stop_time)) %>%
   group_map(
     ~ MIMSunit::illustrate_signal(
       .x,
-      title = .y[[1]],
+      title = .y,
       line_size = 1,
       point_size = 1,
       range = c(-.x$GRANGE[1], .x$GRANGE[1])
@@ -97,7 +97,7 @@ The third step is to restore the samples that are maxed out due to low dynamic r
 
 ```{r echo=TRUE, fig.height=2, fig.width=10, message=FALSE, warning=FALSE, out.width="100%"}
 figs = interp_df %>% group_by(.data$NAME) %>%
-  MIMSunit::clip_data(start_time = start_time, stop_time = stop_time) %>%
+  group_modify( ~ MIMSunit::clip_data(.x, start_time = start_time, stop_time = stop_time)) %>%
   group_map( ~ MIMSunit::illustrate_extrapolation(
     .x,
     title = .y,

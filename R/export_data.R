@@ -100,10 +100,10 @@ export_to_actilife <-
     df[[1]] <-
       strftime(df[[1]], format = "%m/%d/%Y %H:%M:%OS3", tz = "UTC")
     df[c(2, 3, 4)] <- round(df[c(2, 3, 4)], digits = 3)
-    readr::write_lines(x = actigraph_meta, path = filepath, append = FALSE)
+    readr::write_lines(x = actigraph_meta, file = filepath, append = FALSE)
     readr::write_csv(
       x = df,
-      path = filepath,
+      file = filepath,
       col_names = FALSE,
       append = TRUE
     )
