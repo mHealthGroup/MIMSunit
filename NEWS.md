@@ -3,6 +3,15 @@
 ## Bug fixes
 
 * Remove warnings from dplyr > 1.0.0.
+* The first column of the input data.frame does not have to be HEADER_TIME_STAMP. [#29](https://github.com/mHealthGroup/MIMSunit/issues/29).
+
+## Refactor
+
+* Refactor `export_to_actilife()` and `conceptual_diagram` vignette to be compatible with newer versions of `readr` and `plyr` packages.
+
+## Development
+
+* Update development package versions
 
 ## Documentation
 
