@@ -87,8 +87,10 @@ authors:
     html: <img src="https://www.mhealthgroup.org/uploads/1/1/1/1/111147333/unnamed.gif" height="24" />
 
 template:
+  bootstrap: 3
   params:
     ganalytics: UA-38342303-3
+  path: inst/pkgdown/templates
 navbar:
   title: "MIMSunit"
   left:
