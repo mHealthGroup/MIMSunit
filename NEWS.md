@@ -1,5 +1,9 @@
 # MIMSunit 0.9.2.9000
 
+## BREAKING CHANGES
+
+* `import_actigraph_csv()` and `import_actigraph_csv_chunked()` functions no longer support `has_ts` flag. Users should always ensure input data have timestamps in the first column. **Note that for versions `<=0.9.2`, always make sure the input raw accelerometer data includes timestamps in the first column and set `has_ts` to TRUE when using `import_actigraph_csv()` and `import_actigraph_csv_chunked()` functions to avoid a known bug.**
+
 ## Bug fixes
 
 * Remove warnings from dplyr > 1.0.0.

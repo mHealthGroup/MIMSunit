@@ -292,10 +292,10 @@ import_activpal3_csv <- function(filepath, header = FALSE) {
 #'   function that is used to import data from Actigraph devices during
 #'   algorithm validation.
 #'
-#' @param filepath string. The filepath of the input data.
+#' @param filepath string. The filepath of the input data.The first column of
+#' the input data should always include timestamps.
 #' @param in_voltage set as TRUE only when the input Actigraph csv file is in
 #'   analog quantized format and need to be converted into g value
-#' @param has_ts set as TRUE only when timestamp is provided as the first column
 #' @param header boolean. If TRUE, the input csv file will have column names in
 #'   the first row.
 #' @param chunk_samples number. The number of samples in each chunk. Default is
@@ -312,13 +312,13 @@ import_activpal3_csv <- function(filepath, header = FALSE) {
 #'   options(digits.secs=3)
 #'
 #'   # Use the actigraph csv file shipped with the package
-#'   filepath = system.file('extdata', 'actigraph.csv', package='MIMSunit')
+#'   filepath = system.file('extdata', 'actigraph_timestamped.csv', package='MIMSunit')
 #'
 #'   # Check original file format
 #'   readLines(filepath)[1:15]
 #'
 #'   # Example 1: Load chunks every 2000 samples
-#'   results = import_actigraph_csv_chunked(filepath, has_ts=FALSE, chunk_samples=2000)
+#'   results = import_actigraph_csv_chunked(filepath, chunk_samples=2000)
 #'   next_chunk = results[[1]]
 #'   close_connection = results[[2]]
 #'   # Check data as chunks, you can see chunks are shifted at each iteration.
@@ -339,7 +339,7 @@ import_activpal3_csv <- function(filepath, header = FALSE) {
 #'   close_connection()
 #'
 #'   # Example 2: Close loading early
-#'   results = import_actigraph_csv_chunked(filepath, has_ts=FALSE, chunk_samples=2000)
+#'   results = import_actigraph_csv_chunked(filepath, chunk_samples=2000)
 #'   next_chunk = results[[1]]
 #'   close_connection = results[[2]]
 #'   # Check data as chunks, you can see chunk time is shifting forward at each iteration.
@@ -361,10 +361,11 @@ import_activpal3_csv <- function(filepath, header = FALSE) {
 #'   options(default_ops)
 import_actigraph_csv_chunked <- function(filepath,
                                          in_voltage = FALSE,
-                                         has_ts = TRUE,
                                          header = TRUE, chunk_samples=180000) {
   chunk_size <- chunk_samples
   actigraph_meta <- import_actigraph_meta(filepath)
+
+  has_ts = TRUE
 
   if (has_ts) {
     ncols <- 4
@@ -494,10 +495,10 @@ import_actigraph_csv_chunked <- function(filepath,
 #'   function that is used to import data from Actigraph devices during
 #'   algorithm validation.
 #'
-#' @param filepath string. The filepath of the input data.
+#' @param filepath string. The filepath of the input data. The first column of
+#' the input data should always include timestamps.
 #' @param in_voltage set as TRUE only when the input Actigraph csv file is in
 #'   analog quantized format and need to be converted into g value
-#' @param has_ts set as TRUE only when timestamp is provided as the first column
 #' @param header boolean. If TRUE, the input csv file will have column names in
 #'   the first row.
 #' @return dataframe. The imported multi-channel accelerometer signal, with the
@@ -511,22 +512,13 @@ import_actigraph_csv_chunked <- function(filepath,
 #'   options(digits.secs=3)
 #'
 #'   # Use the sample actigraph csv file provided by the package
-#'   filepath = system.file('extdata', 'actigraph.csv', package='MIMSunit')
+#'   filepath = system.file('extdata', 'actigraph_timestamped.csv', package='MIMSunit')
 #'
 #'   # Check file format
 #'   readLines(filepath)[1:15]
 #'
 #'   # Load the file without timestamp column
-#'   df = import_actigraph_csv(filepath, has_ts=FALSE)
-#'
-#'   # Check loaded file
-#'   head(df)
-#'
-#'   # Check more
-#'   summary(df)
-#'
-#'   # If set has_ts wrong, you should see a warning
-#'   df = import_actigraph_csv(filepath, has_ts=TRUE)
+#'   df = import_actigraph_csv(filepath)
 #'
 #'   # Check loaded file
 #'   head(df)
@@ -539,10 +531,9 @@ import_actigraph_csv_chunked <- function(filepath,
 import_actigraph_csv <-
   function(filepath,
            in_voltage = FALSE,
-           has_ts = TRUE,
            header = TRUE) {
     actigraph_meta <- import_actigraph_meta(filepath)
-
+    has_ts = TRUE
     if (has_ts) {
       ncols <- 4
       col_types <- paste(c("c", rep("d", ncols - 1)), collapse = "")
@@ -571,10 +562,9 @@ import_actigraph_csv <-
         )
     }
 
+    has_ts = TRUE
     if (has_ts && ncol(dat) == 3) {
-      warning("has_ts = TRUE, but only 3 columns, setting has_ts = FALSE")
-      has_ts = FALSE
-      dat[[1]] = as.numeric(dat[[1]])
+      stop("The input data only has 3 columns, there should be 4 columns with the first column being the timestamps.")
     }
 
     if (!has_ts) {
@@ -768,7 +758,7 @@ import_enmo_csv <- function(filepath, enmo_col = 2) {
 #'   options(digits.secs=3)
 #'
 #'   # Use the sample actigraph csv file provided by the package
-#'   filepath = system.file('extdata', 'actigraph.csv', package='MIMSunit')
+#'   filepath = system.file('extdata', 'actigraph_timestamped.csv', package='MIMSunit')
 #'
 #'   # Check file format
 #'   readLines(filepath)[1:15]

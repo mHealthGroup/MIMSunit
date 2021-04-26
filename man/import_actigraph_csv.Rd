@@ -5,20 +5,14 @@
 \title{Import raw multi-channel accelerometer data stored in Actigraph raw csv
 format}
 \usage{
-import_actigraph_csv(
-  filepath,
-  in_voltage = FALSE,
-  has_ts = TRUE,
-  header = TRUE
-)
+import_actigraph_csv(filepath, in_voltage = FALSE, header = TRUE)
 }
 \arguments{
-\item{filepath}{string. The filepath of the input data.}
+\item{filepath}{string. The filepath of the input data. The first column of
+the input data should always include timestamps.}
 
 \item{in_voltage}{set as TRUE only when the input Actigraph csv file is in
 analog quantized format and need to be converted into g value}
-
-\item{has_ts}{set as TRUE only when timestamp is provided as the first column}
 
 \item{header}{boolean. If TRUE, the input csv file will have column names in
 the first row.}
@@ -56,22 +50,13 @@ values. \eqn{r} can also be found in the meta section in the csv file.
   options(digits.secs=3)
 
   # Use the sample actigraph csv file provided by the package
-  filepath = system.file('extdata', 'actigraph.csv', package='MIMSunit')
+  filepath = system.file('extdata', 'actigraph_timestamped.csv', package='MIMSunit')
 
   # Check file format
   readLines(filepath)[1:15]
 
   # Load the file without timestamp column
-  df = import_actigraph_csv(filepath, has_ts=FALSE)
-
-  # Check loaded file
-  head(df)
-
-  # Check more
-  summary(df)
-
-  # If set has_ts wrong, you should see a warning
-  df = import_actigraph_csv(filepath, has_ts=TRUE)
+  df = import_actigraph_csv(filepath)
 
   # Check loaded file
   head(df)

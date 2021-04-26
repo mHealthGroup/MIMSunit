@@ -8,18 +8,16 @@ format in chunks}
 import_actigraph_csv_chunked(
   filepath,
   in_voltage = FALSE,
-  has_ts = TRUE,
   header = TRUE,
   chunk_samples = 180000
 )
 }
 \arguments{
-\item{filepath}{string. The filepath of the input data.}
+\item{filepath}{string. The filepath of the input data.The first column of
+the input data should always include timestamps.}
 
 \item{in_voltage}{set as TRUE only when the input Actigraph csv file is in
 analog quantized format and need to be converted into g value}
-
-\item{has_ts}{set as TRUE only when timestamp is provided as the first column}
 
 \item{header}{boolean. If TRUE, the input csv file will have column names in
 the first row.}
@@ -61,13 +59,13 @@ values. \eqn{r} can also be found in the meta section in the csv file.
   options(digits.secs=3)
 
   # Use the actigraph csv file shipped with the package
-  filepath = system.file('extdata', 'actigraph.csv', package='MIMSunit')
+  filepath = system.file('extdata', 'actigraph_timestamped.csv', package='MIMSunit')
 
   # Check original file format
   readLines(filepath)[1:15]
 
   # Example 1: Load chunks every 2000 samples
-  results = import_actigraph_csv_chunked(filepath, has_ts=FALSE, chunk_samples=2000)
+  results = import_actigraph_csv_chunked(filepath, chunk_samples=2000)
   next_chunk = results[[1]]
   close_connection = results[[2]]
   # Check data as chunks, you can see chunks are shifted at each iteration.
@@ -88,7 +86,7 @@ values. \eqn{r} can also be found in the meta section in the csv file.
   close_connection()
 
   # Example 2: Close loading early
-  results = import_actigraph_csv_chunked(filepath, has_ts=FALSE, chunk_samples=2000)
+  results = import_actigraph_csv_chunked(filepath, chunk_samples=2000)
   next_chunk = results[[1]]
   close_connection = results[[2]]
   # Check data as chunks, you can see chunk time is shifting forward at each iteration.
