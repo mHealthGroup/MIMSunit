@@ -53,12 +53,12 @@ All datasets used in the manuscript are available at
 
 ## System Requirements
 
-1.  R (\>= 3.6.0)
-2.  memory (\> 4GB)
+1.  R (&gt;= 3.6.0)
+2.  memory (&gt; 4GB)
 
 ### For Windows
 
-Rtools 3.5 (see: <https://cran.r-project.org/bin/windows/Rtools/>)
+Rtools &gt;=3.5 (see: <https://cran.r-project.org/bin/windows/Rtools/>)
 
 ### For Linux (use ubuntu as an example)
 
@@ -73,13 +73,6 @@ CRAN
 
 ``` r
 install.packages('MIMSunit')
-```
-
-Osler in health
-
-``` r
-source("https://oslerinhealth.org/oslerLite.R")
-osler_install('MIMSunit')
 ```
 
 ### Development version
