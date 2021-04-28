@@ -14,7 +14,7 @@ A data frame with 5000 rows and 4 variables:
 }
 }
 \source{
-\url{https://github.com/qutang/MIMSunit}
+\url{https://github.com/mHealthGroup/MIMSunit/}
 }
 \usage{
 rest_on_table

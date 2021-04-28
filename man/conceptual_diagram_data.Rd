@@ -16,7 +16,7 @@ A data frame with 1704 rows and 5 variables:
 }
 }
 \source{
-\url{https://github.com/qutang/MIMSunit}
+\url{https://github.com/mHealthGroup/MIMSunit/}
 }
 \usage{
 conceptual_diagram_data

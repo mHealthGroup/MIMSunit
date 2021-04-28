@@ -20,6 +20,7 @@
 ## Documentation
 
 * Add back man pages to the github development version.
+* Fix invalid urls in any documentations.
 
 # MIMSunit 0.9.2
 
@@ -162,7 +163,7 @@
 
 * Add two datasets for experiment results (see [this article](https://mhealthgroup.github.io/MIMSunit/articles/cross_device_consistency.html)).
 * Move MIMSunit R project one level down to a subdirectory to better support git submodules.
-* Add [`MIMSunit-dataset-shaker`](https://github.com/qutang/MIMSunit-dataset-shaker) as submodule.
+* Add [`MIMSunit-dataset-shaker`](https://github.com/mHealthGroup/MIMSunit-dataset-shaker/) as submodule.
 
 # MIMSunit 0.5.10
 
