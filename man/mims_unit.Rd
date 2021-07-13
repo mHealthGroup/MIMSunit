@@ -103,6 +103,10 @@ This function is a wrapper function for the low-level
 
   \code{before_df} and \code{after_df} are often set when the accelerometer
   data are divided into files of smaller chunk.
+
+  Please make sure the input data do not contain duplicated timestamps. See
+   more information about this \href{https://github.com/mHealthGroup/MIMSunit/issues/32}{issue}.
+   Otherwise the computation will stop.
 }
 \section{How is it used in MIMS-unit algorithm?}{
  This is the main entry of

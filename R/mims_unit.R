@@ -18,6 +18,10 @@
 #'   \code{before_df} and \code{after_df} are often set when the accelerometer
 #'   data are divided into files of smaller chunk.
 #'
+#'   Please make sure the input data do not contain duplicated timestamps. See
+#'    more information about this \href{https://github.com/mHealthGroup/MIMSunit/issues/32}{issue}.
+#'    Otherwise the computation will stop.
+#'
 #' @section How is it used in MIMS-unit algorithm?: This is the main entry of
 #'   MIMS-unit algorithm.
 #'
@@ -313,6 +317,11 @@ custom_mims_unit <-
            after_df = NULL,
            use_gui_progress = FALSE,
            st = NULL) {
+
+    ts_has_duplication = any(duplicated(df[,1]))
+    if (ts_has_duplication) {
+      stop("Input data contains duplicated timestamps!")
+    }
 
     if (inherits(df, "tbl_df")) {
       df = as.data.frame(df)

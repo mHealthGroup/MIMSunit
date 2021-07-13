@@ -1,3 +1,14 @@
+# MIMSunit 0.10.1.8000
+
+## Bug fixes
+
+* Check duplicated timestamps and raise error when calling `mims_unit()`.
+* Fix the `rest_on_table` sample data to remove duplicated timestamps in it.
+
+## Documentation
+
+* Update FAQ about the duplicated timestamps problem.
+
 # MIMSunit 0.10.0
 
 ## BREAKING CHANGES
