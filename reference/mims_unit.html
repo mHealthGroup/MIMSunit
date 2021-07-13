@@ -49,7 +49,7 @@ extrapolation, iir for filtering,
 aggregate_for_mims for aggregation." />
 
 
-
+<meta name="robots" content="noindex">
 
 
 
@@ -91,7 +91,7 @@ aggregate_for_mims for aggregation." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.10.0</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.10.1.8000</span>
       </span>
     </div>
 
@@ -158,7 +158,7 @@ aggregate_for_mims for aggregation." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mhealthgroup/mimsunit">
-    <span class="fas fa-lg fa-github"></span>
+    <span class="fa fa-lg fa-github"></span>
      
   </a>
 </li>
@@ -305,6 +305,9 @@ in the data from the files.</p></td>
   parameters are tunable.</p>
 <p><code>before_df</code> and <code>after_df</code> are often set when the accelerometer
   data are divided into files of smaller chunk.</p>
+<p>Please make sure the input data do not contain duplicated timestamps. See
+   more information about this <a href='https://github.com/mHealthGroup/MIMSunit/issues/32'>issue</a>.
+   Otherwise the computation will stop.</p>
     <h2 class="hasAnchor" id="how-is-it-used-in-mims-unit-algorithm-"><a class="anchor" href="#how-is-it-used-in-mims-unit-algorithm-"></a>How is it used in MIMS-unit algorithm?</h2>
 
     <p>This is the main entry of
