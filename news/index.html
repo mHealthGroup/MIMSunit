@@ -176,11 +176,18 @@
 <h1 class="page-header" data-toc-text="0.10.1.8000">
 <a href="#mimsunit-01018000" class="anchor"></a>MIMSunit 0.10.1.8000<small> Unreleased </small>
 </h1>
+<div id="breaking-changes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#breaking-changes" class="anchor"></a>BREAKING CHANGES</h2>
+<ul>
+<li>Add a new input argument <code>use_snapshot_to_check</code> to <code><a href="../reference/mims_unit.html">mims_unit()</a></code> to configure the data used to check duplicated timestamps.</li>
+</ul>
+</div>
 <div id="bug-fixes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
 <ul>
-<li>Check duplicated timestamps and raise error when calling <code><a href="../reference/mims_unit.html">mims_unit()</a></code>.</li>
+<li>Check duplicated timestamps and raise error when calling <code><a href="../reference/mims_unit.html">mims_unit()</a></code>. Use <code>diff</code> function to accelerate the computation (<a href="https://github.com/vincentvanhees">@vincentvanhees</a>).</li>
 <li>Fix the <code>rest_on_table</code> sample data to remove duplicated timestamps in it.</li>
 </ul>
 </div>
@@ -196,9 +203,9 @@
 <h1 class="page-header" data-toc-text="0.10.0">
 <a href="#mimsunit-0100" class="anchor"></a>MIMSunit 0.10.0<small> 2021-04-29 </small>
 </h1>
-<div id="breaking-changes" class="section level2">
+<div id="breaking-changes-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#breaking-changes" class="anchor"></a>BREAKING CHANGES</h2>
+<a href="#breaking-changes-1" class="anchor"></a>BREAKING CHANGES</h2>
 <ul>
 <li>
 <code><a href="../reference/import_actigraph_csv.html">import_actigraph_csv()</a></code> and <code><a href="../reference/import_actigraph_csv_chunked.html">import_actigraph_csv_chunked()</a></code> functions no longer support <code>has_ts</code> flag. Users should always ensure input data have timestamps in the first column. <strong>Note that for versions <code>&lt;=0.9.2</code>, always make sure the input raw accelerometer data includes timestamps in the first column and set <code>has_ts</code> to TRUE when using <code><a href="../reference/import_actigraph_csv.html">import_actigraph_csv()</a></code> and <code><a href="../reference/import_actigraph_csv_chunked.html">import_actigraph_csv_chunked()</a></code> functions to avoid a known bug.</strong>
@@ -402,9 +409,9 @@
 <code>show_progress</code> is discarded in top-level <code><a href="../reference/mims_unit.html">mims_unit()</a></code> functions. Use <code>use_gui_progress</code> instead.</li>
 </ul>
 </div>
-<div id="breaking-changes-1" class="section level2">
+<div id="breaking-changes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#breaking-changes-1" class="anchor"></a>BREAKING CHANGES</h2>
+<a href="#breaking-changes-2" class="anchor"></a>BREAKING CHANGES</h2>
 <ul>
 <li>Minimal R version requirement is bumped to 3.6.0.</li>
 </ul>
@@ -437,9 +444,9 @@
 <li>Remove dependency on “akima”. This package is not used.</li>
 </ul>
 </div>
-<div id="breaking-changes-2" class="section level2">
+<div id="breaking-changes-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#breaking-changes-2" class="anchor"></a>Breaking changes</h2>
+<a href="#breaking-changes-3" class="anchor"></a>Breaking changes</h2>
 <ul>
 <li>Remove dependency on “mHealthR” package.</li>
 <li>Add top-level API function <code><a href="../reference/mims_unit.html">mims_unit_from_files()</a></code>.</li>
@@ -478,9 +485,9 @@
 <ul>
 <li>Add dev dependencies to renv.</li>
 </ul>
-<div id="breaking-changes-3" class="section level2">
+<div id="breaking-changes-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#breaking-changes-3" class="anchor"></a>Breaking changes</h2>
+<a href="#breaking-changes-4" class="anchor"></a>Breaking changes</h2>
 <ul>
 <li>Add two datasets for experiment results (see <a href="https://mhealthgroup.github.io/MIMSunit/articles/cross_device_consistency.html">this article</a>).</li>
 <li>Move MIMSunit R project one level down to a subdirectory to better support git submodules.</li>
@@ -497,9 +504,9 @@
 <li>Exclude inst scripts, figures, tables and data from package building.</li>
 <li>Remove unused files in R folder.</li>
 </ul>
-<div id="breaking-changes-4" class="section level2">
+<div id="breaking-changes-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#breaking-changes-4" class="anchor"></a>Breaking changes</h2>
+<a href="#breaking-changes-5" class="anchor"></a>Breaking changes</h2>
 <ul>
 <li>Use <code>renv</code> for dependency management.</li>
 <li>CRAN ready.</li>
@@ -513,9 +520,9 @@
 <ul>
 <li>Refactor <code><a href="../reference/mims_unit.html">mims_unit()</a></code>.</li>
 </ul>
-<div id="breaking-changes-5" class="section level2">
+<div id="breaking-changes-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#breaking-changes-5" class="anchor"></a>Breaking changes</h2>
+<a href="#breaking-changes-6" class="anchor"></a>Breaking changes</h2>
 <ul>
 <li>API changes for the following functions. Please refer to the documentations for the details.
 <ul>
@@ -536,9 +543,9 @@
 <ul>
 <li>Refactor functions in <code>extrapolate.R</code>, <code>interpolate.R</code> and <code>simulate_data.R</code>.</li>
 </ul>
-<div id="breaking-changes-6" class="section level2">
+<div id="breaking-changes-7" class="section level2">
 <h2 class="hasAnchor">
-<a href="#breaking-changes-6" class="anchor"></a>Breaking changes</h2>
+<a href="#breaking-changes-7" class="anchor"></a>Breaking changes</h2>
 <ul>
 <li>API changes for the following functions. Please refer to the documentations for the details.
 <ul>
@@ -567,9 +574,9 @@
 <li>Added a <code>NEWS.md</code> file to track changes to the package.</li>
 <li>Refactor functions in <code>import_data.R</code> file.</li>
 </ul>
-<div id="breaking-changes-7" class="section level2">
+<div id="breaking-changes-8" class="section level2">
 <h2 class="hasAnchor">
-<a href="#breaking-changes-7" class="anchor"></a>Breaking changes</h2>
+<a href="#breaking-changes-8" class="anchor"></a>Breaking changes</h2>
 <ul>
 <li>API changes for the following functions. Please refer to the documentations for the details.
 <ul>
