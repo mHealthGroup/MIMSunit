@@ -9,6 +9,7 @@ import_actigraph_csv_chunked(
   filepath,
   in_voltage = FALSE,
   header = TRUE,
+  has_ts = TRUE,
   chunk_samples = 180000
 )
 }
@@ -21,6 +22,9 @@ analog quantized format and need to be converted into g value}
 
 \item{header}{boolean. If TRUE, the input csv file will have column names in
 the first row.}
+
+\item{has_ts}{boolean. If TRUE, the input csv file should have a timestamp
+column at first.}
 
 \item{chunk_samples}{number. The number of samples in each chunk. Default is
 180000.}

@@ -36,7 +36,11 @@
 #'   # Restore default options
 #'   options(default_ops)
 import_mhealth_csv <- function(filepath) {
-  ncols <- readr::count_fields(filepath, readr::tokenizer_csv(), skip = 0, n_max = 1L)
+  ncols <-
+    readr::count_fields(filepath,
+                        readr::tokenizer_csv(),
+                        skip = 0,
+                        n_max = 1L)
   date_format <- readr::col_datetime(format = "%Y-%m-%d %H:%M:%OS")
   coltypes <- list(date_format)
   if (ncols == 4) {
@@ -50,11 +54,9 @@ import_mhealth_csv <- function(filepath) {
     coltypes <- append(coltypes, list(readr::col_double()))
   }
 
-  df <- readr::read_csv(
-    file = filepath,
-    quoted_na = TRUE,
-    col_types = coltypes
-  )
+  df <- readr::read_csv(file = filepath,
+                        quoted_na = TRUE,
+                        col_types = coltypes)
   # convert factors back to characters
   col_classes <- sapply(1:ncols, function(i) {
     return(class(df[1, i]))
@@ -142,25 +144,24 @@ import_mhealth_csv <- function(filepath) {
 #'
 #'  # Restore default options
 #'  options(default_ops)
-import_mhealth_csv_chunked <- function(filepath, chunk_samples=180000) {
-  chunk_size <- chunk_samples
-  col_types <- c("character", "numeric", "numeric", "numeric")
-  col_names <- c("HEADER_TIME_STAMP", "X", "Y", "Z")
+import_mhealth_csv_chunked <-
+  function(filepath, chunk_samples = 180000) {
+    chunk_size <- chunk_samples
+    col_types <- c("character", "numeric", "numeric", "numeric")
+    col_names <- c("HEADER_TIME_STAMP", "X", "Y", "Z")
 
-  con <- file(filepath, open = "r")
+    con <- file(filepath, open = "r")
 
-  df = NULL
+    df = NULL
 
-  next_chunk <- function() {
-      is_open <- tryCatch(
-        {
-          isOpen(con)
-        },
-        error =
-          function(cond) {
-            return(FALSE)
-          }
-      )
+    next_chunk <- function() {
+      is_open <- tryCatch({
+        isOpen(con)
+      },
+      error =
+        function(cond) {
+          return(FALSE)
+        })
       if (!is_open) {
         return(data.frame())
       }
@@ -175,13 +176,13 @@ import_mhealth_csv_chunked <- function(filepath, chunk_samples=180000) {
       df <- .convert_mhealth_timestamps(df)
       df <- cbind(as.data.frame(df))
       return(df)
-  }
+    }
 
-  close_connection <- function() {
-    close(con)
+    close_connection <- function() {
+      close(con)
+    }
+    return(list(next_chunk, close_connection))
   }
-  return(list(next_chunk, close_connection))
-}
 
 .convert_mhealth_timestamps <- function(dat) {
   time_format <- "%Y-%m-%d %H:%M:%OS"
@@ -265,7 +266,7 @@ import_activpal3_csv <- function(filepath, header = FALSE) {
     as.POSIXct(dat[["HEADER_TIME_STAMP"]] * 60 * 60 * 24, origin = "1899-12-30", tz = "GMT")
   dat["HEADER_TIME_STAMP"] <-
     lubridate::force_tz(dat["HEADER_TIME_STAMP"], tzone = Sys.timezone())
-  dat[2:4] <- (dat[2:4] - 127) / 2^8 * 4
+  dat[2:4] <- (dat[2:4] - 127) / 2 ^ 8 * 4
   dat <- as.data.frame(dat)
   return(dat)
 }
@@ -298,6 +299,8 @@ import_activpal3_csv <- function(filepath, header = FALSE) {
 #'   analog quantized format and need to be converted into g value
 #' @param header boolean. If TRUE, the input csv file will have column names in
 #'   the first row.
+#' @param has_ts boolean. If TRUE, the input csv file should have a timestamp
+#'   column at first.
 #' @param chunk_samples number. The number of samples in each chunk. Default is
 #'   180000.
 #' @return list. The list contains two items. The first item is a generator
@@ -361,11 +364,11 @@ import_activpal3_csv <- function(filepath, header = FALSE) {
 #'   options(default_ops)
 import_actigraph_csv_chunked <- function(filepath,
                                          in_voltage = FALSE,
-                                         header = TRUE, chunk_samples=180000) {
+                                         header = TRUE,
+                                         has_ts = TRUE,
+                                         chunk_samples = 180000) {
   chunk_size <- chunk_samples
   actigraph_meta <- import_actigraph_meta(filepath)
-
-  has_ts = TRUE
 
   if (has_ts) {
     ncols <- 4
@@ -387,19 +390,18 @@ import_actigraph_csv_chunked <- function(filepath,
   env$df = NULL
 
   next_chunk <- function() {
-    is_open <- tryCatch(
-      {
-        isOpen(con)
-      },
-      error =
-        function(cond) {
-          return(FALSE)
-        }
-    )
+    is_open <- tryCatch({
+      isOpen(con)
+    },
+    error =
+      function(cond) {
+        return(FALSE)
+      })
     if (!is_open) {
       return(data.frame())
     }
-    dat <- utils::read.csv(con,
+    dat <- utils::read.csv(
+      con,
       header = FALSE,
       skip = skip,
       nrows = chunk_size,
@@ -412,7 +414,8 @@ import_actigraph_csv_chunked <- function(filepath,
       } else {
         st = actigraph_meta$st
       }
-      dat <- .append_actigraph_timestamps(dat, actigraph_meta, st = st)
+      dat <-
+        .append_actigraph_timestamps(dat, actigraph_meta, st = st)
     } else {
       dat <- .convert_actigraph_timestamps(dat, actigraph_meta)
     }
@@ -432,7 +435,7 @@ import_actigraph_csv_chunked <- function(filepath,
   return(list(next_chunk, close_connection))
 }
 
-.append_actigraph_timestamps <- function(dat, actigraph_meta, st) {
+.append_actigraph_timestamps <- function(dat, actigraph_meta, st = NULL) {
   if (is.null(st)) {
     st = actigraph_meta$st
   } else {
@@ -451,9 +454,8 @@ import_actigraph_csv_chunked <- function(filepath,
 .convert_actigraph_timestamps <- function(dat, actigraph_meta) {
   time_format <-
     ifelse(test = actigraph_meta$imu,
-      yes = "%Y-%m-%dT%H:%M:%OS",
-      no = "%m/%d/%Y %H:%M:%OS"
-    )
+           yes = "%Y-%m-%dT%H:%M:%OS",
+           no = "%m/%d/%Y %H:%M:%OS")
   dat[["HEADER_TIME_STAMP"]] <-
     strptime(x = dat[["HEADER_TIME_STAMP"]], format = time_format) + 5e-04
   return(dat)
@@ -464,7 +466,7 @@ import_actigraph_csv_chunked <- function(filepath,
   res <- actigraph_meta$res
 
   dat[, 2:ncol(dat)] <-
-    (dat[, 2:ncol(dat)] * vs / (2^res) - vs / 2) / (vs / res)
+    (dat[, 2:ncol(dat)] * vs / (2 ^ res) - vs / 2) / (vs / res)
   dat[, 2:ncol(dat)] <-
     as.data.frame(apply(dat[, 2:ncol(dat)], 2, function(col) {
       col[col == -5] <- 0
@@ -501,6 +503,7 @@ import_actigraph_csv_chunked <- function(filepath,
 #'   analog quantized format and need to be converted into g value
 #' @param header boolean. If TRUE, the input csv file will have column names in
 #'   the first row.
+#' @param has_ts boolean. If TRUE, the input csv file will have a timestamp column.
 #' @return dataframe. The imported multi-channel accelerometer signal, with the
 #'   first column being the timestamps in POSXlct format, and the rest columns
 #'   being accelerometer values in \eqn{g} unit.
@@ -517,8 +520,23 @@ import_actigraph_csv_chunked <- function(filepath,
 #'   # Check file format
 #'   readLines(filepath)[1:15]
 #'
-#'   # Load the file without timestamp column
+#'   # Load the file with timestamp column
 #'   df = import_actigraph_csv(filepath)
+#'
+#'   # Check loaded file
+#'   head(df)
+#'
+#'   # Check more
+#'   summary(df)
+#'
+#'   # Use the sample actigraph csv file without timestamp
+#'   filepath = system.file('extdata', 'actigraph_no_timestamp.csv', package='MIMSunit')
+#'
+#'   # Check file format
+#'   readLines(filepath)[1:15]
+#'
+#'   # Load the file without timestamp column
+#'   df = import_actigraph_csv(filepath, has_ts = FALSE)
 #'
 #'   # Check loaded file
 #'   head(df)
@@ -531,9 +549,9 @@ import_actigraph_csv_chunked <- function(filepath,
 import_actigraph_csv <-
   function(filepath,
            in_voltage = FALSE,
+           has_ts = TRUE,
            header = TRUE) {
     actigraph_meta <- import_actigraph_meta(filepath)
-    has_ts = TRUE
     if (has_ts) {
       ncols <- 4
       col_types <- paste(c("c", rep("d", ncols - 1)), collapse = "")
@@ -562,19 +580,16 @@ import_actigraph_csv <-
         )
     }
 
-    has_ts = TRUE
     if (has_ts && ncol(dat) == 3) {
-      stop("The input data only has 3 columns, there should be 4 columns with the first column being the timestamps.")
+      stop(
+        "The input data only has 3 column
+s, there should be 4 columns with the first column being the timestamps."
+      )
     }
 
     if (!has_ts) {
-      ts_col <-
-        seq(
-          from = actigraph_meta$st,
-          to = actigraph_meta$dt,
-          length.out = nrow(dat)
-        )
-      dat <- cbind(ts_col, dat)
+      dat = .append_actigraph_timestamps(dat = dat,
+                                         actigraph_meta = actigraph_meta)
     }
 
     dat <- dat[, 1:4]
@@ -584,9 +599,8 @@ import_actigraph_csv <-
     if (has_ts) {
       time_format <-
         ifelse(test = actigraph_meta$imu,
-          yes = "%Y-%m-%dT%H:%M:%OS",
-          no = "%m/%d/%Y %H:%M:%OS"
-        )
+               yes = "%Y-%m-%dT%H:%M:%OS",
+               no = "%m/%d/%Y %H:%M:%OS")
       dat[["HEADER_TIME_STAMP"]] <-
         strptime(x = dat[["HEADER_TIME_STAMP"]], format = time_format) + 5e-04
     }
@@ -598,7 +612,7 @@ import_actigraph_csv <-
       res <- actigraph_meta$res
 
       dat[, 2:ncol(dat)] <-
-        (dat[, 2:ncol(dat)] * vs / (2^res) - vs / 2) / (vs / res)
+        (dat[, 2:ncol(dat)] * vs / (2 ^ res) - vs / 2) / (vs / res)
       dat[, 2:ncol(dat)] <-
         as.data.frame(apply(dat[, 2:ncol(dat)], 2, function(col) {
           col[col == -5] <- 0
@@ -655,23 +669,27 @@ import_actigraph_count_csv <-
            count_col = 2,
            count_per_axis_cols = c(2, 3, 4)) {
     dat <-
-      utils::read.csv(
-        file = filepath,
-        header = TRUE,
-        stringsAsFactors = FALSE
-      )
+      utils::read.csv(file = filepath,
+                      header = TRUE,
+                      stringsAsFactors = FALSE)
     dat[, 1] <-
       as.POSIXct(dat[, 1],
-        format = "%Y-%m-%d %H:%M:%OS",
-        tz = "UTC"
-      )
+                 format = "%Y-%m-%d %H:%M:%OS",
+                 tz = "UTC")
 
     if (!is.null(count_col)) {
       result <- dat[, c(1, count_col)]
       colnames(result) = c("HEADER_TIME_STAMP", "ACTIGRAPH_COUNT")
     } else if (is.null(count_col) & !is.null(count_per_axis_cols)) {
-      result <- cbind(dat[,1], sqrt(rowSums(dat[, count_per_axis_cols]^2)), dat[, count_per_axis_cols])
-      colnames(result) = c("HEADER_TIME_STAMP", "ACTIGRAPH_COUNT", "ACTIGRAPH_COUNT_X", "ACTIGRAPH_COUNT_Y", "ACTIGRAPH_COUNT_Z")
+      result <-
+        cbind(dat[, 1], sqrt(rowSums(dat[, count_per_axis_cols] ^ 2)), dat[, count_per_axis_cols])
+      colnames(result) = c(
+        "HEADER_TIME_STAMP",
+        "ACTIGRAPH_COUNT",
+        "ACTIGRAPH_COUNT_X",
+        "ACTIGRAPH_COUNT_Y",
+        "ACTIGRAPH_COUNT_Z"
+      )
     } else {
       stop("You must set count_col or count_per_axis_cols")
     }
@@ -715,9 +733,8 @@ import_enmo_csv <- function(filepath, enmo_col = 2) {
   dat <- dat[, c(1, enmo_col)]
   dat[, 1] <-
     as.POSIXct(dat[, 1],
-      format = "%Y-%m-%d %H:%M:%OS",
-      tz = Sys.timezone()
-    )
+               format = "%Y-%m-%d %H:%M:%OS",
+               tz = Sys.timezone())
   result <- dat
   colnames(result) <- c("HEADER_TIME_STAMP", "ENMO")
   return(result)
