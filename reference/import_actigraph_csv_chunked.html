@@ -189,6 +189,7 @@ devices: GT3X, GT3X+, GT3X+BT, GT9X, and GT9X-IMU.</p>
   <span class='va'>filepath</span>,
   in_voltage <span class='op'>=</span> <span class='cn'>FALSE</span>,
   header <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  has_ts <span class='op'>=</span> <span class='cn'>TRUE</span>,
   chunk_samples <span class='op'>=</span> <span class='fl'>180000</span>
 <span class='op'>)</span></pre>
 
@@ -209,6 +210,11 @@ analog quantized format and need to be converted into g value</p></td>
       <th>header</th>
       <td><p>boolean. If TRUE, the input csv file will have column names in
 the first row.</p></td>
+    </tr>
+    <tr>
+      <th>has_ts</th>
+      <td><p>boolean. If TRUE, the input csv file should have a timestamp
+column at first.</p></td>
     </tr>
     <tr>
       <th>chunk_samples</th>

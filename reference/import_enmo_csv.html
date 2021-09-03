@@ -234,24 +234,12 @@ data analysis tools</a>.</p>
 #&gt; [5] "2018-06-14 11:20:15.000,0.013275,0.007945,0.003749,1.020371,0.001595,0.000578,0.002993,0.00,500,0,0,0,150"               </div><div class='input'>
   <span class='co'># Load file, default column for enmo values are 2</span>
   <span class='va'>output</span> <span class='op'>=</span> <span class='fu'>import_enmo_csv</span><span class='op'>(</span><span class='va'>filepath</span>, enmo_col<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'><span style='color: #00BBBB;'>──</span> <span style='font-weight: bold;'>Column specification</span> <span style='color: #00BBBB;'>────────────────────────────────────────────────────────</span></span>
-#&gt; <span class='message'>cols(</span>
-#&gt; <span class='message'>  Time = <span style='color: #0000BB;'>col_datetime(format = "")</span>,</span>
-#&gt; <span class='message'>  enmoTrunc = <span style='color: #00BB00;'>col_double()</span>,</span>
-#&gt; <span class='message'>  xRange = <span style='color: #00BB00;'>col_double()</span>,</span>
-#&gt; <span class='message'>  yRange = <span style='color: #00BB00;'>col_double()</span>,</span>
-#&gt; <span class='message'>  zRange = <span style='color: #00BB00;'>col_double()</span>,</span>
-#&gt; <span class='message'>  xStd = <span style='color: #00BB00;'>col_double()</span>,</span>
-#&gt; <span class='message'>  yStd = <span style='color: #00BB00;'>col_double()</span>,</span>
-#&gt; <span class='message'>  zStd = <span style='color: #00BB00;'>col_double()</span>,</span>
-#&gt; <span class='message'>  temp = <span style='color: #00BB00;'>col_double()</span>,</span>
-#&gt; <span class='message'>  samples = <span style='color: #00BB00;'>col_double()</span>,</span>
-#&gt; <span class='message'>  dataErrors = <span style='color: #00BB00;'>col_double()</span>,</span>
-#&gt; <span class='message'>  clipsBeforeCalibr = <span style='color: #00BB00;'>col_double()</span>,</span>
-#&gt; <span class='message'>  clipsAfterCalibr = <span style='color: #00BB00;'>col_double()</span>,</span>
-#&gt; <span class='message'>  rawSamples = <span style='color: #00BB00;'>col_double()</span></span>
-#&gt; <span class='message'>)</span></div><div class='input'>
+</div><div class='output co'>#&gt; <span class='message'><span style='font-weight: bold;'>Rows: </span><span style='color: #0000BB;'>499</span> <span style='font-weight: bold;'>Columns: </span><span style='color: #0000BB;'>14</span></span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BBBB;'>──</span> <span style='font-weight: bold;'>Column specification</span> <span style='color: #00BBBB;'>────────────────────────────────────────────────────────</span></span>
+#&gt; <span class='message'><span style='font-weight: bold;'>Delimiter:</span> ","</span>
+#&gt; <span class='message'><span style='color: #00BB00;'>dbl</span>  (13): enmoTrunc, xRange, yRange, zRange, xStd, yStd, zStd, temp, sample...</span>
+#&gt; <span class='message'><span style='color: #0000BB;'>dttm</span>  (1): Time</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'><span style='color: #00BBBB;'>ℹ</span> Use <span style='color: #262626; background-color: #DADADA;'>`spec()`</span> to retrieve the full column specification for this data.</span>
+#&gt; <span class='message'><span style='color: #00BBBB;'>ℹ</span> Specify the column types or set <span style='color: #262626; background-color: #DADADA;'>`show_col_types = FALSE`</span> to quiet this message.</span></div><div class='input'>
   <span class='co'># Check output</span>
   <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>output</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;     HEADER_TIME_STAMP     ENMO

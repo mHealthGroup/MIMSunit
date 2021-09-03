@@ -180,7 +180,8 @@
 <h2 class="hasAnchor">
 <a href="#breaking-changes" class="anchor"></a>BREAKING CHANGES</h2>
 <ul>
-<li>Add a new input argument <code>use_snapshot_to_check</code> to <code><a href="../reference/mims_unit.html">mims_unit()</a></code> to configure the data used to check duplicated timestamps.</li>
+<li><p>Add a new input argument <code>use_snapshot_to_check</code> to <code><a href="../reference/mims_unit.html">mims_unit()</a></code> to configure the data used to check duplicated timestamps.</p></li>
+<li><p>Enable <code>has_ts</code> argument in <code><a href="../reference/import_actigraph_csv.html">import_actigraph_csv()</a></code> and <code><a href="../reference/import_actigraph_csv_chunked.html">import_actigraph_csv_chunked()</a></code> functions. Now the timestamps will be computed based on the sampling rate and start time in the actigraph csv header.</p></li>
 </ul>
 </div>
 <div id="bug-fixes" class="section level2">
