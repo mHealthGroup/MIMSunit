@@ -18,6 +18,10 @@
 #'   \code{before_df} and \code{after_df} are often set when the accelerometer
 #'   data are divided into files of smaller chunk.
 #'
+#'   Please make sure the input data do not contain duplicated timestamps. See
+#'    more information about this \href{https://github.com/mHealthGroup/MIMSunit/issues/32}{issue}.
+#'    Otherwise the computation will stop.
+#'
 #' @section How is it used in MIMS-unit algorithm?: This is the main entry of
 #'   MIMS-unit algorithm.
 #'
@@ -33,6 +37,9 @@
 #'   Default is FALSE.
 #' @param use_gui_progress logical. If it is TRUE, show GUI progress bar on
 #'   windows platform. Default is FALSE.
+#' @param use_snapshot_to_check logical. If TRUE, the function will use the first
+#'   100 rows or 10% (whichever is smaller) to check timestamp duplications. Otherwise,
+#'   the algorithm will use all data to check timestamp duplications. Default is FALSE.
 #' @return dataframe. The MIMS-unit dataframe. The first column is the start
 #'   time of each epoch in POSIXct format. The second column is the MIMS-unit
 #'   value for the input signal. If \code{output_mims_per_axis} is TRUE, the
@@ -78,7 +85,8 @@ mims_unit <-
            dynamic_range,
            output_mims_per_axis = FALSE,
            use_gui_progress = FALSE,
-           st = NULL) {
+           st = NULL,
+           use_snapshot_to_check=FALSE) {
     mims_df <- custom_mims_unit(
       df = df,
       epoch = epoch,
@@ -98,7 +106,8 @@ mims_unit <-
       before_df = before_df,
       after_df = after_df,
       use_gui_progress = use_gui_progress,
-      st = st
+      st = st,
+      use_snapshot_to_check = use_snapshot_to_check
     )
     return(mims_df)
   }
@@ -269,6 +278,9 @@ sensor_orientations <-
 #'   function will use the first timestamp in the timestamp column as start time to
 #'   generate epochs. This is useful when you are processing a stream of data and
 #'   want to use a common start time for segmenting data. Default is NULL.
+#' @param use_snapshot_to_check logical. If TRUE, the function will use the first
+#'   100 rows or 10% (whichever is smaller) to check timestamp duplications. Otherwise,
+#'   the algorithm will use all data to check timestamp duplications. Default is FALSE.
 #' @return dataframe or list. If \code{output_orientation_estimation} is TRUE,
 #'   the output will be a list, otherwise the output will be the MIMS-unit
 #'   dataframe.
@@ -312,7 +324,9 @@ custom_mims_unit <-
            before_df = NULL,
            after_df = NULL,
            use_gui_progress = FALSE,
-           st = NULL) {
+           st = NULL,
+           use_snapshot_to_check=FALSE) {
+
 
     if (inherits(df, "tbl_df")) {
       df = as.data.frame(df)
@@ -322,6 +336,16 @@ custom_mims_unit <-
       df = df[ order(first_col), ]
     }
     rm(first_col)
+
+    # check timestamp duplication after the timestamp column is sorted
+    if (use_snapshot_to_check) {
+      ts_has_duplication = any(diff(df[1:pmax(100,round(nrow(df[,1])*0.1)),1]) == 0)
+    } else {
+      ts_has_duplication = any(diff(df[,1]) == 0)
+    }
+    if (ts_has_duplication) {
+      stop("Input data contains duplicated timestamps!")
+    }
 
     # save the start and stop time of original df
     if (shiny::isRunning()) {
@@ -580,6 +604,7 @@ mims_unit_from_files <-
            dynamic_range,
            output_mims_per_axis = FALSE,
            use_gui_progress = FALSE,
+           use_snapshot_to_check = FALSE,
            file_type = "mhealth", ...) {
     num_of_files <- length(files)
     dots = list(...)
@@ -644,7 +669,8 @@ mims_unit_from_files <-
                              dynamic_range = dynamic_range,
                              output_mims_per_axis = output_mims_per_axis,
                              use_gui_progress = use_gui_progress,
-                             st = st
+                             st = st,
+                             use_snapshot_to_check = use_snapshot_to_check
           )
           last_epoch_st = result[nrow(result),1]
           last_chunk = chunk

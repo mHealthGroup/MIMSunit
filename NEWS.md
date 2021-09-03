@@ -1,3 +1,18 @@
+# MIMSunit 0.10.1.8000
+
+## BREAKING CHANGES
+
+* Add a new input argument `use_snapshot_to_check` to `mims_unit()` to configure the data used to check duplicated timestamps.
+
+## Bug fixes
+
+* Check duplicated timestamps and raise error when calling `mims_unit()`. Use `diff` function to accelerate the computation ([@vincentvanhees](https://github.com/vincentvanhees)).
+* Fix the `rest_on_table` sample data to remove duplicated timestamps in it.
+
+## Documentation
+
+* Update FAQ about the duplicated timestamps problem.
+
 # MIMSunit 0.10.0
 
 ## BREAKING CHANGES

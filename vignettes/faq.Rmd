@@ -33,3 +33,14 @@ Not any provided by us. However, we welcome other researchers contribute to expa
 **What is the acceptible unit of raw accelerometer data?**
 
 The only acceptible unit of the input raw accelerometer data is the $g$ value, which is per $9.81 m/s^2$.
+
+**What if the input timestamps have duplications?**
+
+This will cause error to stop the computation.
+
+Check this github issue for details: [#32](https://github.com/mHealthGroup/MIMSunit/issues/32)
+
+```
+Error in custom_mims_unit(df = df, epoch = epoch, dynamic_range = dynamic_range,  : 
+  Input data contains duplicated timestamps! 
+```
