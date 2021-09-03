@@ -1,4 +1,4 @@
-# MIMSunit 0.10.1.8000
+# MIMSunit 0.11.0
 
 ## BREAKING CHANGES
 
