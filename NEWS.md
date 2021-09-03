@@ -4,6 +4,8 @@
 
 * Add a new input argument `use_snapshot_to_check` to `mims_unit()` to configure the data used to check duplicated timestamps.
 
+* Enable `has_ts` argument in `import_actigraph_csv()` and `import_actigraph_csv_chunked()` functions. Now the timestamps will be computed based on the sampling rate and start time in the actigraph csv header.
+
 ## Bug fixes
 
 * Check duplicated timestamps and raise error when calling `mims_unit()`. Use `diff` function to accelerate the computation ([@vincentvanhees](https://github.com/vincentvanhees)).
