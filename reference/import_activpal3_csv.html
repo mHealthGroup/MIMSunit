@@ -87,7 +87,7 @@ digital voltage values) to \(g\) unit." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.1</span>
       </span>
     </div>
 
@@ -227,47 +227,50 @@ values may be converted to \(g\) unit using following equation.</p>
 <code><a href='import_mhealth_csv.html'>import_mhealth_csv</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='va'>default_ops</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span><span class='op'>)</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>digits.secs<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span>
-  <span class='co'># Use the sample activpal3 csv file provided by the package</span>
-  <span class='va'>filepath</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>'extdata'</span>, <span class='st'>'activpal3.csv'</span>, package<span class='op'>=</span><span class='st'>'MIMSunit'</span><span class='op'>)</span>
-
-  <span class='co'># Check the csv format</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span><span class='op'>(</span><span class='va'>filepath</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>]</span>
-</div><div class='output co'>#&gt; [1] "43265.5705908565,112,140,58" "43265.5705914352,124,132,59"
-#&gt; [3] "43265.5705920139,116,126,61" "43265.5705925926,116,121,64"
-#&gt; [5] "43265.5705931713,102,113,68"</div><div class='input'>
-  <span class='co'># Load the file, in our case without header</span>
-  <span class='va'>df</span> <span class='op'>=</span> <span class='fu'>import_activpal3_csv</span><span class='op'>(</span><span class='va'>filepath</span>, header<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
-
-  <span class='co'># Check loaded file</span>
-  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;         HEADER_TIME_STAMP         X         Y         Z
-#&gt; 1 2018-06-14 13:41:39.050 -0.234375  0.203125 -1.078125
-#&gt; 2 2018-06-14 13:41:39.100 -0.046875  0.078125 -1.062500
-#&gt; 3 2018-06-14 13:41:39.150 -0.171875 -0.015625 -1.031250
-#&gt; 4 2018-06-14 13:41:39.200 -0.171875 -0.093750 -0.984375
-#&gt; 5 2018-06-14 13:41:39.250 -0.390625 -0.218750 -0.921875
-#&gt; 6 2018-06-14 13:41:39.300 -0.421875 -0.546875 -0.843750</div><div class='input'>
-  <span class='co'># Check more</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  HEADER_TIME_STAMP                      X                  Y            
-#&gt;  Min.   :2018-06-14 13:41:39.04   Min.   :-1.56250   Min.   :-1.953125  
-#&gt;  1st Qu.:2018-06-14 13:42:41.53   1st Qu.: 0.04688   1st Qu.: 0.046875  
-#&gt;  Median :2018-06-14 13:43:44.01   Median : 0.06250   Median : 0.046875  
-#&gt;  Mean   :2018-06-14 13:43:44.01   Mean   : 0.02084   Mean   :-0.006097  
-#&gt;  3rd Qu.:2018-06-14 13:44:46.50   3rd Qu.: 0.06250   3rd Qu.: 0.046875  
-#&gt;  Max.   :2018-06-14 13:45:49.00   Max.   : 0.90625   Max.   : 1.218750  
-#&gt;        Z          
-#&gt;  Min.   :-1.9688  
-#&gt;  1st Qu.:-1.0156  
-#&gt;  Median : 1.1250  
-#&gt;  Mean   : 0.3263  
-#&gt;  3rd Qu.: 1.1250  
-#&gt;  Max.   : 1.9688  </div><div class='input'>
-  <span class='co'># Restore default options</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span><span class='va'>default_ops</span><span class='op'>)</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'>  <span class='va'>default_ops</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>digits.secs<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='co'># Use the sample activpal3 csv file provided by the package</span></span>
+<span class='r-in'>  <span class='va'>filepath</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>'extdata'</span>, <span class='st'>'activpal3.csv'</span>, package<span class='op'>=</span><span class='st'>'MIMSunit'</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># Check the csv format</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span><span class='op'>(</span><span class='va'>filepath</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>]</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "43265.5705908565,112,140,58" "43265.5705914352,124,132,59"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [3] "43265.5705920139,116,126,61" "43265.5705925926,116,121,64"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [5] "43265.5705931713,102,113,68"</span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># Load the file, in our case without header</span></span>
+<span class='r-in'>  <span class='va'>df</span> <span class='op'>=</span> <span class='fu'>import_activpal3_csv</span><span class='op'>(</span><span class='va'>filepath</span>, header<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># Check loaded file</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         HEADER_TIME_STAMP         X         Y         Z</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 2018-06-14 13:41:39.050 -0.234375  0.203125 -1.078125</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2 2018-06-14 13:41:39.100 -0.046875  0.078125 -1.062500</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3 2018-06-14 13:41:39.150 -0.171875 -0.015625 -1.031250</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4 2018-06-14 13:41:39.200 -0.171875 -0.093750 -0.984375</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5 2018-06-14 13:41:39.250 -0.390625 -0.218750 -0.921875</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6 2018-06-14 13:41:39.300 -0.421875 -0.546875 -0.843750</span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># Check more</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  HEADER_TIME_STAMP                      X                  Y            </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Min.   :2018-06-14 13:41:39.04   Min.   :-1.56250   Min.   :-1.953125  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  1st Qu.:2018-06-14 13:42:41.53   1st Qu.: 0.04688   1st Qu.: 0.046875  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Median :2018-06-14 13:43:44.01   Median : 0.06250   Median : 0.046875  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Mean   :2018-06-14 13:43:44.01   Mean   : 0.02084   Mean   :-0.006097  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  3rd Qu.:2018-06-14 13:44:46.50   3rd Qu.: 0.06250   3rd Qu.: 0.046875  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Max.   :2018-06-14 13:45:49.00   Max.   : 0.90625   Max.   : 1.218750  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        Z          </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Min.   :-1.9688  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  1st Qu.:-1.0156  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Median : 1.1250  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Mean   : 0.3263  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  3rd Qu.: 1.1250  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Max.   : 1.9688  </span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># Restore default options</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span><span class='va'>default_ops</span><span class='op'>)</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

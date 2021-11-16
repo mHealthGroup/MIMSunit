@@ -86,7 +86,7 @@ the corresponding number of samples it represents." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.1</span>
       </span>
     </div>
 
@@ -218,18 +218,22 @@ corresponding number of samples represented by the epoch string.</p>
 <code><a href='simulate_new_data.html'>simulate_new_data</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># 1 min with 80 Hz = 4800 samples</span>
-<span class='fu'>parse_epoch_string</span><span class='op'>(</span><span class='st'>'1 min'</span>, sr<span class='op'>=</span><span class='fl'>80</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 4800</div><div class='input'>
-<span class='co'># 30 sec with 30 Hz = 900 samples</span>
-<span class='fu'>parse_epoch_string</span><span class='op'>(</span><span class='st'>'30 sec'</span>, sr<span class='op'>=</span><span class='fl'>30</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 900</div><div class='input'>
-<span class='co'># 1 hour with 1 Hz = 3600 samples</span>
-<span class='fu'>parse_epoch_string</span><span class='op'>(</span><span class='st'>'1 hour'</span>, sr<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 3600</div><div class='input'>
-<span class='co'># 1 day with 10 Hz = 864000 samples</span>
-<span class='fu'>parse_epoch_string</span><span class='op'>(</span><span class='st'>'1 day'</span>, sr<span class='op'>=</span><span class='fl'>10</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 864000</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># 1 min with 80 Hz = 4800 samples</span></span>
+<span class='r-in'><span class='fu'>parse_epoch_string</span><span class='op'>(</span><span class='st'>'1 min'</span>, sr<span class='op'>=</span><span class='fl'>80</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 4800</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># 30 sec with 30 Hz = 900 samples</span></span>
+<span class='r-in'><span class='fu'>parse_epoch_string</span><span class='op'>(</span><span class='st'>'30 sec'</span>, sr<span class='op'>=</span><span class='fl'>30</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 900</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># 1 hour with 1 Hz = 3600 samples</span></span>
+<span class='r-in'><span class='fu'>parse_epoch_string</span><span class='op'>(</span><span class='st'>'1 hour'</span>, sr<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 3600</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># 1 day with 10 Hz = 864000 samples</span></span>
+<span class='r-in'><span class='fu'>parse_epoch_string</span><span class='op'>(</span><span class='st'>'1 day'</span>, sr<span class='op'>=</span><span class='fl'>10</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 864000</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

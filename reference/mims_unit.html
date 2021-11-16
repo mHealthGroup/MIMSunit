@@ -91,7 +91,7 @@ aggregate_for_mims for aggregation." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.1</span>
       </span>
     </div>
 
@@ -247,7 +247,7 @@ sec", "10 min". Default is "5 sec".</p></td>
     <tr>
       <th>dynamic_range</th>
       <td><p>numerical vector. The dynamic ranges of the input
-signal. Should be a 2-element numerical vector. <code><a href='https://rdrr.io/r/base/c.html'>c(low, high)</a></code>, where
+signal. Should be a 2-element numerical vector. <code>c(low, high)</code>, where
 <code>low</code> is the negative max value the device can reach and <code>high</code>
 is the positive max value the device can reach.</p></td>
     </tr>
@@ -328,31 +328,35 @@ in the data from the files.</p></td>
 <code><a href='shiny_app.html'>shiny_app</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='co'># Use sample data for testing</span>
-  <span class='va'>df</span> <span class='op'>=</span> <span class='va'>sample_raw_accel_data</span>
-
-  <span class='co'># compute mims unit values and output axial values</span>
-  <span class='va'>output</span> <span class='op'>=</span> <span class='fu'>mims_unit</span><span class='op'>(</span><span class='va'>df</span>, epoch <span class='op'>=</span> <span class='st'>'1 sec'</span>, dynamic_range<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>8</span>, <span class='fl'>8</span><span class='op'>)</span>, output_mims_per_axis<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; ================================================================================</div><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>output</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;         HEADER_TIME_STAMP MIMS_UNIT MIMS_UNIT_X MIMS_UNIT_Y MIMS_UNIT_Z
-#&gt; 1 2016-01-15 11:00:00.013  1.071916   0.5157147   0.3950629   0.1611382
-#&gt; 2 2016-01-15 11:00:01.003  1.079748   0.4780306   0.3946065   0.2071108
-#&gt; 3 2016-01-15 11:00:02.003  1.001164   0.3800644   0.4082316   0.2128675
-#&gt; 4 2016-01-15 11:00:03.003  1.023815   0.4002251   0.4232901   0.2002998
-#&gt; 5 2016-01-15 11:00:04.003  1.016161   0.3984286   0.4094350   0.2082975
-#&gt; 6 2016-01-15 11:00:05.003  0.813439   0.3977156   0.2549294   0.1607941</div><div class='input'>  <span class='co'># Use sample mhealth file for testing</span>
-  <span class='va'>filepaths</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>
-    <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>'extdata'</span>, <span class='st'>'mhealth.csv'</span>, package<span class='op'>=</span><span class='st'>'MIMSunit'</span><span class='op'>)</span>
-  <span class='op'>)</span>
-
-  <span class='co'># Test with multiple files</span>
-  <span class='va'>output</span> <span class='op'>=</span> <span class='fu'>mims_unit_from_files</span><span class='op'>(</span><span class='va'>filepaths</span>, epoch <span class='op'>=</span> <span class='st'>"1 sec"</span>, dynamic_range <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>8</span>, <span class='fl'>8</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; ================================================================================</div><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>output</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;         HEADER_TIME_STAMP MIMS_UNIT
-#&gt; 1 2017-03-16 12:25:50.000 0.4904041
-#&gt; 2 2017-03-16 12:25:51.000 0.5724948
-#&gt; 3 2017-03-16 12:25:52.000 0.4372073
-#&gt; 4 2017-03-16 12:25:53.000 0.4564886</div></pre>
+    <pre class="examples"><span class='r-in'>  <span class='co'># Use sample data for testing</span></span>
+<span class='r-in'>  <span class='va'>df</span> <span class='op'>=</span> <span class='va'>sample_raw_accel_data</span></span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># compute mims unit values and output axial values</span></span>
+<span class='r-in'>  <span class='va'>output</span> <span class='op'>=</span> <span class='fu'>mims_unit</span><span class='op'>(</span><span class='va'>df</span>, epoch <span class='op'>=</span> <span class='st'>'1 sec'</span>, dynamic_range<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>8</span>, <span class='fl'>8</span><span class='op'>)</span>, output_mims_per_axis<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ================================================================================</span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>output</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         HEADER_TIME_STAMP MIMS_UNIT MIMS_UNIT_X MIMS_UNIT_Y MIMS_UNIT_Z</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 2016-01-15 11:00:00.013  1.071916   0.5157147   0.3950629   0.1611382</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2 2016-01-15 11:00:01.003  1.079748   0.4780306   0.3946065   0.2071108</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3 2016-01-15 11:00:02.003  1.001164   0.3800644   0.4082316   0.2128675</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4 2016-01-15 11:00:03.003  1.023815   0.4002251   0.4232901   0.2002998</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5 2016-01-15 11:00:04.003  1.016161   0.3984286   0.4094350   0.2082975</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6 2016-01-15 11:00:05.003  0.813439   0.3977156   0.2549294   0.1607941</span>
+<span class='r-in'>  <span class='co'># Use sample mhealth file for testing</span></span>
+<span class='r-in'>  <span class='va'>filepaths</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span></span>
+<span class='r-in'>    <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>'extdata'</span>, <span class='st'>'mhealth.csv'</span>, package<span class='op'>=</span><span class='st'>'MIMSunit'</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># Test with multiple files</span></span>
+<span class='r-in'>  <span class='va'>output</span> <span class='op'>=</span> <span class='fu'>mims_unit_from_files</span><span class='op'>(</span><span class='va'>filepaths</span>, epoch <span class='op'>=</span> <span class='st'>"1 sec"</span>, dynamic_range <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>8</span>, <span class='fl'>8</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ================================================================================</span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>output</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         HEADER_TIME_STAMP MIMS_UNIT</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 2017-03-16 12:25:50.000 0.4904041</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2 2017-03-16 12:25:51.000 0.5724948</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3 2017-03-16 12:25:52.000 0.4372073</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4 2017-03-16 12:25:53.000 0.4564886</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

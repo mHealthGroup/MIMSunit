@@ -89,7 +89,7 @@ algorithm." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.1</span>
       </span>
     </div>
 
@@ -227,7 +227,7 @@ sec", "10 min". Default is "5 sec".</p></td>
     <tr>
       <th>dynamic_range</th>
       <td><p>numerical vector. The dynamic ranges of the input
-signal. Should be a 2-element numerical vector. <code><a href='https://rdrr.io/r/base/c.html'>c(low, high)</a></code>, where
+signal. Should be a 2-element numerical vector. <code>c(low, high)</code>, where
 <code>low</code> is the negative max value the device can reach and <code>high</code>
 is the positive max value the device can reach.</p></td>
     </tr>
@@ -265,25 +265,29 @@ want to use a common start time for segmenting data. Default is NULL.</p></td>
 <code><a href='shiny_app.html'>shiny_app</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='co'># Use sample data for testing</span>
-  <span class='va'>df</span> <span class='op'>=</span> <span class='va'>sample_raw_accel_data</span>
-
-  <span class='co'># compute sensor orientation angles</span>
-  <span class='fu'>sensor_orientations</span><span class='op'>(</span><span class='va'>df</span>, epoch <span class='op'>=</span> <span class='st'>'2 sec'</span>, dynamic_range<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>8</span>, <span class='fl'>8</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; ================================================================================</div><div class='output co'>#&gt;         HEADER_TIME_STAMP  X_ANGLE  Y_ANGLE  Z_ANGLE
-#&gt; 1 2016-01-15 11:00:00.013 11.45678 88.88573 101.4010
-#&gt; 2 2016-01-15 11:00:02.003 10.93501 90.81432 100.9039
-#&gt; 3 2016-01-15 11:00:04.003 10.57168 91.72037 100.4276</div><div class='input'>
-  <span class='co'># compute sensor orientation angles with different epoch length</span>
-  <span class='va'>output</span> <span class='op'>=</span> <span class='fu'>sensor_orientations</span><span class='op'>(</span><span class='va'>df</span>, epoch <span class='op'>=</span> <span class='st'>'1 sec'</span>, dynamic_range<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>8</span>, <span class='fl'>8</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; ================================================================================</div><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>output</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;         HEADER_TIME_STAMP X_ANGLE Y_ANGLE Z_ANGLE
-#&gt; 1 2016-01-15 11:00:00.013     NaN     NaN     NaN
-#&gt; 2 2016-01-15 11:00:01.003     NaN     NaN     NaN
-#&gt; 3 2016-01-15 11:00:02.003     NaN     NaN     NaN
-#&gt; 4 2016-01-15 11:00:03.003     NaN     NaN     NaN
-#&gt; 5 2016-01-15 11:00:04.003     NaN     NaN     NaN
-#&gt; 6 2016-01-15 11:00:05.003     NaN     NaN     NaN</div></pre>
+    <pre class="examples"><span class='r-in'>  <span class='co'># Use sample data for testing</span></span>
+<span class='r-in'>  <span class='va'>df</span> <span class='op'>=</span> <span class='va'>sample_raw_accel_data</span></span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># compute sensor orientation angles</span></span>
+<span class='r-in'>  <span class='fu'>sensor_orientations</span><span class='op'>(</span><span class='va'>df</span>, epoch <span class='op'>=</span> <span class='st'>'2 sec'</span>, dynamic_range<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>8</span>, <span class='fl'>8</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ================================================================================</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         HEADER_TIME_STAMP  X_ANGLE  Y_ANGLE  Z_ANGLE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 2016-01-15 11:00:00.013 11.45678 88.88573 101.4010</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2 2016-01-15 11:00:02.003 10.93501 90.81432 100.9039</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3 2016-01-15 11:00:04.003 10.57168 91.72037 100.4276</span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># compute sensor orientation angles with different epoch length</span></span>
+<span class='r-in'>  <span class='va'>output</span> <span class='op'>=</span> <span class='fu'>sensor_orientations</span><span class='op'>(</span><span class='va'>df</span>, epoch <span class='op'>=</span> <span class='st'>'1 sec'</span>, dynamic_range<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>8</span>, <span class='fl'>8</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ================================================================================</span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>output</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         HEADER_TIME_STAMP X_ANGLE Y_ANGLE Z_ANGLE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 2016-01-15 11:00:00.013     NaN     NaN     NaN</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2 2016-01-15 11:00:01.003     NaN     NaN     NaN</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3 2016-01-15 11:00:02.003     NaN     NaN     NaN</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4 2016-01-15 11:00:03.003     NaN     NaN     NaN</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5 2016-01-15 11:00:04.003     NaN     NaN     NaN</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6 2016-01-15 11:00:05.003     NaN     NaN     NaN</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

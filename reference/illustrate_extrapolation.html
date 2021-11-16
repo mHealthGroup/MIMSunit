@@ -87,7 +87,7 @@ illustrate_signal." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.1</span>
       </span>
     </div>
 
@@ -201,7 +201,7 @@ illustrate_signal." />
     <tr>
       <th>dynamic_range</th>
       <td><p>numerical vector. The dynamic ranges of the input
-signal. Should be a 2-element numerical vector. <code><a href='https://rdrr.io/r/base/c.html'>c(low, high)</a></code>, where
+signal. Should be a 2-element numerical vector. <code>c(low, high)</code>, where
 <code>low</code> is the negative max value the device can reach and <code>high</code>
 is the positive max value the device can reach.</p></td>
     </tr>
@@ -236,22 +236,28 @@ for explanations.</p></td>
 <code><a href='illustrate_signal.html'>illustrate_signal</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='co'># Use the maxed-out data for the conceptual diagram</span>
-  <span class='va'>df</span> <span class='op'>=</span> <span class='va'>conceptual_diagram_data</span><span class='op'>[</span>
-         <span class='va'>conceptual_diagram_data</span><span class='op'>[</span><span class='st'>'GRANGE'</span><span class='op'>]</span> <span class='op'>==</span> <span class='fl'>2</span>,
-         <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"HEADER_TIME_STAMP"</span>, <span class='st'>"X"</span><span class='op'>)</span><span class='op'>]</span>
-
-  <span class='co'># Plot extrapolation illustration using default settings</span>
-  <span class='fu'>illustrate_extrapolation</span><span class='op'>(</span><span class='va'>df</span>, dynamic_range<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>2</span>,<span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: collapsing to unique 'x' values</span></div><div class='img'><img src='illustrate_extrapolation-1.png' alt='' width='700' height='433' /></div><div class='input'>
-  <span class='co'># Do not show neighbor points</span>
-  <span class='fu'>illustrate_extrapolation</span><span class='op'>(</span><span class='va'>df</span>, dynamic_range<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>2</span>,<span class='fl'>2</span><span class='op'>)</span>, show_neighbors<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: collapsing to unique 'x' values</span></div><div class='img'><img src='illustrate_extrapolation-2.png' alt='' width='700' height='433' /></div><div class='input'>
-  <span class='co'># Do not show extrapolated points and lines</span>
-  <span class='fu'>illustrate_extrapolation</span><span class='op'>(</span><span class='va'>df</span>,
-                           dynamic_range<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>2</span>,<span class='fl'>2</span><span class='op'>)</span>,
-                           show_extrapolated_points_and_lines<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: collapsing to unique 'x' values</span></div><div class='img'><img src='illustrate_extrapolation-3.png' alt='' width='700' height='433' /></div></pre>
+    <pre class="examples"><span class='r-in'>  <span class='co'># Use the maxed-out data for the conceptual diagram</span></span>
+<span class='r-in'>  <span class='va'>df</span> <span class='op'>=</span> <span class='va'>conceptual_diagram_data</span><span class='op'>[</span></span>
+<span class='r-in'>         <span class='va'>conceptual_diagram_data</span><span class='op'>[</span><span class='st'>'GRANGE'</span><span class='op'>]</span> <span class='op'>==</span> <span class='fl'>2</span>,</span>
+<span class='r-in'>         <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"HEADER_TIME_STAMP"</span>, <span class='st'>"X"</span><span class='op'>)</span><span class='op'>]</span></span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># Plot extrapolation illustration using default settings</span></span>
+<span class='r-in'>  <span class='fu'>illustrate_extrapolation</span><span class='op'>(</span><span class='va'>df</span>, dynamic_range<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>2</span>,<span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>collapsing to unique 'x' values</span>
+<span class='r-plt img'><img src='illustrate_extrapolation-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># Do not show neighbor points</span></span>
+<span class='r-in'>  <span class='fu'>illustrate_extrapolation</span><span class='op'>(</span><span class='va'>df</span>, dynamic_range<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>2</span>,<span class='fl'>2</span><span class='op'>)</span>, show_neighbors<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>collapsing to unique 'x' values</span>
+<span class='r-plt img'><img src='illustrate_extrapolation-2.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># Do not show extrapolated points and lines</span></span>
+<span class='r-in'>  <span class='fu'>illustrate_extrapolation</span><span class='op'>(</span><span class='va'>df</span>,</span>
+<span class='r-in'>                           dynamic_range<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>2</span>,<span class='fl'>2</span><span class='op'>)</span>,</span>
+<span class='r-in'>                           show_extrapolated_points_and_lines<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>collapsing to unique 'x' values</span>
+<span class='r-plt img'><img src='illustrate_extrapolation-3.png' alt='' width='700' height='433' /></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

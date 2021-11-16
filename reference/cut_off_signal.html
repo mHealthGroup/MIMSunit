@@ -87,7 +87,7 @@ samples." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.1</span>
       </span>
     </div>
 
@@ -194,7 +194,7 @@ samples.</p>
     <tr>
       <th>range</th>
       <td><p>numerical vector. The new dynamic ranges to cut off the signal.
-Should be a 2-element numerical vector. <code><a href='https://rdrr.io/r/base/c.html'>c(low, high)</a></code>, where
+Should be a 2-element numerical vector. <code>c(low, high)</code>, where
 <code>low</code> is the negative max value the device can reach and <code>high</code>
 is the positive max value the device can reach. Default is <code>NULL</code>,
 meaning the function will do nothing but return the input data.</p></td>
@@ -233,18 +233,20 @@ situation.</p>
 <code><a href='simulate_new_data.html'>simulate_new_data</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='co'># Use sample data for testing</span>
-  <span class='va'>df</span> <span class='op'>=</span> <span class='va'>sample_raw_accel_data</span>
-
-  <span class='co'># Show df</span>
-  <span class='fu'><a href='illustrate_signal.html'>illustrate_signal</a></span><span class='op'>(</span><span class='va'>df</span>, range<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>8</span>, <span class='fl'>8</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='img'><img src='cut_off_signal-1.png' alt='' width='700' height='433' /></div><div class='input'>
-  <span class='co'># cut off the signal to c(-2, 2)</span>
-  <span class='va'>new_df</span> <span class='op'>=</span> <span class='fu'>cut_off_signal</span><span class='op'>(</span><span class='va'>df</span>, range<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>2</span>, <span class='fl'>2</span><span class='op'>)</span>, noise_std<span class='op'>=</span><span class='fl'>0.03</span><span class='op'>)</span>
-
-  <span class='co'># Show new df</span>
-  <span class='fu'><a href='illustrate_signal.html'>illustrate_signal</a></span><span class='op'>(</span><span class='va'>new_df</span>, range<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>2</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='img'><img src='cut_off_signal-2.png' alt='' width='700' height='433' /></div></pre>
+    <pre class="examples"><span class='r-in'>  <span class='co'># Use sample data for testing</span></span>
+<span class='r-in'>  <span class='va'>df</span> <span class='op'>=</span> <span class='va'>sample_raw_accel_data</span></span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># Show df</span></span>
+<span class='r-in'>  <span class='fu'><a href='illustrate_signal.html'>illustrate_signal</a></span><span class='op'>(</span><span class='va'>df</span>, range<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>8</span>, <span class='fl'>8</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='cut_off_signal-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># cut off the signal to c(-2, 2)</span></span>
+<span class='r-in'>  <span class='va'>new_df</span> <span class='op'>=</span> <span class='fu'>cut_off_signal</span><span class='op'>(</span><span class='va'>df</span>, range<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>2</span>, <span class='fl'>2</span><span class='op'>)</span>, noise_std<span class='op'>=</span><span class='fl'>0.03</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># Show new df</span></span>
+<span class='r-in'>  <span class='fu'><a href='illustrate_signal.html'>illustrate_signal</a></span><span class='op'>(</span><span class='va'>new_df</span>, range<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>2</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='cut_off_signal-2.png' alt='' width='700' height='433' /></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

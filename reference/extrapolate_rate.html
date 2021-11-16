@@ -87,7 +87,7 @@ signal." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.1</span>
       </span>
     </div>
 
@@ -225,20 +225,21 @@ acceleration values in g.</p>
 <code><a href='extrapolate.html'>extrapolate</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='co'># Prepare data for test, ground truth</span>
-  <span class='va'>test_df</span> <span class='op'>=</span> <span class='va'>conceptual_diagram_data</span><span class='op'>[</span>
-                <span class='va'>conceptual_diagram_data</span><span class='op'>[</span><span class='st'>'GRANGE'</span><span class='op'>]</span> <span class='op'>==</span> <span class='fl'>4</span>,
-                <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"HEADER_TIME_STAMP"</span>, <span class='st'>"X"</span><span class='op'>)</span><span class='op'>]</span>
-  <span class='va'>true_df</span> <span class='op'>=</span> <span class='va'>conceptual_diagram_data</span><span class='op'>[</span>
-                <span class='va'>conceptual_diagram_data</span><span class='op'>[</span><span class='st'>'GRANGE'</span><span class='op'>]</span> <span class='op'>==</span> <span class='fl'>8</span>,
-                <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"HEADER_TIME_STAMP"</span>, <span class='st'>"X"</span><span class='op'>)</span><span class='op'>]</span>
-
-  <span class='co'># Do extrapolation</span>
-  <span class='va'>extrap_df</span> <span class='op'>=</span> <span class='fu'><a href='extrapolate.html'>extrapolate</a></span><span class='op'>(</span><span class='va'>test_df</span>, range<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>4</span>, <span class='fl'>4</span><span class='op'>)</span><span class='op'>)</span>
-
-  <span class='co'># Compute extrapolation rate</span>
-  <span class='fu'>extrapolate_rate</span><span class='op'>(</span><span class='va'>test_df</span>, <span class='va'>true_df</span>, <span class='va'>extrap_df</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 0.7947812</div></pre>
+    <pre class="examples"><span class='r-in'>  <span class='co'># Prepare data for test, ground truth</span></span>
+<span class='r-in'>  <span class='va'>test_df</span> <span class='op'>=</span> <span class='va'>conceptual_diagram_data</span><span class='op'>[</span></span>
+<span class='r-in'>                <span class='va'>conceptual_diagram_data</span><span class='op'>[</span><span class='st'>'GRANGE'</span><span class='op'>]</span> <span class='op'>==</span> <span class='fl'>4</span>,</span>
+<span class='r-in'>                <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"HEADER_TIME_STAMP"</span>, <span class='st'>"X"</span><span class='op'>)</span><span class='op'>]</span></span>
+<span class='r-in'>  <span class='va'>true_df</span> <span class='op'>=</span> <span class='va'>conceptual_diagram_data</span><span class='op'>[</span></span>
+<span class='r-in'>                <span class='va'>conceptual_diagram_data</span><span class='op'>[</span><span class='st'>'GRANGE'</span><span class='op'>]</span> <span class='op'>==</span> <span class='fl'>8</span>,</span>
+<span class='r-in'>                <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"HEADER_TIME_STAMP"</span>, <span class='st'>"X"</span><span class='op'>)</span><span class='op'>]</span></span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># Do extrapolation</span></span>
+<span class='r-in'>  <span class='va'>extrap_df</span> <span class='op'>=</span> <span class='fu'><a href='extrapolate.html'>extrapolate</a></span><span class='op'>(</span><span class='va'>test_df</span>, range<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>4</span>, <span class='fl'>4</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># Compute extrapolation rate</span></span>
+<span class='r-in'>  <span class='fu'>extrapolate_rate</span><span class='op'>(</span><span class='va'>test_df</span>, <span class='va'>true_df</span>, <span class='va'>extrap_df</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.7947812</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

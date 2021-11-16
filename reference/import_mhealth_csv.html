@@ -88,7 +88,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.1</span>
       </span>
     </div>
 
@@ -218,43 +218,46 @@
 <code><a href='import_mhealth_csv_chunked.html'>import_mhealth_csv_chunked</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='va'>default_ops</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span><span class='op'>)</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>digits.secs<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span>
-  <span class='co'># Use the sample mhealth csv file provided by the package</span>
-  <span class='va'>filepath</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>'extdata'</span>, <span class='st'>'mhealth.csv'</span>, package<span class='op'>=</span><span class='st'>'MIMSunit'</span><span class='op'>)</span>
-  <span class='va'>filepath</span>
-</div><div class='output co'>#&gt; [1] "/home/runner/work/MIMSunit/MIMSunit/inst/extdata/mhealth.csv"</div><div class='input'>
-  <span class='co'># Load the file</span>
-  <span class='va'>df</span> <span class='op'>=</span> <span class='fu'>import_mhealth_csv</span><span class='op'>(</span><span class='va'>filepath</span><span class='op'>)</span>
-
-  <span class='co'># Check loaded file</span>
-  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;         HEADER_TIME_STAMP     X     Y     Z
-#&gt; 1 2017-03-16 12:25:50.000 0.396 1.249 0.161
-#&gt; 2 2017-03-16 12:25:50.013 0.373 1.224 0.179
-#&gt; 3 2017-03-16 12:25:50.025 0.355 1.182 0.179
-#&gt; 4 2017-03-16 12:25:50.036 0.341 1.148 0.179
-#&gt; 5 2017-03-16 12:25:50.049 0.326 1.117 0.161
-#&gt; 6 2017-03-16 12:25:50.062 0.303 1.078 0.167</div><div class='input'>
-  <span class='co'># Check more</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  HEADER_TIME_STAMP                      X                Y        
-#&gt;  Min.   :2017-03-16 12:25:50.00   Min.   :0.1410   Min.   :0.721  
-#&gt;  1st Qu.:2017-03-16 12:25:51.50   1st Qu.:0.2647   1st Qu.:0.864  
-#&gt;  Median :2017-03-16 12:25:52.99   Median :0.3990   Median :1.029  
-#&gt;  Mean   :2017-03-16 12:25:52.99   Mean   :0.4170   Mean   :1.064  
-#&gt;  3rd Qu.:2017-03-16 12:25:54.49   3rd Qu.:0.5713   3rd Qu.:1.252  
-#&gt;  Max.   :2017-03-16 12:25:55.99   Max.   :0.7680   Max.   :1.554  
-#&gt;        Z          
-#&gt;  Min.   :-0.2380  
-#&gt;  1st Qu.:-0.0150  
-#&gt;  Median : 0.1155  
-#&gt;  Mean   : 0.0806  
-#&gt;  3rd Qu.: 0.1700  
-#&gt;  Max.   : 0.2790  </div><div class='input'>
-  <span class='co'># Restore default options</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span><span class='va'>default_ops</span><span class='op'>)</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'>  <span class='va'>default_ops</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>digits.secs<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='co'># Use the sample mhealth csv file provided by the package</span></span>
+<span class='r-in'>  <span class='va'>filepath</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>'extdata'</span>, <span class='st'>'mhealth.csv'</span>, package<span class='op'>=</span><span class='st'>'MIMSunit'</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='va'>filepath</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "/home/runner/work/MIMSunit/MIMSunit/inst/extdata/mhealth.csv"</span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># Load the file</span></span>
+<span class='r-in'>  <span class='va'>df</span> <span class='op'>=</span> <span class='fu'>import_mhealth_csv</span><span class='op'>(</span><span class='va'>filepath</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># Check loaded file</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         HEADER_TIME_STAMP     X     Y     Z</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 2017-03-16 12:25:50.000 0.396 1.249 0.161</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2 2017-03-16 12:25:50.013 0.373 1.224 0.179</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3 2017-03-16 12:25:50.025 0.355 1.182 0.179</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4 2017-03-16 12:25:50.036 0.341 1.148 0.179</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5 2017-03-16 12:25:50.049 0.326 1.117 0.161</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6 2017-03-16 12:25:50.062 0.303 1.078 0.167</span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># Check more</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  HEADER_TIME_STAMP                      X                Y        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Min.   :2017-03-16 12:25:50.00   Min.   :0.1410   Min.   :0.721  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  1st Qu.:2017-03-16 12:25:51.50   1st Qu.:0.2647   1st Qu.:0.864  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Median :2017-03-16 12:25:52.99   Median :0.3990   Median :1.029  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Mean   :2017-03-16 12:25:52.99   Mean   :0.4170   Mean   :1.064  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  3rd Qu.:2017-03-16 12:25:54.49   3rd Qu.:0.5713   3rd Qu.:1.252  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Max.   :2017-03-16 12:25:55.99   Max.   :0.7680   Max.   :1.554  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        Z          </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Min.   :-0.2380  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  1st Qu.:-0.0150  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Median : 0.1155  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Mean   : 0.0806  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  3rd Qu.: 0.1700  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Max.   : 0.2790  </span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># Restore default options</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span><span class='va'>default_ops</span><span class='op'>)</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

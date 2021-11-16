@@ -86,7 +86,7 @@ compatible with Actilife." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.1</span>
       </span>
     </div>
 
@@ -244,40 +244,43 @@ these data.</p>
 <code><a href='import_mhealth_csv.html'>import_mhealth_csv</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='co'># Use the first 5 rows from sample data</span>
-  <span class='va'>df</span> <span class='op'>=</span> <span class='va'>sample_raw_accel_data</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>,<span class='op'>]</span>
-  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;         HEADER_TIME_STAMP     X      Y      Z
-#&gt; 1 2016-01-15 11:00:00.013 0.148 -0.438  0.016
-#&gt; 2 2016-01-15 11:00:00.025 0.215 -0.418 -0.023
-#&gt; 3 2016-01-15 11:00:00.038 0.266 -0.402 -0.012
-#&gt; 4 2016-01-15 11:00:00.049 0.336 -0.430  0.012
-#&gt; 5 2016-01-15 11:00:00.062 0.430 -0.320  0.000</div><div class='input'>
-  <span class='co'># Save to current path with default mocked actilife and firmware versions</span>
-  <span class='va'>filepath</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span>
-  <span class='fu'>export_to_actilife</span><span class='op'>(</span><span class='va'>df</span>, <span class='va'>filepath</span><span class='op'>)</span>
-
-  <span class='co'># The saved file will have the same format as Actigraph csv files</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span><span class='op'>(</span><span class='va'>filepath</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1] "------------ Data File Created By Actigraph GT3X+ ActiLife v6.13.3 Firmware v1.6.0 date format M/d/yyyy at 100 Hz  Filter Nomral -----------"
-#&gt;  [2] "Serial Number: TAS1E00000000"                                                                                                                
-#&gt;  [3] "Start Time 11:00:00"                                                                                                                         
-#&gt;  [4] "Start Date 01/15/2016"                                                                                                                       
-#&gt;  [5] "Epoch Period (hh:mm:ss) 00:00:00"                                                                                                            
-#&gt;  [6] "Download Time 11:00:00"                                                                                                                      
-#&gt;  [7] "Download Date 01/15/2016"                                                                                                                    
-#&gt;  [8] "Current Memory Address 0"                                                                                                                    
-#&gt;  [9] "Current Battery Voltage: 4.19     Mode = 12"                                                                                                 
-#&gt; [10] "--------------------------------------------------"                                                                                          
-#&gt; [11] "Timestamp,Accelerometer X,Accelerometer Y,Accelerometer Z"                                                                                   
-#&gt; [12] "01/15/2016 11:00:00.013,0.148,-0.438,0.016"                                                                                                  
-#&gt; [13] "01/15/2016 11:00:00.025,0.215,-0.418,-0.023"                                                                                                 
-#&gt; [14] "01/15/2016 11:00:00.038,0.266,-0.402,-0.012"                                                                                                 
-#&gt; [15] "01/15/2016 11:00:00.049,0.336,-0.43,0.012"                                                                                                   
-#&gt; [16] "01/15/2016 11:00:00.062,0.43,-0.32,0"                                                                                                        </div><div class='input'>
-  <span class='co'># Cleanup</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/files.html'>file.remove</a></span><span class='op'>(</span><span class='va'>filepath</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] TRUE</div></pre>
+    <pre class="examples"><span class='r-in'>  <span class='co'># Use the first 5 rows from sample data</span></span>
+<span class='r-in'>  <span class='va'>df</span> <span class='op'>=</span> <span class='va'>sample_raw_accel_data</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>,<span class='op'>]</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         HEADER_TIME_STAMP     X      Y      Z</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 2016-01-15 11:00:00.013 0.148 -0.438  0.016</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2 2016-01-15 11:00:00.025 0.215 -0.418 -0.023</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3 2016-01-15 11:00:00.038 0.266 -0.402 -0.012</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4 2016-01-15 11:00:00.049 0.336 -0.430  0.012</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5 2016-01-15 11:00:00.062 0.430 -0.320  0.000</span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># Save to current path with default mocked actilife and firmware versions</span></span>
+<span class='r-in'>  <span class='va'>filepath</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='fu'>export_to_actilife</span><span class='op'>(</span><span class='va'>df</span>, <span class='va'>filepath</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># The saved file will have the same format as Actigraph csv files</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span><span class='op'>(</span><span class='va'>filepath</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "------------ Data File Created By Actigraph GT3X+ ActiLife v6.13.3 Firmware v1.6.0 date format M/d/yyyy at 100 Hz  Filter Nomral -----------"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [2] "Serial Number: TAS1E00000000"                                                                                                                </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [3] "Start Time 11:00:00"                                                                                                                         </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [4] "Start Date 01/15/2016"                                                                                                                       </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [5] "Epoch Period (hh:mm:ss) 00:00:00"                                                                                                            </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [6] "Download Time 11:00:00"                                                                                                                      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7] "Download Date 01/15/2016"                                                                                                                    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [8] "Current Memory Address 0"                                                                                                                    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9] "Current Battery Voltage: 4.19     Mode = 12"                                                                                                 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [10] "--------------------------------------------------"                                                                                          </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [11] "Timestamp,Accelerometer X,Accelerometer Y,Accelerometer Z"                                                                                   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [12] "01/15/2016 11:00:00.013,0.148,-0.438,0.016"                                                                                                  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13] "01/15/2016 11:00:00.025,0.215,-0.418,-0.023"                                                                                                 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [14] "01/15/2016 11:00:00.038,0.266,-0.402,-0.012"                                                                                                 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [15] "01/15/2016 11:00:00.049,0.336,-0.43,0.012"                                                                                                   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [16] "01/15/2016 11:00:00.062,0.43,-0.32,0"                                                                                                        </span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># Cleanup</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/base/files.html'>file.remove</a></span><span class='op'>(</span><span class='va'>filepath</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] TRUE</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

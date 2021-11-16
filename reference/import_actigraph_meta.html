@@ -86,7 +86,7 @@ summary csv file." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.1</span>
       </span>
     </div>
 
@@ -241,67 +241,69 @@ conversion. See <code><a href='import_actigraph_csv.html'>import_actigraph_csv</
 <code><a href='import_mhealth_csv.html'>import_mhealth_csv</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='va'>default_ops</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span><span class='op'>)</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>digits.secs<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span>
-
-  <span class='co'># Use the sample actigraph csv file provided by the package</span>
-  <span class='va'>filepath</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>'extdata'</span>, <span class='st'>'actigraph_timestamped.csv'</span>, package<span class='op'>=</span><span class='st'>'MIMSunit'</span><span class='op'>)</span>
-
-  <span class='co'># Check file format</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span><span class='op'>(</span><span class='va'>filepath</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>15</span><span class='op'>]</span>
-</div><div class='output co'>#&gt;  [1] "------------ Data File Created By ActiGraph GT3X+ ActiLife v6.13.3 Firmware v2.5.0 date format M/d/yyyy at 40 Hz  Filter Normal -----------"
-#&gt;  [2] "Serial Number: CLE2B20130009"                                                                                                               
-#&gt;  [3] "Start Time 11:27:00"                                                                                                                        
-#&gt;  [4] "Start Date 6/14/2018"                                                                                                                       
-#&gt;  [5] "Epoch Period (hh:mm:ss) 00:00:00"                                                                                                           
-#&gt;  [6] "Download Time 15:16:42"                                                                                                                     
-#&gt;  [7] "Download Date 6/14/2018"                                                                                                                    
-#&gt;  [8] "Current Memory Address: 0"                                                                                                                  
-#&gt;  [9] "Current Battery Voltage: 4.21     Mode = 12"                                                                                                
-#&gt; [10] "--------------------------------------------------"                                                                                         
-#&gt; [11] "Timestamp,Accelerometer X,Accelerometer Y,Accelerometer Z"                                                                                  
-#&gt; [12] "6/14/2018 12:08:39.725,-0.009,-0.053,-0.988"                                                                                                
-#&gt; [13] "6/14/2018 12:08:39.750,-0.009,-0.053,-0.982"                                                                                                
-#&gt; [14] "6/14/2018 12:08:39.775,-0.009,-0.053,-0.988"                                                                                                
-#&gt; [15] "6/14/2018 12:08:39.800,-0.009,-0.053,-0.982"                                                                                                </div><div class='input'>
-  <span class='co'># Load the meta headers of input file</span>
-  <span class='fu'>import_actigraph_meta</span><span class='op'>(</span><span class='va'>filepath</span>, header<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $sr
-#&gt; [1] 40
-#&gt; 
-#&gt; $fw
-#&gt; [1] "2.5.0"
-#&gt; 
-#&gt; $sw
-#&gt; [1] "6.13.3"
-#&gt; 
-#&gt; $sn
-#&gt; [1] "CLE2B20130009"
-#&gt; 
-#&gt; $st
-#&gt; [1] "2018-06-14 11:27:00.000 UTC"
-#&gt; 
-#&gt; $dt
-#&gt; [1] "2018-06-14 15:16:42.000 UTC"
-#&gt; 
-#&gt; $at
-#&gt; [1] "CLE"
-#&gt; 
-#&gt; $imu
-#&gt; [1] FALSE
-#&gt; 
-#&gt; $gr
-#&gt; [1] "6"
-#&gt; 
-#&gt; $vs
-#&gt; [1] 4.21
-#&gt; 
-#&gt; $res
-#&gt; [1] 12
-#&gt; </div><div class='input'>
-  <span class='co'># Restore default options</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span><span class='va'>default_ops</span><span class='op'>)</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'>  <span class='va'>default_ops</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>digits.secs<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># Use the sample actigraph csv file provided by the package</span></span>
+<span class='r-in'>  <span class='va'>filepath</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>'extdata'</span>, <span class='st'>'actigraph_timestamped.csv'</span>, package<span class='op'>=</span><span class='st'>'MIMSunit'</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># Check file format</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span><span class='op'>(</span><span class='va'>filepath</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>15</span><span class='op'>]</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "------------ Data File Created By ActiGraph GT3X+ ActiLife v6.13.3 Firmware v2.5.0 date format M/d/yyyy at 40 Hz  Filter Normal -----------"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [2] "Serial Number: CLE2B20130009"                                                                                                               </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [3] "Start Time 11:27:00"                                                                                                                        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [4] "Start Date 6/14/2018"                                                                                                                       </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [5] "Epoch Period (hh:mm:ss) 00:00:00"                                                                                                           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [6] "Download Time 15:16:42"                                                                                                                     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7] "Download Date 6/14/2018"                                                                                                                    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [8] "Current Memory Address: 0"                                                                                                                  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9] "Current Battery Voltage: 4.21     Mode = 12"                                                                                                </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [10] "--------------------------------------------------"                                                                                         </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [11] "Timestamp,Accelerometer X,Accelerometer Y,Accelerometer Z"                                                                                  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [12] "6/14/2018 12:08:39.725,-0.009,-0.053,-0.988"                                                                                                </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13] "6/14/2018 12:08:39.750,-0.009,-0.053,-0.982"                                                                                                </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [14] "6/14/2018 12:08:39.775,-0.009,-0.053,-0.988"                                                                                                </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [15] "6/14/2018 12:08:39.800,-0.009,-0.053,-0.982"                                                                                                </span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># Load the meta headers of input file</span></span>
+<span class='r-in'>  <span class='fu'>import_actigraph_meta</span><span class='op'>(</span><span class='va'>filepath</span>, header<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $sr</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 40</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $fw</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2.5.0"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $sw</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "6.13.3"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $sn</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "CLE2B20130009"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $st</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2018-06-14 11:27:00.000 UTC"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $dt</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "2018-06-14 15:16:42.000 UTC"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $at</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "CLE"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $imu</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $gr</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "6"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $vs</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 4.21</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $res</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 12</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># Restore default options</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span><span class='va'>default_ops</span><span class='op'>)</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

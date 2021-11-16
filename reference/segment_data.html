@@ -90,7 +90,7 @@ segment_data segments the input sensor dataframe into
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.1</span>
       </span>
     </div>
 
@@ -232,83 +232,88 @@ want to use a common start time for segmenting data. Default is NULL.</p></td>
 <code><a href='simulate_new_data.html'>simulate_new_data</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='co'># Use sample data</span>
-  <span class='va'>df</span> <span class='op'>=</span> <span class='va'>sample_raw_accel_data</span>
-
-  <span class='co'># segment data into 1 minute segments</span>
-  <span class='va'>output</span> <span class='op'>=</span> <span class='fu'>segment_data</span><span class='op'>(</span><span class='va'>df</span>, <span class='st'>"1 min"</span><span class='op'>)</span>
-
-  <span class='co'># check the 3rd segment, each segment would have 1 minute data</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>output</span><span class='op'>[</span><span class='va'>output</span><span class='op'>[</span><span class='st'>'SEGMENT'</span><span class='op'>]</span> <span class='op'>==</span> <span class='fl'>3</span>,<span class='op'>]</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  HEADER_TIME_STAMP       X             Y             Z          SEGMENT   
-#&gt;  Min.   :NA        Min.   : NA   Min.   : NA   Min.   : NA   Min.   : NA  
-#&gt;  1st Qu.:NA        1st Qu.: NA   1st Qu.: NA   1st Qu.: NA   1st Qu.: NA  
-#&gt;  Median :NA        Median : NA   Median : NA   Median : NA   Median : NA  
-#&gt;  Mean   :NA        Mean   :NaN   Mean   :NaN   Mean   :NaN   Mean   :NaN  
-#&gt;  3rd Qu.:NA        3rd Qu.: NA   3rd Qu.: NA   3rd Qu.: NA   3rd Qu.: NA  
-#&gt;  Max.   :NA        Max.   : NA   Max.   : NA   Max.   : NA   Max.   : NA  </div><div class='input'>
-  <span class='co'># segment data into 15 second segments</span>
-  <span class='va'>output</span> <span class='op'>=</span> <span class='fu'>segment_data</span><span class='op'>(</span><span class='va'>df</span>, <span class='st'>"15 sec"</span><span class='op'>)</span>
-
-  <span class='co'># check the 1st segment, each segment would have 15 second data</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>output</span><span class='op'>[</span><span class='va'>output</span><span class='op'>[</span><span class='st'>'SEGMENT'</span><span class='op'>]</span> <span class='op'>==</span> <span class='fl'>1</span>,<span class='op'>]</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  HEADER_TIME_STAMP                      X               Y            
-#&gt;  Min.   :2016-01-15 11:00:00.00   Min.   :0.129   Min.   :-2.715000  
-#&gt;  1st Qu.:2016-01-15 11:00:01.50   1st Qu.:1.004   1st Qu.:-0.309000  
-#&gt;  Median :2016-01-15 11:00:03.00   Median :1.205   Median :-0.125000  
-#&gt;  Mean   :2016-01-15 11:00:03.00   Mean   :1.273   Mean   :-0.008275  
-#&gt;  3rd Qu.:2016-01-15 11:00:04.50   3rd Qu.:1.583   3rd Qu.: 0.011000  
-#&gt;  Max.   :2016-01-15 11:00:06.00   Max.   :2.652   Max.   : 2.871000  
-#&gt;        Z              SEGMENT 
-#&gt;  Min.   :-1.7300   Min.   :1  
-#&gt;  1st Qu.:-0.3490   1st Qu.:1  
-#&gt;  Median :-0.1840   Median :1  
-#&gt;  Mean   :-0.2462   Mean   :1  
-#&gt;  3rd Qu.:-0.0740   3rd Qu.:1  
-#&gt;  Max.   : 1.1090   Max.   :1  </div><div class='input'>
-  <span class='co'># segment data into 1 hour segments</span>
-  <span class='va'>output</span> <span class='op'>=</span> <span class='fu'>segment_data</span><span class='op'>(</span><span class='va'>df</span>, <span class='st'>"1 hour"</span><span class='op'>)</span>
-
-  <span class='co'># because the input data has only 15 minute data</span>
-  <span class='co'># there will be only 1 segment in the output</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span><span class='op'>(</span><span class='va'>output</span><span class='op'>[</span><span class='st'>'SEGMENT'</span><span class='op'>]</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;   SEGMENT
-#&gt; 1       1</div><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>output</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  HEADER_TIME_STAMP                      X               Y            
-#&gt;  Min.   :2016-01-15 11:00:00.00   Min.   :0.129   Min.   :-2.715000  
-#&gt;  1st Qu.:2016-01-15 11:00:01.50   1st Qu.:1.004   1st Qu.:-0.309000  
-#&gt;  Median :2016-01-15 11:00:03.00   Median :1.205   Median :-0.125000  
-#&gt;  Mean   :2016-01-15 11:00:03.00   Mean   :1.273   Mean   :-0.008275  
-#&gt;  3rd Qu.:2016-01-15 11:00:04.50   3rd Qu.:1.583   3rd Qu.: 0.011000  
-#&gt;  Max.   :2016-01-15 11:00:06.00   Max.   :2.652   Max.   : 2.871000  
-#&gt;        Z              SEGMENT 
-#&gt;  Min.   :-1.7300   Min.   :1  
-#&gt;  1st Qu.:-0.3490   1st Qu.:1  
-#&gt;  Median :-0.1840   Median :1  
-#&gt;  Mean   :-0.2462   Mean   :1  
-#&gt;  3rd Qu.:-0.0740   3rd Qu.:1  
-#&gt;  Max.   : 1.1090   Max.   :1  </div><div class='input'>
-  <span class='co'># use manually set start time</span>
-  <span class='va'>output</span> <span class='op'>=</span> <span class='fu'>segment_data</span><span class='op'>(</span><span class='va'>df</span>, <span class='st'>"15 sec"</span>, st<span class='op'>=</span><span class='st'>'2016-01-15 10:59:50.000'</span><span class='op'>)</span>
-
-  <span class='co'># check the 1st segment, because the start time is 10 seconds before the</span>
-  <span class='co'># start time of the actual data, the first segment will only include 5 second</span>
-  <span class='co'># data.</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>output</span><span class='op'>[</span><span class='va'>output</span><span class='op'>[</span><span class='st'>'SEGMENT'</span><span class='op'>]</span> <span class='op'>==</span> <span class='fl'>1</span>,<span class='op'>]</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  HEADER_TIME_STAMP                      X               Y            
-#&gt;  Min.   :2016-01-15 11:00:00.00   Min.   :0.129   Min.   :-2.715000  
-#&gt;  1st Qu.:2016-01-15 11:00:01.25   1st Qu.:1.004   1st Qu.:-0.312500  
-#&gt;  Median :2016-01-15 11:00:02.50   Median :1.223   Median :-0.125000  
-#&gt;  Mean   :2016-01-15 11:00:02.50   Mean   :1.276   Mean   :-0.006125  
-#&gt;  3rd Qu.:2016-01-15 11:00:03.74   3rd Qu.:1.582   3rd Qu.: 0.020000  
-#&gt;  Max.   :2016-01-15 11:00:04.99   Max.   :2.652   Max.   : 2.871000  
-#&gt;        Z             SEGMENT 
-#&gt;  Min.   :-1.730   Min.   :1  
-#&gt;  1st Qu.:-0.350   1st Qu.:1  
-#&gt;  Median :-0.184   Median :1  
-#&gt;  Mean   :-0.251   Mean   :1  
-#&gt;  3rd Qu.:-0.074   3rd Qu.:1  
-#&gt;  Max.   : 1.109   Max.   :1  </div></pre>
+    <pre class="examples"><span class='r-in'>  <span class='co'># Use sample data</span></span>
+<span class='r-in'>  <span class='va'>df</span> <span class='op'>=</span> <span class='va'>sample_raw_accel_data</span></span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># segment data into 1 minute segments</span></span>
+<span class='r-in'>  <span class='va'>output</span> <span class='op'>=</span> <span class='fu'>segment_data</span><span class='op'>(</span><span class='va'>df</span>, <span class='st'>"1 min"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># check the 3rd segment, each segment would have 1 minute data</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>output</span><span class='op'>[</span><span class='va'>output</span><span class='op'>[</span><span class='st'>'SEGMENT'</span><span class='op'>]</span> <span class='op'>==</span> <span class='fl'>3</span>,<span class='op'>]</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  HEADER_TIME_STAMP       X             Y             Z          SEGMENT   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Min.   :NA        Min.   : NA   Min.   : NA   Min.   : NA   Min.   : NA  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  1st Qu.:NA        1st Qu.: NA   1st Qu.: NA   1st Qu.: NA   1st Qu.: NA  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Median :NA        Median : NA   Median : NA   Median : NA   Median : NA  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Mean   :NA        Mean   :NaN   Mean   :NaN   Mean   :NaN   Mean   :NaN  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  3rd Qu.:NA        3rd Qu.: NA   3rd Qu.: NA   3rd Qu.: NA   3rd Qu.: NA  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Max.   :NA        Max.   : NA   Max.   : NA   Max.   : NA   Max.   : NA  </span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># segment data into 15 second segments</span></span>
+<span class='r-in'>  <span class='va'>output</span> <span class='op'>=</span> <span class='fu'>segment_data</span><span class='op'>(</span><span class='va'>df</span>, <span class='st'>"15 sec"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># check the 1st segment, each segment would have 15 second data</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>output</span><span class='op'>[</span><span class='va'>output</span><span class='op'>[</span><span class='st'>'SEGMENT'</span><span class='op'>]</span> <span class='op'>==</span> <span class='fl'>1</span>,<span class='op'>]</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  HEADER_TIME_STAMP                      X               Y            </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Min.   :2016-01-15 11:00:00.00   Min.   :0.129   Min.   :-2.715000  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  1st Qu.:2016-01-15 11:00:01.50   1st Qu.:1.004   1st Qu.:-0.309000  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Median :2016-01-15 11:00:03.00   Median :1.205   Median :-0.125000  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Mean   :2016-01-15 11:00:03.00   Mean   :1.273   Mean   :-0.008275  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  3rd Qu.:2016-01-15 11:00:04.50   3rd Qu.:1.583   3rd Qu.: 0.011000  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Max.   :2016-01-15 11:00:06.00   Max.   :2.652   Max.   : 2.871000  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        Z              SEGMENT </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Min.   :-1.7300   Min.   :1  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  1st Qu.:-0.3490   1st Qu.:1  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Median :-0.1840   Median :1  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Mean   :-0.2462   Mean   :1  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  3rd Qu.:-0.0740   3rd Qu.:1  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Max.   : 1.1090   Max.   :1  </span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># segment data into 1 hour segments</span></span>
+<span class='r-in'>  <span class='va'>output</span> <span class='op'>=</span> <span class='fu'>segment_data</span><span class='op'>(</span><span class='va'>df</span>, <span class='st'>"1 hour"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># because the input data has only 15 minute data</span></span>
+<span class='r-in'>  <span class='co'># there will be only 1 segment in the output</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span><span class='op'>(</span><span class='va'>output</span><span class='op'>[</span><span class='st'>'SEGMENT'</span><span class='op'>]</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   SEGMENT</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1       1</span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>output</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  HEADER_TIME_STAMP                      X               Y            </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Min.   :2016-01-15 11:00:00.00   Min.   :0.129   Min.   :-2.715000  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  1st Qu.:2016-01-15 11:00:01.50   1st Qu.:1.004   1st Qu.:-0.309000  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Median :2016-01-15 11:00:03.00   Median :1.205   Median :-0.125000  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Mean   :2016-01-15 11:00:03.00   Mean   :1.273   Mean   :-0.008275  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  3rd Qu.:2016-01-15 11:00:04.50   3rd Qu.:1.583   3rd Qu.: 0.011000  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Max.   :2016-01-15 11:00:06.00   Max.   :2.652   Max.   : 2.871000  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        Z              SEGMENT </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Min.   :-1.7300   Min.   :1  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  1st Qu.:-0.3490   1st Qu.:1  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Median :-0.1840   Median :1  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Mean   :-0.2462   Mean   :1  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  3rd Qu.:-0.0740   3rd Qu.:1  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Max.   : 1.1090   Max.   :1  </span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># use manually set start time</span></span>
+<span class='r-in'>  <span class='va'>output</span> <span class='op'>=</span> <span class='fu'>segment_data</span><span class='op'>(</span><span class='va'>df</span>, <span class='st'>"15 sec"</span>, st<span class='op'>=</span><span class='st'>'2016-01-15 10:59:50.000'</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># check the 1st segment, because the start time is 10 seconds before the</span></span>
+<span class='r-in'>  <span class='co'># start time of the actual data, the first segment will only include 5 second</span></span>
+<span class='r-in'>  <span class='co'># data.</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>output</span><span class='op'>[</span><span class='va'>output</span><span class='op'>[</span><span class='st'>'SEGMENT'</span><span class='op'>]</span> <span class='op'>==</span> <span class='fl'>1</span>,<span class='op'>]</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  HEADER_TIME_STAMP                      X               Y            </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Min.   :2016-01-15 11:00:00.00   Min.   :0.129   Min.   :-2.715000  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  1st Qu.:2016-01-15 11:00:01.25   1st Qu.:1.004   1st Qu.:-0.312500  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Median :2016-01-15 11:00:02.50   Median :1.223   Median :-0.125000  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Mean   :2016-01-15 11:00:02.50   Mean   :1.276   Mean   :-0.006125  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  3rd Qu.:2016-01-15 11:00:03.74   3rd Qu.:1.582   3rd Qu.: 0.020000  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Max.   :2016-01-15 11:00:04.99   Max.   :2.652   Max.   : 2.871000  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        Z             SEGMENT </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Min.   :-1.730   Min.   :1  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  1st Qu.:-0.350   1st Qu.:1  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Median :-0.184   Median :1  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Mean   :-0.251   Mean   :1  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  3rd Qu.:-0.074   3rd Qu.:1  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Max.   : 1.109   Max.   :1  </span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

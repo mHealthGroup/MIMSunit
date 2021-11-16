@@ -88,7 +88,7 @@ in chunks. — import_mhealth_csv_chunked" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.1</span>
       </span>
     </div>
 
@@ -224,65 +224,67 @@ in chunks.</h1>
 <code><a href='import_mhealth_csv.html'>import_mhealth_csv</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='va'>default_ops</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span><span class='op'>)</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>digits.secs<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span>
-
-  <span class='co'># Use the mhealth csv file shipped with the package</span>
-  <span class='va'>filepath</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>'extdata'</span>, <span class='st'>'mhealth.csv'</span>, package<span class='op'>=</span><span class='st'>'MIMSunit'</span><span class='op'>)</span>
-
-  <span class='co'># Example 1</span>
-  <span class='co'># Load chunks every 1000 samples</span>
-  <span class='va'>results</span> <span class='op'>=</span> <span class='fu'>import_mhealth_csv_chunked</span><span class='op'>(</span><span class='va'>filepath</span>, chunk_samples<span class='op'>=</span><span class='fl'>100</span><span class='op'>)</span>
-  <span class='va'>next_chunk</span> <span class='op'>=</span> <span class='va'>results</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
-  <span class='va'>close_connection</span> <span class='op'>=</span> <span class='va'>results</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span>
-  <span class='co'># Check data as chunks, you can see chunk time is shifting forward at each iteration.</span>
-  <span class='va'>n</span> <span class='op'>=</span> <span class='fl'>1</span>
-  <span class='kw'>repeat</span> <span class='op'>{</span>
-    <span class='va'>df</span> <span class='op'>=</span> <span class='fu'>next_chunk</span><span class='op'>(</span><span class='op'>)</span>
-    <span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span> <span class='op'>&gt;</span> <span class='fl'>0</span><span class='op'>)</span> <span class='op'>{</span>
-      <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='st'>'chunk'</span>, <span class='va'>n</span><span class='op'>)</span><span class='op'>)</span>
-      <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='st'>"df:"</span>, <span class='va'>df</span><span class='op'>[</span><span class='fl'>1</span>, <span class='fl'>1</span><span class='op'>]</span>, <span class='st'>'-'</span>, <span class='va'>df</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span>,<span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span>
-      <span class='va'>n</span> <span class='op'>=</span> <span class='va'>n</span> <span class='op'>+</span> <span class='fl'>1</span>
-    <span class='op'>}</span> <span class='kw'>else</span> <span class='op'>{</span>
-      <span class='kw'>break</span>
-    <span class='op'>}</span>
-  <span class='op'>}</span>
-</div><div class='output co'>#&gt; [1] "chunk 1"
-#&gt; [1] "df: 2017-03-16 12:25:50.000 - 2017-03-16 12:25:51.237"
-#&gt; [1] "chunk 2"
-#&gt; [1] "df: 2017-03-16 12:25:51.263 - 2017-03-16 12:25:52.500"
-#&gt; [1] "chunk 3"
-#&gt; [1] "df: 2017-03-16 12:25:52.525 - 2017-03-16 12:25:53.763"
-#&gt; [1] "chunk 4"
-#&gt; [1] "df: 2017-03-16 12:25:53.787 - 2017-03-16 12:25:55.025"
-#&gt; [1] "chunk 5"
-#&gt; [1] "df: 2017-03-16 12:25:55.050 - 2017-03-16 12:25:55.987"</div><div class='input'>
-  <span class='co'># Close connection after reading all the data</span>
-  <span class='fu'>close_connection</span><span class='op'>(</span><span class='op'>)</span>
-
-  <span class='co'># Example 2: close loading early</span>
-  <span class='va'>results</span> <span class='op'>=</span> <span class='fu'>import_mhealth_csv_chunked</span><span class='op'>(</span><span class='va'>filepath</span>, chunk_samples<span class='op'>=</span><span class='fl'>1000</span><span class='op'>)</span>
-  <span class='va'>next_chunk</span> <span class='op'>=</span> <span class='va'>results</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
-  <span class='va'>close_connection</span> <span class='op'>=</span> <span class='va'>results</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span>
-  <span class='co'># Check data as chunks, you can see chunk time is shifting forward at each iteration.</span>
-  <span class='va'>n</span> <span class='op'>=</span> <span class='fl'>1</span>
-  <span class='kw'>repeat</span> <span class='op'>{</span>
-    <span class='va'>df</span> <span class='op'>=</span> <span class='fu'>next_chunk</span><span class='op'>(</span><span class='op'>)</span>
-    <span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span> <span class='op'>&gt;</span> <span class='fl'>0</span><span class='op'>)</span> <span class='op'>{</span>
-      <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='st'>'chunk'</span>, <span class='va'>n</span><span class='op'>)</span><span class='op'>)</span>
-      <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='st'>"df:"</span>, <span class='va'>df</span><span class='op'>[</span><span class='fl'>1</span>, <span class='fl'>1</span><span class='op'>]</span>, <span class='st'>'-'</span>, <span class='va'>df</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span>,<span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span>
-      <span class='va'>n</span> <span class='op'>=</span> <span class='va'>n</span> <span class='op'>+</span> <span class='fl'>1</span>
-      <span class='fu'>close_connection</span><span class='op'>(</span><span class='op'>)</span>
-    <span class='op'>}</span>
-    <span class='kw'>else</span> <span class='op'>{</span>
-      <span class='kw'>break</span>
-    <span class='op'>}</span>
-  <span class='op'>}</span>
-</div><div class='output co'>#&gt; [1] "chunk 1"
-#&gt; [1] "df: 2017-03-16 12:25:50.000 - 2017-03-16 12:25:55.987"</div><div class='input'>
- <span class='co'># Restore default options</span>
- <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span><span class='va'>default_ops</span><span class='op'>)</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'>  <span class='va'>default_ops</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>digits.secs<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># Use the mhealth csv file shipped with the package</span></span>
+<span class='r-in'>  <span class='va'>filepath</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>'extdata'</span>, <span class='st'>'mhealth.csv'</span>, package<span class='op'>=</span><span class='st'>'MIMSunit'</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># Example 1</span></span>
+<span class='r-in'>  <span class='co'># Load chunks every 1000 samples</span></span>
+<span class='r-in'>  <span class='va'>results</span> <span class='op'>=</span> <span class='fu'>import_mhealth_csv_chunked</span><span class='op'>(</span><span class='va'>filepath</span>, chunk_samples<span class='op'>=</span><span class='fl'>100</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='va'>next_chunk</span> <span class='op'>=</span> <span class='va'>results</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span></span>
+<span class='r-in'>  <span class='va'>close_connection</span> <span class='op'>=</span> <span class='va'>results</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span></span>
+<span class='r-in'>  <span class='co'># Check data as chunks, you can see chunk time is shifting forward at each iteration.</span></span>
+<span class='r-in'>  <span class='va'>n</span> <span class='op'>=</span> <span class='fl'>1</span></span>
+<span class='r-in'>  <span class='kw'>repeat</span> <span class='op'>{</span></span>
+<span class='r-in'>    <span class='va'>df</span> <span class='op'>=</span> <span class='fu'>next_chunk</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'>    <span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span> <span class='op'>&gt;</span> <span class='fl'>0</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>      <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='st'>'chunk'</span>, <span class='va'>n</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'>      <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='st'>"df:"</span>, <span class='va'>df</span><span class='op'>[</span><span class='fl'>1</span>, <span class='fl'>1</span><span class='op'>]</span>, <span class='st'>'-'</span>, <span class='va'>df</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span>,<span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'>      <span class='va'>n</span> <span class='op'>=</span> <span class='va'>n</span> <span class='op'>+</span> <span class='fl'>1</span></span>
+<span class='r-in'>    <span class='op'>}</span> <span class='kw'>else</span> <span class='op'>{</span></span>
+<span class='r-in'>      <span class='kw'>break</span></span>
+<span class='r-in'>    <span class='op'>}</span></span>
+<span class='r-in'>  <span class='op'>}</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "chunk 1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "df: 2017-03-16 12:25:50.000 - 2017-03-16 12:25:51.237"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "chunk 2"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "df: 2017-03-16 12:25:51.263 - 2017-03-16 12:25:52.500"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "chunk 3"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "df: 2017-03-16 12:25:52.525 - 2017-03-16 12:25:53.763"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "chunk 4"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "df: 2017-03-16 12:25:53.787 - 2017-03-16 12:25:55.025"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "chunk 5"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "df: 2017-03-16 12:25:55.050 - 2017-03-16 12:25:55.987"</span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># Close connection after reading all the data</span></span>
+<span class='r-in'>  <span class='fu'>close_connection</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># Example 2: close loading early</span></span>
+<span class='r-in'>  <span class='va'>results</span> <span class='op'>=</span> <span class='fu'>import_mhealth_csv_chunked</span><span class='op'>(</span><span class='va'>filepath</span>, chunk_samples<span class='op'>=</span><span class='fl'>1000</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='va'>next_chunk</span> <span class='op'>=</span> <span class='va'>results</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span></span>
+<span class='r-in'>  <span class='va'>close_connection</span> <span class='op'>=</span> <span class='va'>results</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span></span>
+<span class='r-in'>  <span class='co'># Check data as chunks, you can see chunk time is shifting forward at each iteration.</span></span>
+<span class='r-in'>  <span class='va'>n</span> <span class='op'>=</span> <span class='fl'>1</span></span>
+<span class='r-in'>  <span class='kw'>repeat</span> <span class='op'>{</span></span>
+<span class='r-in'>    <span class='va'>df</span> <span class='op'>=</span> <span class='fu'>next_chunk</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'>    <span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span> <span class='op'>&gt;</span> <span class='fl'>0</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>      <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='st'>'chunk'</span>, <span class='va'>n</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'>      <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='st'>"df:"</span>, <span class='va'>df</span><span class='op'>[</span><span class='fl'>1</span>, <span class='fl'>1</span><span class='op'>]</span>, <span class='st'>'-'</span>, <span class='va'>df</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span>,<span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'>      <span class='va'>n</span> <span class='op'>=</span> <span class='va'>n</span> <span class='op'>+</span> <span class='fl'>1</span></span>
+<span class='r-in'>      <span class='fu'>close_connection</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'>    <span class='op'>}</span></span>
+<span class='r-in'>    <span class='kw'>else</span> <span class='op'>{</span></span>
+<span class='r-in'>      <span class='kw'>break</span></span>
+<span class='r-in'>    <span class='op'>}</span></span>
+<span class='r-in'>  <span class='op'>}</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "chunk 1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "df: 2017-03-16 12:25:50.000 - 2017-03-16 12:25:55.987"</span>
+<span class='r-in'></span>
+<span class='r-in'> <span class='co'># Restore default options</span></span>
+<span class='r-in'> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span><span class='va'>default_ops</span><span class='op'>)</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
