@@ -1,8 +1,7 @@
 ## Test environments
-* Windows 10 x64 (build 18362 on local machine, github actions), R version 4.0 and devel
-* ubuntu 16.04 (on github actions), R version 3.6.2 and devel
-* deepin 15.11 (on virtual machine), R version 3.6.2
-* mac os latest (on github actions), R version 3.6.2
+* Windows 10 x64 (build 18362 on local machine, github actions), R version 4.1.2 and devel
+* ubuntu latest (on github actions), R version 4.1.2 and devel
+* mac os latest (on github actions), R version 4.1.2
 
 ## R CMD check results
 There were no NOTEs, ERRORs or WARNINGs. 

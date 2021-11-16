@@ -1,3 +1,7 @@
+# MIMSunit 0.11.1
+
+* Resolve CRAN release ERROR.
+
 # MIMSunit 0.11.0
 
 ## BREAKING CHANGES

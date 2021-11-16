@@ -1,8 +1,8 @@
 Package: MIMSunit
 Type: Package
 Title: Algorithm to Compute Monitor Independent Movement Summary Unit (MIMS-Unit)
-Version: 0.11.0
-Date: 2021-09-03
+Version: 0.11.1
+Date: 2021-11-16
 Authors@R: c(person("Qu", "Tang", email = "tang.q@northeastern.edu",
                   role = c("aut", "cre"), comment = c(ORCID = "0000-0001-5415-0205")),
              person("Dinesh", "John", email = "d.john@northeastern.edu",
@@ -22,7 +22,7 @@ Language: en-US
 Depends: R (>= 3.6.0)
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 URL: https://mhealthgroup.github.io/MIMSunit/, https://github.com/mhealthgroup/MIMSunit/tree/master
 BugReports: https://github.com/mhealthgroup/MIMSunit/issues/
 Imports:
