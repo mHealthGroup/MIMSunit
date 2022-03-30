@@ -1,12 +1,47 @@
-# MIMSunit 0.9.2.9000
+# MIMSunit 0.11.1
+
+* Resolve CRAN release ERROR.
+
+# MIMSunit 0.11.0
+
+## BREAKING CHANGES
+
+* Add a new input argument `use_snapshot_to_check` to `mims_unit()` to configure the data used to check duplicated timestamps.
+
+* Enable `has_ts` argument in `import_actigraph_csv()` and `import_actigraph_csv_chunked()` functions. Now the timestamps will be computed based on the sampling rate and start time in the actigraph csv header.
+
+## Bug fixes
+
+* Check duplicated timestamps and raise error when calling `mims_unit()`. Use `diff` function to accelerate the computation ([@vincentvanhees](https://github.com/vincentvanhees)).
+* Fix the `rest_on_table` sample data to remove duplicated timestamps in it.
+
+## Documentation
+
+* Update FAQ about the duplicated timestamps problem.
+
+# MIMSunit 0.10.0
+
+## BREAKING CHANGES
+
+* `import_actigraph_csv()` and `import_actigraph_csv_chunked()` functions no longer support `has_ts` flag. Users should always ensure input data have timestamps in the first column. **Note that for versions `<=0.9.2`, always make sure the input raw accelerometer data includes timestamps in the first column and set `has_ts` to TRUE when using `import_actigraph_csv()` and `import_actigraph_csv_chunked()` functions to avoid a known bug.**
 
 ## Bug fixes
 
 * Remove warnings from dplyr > 1.0.0.
+* The first column of the input data.frame does not have to be HEADER_TIME_STAMP. [#29](https://github.com/mHealthGroup/MIMSunit/issues/29).
+
+## Refactor
+
+* Refactor `export_to_actilife()` and `conceptual_diagram` vignette to be compatible with newer versions of `readr` and `plyr` packages.
+
+## Development
+
+* Update development package versions
 
 ## Documentation
 
 * Add back man pages to the github development version.
+* Fix invalid urls in any documentations.
 
 # MIMSunit 0.9.2
 
@@ -149,7 +184,7 @@
 
 * Add two datasets for experiment results (see [this article](https://mhealthgroup.github.io/MIMSunit/articles/cross_device_consistency.html)).
 * Move MIMSunit R project one level down to a subdirectory to better support git submodules.
-* Add [`MIMSunit-dataset-shaker`](https://github.com/qutang/MIMSunit-dataset-shaker) as submodule.
+* Add [`MIMSunit-dataset-shaker`](https://github.com/mHealthGroup/MIMSunit-dataset-shaker/) as submodule.
 
 # MIMSunit 0.5.10
 

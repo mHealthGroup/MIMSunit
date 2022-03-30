@@ -19,7 +19,7 @@ A data frame with 235 rows and 8 variables:
 }
 }
 \source{
-\url{https://github.com/qutang/MIMSunit-dataset-shaker}
+\url{https://github.com/mHealthGroup/MIMSunit-dataset-shaker/}
 }
 \usage{
 measurements_different_devices

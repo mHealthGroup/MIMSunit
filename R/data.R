@@ -10,7 +10,7 @@
 #'   \item{Y}{Y axis values, in number}
 #'   \item{Z}{Z axis values, in number}
 #' }
-#' @source \url{https://github.com/qutang/MIMSunit}
+#' @source \url{https://github.com/mHealthGroup/MIMSunit/}
 "sample_raw_accel_data"
 
 #' Coefficient of variation values for different acceleration data summary
@@ -26,7 +26,7 @@
 #'   \item{HZ}{The frequency of the elliptical shaker, in number}
 #'   \item{COEFF_OF_VARIATION}{The coefficient of variation values, in number}
 #' }
-#' @source \url{https://github.com/qutang/MIMSunit-dataset-shaker}
+#' @source \url{https://github.com/mHealthGroup/MIMSunit-dataset-shaker/}
 "cv_different_algorithms"
 
 
@@ -48,7 +48,7 @@
 #'   \item{mean}{The mean values of accelerometer summary measure, in number}
 #'   \item{sd}{The standard deviation values of accelerometer summary measure, in number}
 #' }
-#' @source \url{https://github.com/qutang/MIMSunit-dataset-shaker}
+#' @source \url{https://github.com/mHealthGroup/MIMSunit-dataset-shaker/}
 "measurements_different_devices"
 
 
@@ -71,7 +71,7 @@
 #'   \item{SR}{The sampling rate in Hz of the simulated device, in number}
 #'   \item{NAME}{An alternative name that is friendly for plotting for different devices, in character}
 #' }
-#' @source \url{https://github.com/qutang/MIMSunit}
+#' @source \url{https://github.com/mHealthGroup/MIMSunit/}
 "conceptual_diagram_data"
 
 #' A short snippet of raw accelerometer signal from a device resting on a table.
@@ -85,7 +85,7 @@
 #'   \item{Y}{The x axis value of raw accelerometer data, in number}
 #'   \item{Z}{The x axis value of raw accelerometer data, in number}
 #' }
-#' @source \url{https://github.com/qutang/MIMSunit}
+#' @source \url{https://github.com/mHealthGroup/MIMSunit/}
 "rest_on_table"
 
 #' A short snippet of raw accelerometer signal from a device that has ending data maxed out.
@@ -99,5 +99,5 @@
 #'   \item{Y}{The x axis value of raw accelerometer data, in number}
 #'   \item{Z}{The x axis value of raw accelerometer data, in number}
 #' }
-#' @source \url{https://github.com/qutang/MIMSunit}
+#' @source \url{https://github.com/mHealthGroup/MIMSunit/}
 "edge_case"

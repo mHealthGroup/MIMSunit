@@ -70,57 +70,6 @@ Plot MIMS-unit values
 MIMSunit::generate_interactive_plot(mims, "MIMS-unit values", c(2,3,4,5))
 ```
 
-## Run on a single actigraph csv file without timestamps
-
-### File format
-
-```
------------- Data File Created By ActiGraph GT3X ActiLife v6.13.3 Firmware v4.4.0 date format M/d/yyyy at 30 Hz Filter Normal -----------
-Serial Number: MAT2A16099981
-Start Time 11:21:00
-Start Date 6/14/2018
-Epoch Period (hh:mm:ss) 00:00:00
-Download Time 15:17:47
-Download Date 6/14/2018
-Current Memory Address: 2545464
-Current Battery Voltage: 4.21     Mode = 12
---------------------------------------------------
-Axis1,Axis2,Axis3
--0.498,-0.483,-1.47
-0.004,-0.021,-1.073
-0.013,-0.008,-1.056
-0.013,-0.004,-1.06
-0.013,-0.004,-1.06
-0.013,-0.004,-1.056
-0.013,-0.004,-1.056
-0.017,-0.004,-1.056
-0.013,-0.004,-1.056
-0.017,-0.004,-1.06
-0.013,-0.004,-1.056
-0.013,-0.004,-1.056
-```
-
-### Command
-
-Make sure `file_type` is set to 'actigraph' and `file_path` is put in a vector. Actigraph csv file may not include timestamps, so make sure set `has_ts` to `FALSE`.
-
-Compute MIMS-unit values
-```{r echo=TRUE, message=FALSE, warning=FALSE, results=FALSE}
-# test with a sample file shipped with the package
-sample_file_path = system.file('extdata', 'actigraph.csv', package='MIMSunit')
-mims = MIMSunit::mims_unit_from_files(c(sample_file_path), 
-                                      epoch = '5 sec', 
-                                      dynamic_range = c(-3, 3), 
-                                      output_mims_per_axis = TRUE, 
-                                      file_type = 'actigraph', 
-                                      has_ts = FALSE)
-```
-
-Plot MIMS-unit values
-```{r echo=TRUE, fig.height=2.5, message=FALSE, warning=FALSE, out.width='100%'}
-MIMSunit::generate_interactive_plot(mims, "MIMS-unit values", c(2,3,4,5))
-```
-
 ## Run on a single actigraph csv file with timestamps
 
 ### File format
@@ -162,8 +111,7 @@ mims = MIMSunit::mims_unit_from_files(c(sample_file_path),
                                       epoch = '5 sec', 
                                       dynamic_range = c(-6, 6), 
                                       output_mims_per_axis = TRUE, 
-                                      file_type = 'actigraph', 
-                                      has_ts = TRUE)
+                                      file_type = 'actigraph')
 ```
 
 Plot MIMS-unit values

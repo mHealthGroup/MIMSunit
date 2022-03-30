@@ -40,7 +40,7 @@ The collected dataset is then processed by three accelerometer data summary algo
 
 1. Actigraph counts (processed using Actilife software)
 2. [ENMO](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0164045) (used by UK Biobank project)
-3. [MIMS-Unit](https://mhealthgroup.github.io/MIMSunit) (used by NHANES project)
+3. [MIMS-Unit](https://mhealthgroup.github.io/MIMSunit/) (used by NHANES project)
 
 _The collected data is calibrated using at least 24h wearing data when applying ENMO algorithm as suggested in the paper. The other two algorithms do not require specific calibration unless the calibration is suggested by device manufacturers._
 

@@ -137,7 +137,8 @@ sampling_rate <- function(df) {
 #'   # Restore original options
 #'   options(default_ops)
 clip_data <- function(df, start_time, stop_time) {
-  tzone <- lubridate::tz(df[["HEADER_TIME_STAMP"]][1])
+  df = as.data.frame(df)
+  tzone <- lubridate::tz(df[[1, 1]])
   if (is.character(start_time)) {
     start_time <- as.POSIXct(start_time, tz = tzone)
   }
@@ -147,8 +148,8 @@ clip_data <- function(df, start_time, stop_time) {
   }
   stop_time <- lubridate::force_tz(stop_time, tzone = tzone)
 
-  mask <- df[["HEADER_TIME_STAMP"]] >= start_time &
-    df[["HEADER_TIME_STAMP"]] <= stop_time
+  mask <- df[, 1] >= start_time &
+    df[, 1] <= stop_time
   sub_df <- df[mask, ]
 
   return(sub_df)

@@ -7,8 +7,8 @@
 
 [![CRAN
 Status](https://www.r-pkg.org/badges/version/MIMSunit)](https://cran.r-project.org/package=MIMSunit)
-[![Pkgdown](https://github.com/mHealthGroup/MIMSunit/workflows/Pkgdown/badge.svg?branch=master)](https://github.com/mHealthGroup/MIMSunit)
-[![.github/workflows/test.yml](https://github.com/mHealthGroup/MIMSunit/workflows/.github/workflows/test.yml/badge.svg)](https://github.com/mHealthGroup/MIMSunit)
+[![Pkgdown](https://github.com/mHealthGroup/MIMSunit/workflows/Pkgdown/badge.svg?branch=master)](https://github.com/mHealthGroup/MIMSunit/)
+[![.github/workflows/test.yml](https://github.com/mHealthGroup/MIMSunit/workflows/.github/workflows/test.yml/badge.svg)](https://github.com/mHealthGroup/MIMSunit/)
 [![AppVeyor build
 status](https://ci.appveyor.com/api/projects/status/github/muschellij2/MIMSunit?branch=master&svg=true)](https://ci.appveyor.com/project/muschellij2/MIMSunit)
 [![](https://cranlogs.r-pkg.org/badges/MIMSunit)](https://cran.r-project.org/package=MIMSunit)
@@ -16,7 +16,13 @@ status](https://ci.appveyor.com/api/projects/status/github/muschellij2/MIMSunit?
 
 **Please create github
 [issues](https://github.com/mhealthgroup/MIMSunit/issues/) if you have
-any question related to the package.**
+any question related to the package. Please click the following button
+to subscribe to any update on the package (Very important to receive
+notifications about bugs and bug fixes).**
+
+<!-- Place this tag where you want the button to render. -->
+
+<a class="github-button" href="https://github.com/mhealthgroup/MIMSunit/subscription" data-color-scheme="no-preference: dark; light: light; dark: dark;" data-size="large" data-show-count="true" aria-label="Watch mhealthgroup/MIMSunit on GitHub">Watch</a>
 
 ## Short introduction
 
@@ -29,7 +35,7 @@ description of the algorithm.
 ## Copyright and citation
 
 The copyright of the work belongs to Northeastern University, [mHealth
-Research Group](https://mhealthgroup.org). Please kindly [cite the
+Research Group](https://www.mhealthgroup.org/). Please kindly [cite the
 manuscript](https://mhealthgroup.github.io/MIMSunit/authors.html) if you
 have used the package or referred to the algorithm in your work.
 
@@ -47,12 +53,12 @@ All datasets used in the manuscript are available at
 
 ## System Requirements
 
-1.  R (\>= 3.6.0)
-2.  memory (\> 4GB)
+1.  R (&gt;= 3.6.0)
+2.  memory (&gt; 4GB)
 
 ### For Windows
 
-Rtools 3.5 (see: <https://cran.r-project.org/bin/windows/Rtools/>)
+Rtools &gt;=3.5 (see: <https://cran.r-project.org/bin/windows/Rtools/>)
 
 ### For Linux (use ubuntu as an example)
 
@@ -67,13 +73,6 @@ CRAN
 
 ``` r
 install.packages('MIMSunit')
-```
-
-Osler in health
-
-``` r
-source("https://oslerinhealth.org/oslerLite.R")
-osler_install('MIMSunit')
 ```
 
 ### Development version

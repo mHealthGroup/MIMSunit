@@ -14,7 +14,7 @@ A data frame with 20001 rows and 4 variables:
 }
 }
 \source{
-\url{https://github.com/qutang/MIMSunit}
+\url{https://github.com/mHealthGroup/MIMSunit/}
 }
 \usage{
 edge_case

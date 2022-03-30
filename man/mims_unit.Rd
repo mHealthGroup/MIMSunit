@@ -13,7 +13,8 @@ mims_unit(
   dynamic_range,
   output_mims_per_axis = FALSE,
   use_gui_progress = FALSE,
-  st = NULL
+  st = NULL,
+  use_snapshot_to_check = FALSE
 )
 
 mims_unit_from_files(
@@ -22,6 +23,7 @@ mims_unit_from_files(
   dynamic_range,
   output_mims_per_axis = FALSE,
   use_gui_progress = FALSE,
+  use_snapshot_to_check = FALSE,
   file_type = "mhealth",
   ...
 )
@@ -65,6 +67,10 @@ function will use the first timestamp in the timestamp column as start time to
 generate epochs. This is useful when you are processing a stream of data and
 want to use a common start time for segmenting data. Default is NULL.}
 
+\item{use_snapshot_to_check}{logical. If TRUE, the function will use the first
+100 rows or 10% (whichever is smaller) to check timestamp duplications. Otherwise,
+the algorithm will use all data to check timestamp duplications. Default is FALSE.}
+
 \item{files}{character vector. A list of csv filepaths for raw accelerometer
 data organized in order to be processed. The data should be consecutive in
 timestamps. A typical case is a set of hourly or daily files for
@@ -103,6 +109,10 @@ This function is a wrapper function for the low-level
 
   \code{before_df} and \code{after_df} are often set when the accelerometer
   data are divided into files of smaller chunk.
+
+  Please make sure the input data do not contain duplicated timestamps. See
+   more information about this \href{https://github.com/mHealthGroup/MIMSunit/issues/32}{issue}.
+   Otherwise the computation will stop.
 }
 \section{How is it used in MIMS-unit algorithm?}{
  This is the main entry of

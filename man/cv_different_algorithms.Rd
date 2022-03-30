@@ -14,7 +14,7 @@ A data frame with 30 rows and 3 variables:
 }
 }
 \source{
-\url{https://github.com/qutang/MIMSunit-dataset-shaker}
+\url{https://github.com/mHealthGroup/MIMSunit-dataset-shaker/}
 }
 \usage{
 cv_different_algorithms

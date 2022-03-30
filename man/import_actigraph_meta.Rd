@@ -45,7 +45,7 @@ conversion. See \code{\link{import_actigraph_csv}}. }
   options(digits.secs=3)
 
   # Use the sample actigraph csv file provided by the package
-  filepath = system.file('extdata', 'actigraph.csv', package='MIMSunit')
+  filepath = system.file('extdata', 'actigraph_timestamped.csv', package='MIMSunit')
 
   # Check file format
   readLines(filepath)[1:15]
