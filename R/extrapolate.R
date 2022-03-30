@@ -107,6 +107,7 @@ extrapolate_single_col <-
         xout = t_over,
         method = "natural"
       )
+    rm(t)
     rm(t_over)
     rm(value)
     dat_over <- data.frame(dat_over)
