@@ -160,10 +160,12 @@ extrapolate_single_col <-
       xout = t_over,
       method = "natural"
     )
+  t1 = t[1]
   rm(t_over)
+  rm(t)
   rm(value)
   dat_over <- data.frame(dat_over)
-  if (lubridate::is.POSIXct(t[1])) {
+  if (lubridate::is.POSIXct(t1)) {
     dat_over[1] <- as.POSIXct(dat_over[[1]], origin = "1970-01-01", tz = time_zone)
   }
   if (is.unsorted(dat_over$x)) {
