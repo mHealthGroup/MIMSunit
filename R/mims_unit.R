@@ -328,6 +328,7 @@ custom_mims_unit <-
            use_snapshot_to_check=FALSE) {
 
 
+    check_epoch(breaks = epoch)
     if (inherits(df, "tbl_df")) {
       df = as.data.frame(df)
     }
@@ -336,6 +337,7 @@ custom_mims_unit <-
       df = df[ order(first_col), ]
     }
     rm(first_col)
+    stopifnot("HEADER_TIME_STAMP" %in% colnames(df))
 
     # check timestamp duplication after the timestamp column is sorted
     if (use_snapshot_to_check) {
@@ -427,6 +429,7 @@ custom_mims_unit <-
 
     abnormal_data <- resampled_data[row_abnormal, ]
     normal_data <- resampled_data[!row_abnormal, ]
+    rm(row_abnormal)
 
     # Compute orientations
     if (output_orientation_estimation) {

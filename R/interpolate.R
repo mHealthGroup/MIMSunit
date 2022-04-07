@@ -60,6 +60,8 @@ interpolate_signal <-
     x_out <- seq(from = st, to = et, by = 1 / sr)
     ts <- df[[1]]
     values <- as.data.frame(df[2:n_cols])
+    cn1 = colnames(df)[1]
+    rm(df)
     result <- plyr::alply(values,
       .margins = 2, function(col_data) {
         col_name <- names(col_data)[1]
@@ -67,7 +69,7 @@ interpolate_signal <-
         output <-
           switch(
             method,
-            linear = stats::approx(x = ts[1], y = col_data, xout = x_out),
+            linear = stats::approx(x = ts, y = col_data, xout = x_out),
             spline_fmm = stats::spline(
               x = ts,
               y = col_data,
@@ -88,13 +90,14 @@ interpolate_signal <-
             )
           )
         output <- data.frame(output)
-        colnames(output) <- c(colnames(df)[1], col_name)
+        colnames(output) <- c(cn1, col_name)
         return(output)
       }
     )
+    rm(x_out)
     result <- Reduce(
       function(x, y) {
-        return(merge(x, y, by = colnames(x)[1]))
+        return(dplyr::inner_join(x, y, by = colnames(x)[1]))
       },
       result
     )
