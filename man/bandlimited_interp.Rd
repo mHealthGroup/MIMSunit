@@ -50,8 +50,6 @@ implementation.
 }
 \seealso{
 Other filtering functions: 
-\code{\link{bessel}()},
-\code{\link{iir}()},
-\code{\link{remove_average}()}
+\code{\link{iir}()}
 }
 \concept{filtering functions}

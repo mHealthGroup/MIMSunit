@@ -30,8 +30,6 @@ reference:
     desc: "Functions to filter multi-channel accelerometer signal."
     contents:
       - iir
-      - bessel
-      - remove_average
       - bandlimited_interp
   - title: "Signal transformation"
     desc: "Functions to transform the multi-channel accelerometer signal."
@@ -90,7 +88,6 @@ template:
   bootstrap: 3
   params:
     ganalytics: UA-38342303-3
-  path: inst/pkgdown/templates
 navbar:
   title: "MIMSunit"
   left:

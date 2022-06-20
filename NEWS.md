@@ -1,3 +1,11 @@
+# MIMSunit 0.11.2
+
+* Remove "matlab" dependency.
+
+## BREAKING CHANGES
+
+* Remove "remove_average" and "bessel" filtering functions. 
+
 # MIMSunit 0.11.1
 
 * Resolve CRAN release ERROR.

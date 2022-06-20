@@ -19,7 +19,7 @@ dataframe. The imported ENMO data, with the first column being the
 \description{
 \code{import_enmo_csv} imports ENMO data stored in a summary csv format,
 which was exported by the
-\href{https://github.com/activityMonitoring/biobankAccelerometerAnalysis}{biobank
+\href{https://github.com/OxWearables/biobankAccelerometerAnalysis}{biobank
 data analysis tools}.
 }
 \section{How is it used in MIMS-unit algorithm?}{

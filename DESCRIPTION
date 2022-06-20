@@ -1,8 +1,8 @@
 Package: MIMSunit
 Type: Package
 Title: Algorithm to Compute Monitor Independent Movement Summary Unit (MIMS-Unit)
-Version: 0.11.1
-Date: 2021-11-16
+Version: 0.11.2
+Date: 2022-06-20
 Authors@R: c(person("Qu", "Tang", email = "tang.q@northeastern.edu",
                   role = c("aut", "cre"), comment = c(ORCID = "0000-0001-5415-0205")),
              person("Dinesh", "John", email = "d.john@northeastern.edu",
@@ -22,7 +22,7 @@ Language: en-US
 Depends: R (>= 3.6.0)
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.0
 URL: https://mhealthgroup.github.io/MIMSunit/, https://github.com/mhealthgroup/MIMSunit/tree/master
 BugReports: https://github.com/mhealthgroup/MIMSunit/issues/
 Imports:
@@ -31,13 +31,12 @@ Imports:
     dplyr (>= 0.7.7),
     lubridate (>= 1.7.4),
     magrittr (>= 1.5),
-    matlab (>= 1.0.2),
     plyr (>= 1.8.4),
     readr (>= 1.1.1),
     R.utils (>= 2.7.0),
-    signal (>= 0.7-6),
     stringr (>= 1.3.1),
     xts (>= 0.11-2),
+    signal (>= 0.7-7),
     dygraphs (>= 1.1.1.6),
     shiny (>= 1.4.0.2),
     RColorBrewer (>= 1.1-2),

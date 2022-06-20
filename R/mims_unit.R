@@ -460,16 +460,6 @@ custom_mims_unit <-
             type = "pass",
             filter_type = "butter"
           )
-      } else if (filter_type == "bessel") {
-        filtered_data <- remove_average(normal_data, sr = sr, order = 0.5)
-        filtered_data <- filtered_data[[1]]
-        filtered_data <-
-          bessel(
-            filtered_data,
-            sr = sr,
-            cutoff_freq = cutoffs[2] * 2,
-            order = 8
-          )
       } else if (filter_type == "ellip") {
         filtered_data <-
           iir(

@@ -65,8 +65,6 @@ fixed to be 0.05 dB. For Elliptic filter, the stopband ripple is fixed to be
 }
 \seealso{
 Other filtering functions: 
-\code{\link{bandlimited_interp}()},
-\code{\link{bessel}()},
-\code{\link{remove_average}()}
+\code{\link{bandlimited_interp}()}
 }
 \concept{filtering functions}
