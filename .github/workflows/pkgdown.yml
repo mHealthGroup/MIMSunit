@@ -30,18 +30,16 @@ jobs:
       - name: Install dependencies
         run: |
           install.packages('remotes')
-<<<<<<< HEAD
         shell: Rscript {0}
-=======
->>>>>>> c0036d35928d798474a5a297477bb5835c8977da
 
       - name: Install system dependencies
         if: runner.os == 'Linux'
+        env:
+          RHUB_PLATFORM: linux-x86_64-ubuntu-gcc
         run: |
-          while read -r cmd
-          do
-            eval sudo $cmd
-          done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "18.04"))')
+          Rscript -e "remotes::install_github('r-hub/sysreqs')"
+          sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
+          sudo -s eval "$sysreqs"
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
