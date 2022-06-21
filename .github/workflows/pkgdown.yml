@@ -30,7 +30,10 @@ jobs:
       - name: Install dependencies
         run: |
           install.packages('remotes')
+<<<<<<< HEAD
         shell: Rscript {0}
+=======
+>>>>>>> c0036d35928d798474a5a297477bb5835c8977da
 
       - name: Install system dependencies
         if: runner.os == 'Linux'
