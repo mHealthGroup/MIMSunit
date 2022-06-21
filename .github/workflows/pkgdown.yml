@@ -27,6 +27,11 @@ jobs:
         with:
           use-public-rspm: true
 
+      - name: Install dependencies
+        run: |
+          install.packages('remotes')
+        shell: Rscript {0}
+
       - name: Install system dependencies
         if: runner.os == 'Linux'
         run: |
