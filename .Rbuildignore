@@ -40,3 +40,4 @@ dev.R
 ^CRAN-RELEASE$
 ^appveyor\.yml$
 ^pkgdown$
+^CRAN-SUBMISSION$
