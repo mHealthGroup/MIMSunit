@@ -13,7 +13,7 @@
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Datasets">
 <meta property="og:description" content="MIMSunit">
-<!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><script async="" defer src="https://buttons.github.io/buttons.js"></script><!--[if lt IE 9]>
+<!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-38342303-3"></script><script>
@@ -25,6 +25,8 @@
 </script>
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -37,14 +39,14 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.2</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Get Started
      
     <span class="caret"></span>
@@ -62,7 +64,7 @@
   <a href="../articles/datasets.html">Datasets</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Algorithm Walkthrough
      
     <span class="caret"></span>
@@ -77,7 +79,7 @@
   </ul>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Performances
      
     <span class="caret"></span>
@@ -103,7 +105,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/mhealthgroup/mimsunit">
+  <a href="https://github.com/mhealthgroup/mimsunit" class="external-link">
     <span class="fa fa-lg fa-github"></span>
      
   </a>
@@ -122,11 +124,11 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Datasets</h1>
-                        <h4 class="author">Qu Tang</h4>
+                        <h4 data-toc-skip class="author">Qu Tang</h4>
             
-            <h4 class="date">2021-11-29</h4>
+            <h4 data-toc-skip class="date">2022-06-21</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/mhealthgroup/MIMSunit/blob/master/vignettes/datasets.Rmd"><code>vignettes/datasets.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/mhealthgroup/MIMSunit/blob/HEAD/vignettes/datasets.Rmd" class="external-link"><code>vignettes/datasets.Rmd</code></a></small>
       <div class="hidden name"><code>datasets.Rmd</code></div>
 
     </div>
@@ -134,9 +136,9 @@
     
     
 <p>We used three datasets when developing MIMS-unit algorithm. We list the datasets here you may refer to the datasets repos for details and use them to reproduce the results in the manuscript.</p>
-<div id="elliptical-shaker-dataset" class="section level2">
-<h2 class="hasAnchor">
-<a href="#elliptical-shaker-dataset" class="anchor"></a>Elliptical shaker dataset</h2>
+<div class="section level2">
+<h2 id="elliptical-shaker-dataset">Elliptical shaker dataset<a class="anchor" aria-label="anchor" href="#elliptical-shaker-dataset"></a>
+</h2>
 <p>In this dataset, we collected elliptical shaker data from multiple devices at different spinning speed. Please refer to the manuscript for the experiment protocol.</p>
 <table class="table">
 <thead><tr class="header">
@@ -192,26 +194,26 @@
 <li>Tune the best parameter setups for the extrapolation algorithm.</li>
 <li>Compute the cross device consistency <code><a href="../articles/cross_device_consistency.html">vignette("cross_device_consistency")</a></code> after applying different accelerometer summarization algorithms.</li>
 </ol>
-<p><strong>Dataset repo</strong>: <a href="https://github.com/mHealthGroup/MIMSunit-dataset-shaker" class="uri">https://github.com/mHealthGroup/MIMSunit-dataset-shaker</a><br><strong>Dataset documentation</strong>: The file and folder names are self-explainable.</p>
+<p><strong>Dataset repo</strong>: <a href="https://github.com/mHealthGroup/MIMSunit-dataset-shaker" class="external-link uri">https://github.com/mHealthGroup/MIMSunit-dataset-shaker</a><br><strong>Dataset documentation</strong>: The file and folder names are self-explainable.</p>
 </div>
-<div id="human-treadmill-dataset" class="section level2">
-<h2 class="hasAnchor">
-<a href="#human-treadmill-dataset" class="anchor"></a>Human treadmill dataset</h2>
+<div class="section level2">
+<h2 id="human-treadmill-dataset">Human treadmill dataset<a class="anchor" aria-label="anchor" href="#human-treadmill-dataset"></a>
+</h2>
 <p>This dataset includes raw accelerometer data of treadmill walking and running from 10 participants wearing Actigraph devices (Some with GT3X+ and others with GT9X) on non dominant wrist and dominant waist.</p>
 <p>The dataset is used to compare the consistency of MIMS-unit values and the other summarization algorithms (ENMO, Actigraph count) when people are walking and running at different speeds. The dataset is also used to generate the dominant frequency and amplitude figure of walking and running at different speeds in the supplementary materials.</p>
-<p><strong>Dataset repo</strong>: <a href="https://github.com/mHealthGroup/MIMSunit-dataset-treadmill" class="uri">https://github.com/mHealthGroup/MIMSunit-dataset-treadmill</a><br><strong>Dataset documentation</strong>: <a href="https://github.com/mHealthGroup/MIMSunit-dataset-treadmill" class="uri">https://github.com/mHealthGroup/MIMSunit-dataset-treadmill</a></p>
+<p><strong>Dataset repo</strong>: <a href="https://github.com/mHealthGroup/MIMSunit-dataset-treadmill" class="external-link uri">https://github.com/mHealthGroup/MIMSunit-dataset-treadmill</a><br><strong>Dataset documentation</strong>: <a href="https://github.com/mHealthGroup/MIMSunit-dataset-treadmill" class="external-link uri">https://github.com/mHealthGroup/MIMSunit-dataset-treadmill</a></p>
 </div>
-<div id="human-physical-activity-dataset-spades" class="section level2">
-<h2 class="hasAnchor">
-<a href="#human-physical-activity-dataset-spades" class="anchor"></a>Human physical activity dataset (SPADES)</h2>
+<div class="section level2">
+<h2 id="human-physical-activity-dataset-spades">Human physical activity dataset (SPADES)<a class="anchor" aria-label="anchor" href="#human-physical-activity-dataset-spades"></a>
+</h2>
 <p>In this dataset, we collected 22 different daily physical activities from 50 participants with sensors mounted on seven different body locations (both wrists, both ankles, both waist sides, and dominant thigh).</p>
 <p>Data from non dominant wrist and dominant ankle are used in developing MIMS-unit algorithm. It is mainly used to show the MIMS-unit values on different daily physical activities and specifically to show MIMS-unit algorithm does not suppress motions for sedentary activities.</p>
-<p><strong>Dataset repo</strong>: <a href="https://github.com/qutang/MUSS/releases/download/v1.2.0/muss_data.tar.gz" class="uri">https://github.com/qutang/MUSS/releases/download/v1.2.0/muss_data.tar.gz</a><br><strong>Dataset documentation</strong>: <a href="https://mhealth-specification.gitbook.io/mhealth-specification/" class="uri">https://mhealth-specification.gitbook.io/mhealth-specification/</a></p>
+<p><strong>Dataset repo</strong>: <a href="https://github.com/qutang/MUSS/releases/download/v1.2.0/muss_data.tar.gz" class="external-link uri">https://github.com/qutang/MUSS/releases/download/v1.2.0/muss_data.tar.gz</a><br><strong>Dataset documentation</strong>: <a href="https://mhealth-specification.gitbook.io/mhealth-specification/" class="external-link uri">https://mhealth-specification.gitbook.io/mhealth-specification/</a></p>
 </div>
-<div id="nhanes-and-nnyfs-dataset" class="section level2">
-<h2 class="hasAnchor">
-<a href="#nhanes-and-nnyfs-dataset" class="anchor"></a>NHANES and NNYFS dataset</h2>
-<p>In addition to the datasets used to validate the algorithm, the MIMSunit algorithm was also used to process the <a href="https://wwwn.cdc.gov/nchs/nhanes/Search/DataPage.aspx?Component=Examination&amp;CycleBeginYear=2013">NHANES dataset (2011-2014)</a> and <a href="https://wwwn.cdc.gov/nchs/nhanes/search/nnyfsdata.aspx?Component=Examination">NNYFS dataset (2012)</a>.</p>
+<div class="section level2">
+<h2 id="nhanes-and-nnyfs-dataset">NHANES and NNYFS dataset<a class="anchor" aria-label="anchor" href="#nhanes-and-nnyfs-dataset"></a>
+</h2>
+<p>In addition to the datasets used to validate the algorithm, the MIMSunit algorithm was also used to process the <a href="https://wwwn.cdc.gov/nchs/nhanes/Search/DataPage.aspx?Component=Examination&amp;CycleBeginYear=2013" class="external-link">NHANES dataset (2011-2014)</a> and <a href="https://wwwn.cdc.gov/nchs/nhanes/search/nnyfsdata.aspx?Component=Examination" class="external-link">NNYFS dataset (2012)</a>.</p>
 </div>
   </div>
 
@@ -226,11 +228,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://qutang.dev"><img class="img-circle p-3" src="https://d33wubrfki0l68.cloudfront.net/8af2089476f179254b3bc9628e13f7d143acab42/8309e/images/avatar.jpg" height="40"><span> Qu Tang</span></a>, <a href="https://bouve.northeastern.edu/directory/dinesh-john/"><img class="img-circle p-3" src="https://banner2.kisspng.com/20180410/bbw/kisspng-avatar-user-medicine-surgery-patient-avatar-5acc9f7a7cb983.0104600115233596105109.jpg" height="40"><span> Dinesh John</span></a>, <a href="http://www.ccs.neu.edu/home/intille/"><img class="img-circle p-3" src="http://www.ccs.neu.edu/home/intille/intille-headshot-sm2.jpg" height="40"><span> Stephen Intille</span></a>.</p>
+  <p></p>
+<p>Developed by <a href="https://qutang.dev" class="external-link"><img class="img-circle p-3" src="https://d33wubrfki0l68.cloudfront.net/8af2089476f179254b3bc9628e13f7d143acab42/8309e/images/avatar.jpg" height="40"><span> Qu Tang</span></a>, <a href="https://bouve.northeastern.edu/directory/dinesh-john/" class="external-link"><img class="img-circle p-3" src="https://banner2.kisspng.com/20180410/bbw/kisspng-avatar-user-medicine-surgery-patient-avatar-5acc9f7a7cb983.0104600115233596105109.jpg" height="40"><span> Dinesh John</span></a>, <a href="http://www.ccs.neu.edu/home/intille/" class="external-link"><img class="img-circle p-3" src="http://www.ccs.neu.edu/home/intille/intille-headshot-sm2.jpg" height="40"><span> Stephen Intille</span></a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer>
@@ -238,6 +242,8 @@
 
   
 
+
+  
 
   </body>
 </html>

@@ -13,7 +13,7 @@
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Compute MIMS-unit from files">
 <meta property="og:description" content="MIMSunit">
-<!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><script async="" defer src="https://buttons.github.io/buttons.js"></script><!--[if lt IE 9]>
+<!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-38342303-3"></script><script>
@@ -25,6 +25,8 @@
 </script>
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -37,14 +39,14 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MIMSunit</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.2</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Get Started
      
     <span class="caret"></span>
@@ -62,7 +64,7 @@
   <a href="../articles/datasets.html">Datasets</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Algorithm Walkthrough
      
     <span class="caret"></span>
@@ -77,7 +79,7 @@
   </ul>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Performances
      
     <span class="caret"></span>
@@ -103,7 +105,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/mhealthgroup/mimsunit">
+  <a href="https://github.com/mhealthgroup/mimsunit" class="external-link">
     <span class="fa fa-lg fa-github"></span>
      
   </a>
@@ -118,28 +120,28 @@
 
       
 
-      </header><script src="mims_unit_from_files_files/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="mims_unit_from_files_files/htmlwidgets-1.5.4/htmlwidgets.js"></script><script src="mims_unit_from_files_files/jquery-1.11.1/jquery.min.js"></script><link href="mims_unit_from_files_files/dygraphs-1.1.1/dygraph.css" rel="stylesheet">
+      </header><script src="mims_unit_from_files_files/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="mims_unit_from_files_files/htmlwidgets-1.5.4/htmlwidgets.js"></script><link href="mims_unit_from_files_files/dygraphs-1.1.1/dygraph.css" rel="stylesheet">
 <script src="mims_unit_from_files_files/dygraphs-1.1.1/dygraph-combined.js"></script><script src="mims_unit_from_files_files/dygraphs-1.1.1/shapes.js"></script><script src="mims_unit_from_files_files/moment-2.8.4/moment.js"></script><script src="mims_unit_from_files_files/moment-timezone-0.2.5/moment-timezone-with-data.js"></script><script src="mims_unit_from_files_files/moment-fquarter-1.0.0/moment-fquarter.min.js"></script><script src="mims_unit_from_files_files/dygraphs-binding-1.1.1.6/dygraphs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Compute MIMS-unit from files</h1>
-                        <h4 class="author">Qu Tang</h4>
+                        <h4 data-toc-skip class="author">Qu Tang</h4>
             
-            <h4 class="date">January 10, 2020</h4>
+            <h4 data-toc-skip class="date">January 10, 2020</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/mhealthgroup/MIMSunit/blob/master/vignettes/mims_unit_from_files.Rmd"><code>vignettes/mims_unit_from_files.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/mhealthgroup/MIMSunit/blob/HEAD/vignettes/mims_unit_from_files.Rmd" class="external-link"><code>vignettes/mims_unit_from_files.Rmd</code></a></small>
       <div class="hidden name"><code>mims_unit_from_files.Rmd</code></div>
 
     </div>
 
     
     
-<div id="run-on-a-single-file-with-mhealth-specification" class="section level2">
-<h2 class="hasAnchor">
-<a href="#run-on-a-single-file-with-mhealth-specification" class="anchor"></a>Run on a single file with mhealth specification</h2>
-<div id="file-format" class="section level3">
-<h3 class="hasAnchor">
-<a href="#file-format" class="anchor"></a>File format</h3>
+<div class="section level2">
+<h2 id="run-on-a-single-file-with-mhealth-specification">Run on a single file with mhealth specification<a class="anchor" aria-label="anchor" href="#run-on-a-single-file-with-mhealth-specification"></a>
+</h2>
+<div class="section level3">
+<h3 id="file-format">File format<a class="anchor" aria-label="anchor" href="#file-format"></a>
+</h3>
 <pre><code>HEADER_TIME_STAMP,X,Y,Z
 2016-10-03 14:51:14.236,0.007,-0.005,0.984
 2016-10-03 14:51:14.256,0.008,-0.007,0.981
@@ -148,56 +150,56 @@
 2016-10-03 14:51:14.317,0.010,-0.010,0.982
 2016-10-03 14:51:14.337,0.011,-0.010,0.982</code></pre>
 </div>
-<div id="command" class="section level3">
-<h3 class="hasAnchor">
-<a href="#command" class="anchor"></a>Command</h3>
+<div class="section level3">
+<h3 id="command">Command<a class="anchor" aria-label="anchor" href="#command"></a>
+</h3>
 <p>Make sure <code>file_type</code> is set to ‘mhealth’ and <code>file_path</code> is put in a vector.</p>
 <p>Compute MIMS-unit values</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># test on a sample file shipped with the package</span>
-<span class="va">sample_filepath</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">'mhealth.csv'</span>, package<span class="op">=</span><span class="st">'MIMSunit'</span><span class="op">)</span>
-<span class="va">mims</span> <span class="op">=</span> <span class="fu">MIMSunit</span><span class="fu">::</span><span class="fu"><a href="../reference/mims_unit.html">mims_unit_from_files</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">sample_filepath</span><span class="op">)</span>, 
+<span class="va">sample_filepath</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">'mhealth.csv'</span>, package<span class="op">=</span><span class="st">'MIMSunit'</span><span class="op">)</span>
+<span class="va">mims</span> <span class="op">=</span> <span class="fu">MIMSunit</span><span class="fu">::</span><span class="fu"><a href="../reference/mims_unit.html">mims_unit_from_files</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">sample_filepath</span><span class="op">)</span>, 
                                       epoch <span class="op">=</span> <span class="st">'1 sec'</span>, 
-                                      dynamic_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>, 
+                                      dynamic_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>, 
                                       output_mims_per_axis <span class="op">=</span> <span class="cn">TRUE</span>, 
                                       file_type <span class="op">=</span> <span class="st">'mhealth'</span><span class="op">)</span></code></pre></div>
 <p>Plot MIMS-unit values</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">MIMSunit</span><span class="fu">::</span><span class="fu"><a href="../reference/generate_interactive_plot.html">generate_interactive_plot</a></span><span class="op">(</span><span class="va">mims</span>, <span class="st">"MIMS-unit values"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-17043fe3a3a9de4416b4" style="width:100%;height:240px;" class="dygraphs html-widget"></div>
-<script type="application/json" data-for="htmlwidget-17043fe3a3a9de4416b4">{"x":{"attrs":{"axes":{"x":{"pixelsPerLabel":60,"drawAxis":true},"y":{"drawAxis":true,"valueRange":[-0.178822556422672,0.822933943774474]}},"colors":["#66C2A5","#FC8D62","#8DA0CB","#E78AC3"],"labels":["second","MIMS_UNIT","MIMS_UNIT_X","MIMS_UNIT_Y","MIMS_UNIT_Z"],"retainDateWindow":false,"showRangeSelector":true,"rangeSelectorHeight":40,"rangeSelectorPlotFillColor":" #A7B1C4","rangeSelectorPlotStrokeColor":"#808FAB","interactionModel":"Dygraph.Interaction.defaultModel","stackedGraph":false,"fillGraph":false,"fillAlpha":0.15,"stepPlot":false,"drawPoints":false,"pointSize":1,"drawGapEdgePoints":false,"connectSeparatedPoints":false,"strokeWidth":1,"strokeBorderColor":"white","colorValue":0.5,"colorSaturation":1,"includeZero":false,"drawAxesAtZero":false,"logscale":false,"axisTickSize":3,"axisLineColor":"black","axisLineWidth":0.3,"axisLabelColor":"black","axisLabelFontSize":14,"axisLabelWidth":60,"drawGrid":true,"gridLineWidth":0.3,"rightGap":5,"digitsAfterDecimal":2,"labelsKMB":false,"labelsKMG2":false,"labelsUTC":false,"maxNumberWidth":6,"animatedZooms":false,"mobileDisableYTouch":true,"disableZoom":false,"legend":"auto","labelsDivWidth":400,"labelsShowZeroValues":true,"labelsSeparateLines":false,"hideOverlayOnMouseOut":true,"ylabel":"MIMS-unit values","xlabel":"Time"},"scale":"seconds","annotations":[],"shadings":[],"events":[],"format":"date","data":[["2017-03-16T12:25:50.000Z","2017-03-16T12:25:51.000Z","2017-03-16T12:25:52.000Z","2017-03-16T12:25:53.000Z"],[0.490404148411305,0.572494818725187,0.437207317194801,0.456488588689642],[0.0946426742814896,0.191468544774961,0.168871585627567,0.151397907813907],[0.305559591015272,0.303510059580371,0.19671916294062,0.215277178857545],[0.0902018831145435,0.0775162143698552,0.0716165686266143,0.08981350201819]],"fixedtz":false,"tzone":"UTC"},"evals":["attrs.interactionModel"],"jsHooks":[]}</script>
+<code class="sourceCode R"><span class="fu">MIMSunit</span><span class="fu">::</span><span class="fu"><a href="../reference/generate_interactive_plot.html">generate_interactive_plot</a></span><span class="op">(</span><span class="va">mims</span>, <span class="st">"MIMS-unit values"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div id="htmlwidget-edfc73f61a14f1bcea32" style="width:100%;height:240px;" class="dygraphs html-widget"></div>
+<script type="application/json" data-for="htmlwidget-edfc73f61a14f1bcea32">{"x":{"attrs":{"axes":{"x":{"pixelsPerLabel":60,"drawAxis":true},"y":{"drawAxis":true,"valueRange":[-0.178822556422672,0.822933943774474]}},"colors":["#66C2A5","#FC8D62","#8DA0CB","#E78AC3"],"labels":["second","MIMS_UNIT","MIMS_UNIT_X","MIMS_UNIT_Y","MIMS_UNIT_Z"],"retainDateWindow":false,"showRangeSelector":true,"rangeSelectorHeight":40,"rangeSelectorPlotFillColor":" #A7B1C4","rangeSelectorPlotStrokeColor":"#808FAB","interactionModel":"Dygraph.Interaction.defaultModel","stackedGraph":false,"fillGraph":false,"fillAlpha":0.15,"stepPlot":false,"drawPoints":false,"pointSize":1,"drawGapEdgePoints":false,"connectSeparatedPoints":false,"strokeWidth":1,"strokeBorderColor":"white","colorValue":0.5,"colorSaturation":1,"includeZero":false,"drawAxesAtZero":false,"logscale":false,"axisTickSize":3,"axisLineColor":"black","axisLineWidth":0.3,"axisLabelColor":"black","axisLabelFontSize":14,"axisLabelWidth":60,"drawGrid":true,"gridLineWidth":0.3,"rightGap":5,"digitsAfterDecimal":2,"labelsKMB":false,"labelsKMG2":false,"labelsUTC":false,"maxNumberWidth":6,"animatedZooms":false,"mobileDisableYTouch":true,"disableZoom":false,"legend":"auto","labelsDivWidth":400,"labelsShowZeroValues":true,"labelsSeparateLines":false,"hideOverlayOnMouseOut":true,"ylabel":"MIMS-unit values","xlabel":"Time"},"scale":"seconds","annotations":[],"shadings":[],"events":[],"format":"date","data":[["2017-03-16T12:25:50.000Z","2017-03-16T12:25:51.000Z","2017-03-16T12:25:52.000Z","2017-03-16T12:25:53.000Z"],[0.490404148411305,0.572494818725187,0.437207317194801,0.456488588689642],[0.0946426742814896,0.191468544774961,0.168871585627567,0.151397907813907],[0.305559591015272,0.303510059580371,0.19671916294062,0.215277178857545],[0.0902018831145435,0.0775162143698552,0.0716165686266143,0.08981350201819]],"fixedtz":false,"tzone":"UTC"},"evals":["attrs.interactionModel"],"jsHooks":[]}</script>
 </div>
 </div>
-<div id="run-on-a-list-of-files-with-mhealth-specification" class="section level2">
-<h2 class="hasAnchor">
-<a href="#run-on-a-list-of-files-with-mhealth-specification" class="anchor"></a>Run on a list of files with mhealth specification</h2>
-<div id="command-1" class="section level3">
-<h3 class="hasAnchor">
-<a href="#command-1" class="anchor"></a>Command</h3>
+<div class="section level2">
+<h2 id="run-on-a-list-of-files-with-mhealth-specification">Run on a list of files with mhealth specification<a class="anchor" aria-label="anchor" href="#run-on-a-list-of-files-with-mhealth-specification"></a>
+</h2>
+<div class="section level3">
+<h3 id="command-1">Command<a class="anchor" aria-label="anchor" href="#command-1"></a>
+</h3>
 <p>Make sure <code>file_type</code> is set to ‘mhealth’ and <code>file_paths</code> are sorted in time.</p>
 <p>Compute MIMS-unit values</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># test on sample files shipped with the package</span>
-<span class="va">sample_file_paths</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">'extdata'</span>, <span class="st">'mhealth.csv'</span>, package<span class="op">=</span><span class="st">'MIMSunit'</span><span class="op">)</span>,
-               <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">'extdata'</span>, <span class="st">'mhealth1.csv'</span>, package<span class="op">=</span><span class="st">'MIMSunit'</span><span class="op">)</span><span class="op">)</span>
+<span class="va">sample_file_paths</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">'extdata'</span>, <span class="st">'mhealth.csv'</span>, package<span class="op">=</span><span class="st">'MIMSunit'</span><span class="op">)</span>,
+               <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">'extdata'</span>, <span class="st">'mhealth1.csv'</span>, package<span class="op">=</span><span class="st">'MIMSunit'</span><span class="op">)</span><span class="op">)</span>
 <span class="va">mims</span> <span class="op">=</span> <span class="fu">MIMSunit</span><span class="fu">::</span><span class="fu"><a href="../reference/mims_unit.html">mims_unit_from_files</a></span><span class="op">(</span><span class="va">sample_file_paths</span>, 
                                       epoch <span class="op">=</span> <span class="st">'1 sec'</span>, 
-                                      dynamic_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">8</span>, <span class="fl">8</span><span class="op">)</span>, 
+                                      dynamic_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">8</span>, <span class="fl">8</span><span class="op">)</span>, 
                                       output_mims_per_axis <span class="op">=</span> <span class="cn">TRUE</span>, 
                                       file_type <span class="op">=</span> <span class="st">'mhealth'</span><span class="op">)</span></code></pre></div>
 <p>Plot MIMS-unit values</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">MIMSunit</span><span class="fu">::</span><span class="fu"><a href="../reference/generate_interactive_plot.html">generate_interactive_plot</a></span><span class="op">(</span><span class="va">mims</span>, <span class="st">"MIMS-unit values"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-28b93857384ec8dd9045" style="width:100%;height:240px;" class="dygraphs html-widget"></div>
-<script type="application/json" data-for="htmlwidget-28b93857384ec8dd9045">{"x":{"attrs":{"axes":{"x":{"pixelsPerLabel":60,"drawAxis":true},"y":{"drawAxis":true,"valueRange":[-0.191102650522322,0.827027308474357]}},"colors":["#66C2A5","#FC8D62","#8DA0CB","#E78AC3"],"labels":["second","MIMS_UNIT","MIMS_UNIT_X","MIMS_UNIT_Y","MIMS_UNIT_Z"],"retainDateWindow":false,"showRangeSelector":true,"rangeSelectorHeight":40,"rangeSelectorPlotFillColor":" #A7B1C4","rangeSelectorPlotStrokeColor":"#808FAB","interactionModel":"Dygraph.Interaction.defaultModel","stackedGraph":false,"fillGraph":false,"fillAlpha":0.15,"stepPlot":false,"drawPoints":false,"pointSize":1,"drawGapEdgePoints":false,"connectSeparatedPoints":false,"strokeWidth":1,"strokeBorderColor":"white","colorValue":0.5,"colorSaturation":1,"includeZero":false,"drawAxesAtZero":false,"logscale":false,"axisTickSize":3,"axisLineColor":"black","axisLineWidth":0.3,"axisLabelColor":"black","axisLabelFontSize":14,"axisLabelWidth":60,"drawGrid":true,"gridLineWidth":0.3,"rightGap":5,"digitsAfterDecimal":2,"labelsKMB":false,"labelsKMG2":false,"labelsUTC":false,"maxNumberWidth":6,"animatedZooms":false,"mobileDisableYTouch":true,"disableZoom":false,"legend":"auto","labelsDivWidth":400,"labelsShowZeroValues":true,"labelsSeparateLines":false,"hideOverlayOnMouseOut":true,"ylabel":"MIMS-unit values","xlabel":"Time"},"scale":"seconds","annotations":[],"shadings":[],"events":[],"format":"date","data":[["2017-03-16T12:25:50.000Z","2017-03-16T12:25:51.000Z","2017-03-16T12:25:52.000Z","2017-03-16T12:25:53.000Z","2017-03-16T12:25:54.000Z","2017-03-16T12:25:55.000Z","2017-03-16T12:25:56.000Z","2017-03-16T12:25:57.000Z","2017-03-16T12:25:58.000Z","2017-03-16T12:25:59.000Z"],[0.490404148411305,0.572494818725187,0.437207317194801,0.456488588689642,0.489719774082711,0.570043885814934,0.427617794125333,0.465569680407771,0.460432574753296,0.441035858620417],[0.0946426742814896,0.191468544774961,0.168871585627567,0.151397907813907,0.0872522645196232,0.198601552436072,0.172937668416453,0.162101135577146,0.141748812313186,0.161118755479686],[0.305559591015272,0.303510059580371,0.19671916294062,0.215277178857545,0.300512304140746,0.280106944122389,0.179687317538297,0.240038705603778,0.243716363015023,0.194417813890565],[0.0902018831145435,0.0775162143698552,0.0716165686266143,0.08981350201819,0.101955205422342,0.091335389256474,0.0749928081705834,0.0634298392268478,0.0749673994250864,0.0854992892501663]],"fixedtz":false,"tzone":"UTC"},"evals":["attrs.interactionModel"],"jsHooks":[]}</script>
+<code class="sourceCode R"><span class="fu">MIMSunit</span><span class="fu">::</span><span class="fu"><a href="../reference/generate_interactive_plot.html">generate_interactive_plot</a></span><span class="op">(</span><span class="va">mims</span>, <span class="st">"MIMS-unit values"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div id="htmlwidget-88fff7caf458c6427c20" style="width:100%;height:240px;" class="dygraphs html-widget"></div>
+<script type="application/json" data-for="htmlwidget-88fff7caf458c6427c20">{"x":{"attrs":{"axes":{"x":{"pixelsPerLabel":60,"drawAxis":true},"y":{"drawAxis":true,"valueRange":[-0.191102650522322,0.827027308474357]}},"colors":["#66C2A5","#FC8D62","#8DA0CB","#E78AC3"],"labels":["second","MIMS_UNIT","MIMS_UNIT_X","MIMS_UNIT_Y","MIMS_UNIT_Z"],"retainDateWindow":false,"showRangeSelector":true,"rangeSelectorHeight":40,"rangeSelectorPlotFillColor":" #A7B1C4","rangeSelectorPlotStrokeColor":"#808FAB","interactionModel":"Dygraph.Interaction.defaultModel","stackedGraph":false,"fillGraph":false,"fillAlpha":0.15,"stepPlot":false,"drawPoints":false,"pointSize":1,"drawGapEdgePoints":false,"connectSeparatedPoints":false,"strokeWidth":1,"strokeBorderColor":"white","colorValue":0.5,"colorSaturation":1,"includeZero":false,"drawAxesAtZero":false,"logscale":false,"axisTickSize":3,"axisLineColor":"black","axisLineWidth":0.3,"axisLabelColor":"black","axisLabelFontSize":14,"axisLabelWidth":60,"drawGrid":true,"gridLineWidth":0.3,"rightGap":5,"digitsAfterDecimal":2,"labelsKMB":false,"labelsKMG2":false,"labelsUTC":false,"maxNumberWidth":6,"animatedZooms":false,"mobileDisableYTouch":true,"disableZoom":false,"legend":"auto","labelsDivWidth":400,"labelsShowZeroValues":true,"labelsSeparateLines":false,"hideOverlayOnMouseOut":true,"ylabel":"MIMS-unit values","xlabel":"Time"},"scale":"seconds","annotations":[],"shadings":[],"events":[],"format":"date","data":[["2017-03-16T12:25:50.000Z","2017-03-16T12:25:51.000Z","2017-03-16T12:25:52.000Z","2017-03-16T12:25:53.000Z","2017-03-16T12:25:54.000Z","2017-03-16T12:25:55.000Z","2017-03-16T12:25:56.000Z","2017-03-16T12:25:57.000Z","2017-03-16T12:25:58.000Z","2017-03-16T12:25:59.000Z"],[0.490404148411305,0.572494818725187,0.437207317194801,0.456488588689642,0.489719774082711,0.570043885814934,0.427617794125333,0.465569680407771,0.460432574753296,0.441035858620417],[0.0946426742814896,0.191468544774961,0.168871585627567,0.151397907813907,0.0872522645196232,0.198601552436072,0.172937668416453,0.162101135577146,0.141748812313186,0.161118755479686],[0.305559591015272,0.303510059580371,0.19671916294062,0.215277178857545,0.300512304140746,0.280106944122389,0.179687317538297,0.240038705603778,0.243716363015023,0.194417813890565],[0.0902018831145435,0.0775162143698552,0.0716165686266143,0.08981350201819,0.101955205422342,0.091335389256474,0.0749928081705834,0.0634298392268478,0.0749673994250864,0.0854992892501663]],"fixedtz":false,"tzone":"UTC"},"evals":["attrs.interactionModel"],"jsHooks":[]}</script>
 </div>
 </div>
-<div id="run-on-a-single-actigraph-csv-file-with-timestamps" class="section level2">
-<h2 class="hasAnchor">
-<a href="#run-on-a-single-actigraph-csv-file-with-timestamps" class="anchor"></a>Run on a single actigraph csv file with timestamps</h2>
-<div id="file-format-1" class="section level3">
-<h3 class="hasAnchor">
-<a href="#file-format-1" class="anchor"></a>File format</h3>
+<div class="section level2">
+<h2 id="run-on-a-single-actigraph-csv-file-with-timestamps">Run on a single actigraph csv file with timestamps<a class="anchor" aria-label="anchor" href="#run-on-a-single-actigraph-csv-file-with-timestamps"></a>
+</h2>
+<div class="section level3">
+<h3 id="file-format-1">File format<a class="anchor" aria-label="anchor" href="#file-format-1"></a>
+</h3>
 <pre><code>------------ Data File Created By ActiGraph GT3X+ ActiLife v6.13.3 Firmware v2.5.0 date format M/d/yyyy at 40 Hz  Filter Normal -----------
 Serial Number: CLE2B20130009
 Start Time 11:27:00
@@ -221,24 +223,24 @@ Timestamp,Accelerometer X,Accelerometer Y,Accelerometer Z
 6/14/2018 11:27:00.225,0.029,-0.082,-0.979
 6/14/2018 11:27:00.250,0.029,-0.082,-0.982</code></pre>
 </div>
-<div id="command-2" class="section level3">
-<h3 class="hasAnchor">
-<a href="#command-2" class="anchor"></a>Command</h3>
+<div class="section level3">
+<h3 id="command-2">Command<a class="anchor" aria-label="anchor" href="#command-2"></a>
+</h3>
 <p>Make sure <code>file_type</code> is set to ‘actigraph’ and <code>file_path</code> is put in a vector. Actigraph csv file may not include timestamps, so make sure set <code>has_ts</code> to <code>TRUE</code>.</p>
 <p>Compute MIMS-unit values</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># test with a sample file shipped with the package</span>
-<span class="va">sample_file_path</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">'extdata'</span>, <span class="st">'actigraph_timestamped.csv'</span>, package<span class="op">=</span><span class="st">'MIMSunit'</span><span class="op">)</span>
-<span class="va">mims</span> <span class="op">=</span> <span class="fu">MIMSunit</span><span class="fu">::</span><span class="fu"><a href="../reference/mims_unit.html">mims_unit_from_files</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">sample_file_path</span><span class="op">)</span>, 
+<span class="va">sample_file_path</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">'extdata'</span>, <span class="st">'actigraph_timestamped.csv'</span>, package<span class="op">=</span><span class="st">'MIMSunit'</span><span class="op">)</span>
+<span class="va">mims</span> <span class="op">=</span> <span class="fu">MIMSunit</span><span class="fu">::</span><span class="fu"><a href="../reference/mims_unit.html">mims_unit_from_files</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">sample_file_path</span><span class="op">)</span>, 
                                       epoch <span class="op">=</span> <span class="st">'5 sec'</span>, 
-                                      dynamic_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">6</span>, <span class="fl">6</span><span class="op">)</span>, 
+                                      dynamic_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">6</span>, <span class="fl">6</span><span class="op">)</span>, 
                                       output_mims_per_axis <span class="op">=</span> <span class="cn">TRUE</span>, 
                                       file_type <span class="op">=</span> <span class="st">'actigraph'</span><span class="op">)</span></code></pre></div>
 <p>Plot MIMS-unit values</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">MIMSunit</span><span class="fu">::</span><span class="fu"><a href="../reference/generate_interactive_plot.html">generate_interactive_plot</a></span><span class="op">(</span><span class="va">mims</span>, <span class="st">"MIMS-unit values"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-adee616442a698273ff7" style="width:100%;height:240px;" class="dygraphs html-widget"></div>
-<script type="application/json" data-for="htmlwidget-adee616442a698273ff7">{"x":{"attrs":{"axes":{"x":{"pixelsPerLabel":60,"drawAxis":true},"y":{"drawAxis":true,"valueRange":[-1.08112277106915,3.20336831320746]}},"colors":["#66C2A5","#FC8D62","#8DA0CB","#E78AC3"],"labels":["second","MIMS_UNIT","MIMS_UNIT_X","MIMS_UNIT_Y","MIMS_UNIT_Z"],"retainDateWindow":false,"showRangeSelector":true,"rangeSelectorHeight":40,"rangeSelectorPlotFillColor":" #A7B1C4","rangeSelectorPlotStrokeColor":"#808FAB","interactionModel":"Dygraph.Interaction.defaultModel","stackedGraph":false,"fillGraph":false,"fillAlpha":0.15,"stepPlot":false,"drawPoints":false,"pointSize":1,"drawGapEdgePoints":false,"connectSeparatedPoints":false,"strokeWidth":1,"strokeBorderColor":"white","colorValue":0.5,"colorSaturation":1,"includeZero":false,"drawAxesAtZero":false,"logscale":false,"axisTickSize":3,"axisLineColor":"black","axisLineWidth":0.3,"axisLabelColor":"black","axisLabelFontSize":14,"axisLabelWidth":60,"drawGrid":true,"gridLineWidth":0.3,"rightGap":5,"digitsAfterDecimal":2,"labelsKMB":false,"labelsKMG2":false,"labelsUTC":false,"maxNumberWidth":6,"animatedZooms":false,"mobileDisableYTouch":true,"disableZoom":false,"legend":"auto","labelsDivWidth":400,"labelsShowZeroValues":true,"labelsSeparateLines":false,"hideOverlayOnMouseOut":true,"ylabel":"MIMS-unit values","xlabel":"Time"},"scale":"seconds","annotations":[],"shadings":[],"events":[],"format":"date","data":[["2018-06-14T12:08:39.725Z","2018-06-14T12:08:40.005Z","2018-06-14T12:08:45.005Z","2018-06-14T12:08:50.005Z","2018-06-14T12:08:55.005Z","2018-06-14T12:09:00.005Z","2018-06-14T12:09:05.005Z","2018-06-14T12:09:10.005Z","2018-06-14T12:09:15.005Z","2018-06-14T12:09:20.005Z","2018-06-14T12:09:25.005Z","2018-06-14T12:09:30.005Z","2018-06-14T12:09:35.005Z","2018-06-14T12:09:40.005Z","2018-06-14T12:09:45.005Z","2018-06-14T12:09:50.005Z","2018-06-14T12:09:55.005Z","2018-06-14T12:10:00.005Z","2018-06-14T12:10:05.005Z","2018-06-14T12:10:10.005Z","2018-06-14T12:10:15.005Z","2018-06-14T12:10:20.005Z","2018-06-14T12:10:25.005Z","2018-06-14T12:10:30.005Z","2018-06-14T12:10:35.005Z"],[-0.01,0.827079788269849,0.122849560749889,0,0.707456026585684,2.10792689465715,2.10692654372537,2.1146493630425,2.11054574616681,2.10856127730221,2.13224554213831,2.09642531003132,2.11577528871068,2.11791405016523,2.09758946785471,2.1075824767675,2.10463544580888,2.11847798661622,2.10034351718267,2.09112027375481,2.10532050949404,2.09532032628387,2.10999291359758,2.10857266060765,2.09442599344214],[-0.01,0.0705274173714791,0,0,0.364162800639444,1.00980962969464,1.0195591610216,1.02243927530019,1.01961543578223,1.01725048806284,1.02705386981281,1.02004458702778,1.02093566809619,1.03259940155921,1.00403543727035,1.03573756605913,1.02429619069149,1.02079599578151,1.01517573614542,1.02313077801514,1.01967355598336,1.0292426164078,1.01228157517977,1.01759469543472,1.00872905211894],[-0.01,0.0670631887540714,0,0,0.343293225946241,1.01051758086874,1.02518592910256,1.0236127614766,1.02483573034275,1.01506968823931,1.02500564772224,1.01276241405988,1.0233799354951,1.01008720160992,1.01833308745619,1.01002873025645,1.01798119494163,1.01869063194182,1.01362662681121,1.01103707009396,1.02378036616879,1.00339724040858,1.02640081812181,1.02930681082578,1.02528969374795],[-0.01,0.689489182144299,0.122849560749889,0,0,0.087599684093769,0.062181453601215,0.0685973262657129,0.066094580041831,0.076241101000061,0.0801860246032615,0.0636183089436501,0.0714596851193962,0.0752274469960982,0.075220943128163,0.0618161804519242,0.0623580601757567,0.0789913588928935,0.0715411542260433,0.0569524256457088,0.0618665873418921,0.0626804694674973,0.0713105202960059,0.0616711543471445,0.0604072475752544]],"fixedtz":false,"tzone":"UTC"},"evals":["attrs.interactionModel"],"jsHooks":[]}</script>
+<code class="sourceCode R"><span class="fu">MIMSunit</span><span class="fu">::</span><span class="fu"><a href="../reference/generate_interactive_plot.html">generate_interactive_plot</a></span><span class="op">(</span><span class="va">mims</span>, <span class="st">"MIMS-unit values"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div id="htmlwidget-915bcb2485e6fcb68b50" style="width:100%;height:240px;" class="dygraphs html-widget"></div>
+<script type="application/json" data-for="htmlwidget-915bcb2485e6fcb68b50">{"x":{"attrs":{"axes":{"x":{"pixelsPerLabel":60,"drawAxis":true},"y":{"drawAxis":true,"valueRange":[-1.08112277106915,3.20336831320746]}},"colors":["#66C2A5","#FC8D62","#8DA0CB","#E78AC3"],"labels":["second","MIMS_UNIT","MIMS_UNIT_X","MIMS_UNIT_Y","MIMS_UNIT_Z"],"retainDateWindow":false,"showRangeSelector":true,"rangeSelectorHeight":40,"rangeSelectorPlotFillColor":" #A7B1C4","rangeSelectorPlotStrokeColor":"#808FAB","interactionModel":"Dygraph.Interaction.defaultModel","stackedGraph":false,"fillGraph":false,"fillAlpha":0.15,"stepPlot":false,"drawPoints":false,"pointSize":1,"drawGapEdgePoints":false,"connectSeparatedPoints":false,"strokeWidth":1,"strokeBorderColor":"white","colorValue":0.5,"colorSaturation":1,"includeZero":false,"drawAxesAtZero":false,"logscale":false,"axisTickSize":3,"axisLineColor":"black","axisLineWidth":0.3,"axisLabelColor":"black","axisLabelFontSize":14,"axisLabelWidth":60,"drawGrid":true,"gridLineWidth":0.3,"rightGap":5,"digitsAfterDecimal":2,"labelsKMB":false,"labelsKMG2":false,"labelsUTC":false,"maxNumberWidth":6,"animatedZooms":false,"mobileDisableYTouch":true,"disableZoom":false,"legend":"auto","labelsDivWidth":400,"labelsShowZeroValues":true,"labelsSeparateLines":false,"hideOverlayOnMouseOut":true,"ylabel":"MIMS-unit values","xlabel":"Time"},"scale":"seconds","annotations":[],"shadings":[],"events":[],"format":"date","data":[["2018-06-14T12:08:39.000Z","2018-06-14T12:08:40.000Z","2018-06-14T12:08:45.000Z","2018-06-14T12:08:50.000Z","2018-06-14T12:08:55.000Z","2018-06-14T12:09:00.000Z","2018-06-14T12:09:05.000Z","2018-06-14T12:09:10.000Z","2018-06-14T12:09:15.000Z","2018-06-14T12:09:20.000Z","2018-06-14T12:09:25.000Z","2018-06-14T12:09:30.000Z","2018-06-14T12:09:35.000Z","2018-06-14T12:09:40.000Z","2018-06-14T12:09:45.000Z","2018-06-14T12:09:50.000Z","2018-06-14T12:09:55.000Z","2018-06-14T12:10:00.000Z","2018-06-14T12:10:05.000Z","2018-06-14T12:10:10.000Z","2018-06-14T12:10:15.000Z","2018-06-14T12:10:20.000Z","2018-06-14T12:10:25.000Z","2018-06-14T12:10:30.000Z","2018-06-14T12:10:35.000Z"],[-0.01,0.827079788269849,0.122849560749889,0,0.707456026585684,2.10792689465715,2.10692654372537,2.1146493630425,2.11054574616681,2.10856127730221,2.13224554213831,2.09642531003132,2.11577528871068,2.11791405016523,2.09758946785471,2.1075824767675,2.10463544580888,2.11847798661622,2.10034351718267,2.09112027375481,2.10532050949404,2.09532032628387,2.10999291359758,2.10857266060765,2.09442599344214],[-0.01,0.0705274173714791,0,0,0.364162800639444,1.00980962969464,1.0195591610216,1.02243927530019,1.01961543578223,1.01725048806284,1.02705386981281,1.02004458702778,1.02093566809619,1.03259940155921,1.00403543727035,1.03573756605913,1.02429619069149,1.02079599578151,1.01517573614542,1.02313077801514,1.01967355598336,1.0292426164078,1.01228157517977,1.01759469543472,1.00872905211894],[-0.01,0.0670631887540714,0,0,0.343293225946241,1.01051758086874,1.02518592910256,1.0236127614766,1.02483573034275,1.01506968823931,1.02500564772224,1.01276241405988,1.0233799354951,1.01008720160992,1.01833308745619,1.01002873025645,1.01798119494163,1.01869063194182,1.01362662681121,1.01103707009396,1.02378036616879,1.00339724040858,1.02640081812181,1.02930681082578,1.02528969374795],[-0.01,0.689489182144299,0.122849560749889,0,0,0.087599684093769,0.062181453601215,0.0685973262657129,0.066094580041831,0.076241101000061,0.0801860246032615,0.0636183089436501,0.0714596851193962,0.0752274469960982,0.075220943128163,0.0618161804519242,0.0623580601757567,0.0789913588928935,0.0715411542260433,0.0569524256457088,0.0618665873418921,0.0626804694674973,0.0713105202960059,0.0616711543471445,0.0604072475752544]],"fixedtz":false,"tzone":"UTC"},"evals":["attrs.interactionModel"],"jsHooks":[]}</script>
 </div>
 </div>
   </div>
@@ -254,11 +256,13 @@ Timestamp,Accelerometer X,Accelerometer Y,Accelerometer Z
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://qutang.dev"><img class="img-circle p-3" src="https://d33wubrfki0l68.cloudfront.net/8af2089476f179254b3bc9628e13f7d143acab42/8309e/images/avatar.jpg" height="40"><span> Qu Tang</span></a>, <a href="https://bouve.northeastern.edu/directory/dinesh-john/"><img class="img-circle p-3" src="https://banner2.kisspng.com/20180410/bbw/kisspng-avatar-user-medicine-surgery-patient-avatar-5acc9f7a7cb983.0104600115233596105109.jpg" height="40"><span> Dinesh John</span></a>, <a href="http://www.ccs.neu.edu/home/intille/"><img class="img-circle p-3" src="http://www.ccs.neu.edu/home/intille/intille-headshot-sm2.jpg" height="40"><span> Stephen Intille</span></a>.</p>
+  <p></p>
+<p>Developed by <a href="https://qutang.dev" class="external-link"><img class="img-circle p-3" src="https://d33wubrfki0l68.cloudfront.net/8af2089476f179254b3bc9628e13f7d143acab42/8309e/images/avatar.jpg" height="40"><span> Qu Tang</span></a>, <a href="https://bouve.northeastern.edu/directory/dinesh-john/" class="external-link"><img class="img-circle p-3" src="https://banner2.kisspng.com/20180410/bbw/kisspng-avatar-user-medicine-surgery-patient-avatar-5acc9f7a7cb983.0104600115233596105109.jpg" height="40"><span> Dinesh John</span></a>, <a href="http://www.ccs.neu.edu/home/intille/" class="external-link"><img class="img-circle p-3" src="http://www.ccs.neu.edu/home/intille/intille-headshot-sm2.jpg" height="40"><span> Stephen Intille</span></a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer>
@@ -266,6 +270,8 @@ Timestamp,Accelerometer X,Accelerometer Y,Accelerometer Z
 
   
 
+
+  
 
   </body>
 </html>

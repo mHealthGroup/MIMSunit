@@ -1,7 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://mhealthgroup.github.io/MIMSunit/404.html</loc>
+  </url>
+  <url>
+    <loc>https://mhealthgroup.github.io/MIMSunit/CODE_OF_CONDUCT.html</loc>
+  </url>
+  <url>
+    <loc>https://mhealthgroup.github.io/MIMSunit/CONTRIBUTING.html</loc>
+  </url>
+  <url>
+    <loc>https://mhealthgroup.github.io/MIMSunit/LICENSE-text.html</loc>
+  </url>
+  <url>
+    <loc>https://mhealthgroup.github.io/MIMSunit/LICENSE.html</loc>
+  </url>
+  <url>
+    <loc>https://mhealthgroup.github.io/MIMSunit/articles/conceptual_diagram.html</loc>
+  </url>
+  <url>
+    <loc>https://mhealthgroup.github.io/MIMSunit/articles/cross_device_consistency.html</loc>
+  </url>
+  <url>
+    <loc>https://mhealthgroup.github.io/MIMSunit/articles/datasets.html</loc>
+  </url>
+  <url>
+    <loc>https://mhealthgroup.github.io/MIMSunit/articles/edge_cases.html</loc>
+  </url>
+  <url>
+    <loc>https://mhealthgroup.github.io/MIMSunit/articles/faq.html</loc>
+  </url>
+  <url>
+    <loc>https://mhealthgroup.github.io/MIMSunit/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://mhealthgroup.github.io/MIMSunit/articles/mims_unit_from_files.html</loc>
+  </url>
+  <url>
+    <loc>https://mhealthgroup.github.io/MIMSunit/articles/mims_unit_from_imported_data.html</loc>
+  </url>
+  <url>
+    <loc>https://mhealthgroup.github.io/MIMSunit/articles/truncation_threshold.html</loc>
+  </url>
+  <url>
+    <loc>https://mhealthgroup.github.io/MIMSunit/authors.html</loc>
+  </url>
+  <url>
     <loc>https://mhealthgroup.github.io/MIMSunit/index.html</loc>
+  </url>
+  <url>
+    <loc>https://mhealthgroup.github.io/MIMSunit/news/index.html</loc>
   </url>
   <url>
     <loc>https://mhealthgroup.github.io/MIMSunit/reference/aggregate_for_mims.html</loc>
@@ -11,9 +59,6 @@
   </url>
   <url>
     <loc>https://mhealthgroup.github.io/MIMSunit/reference/bandlimited_interp.html</loc>
-  </url>
-  <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit/reference/bessel.html</loc>
   </url>
   <url>
     <loc>https://mhealthgroup.github.io/MIMSunit/reference/clip_data.html</loc>
@@ -82,6 +127,9 @@
     <loc>https://mhealthgroup.github.io/MIMSunit/reference/import_mhealth_csv_chunked.html</loc>
   </url>
   <url>
+    <loc>https://mhealthgroup.github.io/MIMSunit/reference/index.html</loc>
+  </url>
+  <url>
     <loc>https://mhealthgroup.github.io/MIMSunit/reference/interpolate_signal.html</loc>
   </url>
   <url>
@@ -92,9 +140,6 @@
   </url>
   <url>
     <loc>https://mhealthgroup.github.io/MIMSunit/reference/parse_epoch_string.html</loc>
-  </url>
-  <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit/reference/remove_average.html</loc>
   </url>
   <url>
     <loc>https://mhealthgroup.github.io/MIMSunit/reference/rest_on_table.html</loc>
@@ -122,29 +167,5 @@
   </url>
   <url>
     <loc>https://mhealthgroup.github.io/MIMSunit/reference/vector_magnitude.html</loc>
-  </url>
-  <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit/articles/conceptual_diagram.html</loc>
-  </url>
-  <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit/articles/cross_device_consistency.html</loc>
-  </url>
-  <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit/articles/datasets.html</loc>
-  </url>
-  <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit/articles/edge_cases.html</loc>
-  </url>
-  <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit/articles/faq.html</loc>
-  </url>
-  <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit/articles/mims_unit_from_files.html</loc>
-  </url>
-  <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit/articles/mims_unit_from_imported_data.html</loc>
-  </url>
-  <url>
-    <loc>https://mhealthgroup.github.io/MIMSunit/articles/truncation_threshold.html</loc>
   </url>
 </urlset>
