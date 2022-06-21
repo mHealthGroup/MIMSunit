@@ -65,8 +65,9 @@
 aggregate_for_mims <-
   function(df,
            epoch,
-           method = "trapz",
+           method = c("trapz", "power", "mean_by_time", "mean_by_size", "sum"),
            rectify = TRUE, st=NULL) {
+    method = match.arg(method)
     time_zone <- lubridate::tz(df[[1, 1]])
     n_cols <- ncol(df)
 
@@ -83,6 +84,9 @@ aggregate_for_mims <-
 
     # iterate over each value column
     result <- plyr::ddply(df, c("SEGMENT"), function(rows) {
+      r1 = rows[1,1]
+      r1 = .segment.floor_date(r1, breaks = epoch)
+      r1 = as.numeric(r1)
       rows[, 1] <- as.numeric(rows[, 1])
       rows <- stats::na.omit(rows)
 
@@ -90,37 +94,63 @@ aggregate_for_mims <-
       if (nrow(rows) >= 0.9 * n_threshold) {
         # do rectification if rectify is TRUE
         if (rectify) {
-          rows[2:n_cols] <- (plyr::numcolwise(function(col_data) {
-            col_data[col_data > -150] <- abs(col_data[col_data > -150])
+          for (icol in 2:n_cols) {
+            col_data = rows[[icol]]
+            turn_abs = col_data > -150
+            col_data[turn_abs] <- abs(col_data[turn_abs])
+            rm(turn_abs)
             if (any(col_data < 0)) {
               col_data <- rep(-200, length(col_data))
             }
-            return(col_data)
-          }))(rows[2:n_cols])
+            rows[[icol]] = col_data
+          }
+          rm(col_data)
+          # rows[2:n_cols] <- (plyr::numcolwise(function(col_data) {
+          #   turn_abs = col_data > -150
+          #   col_data[turn_abs] <- abs(col_data[turn_abs])
+          #   if (any(col_data < 0)) {
+          #     col_data <- rep(-200, length(col_data))
+          #   }
+          #   return(col_data)
+          # }))(rows[2:n_cols])
         }
-
+        trapz_mat = function(x, y) {
+          idx = 2:length(x)
+          x = (x[idx] - x[idx - 1])
+          cny = colnames(y)
+          y = as.matrix(y)
+          y = (y[idx,] + y[idx - 1,])
+          out = as.double(x %*% y)/2
+          out = matrix(out, ncol = ncol(y))
+          colnames(out) = cny
+          out = data.frame(out)
+          return(out)
+        }
         # select different methods for integration
         if (method == "trapz") {
-          auc_values <-
-            (plyr::numcolwise(caTools::trapz, x = rows[, 1]))(rows[2:n_cols])
+          # auc_values <-
+          #   (plyr::numcolwise(caTools::trapz, x = rows[, 1]))(rows[2:n_cols])
+          auc_values <- trapz_mat(rows[,1,drop = TRUE], rows[2:n_cols])
           max_values <- 16 * n_threshold
         } else if (method == "power") {
-          auc_values <-
-            (plyr::numcolwise(caTools::trapz,
-              x = rows[, 1]
-            ))(as.data.frame(rows[2:n_cols]^2))
+          # auc_values <-
+          #   (plyr::numcolwise(caTools::trapz,
+          #     x = rows[, 1]
+          #   ))(as.data.frame(rows[2:n_cols]^2))
+          auc_values <- trapz_mat(rows[,1,drop = TRUE], rows[2:n_cols]^2)
           max_values <- 16^2 * n_threshold
         } else if (method == "mean_by_time") {
+          r = range(rows[,1])
           auc_values <-
-            (plyr::numcolwise(sum))(rows[2:n_cols]) /
-              (max(rows[, 1]) - min(rows[, 1]))
+            colSums(rows[2:n_cols]) /
+              (r[2] - r[1])
           max_values <- 16 * n_threshold / 32
         } else if (method == "mean_by_size") {
           auc_values <-
-            (plyr::numcolwise(sum))(rows[2:n_cols]) / length(rows[, 1])
+            colSums(rows[2:n_cols]) / length(rows[, 1])
           max_values <- 16
         } else if (method == "sum") {
-          auc_values <- (plyr::numcolwise(sum))(rows[2:n_cols])
+          auc_values <- colSums(rows[2:n_cols])
           max_values <- 16 * nrow(rows)
         }
       } else {
@@ -134,7 +164,8 @@ aggregate_for_mims <-
       # flag extra large (abnormal) values
       auc_values[auc_values >= max_values] <- -1
       auc_values[auc_values < 0] <- -1
-      return(data.frame(ts = rows[1, 1], auc_values))
+      return(data.frame(ts = r1,
+                        auc_values))
     })
 
     # format output

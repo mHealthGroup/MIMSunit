@@ -63,18 +63,20 @@ NULL
 extrapolate <- function(df, ...) {
   time_zone <- lubridate::tz(df[[1, 1]])
   t <- df[[1]]
-  values <- df[2:ncol(df)]
-  result <- plyr::alply(values,
-    .margins = 2, function(col_data) {
-      col_name <- names(col_data)[1]
-      output <- extrapolate_single_col(t, col_data[[1]], ...)
-      colnames(output) <- c(colnames(df)[1], col_name)
-      return(output)
-    }
+  cn1 = colnames(df)[1]
+  df <- df[2:ncol(df)]
+  result <- plyr::alply(df,
+                        .margins = 2, function(col_data) {
+                          col_name <- names(col_data)[1]
+                          output <- extrapolate_single_col(t, col_data[[1]], ...)
+                          colnames(output) <- c(cn1, col_name)
+                          return(output)
+                        }
   )
+  rm(df);
   result <- Reduce(
     function(x, y) {
-      return(merge(x, y, by = colnames(x)[1]))
+      return(dplyr::inner_join(x, y, by = colnames(x)[1]))
     },
     result
   )
@@ -105,14 +107,26 @@ extrapolate_single_col <-
         xout = t_over,
         method = "natural"
       )
+    t1 = t[1]
+    rm(t)
+    rm(t_over)
+    rm(value)
     dat_over <- data.frame(dat_over)
-    if (lubridate::is.POSIXct(t[1])) {
+    if (lubridate::is.POSIXct(t1)) {
       dat_over[1] <- as.POSIXct(dat_over[[1]], origin = "1970-01-01")
     }
-    dat_over <- dat_over[order(dat_over$x), ]
-    not_dups <- !duplicated(dat_over$x)
-    t <- dat_over$x[not_dups]
-    value <- dat_over$y[not_dups]
+    if (is.unsorted(dat_over$x)) {
+      dat_over <- dat_over[order(dat_over$x), ]
+    }
+    if (anyDuplicated(dat_over$x)) {
+      not_dups <- !duplicated(dat_over$x)
+      t <- dat_over$x[not_dups]
+      value <- dat_over$y[not_dups]
+      rm(not_dups)
+    } else {
+      t <- dat_over$x
+      value <- dat_over$y
+    }
     rm(dat_over); gc()
 
     # mark maxed out region using gamma distribution or threshold
@@ -125,11 +139,12 @@ extrapolate_single_col <-
     # fit local spline regression
     points_ex <-
       .extrapolate_fit(t, value, neighbors, marker, spar, 100, k)
+    rm(neighbors); gc()
 
     # interpolate with the original
     dat_interp <-
       .extrapolate_interpolate(t, value, marker, points_ex, 100)
-
+    rm(points_ex); gc()
     return(dat_interp)
   }
 
@@ -145,14 +160,28 @@ extrapolate_single_col <-
       xout = t_over,
       method = "natural"
     )
+  t1 = t[1]
+  rm(t_over)
+  rm(t)
+  rm(value)
   dat_over <- data.frame(dat_over)
-  if (lubridate::is.POSIXct(t[1])) {
+  if (lubridate::is.POSIXct(t1)) {
     dat_over[1] <- as.POSIXct(dat_over[[1]], origin = "1970-01-01", tz = time_zone)
   }
-  dat_over <- dat_over[order(dat_over$x), ]
-  not_dups <- !duplicated(dat_over$x)
-  t <- dat_over$x[not_dups]
-  value <- dat_over$y[not_dups]
+  if (is.unsorted(dat_over$x)) {
+    dat_over <- dat_over[order(dat_over$x), ]
+  }
+  if (anyDuplicated(dat_over$x)) {
+    not_dups <- !duplicated(dat_over$x)
+    t <- dat_over$x[not_dups]
+    value <- dat_over$y[not_dups]
+    rm(not_dups)
+  } else {
+    t <- dat_over$x
+    value <- dat_over$y
+  }
+  rm(dat_over)
+
   return(list(t = t, value = value))
 }
 
@@ -169,15 +198,17 @@ extrapolate_single_col <-
     noise_sd <- noise_sd + 1e-05
     shape <- .optimize_gamma(3 * noise_sd)
     # mark using gamma distribution
-    marker[value >= 0] <-
-      stats::pgamma(value[value >= 0] - (range_high - 5 * noise_sd),
-        shape = shape,
-        scale = 1
+    index = value >= 0
+    marker[index] <-
+      stats::pgamma(value[index] - (range_high - 5 * noise_sd),
+                    shape = shape,
+                    scale = 1
       )
-    marker[value < 0] <-
-      -stats::pgamma(-value[value < 0] + (range_low + 5 * noise_sd),
-        shape = shape,
-        scale = 1
+    index = value < 0
+    marker[index] <-
+      -stats::pgamma(-value[index] + (range_low + 5 * noise_sd),
+                     shape = shape,
+                     scale = 1
       )
     return(marker)
   }
@@ -235,7 +266,7 @@ extrapolate_single_col <-
   if (length(positive_left_end) - length(positive_right_start) == 1) {
     # end case > 2 second maxed out edge region
     if (length(marker) - positive_left_end[length(positive_left_end)] >
-      threshold_maxedout) {
+        threshold_maxedout) {
       positive_right_start <- c(positive_right_start, -1)
     } else {
       # < 2 second maxed out edge region, do nothing
@@ -271,7 +302,7 @@ extrapolate_single_col <-
   }
 
   if (any(positive_right_start - positive_left_end < 0) &&
-    length(positive_right_start) > 1) {
+      length(positive_right_start) > 1) {
     positive_left_end <- .shift(positive_left_end, 1)
     positive_right_start <- .shift(positive_right_start, -1)
   }
@@ -282,7 +313,8 @@ extrapolate_single_col <-
       right_start = positive_right_start,
       stringsAsFactors = FALSE
     )
-
+  rm(positive_left_end)
+  rm(positive_right_start)
 
   # valleys
   negative_left_end <-
@@ -293,7 +325,7 @@ extrapolate_single_col <-
   if (length(negative_left_end) - length(negative_right_start) == 1) {
     # end case > 2 second maxed out edge region
     if (length(marker) - negative_left_end[length(negative_left_end)] >
-      threshold_maxedout) {
+        threshold_maxedout) {
       negative_right_start <- c(negative_right_start, -1)
     } else {
       # < 2 second maxed out edge region, do nothing
@@ -318,6 +350,7 @@ extrapolate_single_col <-
       }
     }
   }
+  rm(marker)
 
   negative_left_end <- negative_left_end %>% stats::na.omit()
   negative_right_start <-
@@ -329,7 +362,7 @@ extrapolate_single_col <-
   }
 
   if (any(negative_right_start - negative_left_end < 0) &&
-    length(negative_right_start) > 1) {
+      length(negative_right_start) > 1) {
     negative_left_end <- .shift(negative_left_end, 1)
     negative_right_start <- .shift(negative_right_start, -1)
   }
@@ -340,9 +373,10 @@ extrapolate_single_col <-
       right_start = negative_right_start,
       stringsAsFactors = FALSE
     )
+  rm(negative_left_end)
+  rm(negative_right_start)
 
-  edges <- rbind(positive_edges, negative_edges)
-  return(edges)
+  return(rbind(positive_edges, negative_edges))
 }
 
 #' @importFrom magrittr %>%
@@ -358,12 +392,14 @@ extrapolate_single_col <-
         right_end = edges$right_start + n_neighbor - 1
       ) %>%
       as.data.frame()
+    rm(edges)
     neighbors$left_start <- pmax(neighbors$left_start, 1)
     neighbors$right_end <-
       pmin(neighbors$right_end, length(marker))
     neighbors$left_start[neighbors$left_end == -1] <- -1
     neighbors$right_end[neighbors$right_start == -1] <- -1
   } else {
+    rm(edges)
     neighbors <-
       data.frame(
         left_start = c(),
@@ -442,22 +478,22 @@ extrapolate_single_col <-
       #   ))
       # }
       switch(model,
-      spline = {
-        left_ex <- fitted_left %>% stats::predict(x = as.numeric(left_x_ex))
-        right_ex <-
-          fitted_right %>% stats::predict(x = as.numeric(right_x_ex))
-        type_ex <- rep("left_line", length(left_ex$y))
+             spline = {
+               left_ex <- fitted_left %>% stats::predict(x = as.numeric(left_x_ex))
+               right_ex <-
+                 fitted_right %>% stats::predict(x = as.numeric(right_x_ex))
+               type_ex <- rep("left_line", length(left_ex$y))
 
-        point_ex_left <-
-          fitted_left %>% stats::predict(x = as.numeric(middle_t))
-        point_ex_right <-
-          fitted_right %>% stats::predict(x = as.numeric(middle_t))
-        point_ex <- (point_ex_left$y + point_ex_right$y) / 2
-        type_ex <- c(type_ex, "point")
-        type_ex <-
-          c(type_ex, rep("right_line", length(right_ex$y)))
-        index <- rep(neighbor$index, length(type_ex))
-      }
+               point_ex_left <-
+                 fitted_left %>% stats::predict(x = as.numeric(middle_t))
+               point_ex_right <-
+                 fitted_right %>% stats::predict(x = as.numeric(middle_t))
+               point_ex <- (point_ex_left$y + point_ex_right$y) / 2
+               type_ex <- c(type_ex, "point")
+               type_ex <-
+                 c(type_ex, rep("right_line", length(right_ex$y)))
+               index <- rep(neighbor$index, length(type_ex))
+             }
       )
       return(data.frame(
         t_ex = c(left_x_ex, middle_t, right_x_ex),
@@ -569,8 +605,9 @@ extrapolate_single_col <-
     }
     # over sampling so that we have enough points
     n_over <- k * sr
-    sub_t <- t[start:end]
-    sub_value <- value[start:end]
+    index = start:end
+    sub_t <- t[index]
+    sub_value <- value[index]
     sp <- stats::approx(x = sub_t, y = sub_value, n = n_over)
     over_t <- sp$x[-n_over]
     over_value <- sp$y[-n_over]
@@ -604,22 +641,26 @@ extrapolate_single_col <-
       # start edge case
       fitted <- NULL
     } else {
-      sub_t <- t[start:end]
-      sub_value <- value[start:end]
-      weight <- 1 - marker[start:end]
+      index = start:end
+      sub_t <- t[index]
+      sub_value <- value[index]
+      weight <- 1 - marker[index]
       sp <- stats::approx(x = sub_t, y = sub_value, n = n_over)
+      rm(sub_value)
       weight <- stats::approx(x = sub_t, y = weight, n = n_over)
+      rm(sub_t)
       over_t <- sp$x
       over_value <- sp$y
+      rm(sp)
       weight <- weight$y
       # fit locally with spline smoothing
       fitted <-
         switch(
           model,
           spline = stats::smooth.spline(over_t,
-            over_value,
-            weight,
-            spar = spar
+                                        over_value,
+                                        weight,
+                                        spar = spar
           ),
           linear = stats::lm(
             over_value ~ over_t,

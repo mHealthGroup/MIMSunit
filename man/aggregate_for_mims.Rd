@@ -4,7 +4,13 @@
 \alias{aggregate_for_mims}
 \title{Aggregate over epoch to get numerically integrated values.}
 \usage{
-aggregate_for_mims(df, epoch, method = "trapz", rectify = TRUE, st = NULL)
+aggregate_for_mims(
+  df,
+  epoch,
+  method = c("trapz", "power", "mean_by_time", "mean_by_size", "sum"),
+  rectify = TRUE,
+  st = NULL
+)
 }
 \arguments{
 \item{df}{dataframe of accelerometer data in mhealth format. First column
