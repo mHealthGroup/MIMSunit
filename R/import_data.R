@@ -55,7 +55,6 @@ import_mhealth_csv <- function(filepath) {
   }
 
   df <- readr::read_csv(file = filepath,
-                        quoted_na = TRUE,
                         col_types = coltypes)
   # convert factors back to characters
   col_classes <- sapply(1:ncols, function(i) {
