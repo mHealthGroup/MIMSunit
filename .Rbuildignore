@@ -41,3 +41,6 @@ dev.R
 ^appveyor\.yml$
 ^pkgdown$
 ^CRAN-SUBMISSION$
+^MIMSunit_.*\.tar\.gz$
+^MIMSunit\.Rcheck$
+^\.r-check-lib$

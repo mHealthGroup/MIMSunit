@@ -1,3 +1,7 @@
+# MIMSunit 0.11.3
+
+* Fix `import_mhealth_csv()` for `readr >= 2` while preserving legacy mHealth CSV parsing behavior.
+
 # MIMSunit 0.11.2
 
 * Remove "matlab" dependency.

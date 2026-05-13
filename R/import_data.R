@@ -54,9 +54,13 @@ import_mhealth_csv <- function(filepath) {
     coltypes <- append(coltypes, list(readr::col_double()))
   }
 
-  df <- readr::read_csv(file = filepath,
-                        quoted_na = TRUE,
-                        col_types = coltypes)
+  # Preserve legacy readr parsing semantics while supporting readr >= 2.
+  df <- readr::with_edition(
+    1,
+    readr::read_csv(file = filepath,
+                    quoted_na = TRUE,
+                    col_types = coltypes)
+  )
   # convert factors back to characters
   col_classes <- sapply(1:ncols, function(i) {
     return(class(df[1, i]))

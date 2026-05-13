@@ -1,14 +1,20 @@
 citHeader("If you used the MIMSunit package or referred to the MIMSunit algorithm in publications, please kindly cite our work using:")
 
-citEntry(
-  entry = "Article",
-  author = personList(as.person('Dinesh John'), as.person('Qu Tang'), as.person('Albinali Fahd'), as.person('Stephen Intille')),
+bibentry(
+  bibtype = "Article",
+  author = c(
+    person("Dinesh", "John"),
+    person("Qu", "Tang"),
+    person("Fahd", "Albinali"),
+    person("Stephen", "Intille")
+  ),
   title = "An Open-Source Monitor-Independent Movement Summary for Accelerometer Data Processing",
   journal = "Journal of Measuring Physical Behaviors",
   year = 2019,
   volume = 2,
   number = 4,
   pages = "268--281",
+  doi = "10.1123/jmpb.2018-0068",
   url = "https://doi.org/10.1123/jmpb.2018-0068",
   textVersion = "John, D., Tang, Q., Albinali, F. and Intille, S., 2019. An Open-Source Monitor-Independent Movement Summary for Accelerometer Data Processing. Journal for the Measurement of Physical Behaviour, 2(4), pp.268-281."
 )
