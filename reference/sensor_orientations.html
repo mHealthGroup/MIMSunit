@@ -197,17 +197,9 @@ want to use a common start time for segmenting data. Default is NULL.</p></dd>
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span>  <span class="co"># Use sample data for testing</span></span></span>
-<span class="r-in"><span>  <span class="va">df</span> <span class="op">=</span> <span class="va">sample_raw_accel_data</span></span></span>
+<span class="r-in"><span>  <span class="va">df</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sample_raw_accel_data</span>, <span class="fl">240</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co"># compute sensor orientation angles</span></span></span>
-<span class="r-in"><span>  <span class="fu">sensor_orientations</span><span class="op">(</span><span class="va">df</span>, epoch <span class="op">=</span> <span class="st">'2 sec'</span>, dynamic_range<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">8</span>, <span class="fl">8</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ================================================================================</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     HEADER_TIME_STAMP  X_ANGLE  Y_ANGLE  Z_ANGLE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 2016-01-15 11:00:00 11.45678 88.88573 101.4010</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 2016-01-15 11:00:02 10.93501 90.81432 100.9039</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 2016-01-15 11:00:04 10.57168 91.72037 100.4276</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span>  <span class="co"># compute sensor orientation angles with different epoch length</span></span></span>
 <span class="r-in"><span>  <span class="va">output</span> <span class="op">=</span> <span class="fu">sensor_orientations</span><span class="op">(</span><span class="va">df</span>, epoch <span class="op">=</span> <span class="st">'1 sec'</span>, dynamic_range<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">8</span>, <span class="fl">8</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ================================================================================</span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">output</span><span class="op">)</span></span></span>
@@ -215,9 +207,6 @@ want to use a common start time for segmenting data. Default is NULL.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 2016-01-15 11:00:00     NaN     NaN     NaN</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 2016-01-15 11:00:01     NaN     NaN     NaN</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3 2016-01-15 11:00:02     NaN     NaN     NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 2016-01-15 11:00:03     NaN     NaN     NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 2016-01-15 11:00:04     NaN     NaN     NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 2016-01-15 11:00:05     NaN     NaN     NaN</span>
 </code></pre></div>
     </div>
   </div>
@@ -228,7 +217,7 @@ want to use a common start time for segmenting data. Default is NULL.</p></dd>
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by <a href="https://qutang.dev" class="external-link"><img class="img-circle p-3" src="https://d33wubrfki0l68.cloudfront.net/8af2089476f179254b3bc9628e13f7d143acab42/8309e/images/avatar.jpg" height="40"><span> Qu Tang</span></a>, <a href="https://bouve.northeastern.edu/directory/dinesh-john/" class="external-link"><img class="img-circle p-3" src="https://banner2.kisspng.com/20180410/bbw/kisspng-avatar-user-medicine-surgery-patient-avatar-5acc9f7a7cb983.0104600115233596105109.jpg" height="40"><span> Dinesh John</span></a>, <a href="http://www.ccs.neu.edu/home/intille/" class="external-link"><img class="img-circle p-3" src="http://www.ccs.neu.edu/home/intille/intille-headshot-sm2.jpg" height="40"><span> Stephen Intille</span></a>.</p>
+  <p></p><p>Developed by <a href="https://qutang.dev" class="external-link"><img class="img-circle p-3" src="https://d33wubrfki0l68.cloudfront.net/8af2089476f179254b3bc9628e13f7d143acab42/8309e/images/avatar.jpg" height="40"><span> Qu Tang</span></a>, <a href="https://bouve.northeastern.edu/directory/dinesh-john/" class="external-link"><img class="img-circle p-3" src="https://banner2.kisspng.com/20180410/bbw/kisspng-avatar-user-medicine-surgery-patient-avatar-5acc9f7a7cb983.0104600115233596105109.jpg" height="40"><span> Dinesh John</span></a>, <a href="http://www.ccs.neu.edu/home/intille/" class="external-link"><img class="img-circle p-3" src="http://www.ccs.neu.edu/home/intille/intille-headshot-sm2.jpg" height="40"><span> Stephen Intille</span></a>, Umberto Mazzucchelli.</p>
 </div>
 
 <div class="pkgdown">
