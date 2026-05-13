@@ -72,7 +72,7 @@
 #' @export
 #' @examples
 #'   # Use sample data for testing
-#'   df = sample_raw_accel_data
+#'   df = head(sample_raw_accel_data, 240)
 #'
 #'   # compute mims unit values and output axial values
 #'   output = mims_unit(df, epoch = '1 sec', dynamic_range=c(-8, 8), output_mims_per_axis=TRUE)
@@ -161,12 +161,9 @@ mims_unit <-
 #' @export
 #' @examples
 #'   # Use sample data for testing
-#'   df = sample_raw_accel_data
+#'   df = head(sample_raw_accel_data, 240)
 #'
 #'   # compute sensor orientation angles
-#'   sensor_orientations(df, epoch = '2 sec', dynamic_range=c(-8, 8))
-#'
-#'   # compute sensor orientation angles with different epoch length
 #'   output = sensor_orientations(df, epoch = '1 sec', dynamic_range=c(-8, 8))
 #'   head(output)
 sensor_orientations <-
@@ -582,15 +579,6 @@ custom_mims_unit <-
 #' @param ... additional parameters passed to the import function when reading
 #'   in the data from the files.
 #' @export
-#' @examples
-#'   # Use sample mhealth file for testing
-#'   filepaths = c(
-#'     system.file('extdata', 'mhealth.csv', package='MIMSunit')
-#'   )
-#'
-#'   # Test with multiple files
-#'   output = mims_unit_from_files(filepaths, epoch = "1 sec", dynamic_range = c(-8, 8))
-#'   head(output)
 mims_unit_from_files <-
   function(files,
            epoch = "5 sec",

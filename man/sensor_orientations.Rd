@@ -70,12 +70,9 @@ This function interpolates and extrapolates the signal before
 
 \examples{
   # Use sample data for testing
-  df = sample_raw_accel_data
+  df = head(sample_raw_accel_data, 240)
 
   # compute sensor orientation angles
-  sensor_orientations(df, epoch = '2 sec', dynamic_range=c(-8, 8))
-
-  # compute sensor orientation angles with different epoch length
   output = sensor_orientations(df, epoch = '1 sec', dynamic_range=c(-8, 8))
   head(output)
 }

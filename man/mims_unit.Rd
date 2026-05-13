@@ -121,18 +121,10 @@ This function is a wrapper function for the low-level
 
 \examples{
   # Use sample data for testing
-  df = sample_raw_accel_data
+  df = head(sample_raw_accel_data, 240)
 
   # compute mims unit values and output axial values
   output = mims_unit(df, epoch = '1 sec', dynamic_range=c(-8, 8), output_mims_per_axis=TRUE)
-  head(output)
-  # Use sample mhealth file for testing
-  filepaths = c(
-    system.file('extdata', 'mhealth.csv', package='MIMSunit')
-  )
-
-  # Test with multiple files
-  output = mims_unit_from_files(filepaths, epoch = "1 sec", dynamic_range = c(-8, 8))
   head(output)
 }
 \seealso{

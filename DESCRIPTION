@@ -4,11 +4,13 @@ Title: Algorithm to Compute Monitor Independent Movement Summary Unit (MIMS-Unit
 Version: 0.11.3
 Date: 2026-05-13
 Authors@R: c(person("Qu", "Tang", email = "tang.q@northeastern.edu",
-                  role = c("aut", "cre"), comment = c(ORCID = "0000-0001-5415-0205")),
+                  role = c("aut"), comment = c(ORCID = "0000-0001-5415-0205")),
              person("Dinesh", "John", email = "d.john@northeastern.edu",
                   role = c("aut")),
              person("Stephen", "Intille", email = "s.intille@northeastern.edu",
                   role = c("aut")),
+             person("Umberto", "Mazzucchelli", email = "mazzucchelli.u@northeastern.edu",
+                  role = c("cre"), comment = c(ORCID = "0009-0000-1071-6027")),
              person("mHealth Research Group", role = c("cph"), 
              comment = "https://www.mhealthgroup.org")
             )
